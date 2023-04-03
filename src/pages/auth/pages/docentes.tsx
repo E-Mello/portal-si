@@ -1,17 +1,16 @@
-import { type NextPage } from "next";
-
-import { api } from "../../../utils/api";
-// import { Layout } from "../components/Layout";
-import type { NextPageWithLayout } from "../../../types/layout";
-import type { ReactElement } from "react";
-import Layout from "../../../components/Layout";
-// import LogoUnemat from "../assets/LogoUnemat.png";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "../../../components/ui/accordion";
+
+import Layout from "../../../components/Layout";
+import Link from "next/link";
+import type { NextPageWithLayout } from "../../../types/layout";
+import ProtectedRoute from "../../../components/ProtectedRoute";
+import type { ReactElement } from "react";
+
 interface Semesters {
   [key: string]: {
     Ano: number;
@@ -20,9 +19,6 @@ interface Semesters {
   }[];
   // other properties
 }
-
-import { Separator } from "../../../components/ui/separator";
-import Link from "next/link";
 
 const semesters: Semesters = {
   2018: [
@@ -94,33 +90,35 @@ const semesters: Semesters = {
   ],
 };
 
-const Docentes: NextPageWithLayout = () => {
+const AuthenticatedDocentes: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center py-2">
-      <h1 className="pl-4 text-lg">Docentes por semestre</h1>
-      <div className="h-[60vh] w-full justify-start pl-4 pr-10">
-        <Accordion type="single" className="flex flex-col" collapsible>
-          {Object.keys(semesters).map((year) => (
-            <AccordionItem key={year} value={year}>
-              <AccordionTrigger>{year}</AccordionTrigger>
-              <AccordionContent>
-                {semesters?.[year]?.map((semester) => (
-                  <div key={`${year}-${semester.Semestre}`}>
-                    <Link href={semester.Link}>
-                      Semester {semester.Semestre}
-                    </Link>
-                  </div>
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </div>
-    </section>
+    <ProtectedRoute>
+      <section className="relative flex h-[80vh] w-full flex-col items-start justify-center py-2">
+        <h1 className="pl-4 text-lg">Docentes por semestre</h1>
+        <div className="h-[60vh] w-full justify-start pl-4 pr-10">
+          <Accordion type="single" className="flex flex-col" collapsible>
+            {Object.keys(semesters).map((year) => (
+              <AccordionItem key={year} value={year}>
+                <AccordionTrigger>{year}</AccordionTrigger>
+                <AccordionContent>
+                  {semesters?.[year]?.map((semester) => (
+                    <div key={`${year}-${semester.Semestre}`}>
+                      <Link href={semester.Link}>
+                        Semester {semester.Semestre}
+                      </Link>
+                    </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </section>
+    </ProtectedRoute>
   );
 };
 
-Docentes.getLayout = function (page: ReactElement) {
+AuthenticatedDocentes.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default Docentes;
+export default AuthenticatedDocentes;

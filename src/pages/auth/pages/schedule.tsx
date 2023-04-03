@@ -1,18 +1,7 @@
-// import LogoUnemat from "../assets/LogoUnemat.png";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../../../components/ui/accordion";
-
 import Layout from "../../../components/Layout";
-import Link from "next/link";
-// import { Layout } from "../components/Layout";
 import type { NextPageWithLayout } from "../../../types/layout";
+import ProtectedRoute from "../../../components/ProtectedRoute";
 import type { ReactElement } from "react";
-import { Separator } from "../../../components/ui/separator";
-import { api } from "../../../utils/api";
 
 interface Semesters {
   [key: string]: {
@@ -36,45 +25,47 @@ const time = [
   },
 ];
 
-const ClassSchedule: NextPageWithLayout = () => {
+const AuthenticatedClassSchedule: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
-      <h1 className="pl-4 text-xl">
-        Link de acesso aos horários de cada semestre
-      </h1>
-      <span className="pl-4">
-        Os links abaixo direcionam para os horários de cada semestre do curso de
-        Bacharelado em Sistemas de Informação.
-      </span>
-      <div className="h-[60vh] w-full justify-start pl-4 pr-10">
-        <table className="w-full table-auto">
-          <thead>
-            <tr>
-              <th className="border border-black">Ano</th>
-              <th className="border border-black">Semestre</th>
-              <th className="border border-black">Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            {time.map((semester, index) => (
-              <tr key={index}>
-                <td className="border border-black">{semester.Ano}</td>
-                <td className="border border-black">{semester.Semestre}</td>
-                <td className="border border-black">
-                  <a href={semester.Link} target="_blank" rel="noreferrer">
-                    Acessar
-                  </a>
-                </td>
+    <ProtectedRoute>
+      <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
+        <h1 className="pl-4 text-xl">
+          Link de acesso aos horários de cada semestre
+        </h1>
+        <span className="pl-4">
+          Os links abaixo direcionam para os horários de cada semestre do curso
+          de Bacharelado em Sistemas de Informação.
+        </span>
+        <div className="h-[60vh] w-full justify-start pl-4 pr-10">
+          <table className="w-full table-auto">
+            <thead>
+              <tr>
+                <th className="border border-black">Ano</th>
+                <th className="border border-black">Semestre</th>
+                <th className="border border-black">Link</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
+            </thead>
+            <tbody>
+              {time.map((semester, index) => (
+                <tr key={index}>
+                  <td className="border border-black">{semester.Ano}</td>
+                  <td className="border border-black">{semester.Semestre}</td>
+                  <td className="border border-black">
+                    <a href={semester.Link} target="_blank" rel="noreferrer">
+                      Acessar
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </ProtectedRoute>
   );
 };
 
-ClassSchedule.getLayout = function (page: ReactElement) {
+AuthenticatedClassSchedule.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default ClassSchedule;
+export default AuthenticatedClassSchedule;

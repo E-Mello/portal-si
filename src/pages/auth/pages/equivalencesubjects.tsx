@@ -1,11 +1,8 @@
-import { type NextPage } from "next";
-
-import { api } from "../../../utils/api";
-// import { Layout } from "../components/Layout";
-import type { NextPageWithLayout } from "../../../types/layout";
-import type { ReactElement } from "react";
 import Layout from "../../../components/Layout";
-// import LogoUnemat from "../assets/LogoUnemat.png";
+import type { NextPageWithLayout } from "../../../types/layout";
+import ProtectedRoute from "../../../components/ProtectedRoute";
+import type { ReactElement } from "react";
+import { Separator } from "../../../components/ui/separator";
 
 const siSubjects = [
   {
@@ -133,45 +130,46 @@ const equivalence = [
   },
 ];
 
-import { Separator } from "../../../components/ui/separator";
-import Link from "next/link";
-
-const EquivalenceSubjects: NextPageWithLayout = () => {
+const AuthenticatedEquivalenceSubjects: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
-      <h1 className="pl-4 text-xl">Tabela de Equivalência de Disciplinas</h1>
-      <div className="flex flex-col items-center justify-center gap-4 pl-4">
-        <table className="table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Disciplina em SI</th>
-              <th className="px-4 py-2">Carga Horária</th>
-              <th className="px-4 py-2">
-                Disciplina (Curso) - Equivalências no campus de Sinop
-              </th>
-              <th className="px-4 py-2">Carga Horária</th>
-            </tr>
-          </thead>
-          <tbody>
-            {siSubjects.map((subject, index) => (
-              <tr key={index}>
-                <td className="border px-4 py-2">{subject.name}</td>
-                <td className="border px-4 py-2">{subject.ch}</td>
-                <td className="border px-4 py-2">
-                  {equivalence?.[index]?.name}
-                </td>
-                <td className="border px-4 py-2">{equivalence?.[index]?.ch}</td>
+    <ProtectedRoute>
+      <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
+        <h1 className="pl-4 text-xl">Tabela de Equivalência de Disciplinas</h1>
+        <div className="flex flex-col items-center justify-center gap-4 pl-4">
+          <table className="table-auto">
+            <thead>
+              <tr>
+                <th className="px-4 py-2">Disciplina em SI</th>
+                <th className="px-4 py-2">Carga Horária</th>
+                <th className="px-4 py-2">
+                  Disciplina (Curso) - Equivalências no campus de Sinop
+                </th>
+                <th className="px-4 py-2">Carga Horária</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <Separator />
-    </section>
+            </thead>
+            <tbody>
+              {siSubjects.map((subject, index) => (
+                <tr key={index}>
+                  <td className="border px-4 py-2">{subject.name}</td>
+                  <td className="border px-4 py-2">{subject.ch}</td>
+                  <td className="border px-4 py-2">
+                    {equivalence?.[index]?.name}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {equivalence?.[index]?.ch}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Separator />
+      </section>
+    </ProtectedRoute>
   );
 };
 
-EquivalenceSubjects.getLayout = function (page: ReactElement) {
+AuthenticatedEquivalenceSubjects.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default EquivalenceSubjects;
+export default AuthenticatedEquivalenceSubjects;

@@ -3,25 +3,25 @@ import {
   HiChartPie,
   HiChatAlt2,
   HiCog,
+  HiHome,
   HiMenu,
   HiNewspaper,
   HiOutlineX,
   HiPhotograph,
 } from "react-icons/hi";
-import { UserButton, WithClerk } from "@clerk/nextjs";
-import {
-  dark,
-  neobrutalism,
-  shadesOfPurple,
-  unstable_createTheme,
-} from "@clerk/themes";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+import { dark, unstable_createTheme } from "@clerk/themes";
 
+import { AuthMenuItem } from "../AuthMenuItem";
 import { Avatar } from "../Avatar";
+import { IconBase } from "react-icons/lib";
 import Link from "next/link";
 import React from "react";
 import { cn } from "../../utils/cn";
 import { isActiveNavAtom } from "../../atoms/activeNavAtom";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
+import { useUser } from "@clerk/clerk-react";
 
 interface MyLoadedClerk {
   clerk: any;
@@ -36,40 +36,53 @@ export function SideNav() {
 
   const menus = [
     {
+      name: "Home",
+      linkAuthenticated: "/",
+      linkPublic: "/",
+      icon: HiHome,
+      haveOptions: false,
+    },
+    {
       name: "Dashboard",
-      Link: "/dashboard",
+      linkAuthenticated: "/dashboard",
+      linkPublic: "/dashboard",
       icon: HiChartPie,
       haveOptions: false,
     },
     {
       name: "TCC's Feitos",
-      Link: "/tcc",
+      linkAuthenticated: "/tcc",
+      linkPublic: "/tcc",
       icon: HiAcademicCap,
       haveOptions: false,
     },
     {
       name: "Canais Discord",
-      Link: "/discordchannels",
+      linkAuthenticated: "/discordchannels",
+      linkPublic: "/discordchannels",
       icon: HiChatAlt2,
       haveOptions: false,
       margin: true,
     },
     {
       name: "Midias",
-      Link: "/media",
+      linkAuthenticated: "/media",
+      linkPublic: "/media",
       icon: HiPhotograph,
       haveOptions: true,
     },
     {
       name: "Informativos",
-      Link: "/informatives",
+      linkAuthenticated: "/informatives",
+      linkPublic: "/informatives",
       icon: HiNewspaper,
       haveOptions: false,
       margin: true,
     },
     {
       name: "Configuracao",
-      Link: "/",
+      linkAuthenticated: "/",
+      linkPublic: "/",
       icon: HiCog,
       haveOptions: false,
       footer: true,
@@ -85,30 +98,28 @@ export function SideNav() {
     >
       <div
         className={` flex justify-between py-3 transition-all duration-500 ${
-          isActiveNav ? "" : "flex-initial flex-col-reverse gap-4 items-center"
+          isActiveNav ? "" : "flex-initial flex-col-reverse items-center gap-4"
         }`}
       >
-          <UserButton
-            afterSignOutUrl="/login"
-            appearance={{
-              baseTheme: unstable_createTheme({
-                layout: {},
-                variables: {
-                  colorBackground: "#4D455D",
-                  colorText: "#fff",
-                  colorDanger: "#ff0000",
-                  colorSuccess: "#00ff00",
-                  fontWeight: { bold: 900 },
-                  
-                },
-                
-              }),
-              userProfile: {
-                baseTheme: dark,
-              }
-            }}
-          />
-          <span className={`whitespace-nowrap text-xs transition-all`}></span>
+        <UserButton
+          afterSignOutUrl="/login"
+          appearance={{
+            baseTheme: unstable_createTheme({
+              layout: {},
+              variables: {
+                colorBackground: "#4D455D",
+                colorText: "#fff",
+                colorDanger: "#ff0000",
+                colorSuccess: "#00ff00",
+                fontWeight: { bold: 900 },
+              },
+            }),
+            userProfile: {
+              baseTheme: dark,
+            },
+          }}
+        />
+        <span className={`whitespace-nowrap text-xs transition-all`}></span>
         {isActiveNav ? (
           <HiOutlineX
             size={26}
@@ -123,35 +134,9 @@ export function SideNav() {
           />
         )}
       </div>
-      <div className="relative mt-[3vh] flex flex-col gap-4">
-        {menus?.map((menu, i) => (
-          <Link
-            href={menu?.Link}
-            key={i}
-            className={`${
-              (menu?.margin && "mt-[5vh]") || (menu?.footer && "mt-[5vh]")
-            } group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
-          >
-            <div>{React.createElement(menu.icon, { size: "20" })}</div>
-            <h2
-              style={{
-                transitionDelay: `${i * 0.05}s`,
-              }}
-              className={`whitespace-pre duration-500 ${
-                !isActiveNav && "translate-x-[7vw] overflow-hidden opacity-0"
-              }`}
-            >
-              {menu?.name}
-            </h2>
-            <span
-              className={` ${
-                isActiveNav && "hidden"
-              } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
-            >
-              {menu?.name}
-            </span>
-          </Link>
+      <div className="flex flex-col gap-4 py-4">
+        {menus.map((menu, i) => (
+          <AuthMenuItem key={i} menu={menu} delay={1} i={0} />
         ))}
       </div>
     </aside>
