@@ -102,7 +102,7 @@ const semesters: Semesters = {
 
 const Docentes: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center py-2">
+    <section className="relative  flex h-[80vh] w-full flex-col items-start justify-center py-2">
       <h1 className="text-lg pl-4">Docentes por semestre</h1>
       <div className="h-[60vh] w-full justify-start pl-4 pr-10">
         <Accordion type="single" className="flex flex-col" collapsible>

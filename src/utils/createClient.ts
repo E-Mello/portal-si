@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import { env } from "../env/server.mjs";
 
 const supabaseURL = "https://zrohxlcjhxpnojvxpcju.supabase.co";
 const supabaseKEY =
