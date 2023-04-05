@@ -1,6 +1,7 @@
 import { UserLoginSchema, UserUpdateSchema } from "../../common/UserSchema";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
+import { TRPCClientError } from "@trpc/client";
 import bcrypt from "bcrypt";
 import { env } from "../../../env/server.mjs";
 import { randomUUID } from "crypto";
@@ -63,7 +64,7 @@ export const userRouter = createTRPCRouter({
         });
 
         if (!user) {
-          throw new Error("User not found");
+          throw new TRPCClientError("tiozinho vai pensar");
         }
 
         return user;
