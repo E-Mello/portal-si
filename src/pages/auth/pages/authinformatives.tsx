@@ -3,11 +3,11 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import React, { type ReactElement, useRef } from "react";
 
 import { Carousel } from "react-responsive-carousel";
-import Layout from "../../../components/Layout";
-import { type NextPageWithLayout } from "../../../types/layout";
-import { Separator } from "../../../components/ui/separator";
-import { cn } from "../../../utils/cn";
-import ProtectedRoute from "../../../components/ProtectedRoute";
+import Layout from "~/components/Layout";
+import { type NextPageWithLayout } from "~/types/layout";
+import { Separator } from "~/components/ui/separator";
+import { cn } from "~/utils/cn";
+import ProtectedRoute from "~/components/ProtectedRoute";
 
 const testIMG =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";

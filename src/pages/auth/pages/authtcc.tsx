@@ -1,13 +1,13 @@
 import React, { type ReactElement, useRef } from "react";
 
-import { HeaderPage } from "../../../components/HeaderPage";
-import Layout from "../../../components/Layout";
-import { type NextPageWithLayout } from "../../../types/layout";
-import { Separator } from "../../../components/ui/separator";
-import { cn } from "../../../utils/cn";
-import { isActiveMenuTCCAtom } from "../../../atoms/activeMenuTCCAtom";
+import { HeaderPage } from "~/components/HeaderPage";
+import Layout from "~/components/Layout";
+import { type NextPageWithLayout } from "~/types/layout";
+import { Separator } from "~/components/ui/separator";
+import { cn } from "~/utils/cn";
+import { isActiveMenuTCCAtom } from "~/atoms/activeMenuTCCAtom";
 import { useAtom } from "jotai";
-import ProtectedRoute from "../../../components/ProtectedRoute";
+import ProtectedRoute from "~/components/ProtectedRoute";
 
 const AuthenticatedTcc: NextPageWithLayout = () => {
   const imageRef = useRef(null);

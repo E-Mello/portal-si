@@ -1,13 +1,13 @@
 import React, { type ReactElement } from "react";
 
-import { HeaderPage } from "../../../components/HeaderPage";
+import { HeaderPage } from "~/components/HeaderPage";
 import Image from "next/image";
-import Layout from "../../../components/Layout";
-import { type NextPageWithLayout } from "../../../types/layout";
-import { Separator } from "../../../components/ui/separator";
-import { cn } from "../../../utils/cn";
+import Layout from "~/components/Layout";
+import { type NextPageWithLayout } from "~/types/layout";
+import { Separator } from "~/components/ui/separator";
+import { cn } from "~/utils/cn";
 import { useRouter } from "next/router";
-import ProtectedRoute from "../../../components/ProtectedRoute";
+import ProtectedRoute from "~/components/ProtectedRoute";
 
 const AuthenticatedDiscordChannels: NextPageWithLayout = () => {
   const router = useRouter();

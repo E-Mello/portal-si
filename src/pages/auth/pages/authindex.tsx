@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Layout from "../../../components/Layout";
+import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "../../../types/layout";
-import ProtectedRoute from "../../../components/ProtectedRoute";
+import ProtectedRoute from "~/components/ProtectedRoute";
 import type { ReactElement } from "react";
 
 const LogoUnemat =

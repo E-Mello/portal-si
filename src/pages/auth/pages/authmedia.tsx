@@ -1,11 +1,11 @@
 import React, { type ReactElement, useState } from "react";
 
-import { HeaderPage } from "../../../components/HeaderPage";
-import Layout from "../../../components/Layout";
-import { type NextPageWithLayout } from "../../../types/layout";
-import { Separator } from "../../../components/ui/separator";
-import { cn } from "../../../utils/cn";
-import ProtectedRoute from "../../../components/ProtectedRoute";
+import { HeaderPage } from "~/components/HeaderPage";
+import Layout from "~/components/Layout";
+import { type NextPageWithLayout } from "~/types/layout";
+import { Separator } from "~/components/ui/separator";
+import { cn } from "~/utils/cn";
+import ProtectedRoute from "~/components/ProtectedRoute";
 
 const img =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";

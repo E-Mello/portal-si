@@ -2,12 +2,12 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 
 import React, { type ReactElement, useRef } from "react";
 
-import Card from "../../../components/Card";
-import { HeaderPage } from "../../../components/HeaderPage";
-import Layout from "../../../components/Layout";
-import { type NextPageWithLayout } from "../../../types/layout";
-import { Separator } from "../../../components/ui/separator";
-import ProtectedRoute from "../../../components/ProtectedRoute";
+import Card from "~/components/Card";
+import { HeaderPage } from "~/components/HeaderPage";
+import Layout from "~/components/Layout";
+import { type NextPageWithLayout } from "~/types/layout";
+import { Separator } from "~/components/ui/separator";
+import ProtectedRoute from "~/components/ProtectedRoute";
 
 interface Menus {
   [key: string]: {
