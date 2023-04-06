@@ -1,6 +1,5 @@
+import { ClerkProvider } from "@clerk/nextjs/app-beta";
 import { Footer } from "../Footer";
-import Head from "next/head";
-import Link from "next/link";
 import React from "react";
 import type { ReactNode } from "react";
 import { Separator } from "../ui/separator";

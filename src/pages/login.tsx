@@ -16,8 +16,8 @@ export default function Login() {
           baseTheme: dark,
           layout: {},
         }}
-        afterSignInUrl={"/dashboard"}
-        signUpUrl="/"
+        afterSignInUrl={"/auth/pages/authdashboard"}
+        signUpUrl="/auth/pages/authindex"
       />
     </div>
   );

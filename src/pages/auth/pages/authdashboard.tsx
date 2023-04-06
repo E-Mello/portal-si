@@ -1,6 +1,6 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
-import React, { type ReactElement, useRef } from "react";
+import React, { type ReactElement } from "react";
 
 import Card from "~/components/Card";
 import { HeaderPage } from "~/components/HeaderPage";
@@ -8,6 +8,7 @@ import Layout from "~/components/Layout";
 import { type NextPageWithLayout } from "~/types/layout";
 import { Separator } from "~/components/ui/separator";
 import ProtectedRoute from "~/components/ProtectedRoute";
+import { useUser } from "@clerk/nextjs";
 
 interface Menus {
   [key: string]: {
@@ -150,120 +151,125 @@ const menuPublications = [
 ];
 
 const AuthenticatedDashboard: NextPageWithLayout = () => {
-  const imageRef = useRef(null);
+  const user = useUser();
+
+  if (!user) return null;
+
   return (
     <ProtectedRoute>
-    <section
-      className={`relative flex h-full w-[100vw] flex-col  items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
-    >
-      <h1 className="text-[2rem] font-bold">
-        Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
-      </h1>
-      <div className="hover:bg-silver flex w-[81vw] flex-col justify-between gap-5 ">
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">Paginas relacionadas ao curso</h1>
+      <section
+        className={`relative flex h-full w-[100vw] flex-col  items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
+      >
+        <h1 className="text-[2rem] font-bold">
+          Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
+        </h1>
+        <div className="hover:bg-silver flex w-[81vw] flex-col justify-between gap-5 ">
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="text-lg font-bold">
+                Paginas relacionadas ao curso
+              </h1>
+            </div>
+            <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
+              {menuCourse.map((item) => (
+                <Card
+                  key={item.name}
+                  name={item.name}
+                  Link={item.Link}
+                  Info={item.info}
+                />
+              ))}
+            </div>
           </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuCourse.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="text-lg font-bold">
+                Paginas relacionadas a Estrutura Curricular
+              </h1>
+            </div>
+            <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
+              {menuCurricularStructure.map((item) => (
+                <Card
+                  key={item.name}
+                  name={item.name}
+                  Link={item.Link}
+                  Info={item.info}
+                />
+              ))}
+            </div>
           </div>
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="text-lg font-bold">
+                Paginas relacionadas aos Eventos do Curso
+              </h1>
+            </div>
+            <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
+              {menuEvents.map((item) => (
+                <Card
+                  key={item.name}
+                  name={item.name}
+                  Link={item.Link}
+                  Info={item.info}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="text-lg font-bold">
+                Paginas relacionadas as Regulamentacoes Internas
+              </h1>
+            </div>
+            <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
+              {menuInternalStandards.map((item) => (
+                <Card
+                  key={item.name}
+                  name={item.name}
+                  Link={item.Link}
+                  Info={item.info}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="text-lg font-bold">
+                Paginas relacionadas aos projetos do curso
+              </h1>
+            </div>
+            <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
+              {menuProjects.map((item) => (
+                <Card
+                  key={item.name}
+                  name={item.name}
+                  Link={item.Link}
+                  Info={item.info}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="text-lg font-bold">
+                Paginas relacionadas as Publicacoes do curso
+              </h1>
+            </div>
+            <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
+              {menuPublications.map((item) => (
+                <Card
+                  key={item.name}
+                  name={item.name}
+                  Link={item.Link}
+                  Info={item.info}
+                />
+              ))}
+            </div>
+          </div>
+          <Separator />
         </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas a Estrutura Curricular
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuCurricularStructure.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas aos Eventos do Curso
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuEvents.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas as Regulamentacoes Internas
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuInternalStandards.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas aos projetos do curso
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuProjects.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas as Publicacoes do curso
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuPublications.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <Separator />
-      </div>
-    </section>
-  </ProtectedRoute>
+      </section>
+    </ProtectedRoute>
   );
 };
 
