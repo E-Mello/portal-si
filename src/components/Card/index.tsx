@@ -45,7 +45,7 @@ export default function Card(props: CardProps) {
                 className={`${
                   isFlipped
                     ? "rotateY(0deg)"
-                    : "rotateY(180deg) [backface-visibility:hidden] hidden"
+                    : "rotateY(180deg) hidden [backface-visibility:hidden]"
                 }`}
                 style={{ transform: "rotateY(180deg)" }}
               >
@@ -55,7 +55,7 @@ export default function Card(props: CardProps) {
                 <button
                   className={`${
                     isFlipped
-                      ? "mt-2 rounded-md bg-neutral-800 py-1 px-2 text-sm hover:bg-neutral-900 "
+                      ? "mt-2 rounded-md bg-neutral-800 px-2 py-1 text-sm hover:bg-neutral-900 "
                       : "hidden"
                   }`}
                   style={{ transform: "rotateY(180deg)" }}

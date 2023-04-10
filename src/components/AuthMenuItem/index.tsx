@@ -27,7 +27,7 @@ export function AuthMenuItem({ menu, delay, i }: AuthMenuItemProps) {
   const router = useRouter();
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-   void router.push(user ? menu.linkAuthenticated : menu.linkPublic);
+    void router.push(user ? menu.linkAuthenticated : menu.linkPublic);
   };
 
   return (

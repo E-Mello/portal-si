@@ -37,28 +37,28 @@ export function SideNav() {
   const menus = [
     {
       name: "Home",
-      linkAuthenticated: "/",
+      linkAuthenticated: "/auth/pages/authindex",
       linkPublic: "/",
       icon: HiHome,
       haveOptions: false,
     },
     {
       name: "Dashboard",
-      linkAuthenticated: "/dashboard",
+      linkAuthenticated: "/auth/pages/authdashboard",
       linkPublic: "/dashboard",
       icon: HiChartPie,
       haveOptions: false,
     },
     {
       name: "TCC's Feitos",
-      linkAuthenticated: "/tcc",
+      linkAuthenticated: "/auth/pages/authtcc",
       linkPublic: "/tcc",
       icon: HiAcademicCap,
       haveOptions: false,
     },
     {
       name: "Canais Discord",
-      linkAuthenticated: "/discordchannels",
+      linkAuthenticated: "/auth/pages/authdiscordchannels",
       linkPublic: "/discordchannels",
       icon: HiChatAlt2,
       haveOptions: false,
@@ -66,14 +66,14 @@ export function SideNav() {
     },
     {
       name: "Midias",
-      linkAuthenticated: "/media",
+      linkAuthenticated: "/auth/pages/authmedia",
       linkPublic: "/media",
       icon: HiPhotograph,
       haveOptions: true,
     },
     {
       name: "Informativos",
-      linkAuthenticated: "/informatives",
+      linkAuthenticated: "/auth/pages/authinformatives",
       linkPublic: "/informatives",
       icon: HiNewspaper,
       haveOptions: false,
@@ -81,7 +81,7 @@ export function SideNav() {
     },
     {
       name: "Configuracao",
-      linkAuthenticated: "/",
+      linkAuthenticated: "/auth/pages/authindex",
       linkPublic: "/",
       icon: HiCog,
       haveOptions: false,
@@ -90,7 +90,7 @@ export function SideNav() {
   ];
   return (
     <aside
-      className={`fixed top-0 left-0 z-50 min-h-screen justify-end ${
+      className={`fixed left-0 top-0 z-50 min-h-screen justify-end ${
         isActiveNav ? "w-[15vw] " : "w-[4vw]"
       } duration-4000 rounded-md border-2 border-zinc-100
         border-opacity-5 bg-[#0e0e0e] bg-opacity-5 px-4

@@ -9,6 +9,7 @@ import { type NextPageWithLayout } from "~/types/layout";
 import { Separator } from "~/components/ui/separator";
 import ProtectedRoute from "~/components/ProtectedRoute";
 import { useUser } from "@clerk/nextjs";
+import router from "next/router";
 
 interface Menus {
   [key: string]: {
@@ -19,141 +20,173 @@ interface Menus {
   // other properties
 }
 
+interface DashboardItem {
+  name: string;
+  PublicLink: string;
+  AuthLink: string;
+  info: string;
+}
+
 const testIMG =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";
 
-const menuCourse = [
+const menuCourse: DashboardItem[] = [
   {
     name: "Docentes",
-    Link: "/docentes",
+    PublicLink: "/docentes",
+    AuthLink: "/auth/pages/authdocentes",
     info: "Informações sobre os docentes",
   },
   {
     name: "Colegiado de Curso",
-    Link: "/colegiado",
+    PublicLink: "/colegiado",
+    AuthLink: "/auth/pages/authcolegiado",
     info: "Informações sobre o colegiado",
   },
   {
     name: "Horário",
-    Link: "/schedule",
+    PublicLink: "/schedule",
+    AuthLink: "/auth/pages/authschedule",
     info: "Informações sobre os Horarios",
   },
   {
     name: "Nucleo Docente",
-    Link: "/teachingcenter",
+    PublicLink: "/teachingcenter",
+    AuthLink: "/auth/pages/authteachingcenter",
     info: "Informações sobre os docentes",
   },
   {
     name: "Perfil Profissional",
-    Link: "/jobprofile",
+    PublicLink: "/jobprofile",
+    AuthLink: "/auth/pages/authjobprofile",
     info: "Informações sobre o perfil profissional",
   },
   {
     name: "Propósito do Curso",
-    Link: "/coursepurpose",
+    PublicLink: "/coursepurpose",
+    AuthLink: "/auth/pages/authcoursepurpose",
     info: "Informações sobre o propósito do curso",
   },
   {
     name: "Sobre do Curso",
-    Link: "/aboutcourse",
+    PublicLink: "/aboutcourse",
+    AuthLink: "/auth/pages/authaboutcourse",
     info: "Informações sobre o curso",
   },
 ];
-const menuCurricularStructure = [
+const menuCurricularStructure: DashboardItem[] = [
   {
     name: "Ementas e bibliografias",
-    Link: "/ementa",
+    PublicLink: "/ementa",
+    AuthLink: "/auth/pages/authementa",
     info: "Informações sobre a ementa",
   },
   {
     name: "Equivalência de disciplinas",
-    Link: "/equivalencesubjects",
+    PublicLink: "/equivalencesubjects",
+    AuthLink: "/auth/pages/authequivalencesubjects",
     info: "Informações sobre as disciplinas",
   },
   {
     name: "Grade Curricular",
-    Link: "/curriculumsubjects",
+    PublicLink: "/curriculumsubjects",
+    AuthLink: "/auth/pages/authcurriculumsubjects",
     info: "Informações sobre a grade curricular",
   },
   {
     name: "Rol de disciplinas eletivas",
-    Link: "/electivesubjects",
+    PublicLink: "/electivesubjects",
+    AuthLink: "/auth/pages/authelectivesubjects",
     info: "Informações sobre as disciplinas",
   },
 ];
-const menuEvents = [
+const menuEvents: DashboardItem[] = [
   {
     name: "Eventos promovidos pela UNEMAT",
-    Link: "/dashboard",
+    PublicLink: "/dashboard",
+    AuthLink: "/auth/pages/authdashboard",
     info: "Informações sobre as publicações",
   },
   {
     name: "Outros Eventos",
-    Link: "/dashboard",
+    PublicLink: "/dashboard",
+    AuthLink: "/auth/pages/authdashboard",
     info: "Informações sobre as publicações",
   },
 ];
-const menuInternalStandards = [
+const menuInternalStandards: DashboardItem[] = [
   {
     name: "Atividades complementares",
-    Link: "/additionalactivities",
+    PublicLink: "/additionalactivities",
+    AuthLink: "/auth/pages/authadditionalactivities",
     info: "Informações sobre as atividades complementares",
   },
   {
     name: "Guarda religiosa",
-    Link: "/religiousguard",
+    PublicLink: "/religiousguard",
+    AuthLink: "/auth/pages/authreligiousguard",
     info: "Informações sobre a guarda religiosa",
   },
   {
     name: "Estágio Supervisionado",
-    Link: "/supervisedinternship",
+    PublicLink: "/supervisedinternship",
+    AuthLink: "/auth/pages/authsupervisedinternship",
     info: "Informações sobre o estágio supervisionado",
   },
   {
     name: "TCC",
-    Link: "/tccinternalstandards",
+    PublicLink: "/tccinternalstandards",
+    AuthLink: "/auth/pages/authtccinternalstandards",
     info: "Informações sobre as normativas internas",
   },
 ];
-const menuProjects = [
+const menuProjects: DashboardItem[] = [
   {
     name: "Grupo de Computação aplicada (GCC)",
-    Link: "/appliedcomputinggroup",
+    PublicLink: "/appliedcomputinggroup",
+    AuthLink: "/auth/pages/authappliedcomputinggroup",
     info: "Informações sobre o grupo de computação aplicada",
   },
   {
     name: "Projetos de Ensino",
-    Link: "/dashboard",
+    PublicLink: "/dashboard",
+    AuthLink: "/auth/pages/authdashboard",
     info: "Informações sobre as publicações",
   },
   {
     name: "Projetos de Extensão",
-    Link: "/dashboard",
+    PublicLink: "/dashboard",
+    AuthLink: "/auth/pages/authdashboard",
     info: "Informações sobre as publicações",
   },
   {
     name: "Projetos de Pesquisa",
-    Link: "/dashboard",
+    PublicLink: "/dashboard",
+    AuthLink: "/auth/pages/authdashboard",
     info: "Informações sobre as publicações",
   },
 ];
-const menuPublications = [
+const menuPublications: DashboardItem[] = [
   {
     name: "Artigos",
-    Link: "/dashboard",
+    PublicLink: "/dashboard",
+    AuthLink: "/auth/pages/authdashboard",
     info: "Informações sobre as publicações",
   },
   {
     name: "Trabalho de Conclusão de Curso (TCC)",
-    Link: "/dashboard",
+    PublicLink: "/dashboard",
+    AuthLink: "/auth/pages/authdashboard",
     info: "Informações sobre as publicações",
   },
 ];
 
-const AuthenticatedDashboard: NextPageWithLayout = () => {
+const AuthenticatedDashboard: NextPageWithLayout<{
+  itemLink: DashboardItem;
+}> = ({ itemLink }) => {
   const user = useUser();
 
-  if (!user) return null;
+  if (!user) return <div>Carregando...</div>;
 
   return (
     <ProtectedRoute>
@@ -175,7 +208,7 @@ const AuthenticatedDashboard: NextPageWithLayout = () => {
                 <Card
                   key={item.name}
                   name={item.name}
-                  Link={item.Link}
+                  Link={user ? item.AuthLink : item.PublicLink}
                   Info={item.info}
                 />
               ))}
@@ -192,7 +225,7 @@ const AuthenticatedDashboard: NextPageWithLayout = () => {
                 <Card
                   key={item.name}
                   name={item.name}
-                  Link={item.Link}
+                  Link={user ? item.AuthLink : item.PublicLink}
                   Info={item.info}
                 />
               ))}
@@ -209,7 +242,7 @@ const AuthenticatedDashboard: NextPageWithLayout = () => {
                 <Card
                   key={item.name}
                   name={item.name}
-                  Link={item.Link}
+                  Link={user ? item.AuthLink : item.PublicLink}
                   Info={item.info}
                 />
               ))}
@@ -226,7 +259,7 @@ const AuthenticatedDashboard: NextPageWithLayout = () => {
                 <Card
                   key={item.name}
                   name={item.name}
-                  Link={item.Link}
+                  Link={user ? item.AuthLink : item.PublicLink}
                   Info={item.info}
                 />
               ))}
@@ -243,7 +276,7 @@ const AuthenticatedDashboard: NextPageWithLayout = () => {
                 <Card
                   key={item.name}
                   name={item.name}
-                  Link={item.Link}
+                  Link={user ? item.AuthLink : item.PublicLink}
                   Info={item.info}
                 />
               ))}
@@ -260,7 +293,7 @@ const AuthenticatedDashboard: NextPageWithLayout = () => {
                 <Card
                   key={item.name}
                   name={item.name}
-                  Link={item.Link}
+                  Link={user ? item.AuthLink : item.PublicLink}
                   Info={item.info}
                 />
               ))}
