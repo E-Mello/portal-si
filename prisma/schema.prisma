@@ -59,5 +59,54 @@ model Pages {
     slug      String   @unique
     content   String
     image     String   @unique
-    updatedAt DateTime @updatedAt 
+    updatedAt DateTime @updatedAt
+}
+
+model Titles {
+    id        String   @id @default(cuid())
+    place     String
+    info      String
+    content   String
+    updatedAt DateTime @updatedAt
+}
+
+model Images {
+    id        String   @id @default(cuid())
+    title     String
+    info      String
+    image     String   @unique
+    updatedAt DateTime @updatedAt
+}
+
+model Videos {
+    id        String   @id @default(cuid())
+    title     String
+    info      String
+    video     String   @unique
+    updatedAt DateTime @updatedAt
+}
+
+model Links {
+    id         String   @id @default(cuid())
+    title      String
+    info       String
+    publicLink String   @unique
+    authLink   String   @unique
+    updatedAt  DateTime @updatedAt
+}
+
+model TeachersInfo {
+    id        String   @id @default(cuid())
+    year      String
+    semester  String
+    content   String
+    updatedAt DateTime @updatedAt
+}
+
+model Teachers {
+    id        String   @id @default(cuid())
+    name      String
+    info      String
+    image     String   @unique
+    updatedAt DateTime @updatedAt
 }

@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 interface CardProps {
   name: string;
   Link: string;
@@ -19,11 +19,14 @@ export default function Card(props: CardProps) {
       >
         <div className="relative h-full w-full rounded-2xl shadow-xl transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
           <div className="fixed inset-0">
-            <img
+            <Image
               className={`h-full w-full rounded-xl object-cover shadow-xl ${
                 isFlipped ? "" : "shadow-black/40"
               }`}
               src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
+              alt={""}
+              width={100}
+              height={100}
             />
           </div>
           <div
