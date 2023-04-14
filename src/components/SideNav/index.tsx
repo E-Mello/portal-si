@@ -9,26 +9,19 @@ import {
   HiOutlineX,
   HiPhotograph,
 } from "react-icons/hi";
-import { SignedIn, UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { dark, unstable_createTheme } from "@clerk/themes";
 
-import { AuthMenuItem } from "../AuthMenuItem";
 import { Avatar } from "../Avatar";
-import { IconBase } from "react-icons/lib";
 import Link from "next/link";
 import React from "react";
 import { cn } from "../../utils/cn";
 import { isActiveNavAtom } from "../../atoms/activeNavAtom";
 import { useAtom } from "jotai";
-import { useRouter } from "next/router";
-import { useUser } from "@clerk/clerk-react";
-
-interface MyLoadedClerk {
-  clerk: any;
-}
 
 export function SideNav() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
+  const user = useUser();
 
   function changeStateBtn() {
     setIsActiveNav(!isActiveNav);
@@ -37,56 +30,60 @@ export function SideNav() {
   const menus = [
     {
       name: "Home",
-      linkAuthenticated: "/auth/pages/authindex",
-      linkPublic: "/",
+      Link: "/",
       icon: HiHome,
       haveOptions: false,
+      auth: false,
     },
     {
       name: "Dashboard",
-      linkAuthenticated: "/auth/pages/authdashboard",
-      linkPublic: "/dashboard",
+      Link: "/dashboard",
       icon: HiChartPie,
       haveOptions: false,
+      auth: false,
     },
     {
       name: "TCC's Feitos",
-      linkAuthenticated: "/auth/pages/authtcc",
-      linkPublic: "/tcc",
+      Link: "/tcc",
       icon: HiAcademicCap,
       haveOptions: false,
+      auth: false,
     },
     {
       name: "Canais Discord",
-      linkAuthenticated: "/auth/pages/authdiscordchannels",
-      linkPublic: "/discordchannels",
+      Link: "/discordchannels",
       icon: HiChatAlt2,
       haveOptions: false,
       margin: true,
+      auth: false,
     },
     {
       name: "Midias",
-      linkAuthenticated: "/auth/pages/authmedia",
-      linkPublic: "/media",
+      Link: "/media",
       icon: HiPhotograph,
       haveOptions: true,
+      auth: false,
     },
     {
       name: "Informativos",
-      linkAuthenticated: "/auth/pages/authinformatives",
-      linkPublic: "/informatives",
+      Link: "/informatives",
       icon: HiNewspaper,
       haveOptions: false,
       margin: true,
+      auth: false,
     },
-    {
-      name: "Configuracao",
-      linkAuthenticated: "/auth/pages/authindex",
-      linkPublic: "/",
-      icon: HiCog,
-      haveOptions: false,
-      footer: true,
-    },
+    ...(user && user.isSignedIn
+      ? [
+          {
+            name: "Painel de Edição",
+            Link: "/auth/pages/panelconfig",
+            icon: HiCog,
+            haveOptions: false,
+            footer: true,
+            auth: true,
+          },
+        ]
+      : []),
   ];
   return (
     <aside
@@ -134,9 +131,35 @@ export function SideNav() {
           />
         )}
       </div>
-      <div className="flex flex-col gap-4 py-4">
-        {menus.map((menu, i) => (
-          <AuthMenuItem key={i} menu={menu} delay={1} i={0} />
+      <div className="relative mt-[3vh] flex flex-col gap-4">
+        {menus?.map((menu, i) => (
+          <Link
+            href={menu?.Link}
+            key={i}
+            className={`${
+              (menu?.margin && "mt-[5vh]") || (menu?.footer && "mt-[5vh]")
+            } group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+          >
+            <div>{React.createElement(menu.icon, { size: "20" })}</div>
+            <h2
+              style={{
+                transitionDelay: `${i * 0.05}s`,
+              }}
+              className={`whitespace-pre duration-500 ${
+                !isActiveNav && "translate-x-[7vw] overflow-hidden opacity-0"
+              }`}
+            >
+              {menu?.name}
+            </h2>
+            <span
+              className={` ${
+                isActiveNav && "hidden"
+              } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+            >
+              {menu?.name}
+            </span>
+          </Link>
         ))}
       </div>
     </aside>

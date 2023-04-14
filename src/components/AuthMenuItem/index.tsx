@@ -8,7 +8,7 @@ import { useUser } from "@clerk/clerk-react";
 interface Menu {
   name: string;
   linkAuthenticated: string;
-  linkPublic: string;
+  linkPublic?: string;
   icon: any;
   haveOptions: boolean;
   margin?: boolean;

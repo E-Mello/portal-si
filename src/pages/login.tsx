@@ -16,9 +16,9 @@ export default function Login() {
           baseTheme: dark,
           layout: {},
         }}
-        //afterSignInUrl="/auth/pages/authindex"
-        // signUpUrl="/auth/pages/authindex"
-      />
+        afterSignInUrl="/"
+        
+/>
     </div>
   );
 }
