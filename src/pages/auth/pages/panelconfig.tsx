@@ -1,70 +1,32 @@
+import Layout from "../components/Layout";
 import { Navbar } from "../components/Navbar";
+import { type NextPageWithLayout } from "~/types/layout";
 import ProtectedRoute from "~/components/ProtectedRoute";
 import React from "react";
 import { Separator } from "~/components/ui/separator";
+import type { ReactElement } from "react";
+import Image from "next/image";
 
-export default function PanelConfig() {
+const LogoUnemat =
+  "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/LogoUnemat.png?t=2023-02-22T23%3A57%3A16.417Z";
+
+const PanelConfig: NextPageWithLayout = () => {
   return (
     <ProtectedRoute>
-      <section className="flex ">
-        <Navbar />
-        <section
-          className={`relative flex h-full w-[100vw] flex-col  items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
-        >
-          <h1 className="text-[2rem] font-bold">Painel de edição dos links</h1>
-          <div className="hover:bg-silver flex w-[81vw] flex-col justify-between gap-5 ">
-            <div className="flex flex-col gap-5">
-              <div>
-                <h1 className="text-lg font-bold">
-                  Paginas relacionadas ao curso
-                </h1>
-              </div>
-              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line"></div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div>
-                <h1 className="text-lg font-bold">
-                  Paginas relacionadas a Estrutura Curricular
-                </h1>
-              </div>
-              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line"></div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div>
-                <h1 className="text-lg font-bold">
-                  Paginas relacionadas aos Eventos do Curso
-                </h1>
-              </div>
-              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line"></div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div>
-                <h1 className="text-lg font-bold">
-                  Paginas relacionadas as Regulamentacoes Internas
-                </h1>
-              </div>
-              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line"></div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div>
-                <h1 className="text-lg font-bold">
-                  Paginas relacionadas aos projetos do curso
-                </h1>
-              </div>
-              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line"></div>
-            </div>
-            <div className="flex flex-col gap-5">
-              <div>
-                <h1 className="text-lg font-bold">
-                  Paginas relacionadas as Publicacoes do curso
-                </h1>
-              </div>
-              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line"></div>
-            </div>
-            <Separator />
-          </div>
-        </section>
-      </section>
+      <div className="flex w-[100%] flex-col items-center justify-center bg-gradient-to-b from-[#272727a2] to-[#0e0e0f00]">
+        <Image
+          src={LogoUnemat}
+          alt=""
+          width={500}
+          height={500}
+          className={`opacity-10`}
+        />
+      </div>
     </ProtectedRoute>
   );
-}
+};
+
+PanelConfig.getLayout = function (page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+export default PanelConfig;

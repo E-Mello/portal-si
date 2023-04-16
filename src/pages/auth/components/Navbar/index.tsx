@@ -19,63 +19,43 @@ import { Separator } from "~/components/ui/separator";
 import { isActiveNavAtom } from "~/atoms/activeNavAtom";
 import { useAtom } from "jotai";
 
-function changeStateBtn() {
-  setIsActiveNav(!isActiveNav);
-}
-
-const menus = [
-  {
-    name: "Home",
-    Link: "/",
-    icon: HiHome,
-    haveOptions: false,
-    auth: false,
-  },
-  {
-    name: "Dashboard",
-    Link: "/dashboard",
-    icon: HiChartPie,
-    haveOptions: false,
-    auth: false,
-  },
-  {
-    name: "TCC's Feitos",
-    Link: "/tcc",
-    icon: HiAcademicCap,
-    haveOptions: false,
-    auth: false,
-  },
-  {
-    name: "Canais Discord",
-    Link: "/discordchannels",
-    icon: HiChatAlt2,
-    haveOptions: false,
-    margin: true,
-    auth: false,
-  },
-  {
-    name: "Midias",
-    Link: "/media",
-    icon: HiPhotograph,
-    haveOptions: true,
-    auth: false,
-  },
-  {
-    name: "Informativos",
-    Link: "/informatives",
-    icon: HiNewspaper,
-    haveOptions: false,
-    margin: true,
-    auth: false,
-  },
-];
-
 export function Navbar() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
   const user = useUser();
+  function changeStateBtn() {
+    setIsActiveNav(!isActiveNav);
+  }
+
+  const menus = [
+    {
+      name: "PageOne",
+      Link: "pageone",
+      icon: HiHome,
+    },
+    {
+      name: "PageTwo",
+      Link: "pagetwo",
+      icon: HiChartPie,
+    },
+    {
+      name: "PageThree",
+      Link: "pagethree",
+      icon: HiAcademicCap,
+    },
+    {
+      name: "PageFour",
+      Link: "pagefour",
+      icon: HiChatAlt2,
+    },
+    {
+      name: "PageFive",
+      Link: "pagefive",
+      icon: HiPhotograph,
+    },
+  ];
   return (
     <aside
-      className={`sticky left-0 top-0 z-50 h-[100vh] justify-end ${
+      className={`fixed left-0 top-0 z-50 h-[100vh] justify-end ${
         isActiveNav ? "w-[15vw] " : "w-[4vw]"
       } duration-4000 rounded-md border-2 border-zinc-100
         border-opacity-5 bg-[#0e0e0e] bg-opacity-5 px-4
@@ -122,11 +102,9 @@ export function Navbar() {
       <div className="relative mt-[3vh] flex flex-col gap-4">
         {menus?.map((menu, i) => (
           <Link
-            href={menu?.Link}
+            href={`/auth/components/content/${menu?.Link}`}
             key={i}
-            className={`${
-              (menu?.margin && "mt-[5vh]") || (menu?.footer && "mt-[5vh]")
-            } group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+            className={` group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
           >
             <div>{React.createElement(menu.icon, { size: "20" })}</div>
             <h2

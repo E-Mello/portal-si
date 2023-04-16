@@ -11,7 +11,7 @@ module.exports = {
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  important: true,
+  important: false,
   presets: [],
   darkMode: 'class', // or 'media'
   theme: {

@@ -7,7 +7,7 @@ export const content = [
   // Or if using `src` directory:
   "./src/**/*.{js,ts,jsx,tsx}",
 ];
-export const important = true;
+export const important = false;
 export const presets = [];
 export const darkMode = 'class';
 export const theme = {
