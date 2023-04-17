@@ -1,4 +1,4 @@
-import Layout from "../../Layout";
+import Layout from "~/pages/auth/components/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import type { ReactElement } from "react";
 

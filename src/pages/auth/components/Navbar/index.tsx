@@ -35,7 +35,7 @@ export function Navbar() {
     setIsActiveNav(!isActiveNav);
   }
 
-  const menu01 = [
+  const dashboardPage = [
     {
       name: "Titulos da Pagina",
       Link: "/dashboardpage/dashboardtitles",
@@ -52,127 +52,131 @@ export function Navbar() {
       icon: HiOutlineIdentification,
     },
   ];
-
-  const menu02 = [
+  const menuCourse = [
     {
-      name: "Titulos da Pagina",
-      Link: "/docentspage/docentstitles",
+      name: "Página de docentes",
+      Link: "/menucourse/docentspage/docentsdata",
       icon: HiPencil,
     },
     {
-      name: "Dados da Pagina",
-      Link: "/docentspage/docentsdata",
-      icon: HiDatabase,
-    },
-  ];
-
-  const menu03 = [
-    {
-      name: "Titulos da Pagina",
-      Link: "/collegiatepage/collegiatetitles",
+      name: "Página do Colegiado",
+      Link: "/menucourse/collegiatepage/collegiatedata",
       icon: HiPencil,
     },
     {
-      name: "Dados da Pagina",
-      Link: "/collegiatepage/collegiatedata",
-      icon: HiDatabase,
-    },
-  ];
-
-  const menu04 = [
-    {
-      name: "Titulos da Pagina",
-      Link: "/schedulepage/scheduletitles",
+      name: "Horário",
+      Link: "/menucourse/schedulepage/scheduledata",
       icon: HiPencil,
     },
     {
-      name: "Dados da Pagina",
-      Link: "/schedulepage/scheduledata",
-      icon: HiDatabase,
-    },
-  ];
-
-  const menu05 = [
-    {
-      name: "Titulos da Pagina",
-      Link: "/schedulepage/scheduletitles",
+      name: "Nucleo Docente",
+      Link: "/menucourse/facultycorepage/coredata",
       icon: HiPencil,
     },
     {
-      name: "Dados da Pagina",
-      Link: "/schedulepage/scheduledata",
-      icon: HiDatabase,
+      name: "Perfil Profissional",
+      Link: "/menucourse/professionalprofilepage/profiledata",
+      icon: HiPencil,
     },
-  ];
-
-  const menu06 = [
     {
-      name: "Titulos da Pagina",
-      Link: "/faculticorepage/coretitles",
+      name: "Propósito do Curso",
+      Link: "/menucourse/coursepurposepage/purposedata",
+      icon: HiPencil,
+    },
+    {
+      name: "Sobre do Curso",
+      Link: "/menucourse/aboutcoursepage/aboutdata",
       icon: HiPencil,
     },
   ];
-
-  const menu07 = [
+  const menuCurricularStructure = [
     {
-      name: "Titulos da Pagina",
-      Link: "/professionalprofilepage/profiletitles",
+      name: "Ementas e bibliografias",
+      Link: "/menucurricularstructure/bibliographiespage/bibliographiesdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Equivalência de disciplinas",
+      Link: "/menucurricularstructure/curriculumgridpage/curriculumdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Grade Curricular",
+      Link: "/menucurricularstructure/equivalencesubjectspage/subjectdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Rol de disciplinas eletivas",
+      Link: "/menucurricularstructure/listelectivespage/electivesdata",
       icon: HiPencil,
     },
   ];
-
-  const menu08 = [
+  const menuEvents = [
     {
-      name: "Titulos da Pagina",
-      Link: "/coursepurposepage/purposetitles",
+      name: "Eventos promovidos pela UNEMAT",
+      Link: "/menuevents/unemateventspage/unemateventsdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Outros Eventos",
+      Link: "/menuevents/otherseventspage/otherseventsdata",
       icon: HiPencil,
     },
   ];
-
-  const menu09 = [
+  const menuInternalStandards = [
     {
-      name: "Titulos da Pagina",
-      Link: "/aboutcoursepage/abouttitles",
+      name: "Atividades complementares",
+      Link: "/menuinternalstandards/additionalactivitiespage/activiesdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Guarda religiosa",
+      Link: "/menuinternalstandards/religiousguardpage/religiousdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Estágio Supervisionado",
+      Link: "/menuinternalstandards/supervisedinternshippage/superviseddata",
+      icon: HiPencil,
+    },
+    {
+      name: "TCC",
+      Link: "/menuinternalstandards/tccregulationspage/tccregulationsdata",
       icon: HiPencil,
     },
   ];
-
-  const menu10 = [
+  const menuProjects = [
     {
-      name: "Titulos da Pagina",
-      Link: "/schedulepage/scheduletitles",
+      name: "Grupo de Computação aplicada (GCA)",
+      Link: "/menuprojects/gcapage/gcadata",
       icon: HiPencil,
     },
     {
-      name: "Dados da Pagina",
-      Link: "/schedulepage/scheduledata",
-      icon: HiDatabase,
+      name: "Projetos de Ensino",
+      Link: "/menuprojects/teachingprojectspage/teachingdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Projetos de Extensão",
+      Link: "/menuprojects/teachingprojectspage/projectsdata",
+      icon: HiPencil,
+    },
+    {
+      name: "Projetos de Pesquisa",
+      Link: "/menuprojects/researchprojectpage/researchdata",
+      icon: HiPencil,
     },
   ];
-
-  const menu11 = [
+  const menuPublications = [
     {
-      name: "Titulos da Pagina",
-      Link: "/schedulepage/scheduletitles",
+      name: "Artigos",
+      Link: "/menupublications/articlespage/articlesdata",
       icon: HiPencil,
     },
     {
-      name: "Dados da Pagina",
-      Link: "/schedulepage/scheduledata",
-      icon: HiDatabase,
-    },
-  ];
-
-  const menu12 = [
-    {
-      name: "Titulos da Pagina",
-      Link: "/schedulepage/scheduletitles",
+      name: "Trabalho de Conclusão de Curso (TCC)",
+      Link: "/menupublications/tccpage/tccdata",
       icon: HiPencil,
-    },
-    {
-      name: "Dados da Pagina",
-      Link: "/schedulepage/scheduledata",
-      icon: HiDatabase,
     },
   ];
 
@@ -225,11 +229,9 @@ export function Navbar() {
       <div className="relative mt-[3vh] flex flex-col gap-4">
         <Accordion type="single" collapsible className="w-[13vw]">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="no-underline">
-              Edicoes do Dashboard
-            </AccordionTrigger>
-            <AccordionContent className="no-underline">
-              {menu01?.map((menu, i) => (
+            <AccordionTrigger>Dashboard</AccordionTrigger>
+            <AccordionContent>
+              {dashboardPage?.map((menu, i) => (
                 <Link
                   href={`/auth/components/content/${menu?.Link}`}
                   key={i}
@@ -241,8 +243,7 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      !isActiveNav &&
-                      "translate-x-[7vw] overflow-hidden opacity-0"
+                      isActiveNav ? '' : 'translate-x-[7vw] overflow-hidden opacity-0'
                     }`}
                   >
                     {menu?.name}
@@ -251,7 +252,7 @@ export function Navbar() {
                     className={` ${
                       isActiveNav && "hidden"
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -260,9 +261,9 @@ export function Navbar() {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>Docents Page</AccordionTrigger>
+            <AccordionTrigger>Informações do curso</AccordionTrigger>
             <AccordionContent>
-              {menu02?.map((menu, i) => (
+              {menuCourse?.map((menu, i) => (
                 <Link
                   href={`/auth/components/content/${menu?.Link}`}
                   key={i}
@@ -284,7 +285,7 @@ export function Navbar() {
                     className={` ${
                       isActiveNav && "hidden"
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -295,7 +296,7 @@ export function Navbar() {
           <AccordionItem value="item-3">
             <AccordionTrigger>Colegiado do Curso</AccordionTrigger>
             <AccordionContent>
-              {menu03?.map((menu, i) => (
+              {menuCurricularStructure?.map((menu, i) => (
                 <Link
                   href={`/auth/components/content/${menu?.Link}`}
                   key={i}
@@ -317,7 +318,7 @@ export function Navbar() {
                     className={` ${
                       isActiveNav && "hidden"
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -326,9 +327,9 @@ export function Navbar() {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger>Pagina de Horario</AccordionTrigger>
+            <AccordionTrigger>Pagina de Eventos</AccordionTrigger>
             <AccordionContent>
-              {menu04?.map((menu, i) => (
+              {menuEvents?.map((menu, i) => (
                 <Link
                   href={`/auth/components/content/${menu?.Link}`}
                   key={i}
@@ -350,7 +351,7 @@ export function Navbar() {
                     className={` ${
                       isActiveNav && "hidden"
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -359,9 +360,9 @@ export function Navbar() {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5">
-            <AccordionTrigger>Pagina 05</AccordionTrigger>
+            <AccordionTrigger>Regulamentações Interna</AccordionTrigger>
             <AccordionContent>
-              {menu05?.map((menu, i) => (
+              {menuInternalStandards?.map((menu, i) => (
                 <Link
                   href={`/auth/components/content/${menu?.Link}`}
                   key={i}
@@ -383,7 +384,73 @@ export function Navbar() {
                     className={` ${
                       isActiveNav && "hidden"
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                  >
+                    {menu?.name}
+                  </span>
+                </Link>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-6">
+            <AccordionTrigger>Projetos do curso</AccordionTrigger>
+            <AccordionContent>
+              {menuProjects?.map((menu, i) => (
+                <Link
+                  href={`/auth/components/content/${menu?.Link}`}
+                  key={i}
+                  className={` group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+                >
+                  <div>{React.createElement(menu.icon, { size: "20" })}</div>
+                  <h2
+                    style={{
+                      transitionDelay: `${i * 0.05}s`,
+                    }}
+                    className={`whitespace-pre duration-500 ${
+                      !isActiveNav &&
+                      "translate-x-[7vw] overflow-hidden opacity-0"
+                    }`}
+                  >
+                    {menu?.name}
+                  </h2>
+                  <span
+                    className={` ${
+                      isActiveNav && "hidden"
+                    } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                  >
+                    {menu?.name}
+                  </span>
+                </Link>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-7">
+            <AccordionTrigger>Publicações do Curso</AccordionTrigger>
+            <AccordionContent>
+              {menuPublications?.map((menu, i) => (
+                <Link
+                  href={`/auth/components/content/${menu?.Link}`}
+                  key={i}
+                  className={` group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+                >
+                  <div>{React.createElement(menu.icon, { size: "20" })}</div>
+                  <h2
+                    style={{
+                      transitionDelay: `${i * 0.05}s`,
+                    }}
+                    className={`whitespace-pre duration-500 ${
+                      !isActiveNav &&
+                      "translate-x-[7vw] overflow-hidden opacity-0"
+                    }`}
+                  >
+                    {menu?.name}
+                  </h2>
+                  <span
+                    className={` ${
+                      isActiveNav && "hidden"
+                    } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
