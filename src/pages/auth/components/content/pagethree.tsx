@@ -4,9 +4,9 @@ import type { ReactElement } from "react";
 
 const PageThree: NextPageWithLayout = () => {
   return (
-    <section className="flex ">
+    <section className="flex w-full">
       <section
-        className={`relative flex h-full w-[100vw] flex-col  items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
+        className={`relative flex h-full w-full flex-col  items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
       >
         <h1 className="text-[2rem] font-bold">Pagina tres</h1>
       </section>

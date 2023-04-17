@@ -1,28 +1,8 @@
-import { type NextPage } from "next";
-
-import { api } from "~/utils/api";
-// import { Layout } from "../components/Layout";
-import type { NextPageWithLayout } from "~/types/layout";
-import type {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-} from "react";
-import Layout from "../Layout";
 import Image from "next/image";
-// import LogoUnemat from "../assets/LogoUnemat.png";
-interface Semesters {
-  [key: string]: {
-    Ano: number;
-    Semestre: number;
-    Link: string;
-  }[];
-  // other properties
-}
-
-import { Separator } from "~/pages/auth/components/content/components/ui/separator";
-import Link from "next/link";
+import Layout from "../../Layout";
+import type { NextPageWithLayout } from "~/types/layout";
+import type { ReactElement } from "react";
+import { Separator } from "~/components/ui/separator";
 
 const time = [
   {
@@ -37,7 +17,7 @@ const time = [
   },
 ];
 
-const PageOne: NextPageWithLayout = () => {
+const DashboardTitles: NextPageWithLayout = () => {
   return (
     <section className="flex w-full">
       <section
@@ -99,7 +79,7 @@ const PageOne: NextPageWithLayout = () => {
   );
 };
 
-PageOne.getLayout = function (page: ReactElement) {
+DashboardTitles.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default PageOne;
+export default DashboardTitles;
