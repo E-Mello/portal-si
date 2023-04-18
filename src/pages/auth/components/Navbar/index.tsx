@@ -1,15 +1,17 @@
 import {
   HiAcademicCap,
-  HiChartPie,
-  HiChatAlt2,
   HiHome,
   HiMenu,
-  HiNewspaper,
   HiOutlineX,
   HiPhotograph,
   HiPencil,
   HiOutlineIdentification,
-  HiDatabase,
+  HiInformationCircle,
+  HiViewGrid,
+  HiBell,
+  HiCog,
+  HiClipboardCheck,
+  HiAtSymbol,
 } from "react-icons/hi";
 
 import React, { type ReactElement } from "react";
@@ -227,9 +229,33 @@ export function Navbar() {
         )}
       </div>
       <div className="relative mt-[3vh] flex flex-col gap-4">
-        <Accordion type="single" collapsible className="w-[13vw]">
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Dashboard</AccordionTrigger>
+        <Accordion
+          type="single"
+          collapsible
+          className={`${
+            isActiveNav
+              ? "w-[13vw]"
+              : "flex w-12 flex-col items-center text-center"
+          }`}
+        >
+          <AccordionItem
+            value="item-1"
+            className={`flex flex-col justify-center text-center ${
+              isActiveNav ? "" : "w-8"
+            }`}
+          >
+            <AccordionTrigger>
+              <span>{React.createElement(HiViewGrid, { size: "20" })}</span>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                Dashboard
+              </span>
+              {isActiveNav ? "Dashboard" : ""}
+            </AccordionTrigger>
             <AccordionContent>
               {dashboardPage?.map((menu, i) => (
                 <Link
@@ -243,16 +269,18 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      isActiveNav ? '' : 'translate-x-[7vw] overflow-hidden opacity-0'
+                      isActiveNav
+                        ? ""
+                        : "translate-x-[7vw] overflow-hidden opacity-0"
                     }`}
                   >
                     {menu?.name}
                   </h2>
                   <span
-                    className={` ${
-                      isActiveNav && "hidden"
+                    className={`${
+                      isActiveNav ? "hidden" : ""
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -260,8 +288,24 @@ export function Navbar() {
               ))}
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-2">
-            <AccordionTrigger>Informações do curso</AccordionTrigger>
+          <AccordionItem
+            value="item-2"
+            className={`flex flex-col justify-center text-center ${
+              isActiveNav ? "" : "w-8"
+            }`}
+          >
+            <AccordionTrigger>
+              <span>{React.createElement(HiInformationCircle, { size: "20" })}</span>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                Dashboard
+              </span>
+              {isActiveNav ? "Informações do curso" : ""}
+            </AccordionTrigger>
             <AccordionContent>
               {menuCourse?.map((menu, i) => (
                 <Link
@@ -275,17 +319,18 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      !isActiveNav &&
-                      "translate-x-[7vw] overflow-hidden opacity-0"
+                      isActiveNav
+                        ? ""
+                        : "translate-x-[7vw] overflow-hidden opacity-0"
                     }`}
                   >
                     {menu?.name}
                   </h2>
                   <span
-                    className={` ${
-                      isActiveNav && "hidden"
+                    className={`${
+                      isActiveNav ? "hidden" : ""
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -293,8 +338,24 @@ export function Navbar() {
               ))}
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-3">
-            <AccordionTrigger>Colegiado do Curso</AccordionTrigger>
+          <AccordionItem
+            value="item-3"
+            className={`flex flex-col justify-center text-center ${
+              isActiveNav ? "" : "w-8"
+            }`}
+          >
+            <AccordionTrigger>
+              <span>{React.createElement(HiAcademicCap, { size: "20" })}</span>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                Dashboard
+              </span>
+              {isActiveNav ? "Colegiado do Curso" : ""}
+            </AccordionTrigger>
             <AccordionContent>
               {menuCurricularStructure?.map((menu, i) => (
                 <Link
@@ -308,17 +369,18 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      !isActiveNav &&
-                      "translate-x-[7vw] overflow-hidden opacity-0"
+                      isActiveNav
+                        ? ""
+                        : "translate-x-[7vw] overflow-hidden opacity-0"
                     }`}
                   >
                     {menu?.name}
                   </h2>
                   <span
-                    className={` ${
-                      isActiveNav && "hidden"
+                    className={`${
+                      isActiveNav ? "hidden" : ""
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -326,8 +388,24 @@ export function Navbar() {
               ))}
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-4">
-            <AccordionTrigger>Pagina de Eventos</AccordionTrigger>
+          <AccordionItem
+            value="item-4"
+            className={`flex flex-col justify-center text-center ${
+              isActiveNav ? "" : "w-8"
+            }`}
+          >
+            <AccordionTrigger>
+              <span>{React.createElement(HiBell, { size: "20" })}</span>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                Dashboard
+              </span>
+              {isActiveNav ? "Pagina de Eventos" : ""}
+            </AccordionTrigger>
             <AccordionContent>
               {menuEvents?.map((menu, i) => (
                 <Link
@@ -341,17 +419,18 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      !isActiveNav &&
-                      "translate-x-[7vw] overflow-hidden opacity-0"
+                      isActiveNav
+                        ? ""
+                        : "translate-x-[7vw] overflow-hidden opacity-0"
                     }`}
                   >
                     {menu?.name}
                   </h2>
                   <span
-                    className={` ${
-                      isActiveNav && "hidden"
+                    className={`${
+                      isActiveNav ? "hidden" : ""
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -359,8 +438,24 @@ export function Navbar() {
               ))}
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-5">
-            <AccordionTrigger>Regulamentações Interna</AccordionTrigger>
+          <AccordionItem
+            value="item-5"
+            className={`flex flex-col justify-center text-center ${
+              isActiveNav ? "" : "w-8"
+            }`}
+          >
+            <AccordionTrigger>
+              <span>{React.createElement(HiCog, { size: "20" })}</span>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                Dashboard
+              </span>
+              {isActiveNav ? "Regulamentações Interna" : ""}
+            </AccordionTrigger>
             <AccordionContent>
               {menuInternalStandards?.map((menu, i) => (
                 <Link
@@ -374,17 +469,18 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      !isActiveNav &&
-                      "translate-x-[7vw] overflow-hidden opacity-0"
+                      isActiveNav
+                        ? ""
+                        : "translate-x-[7vw] overflow-hidden opacity-0"
                     }`}
                   >
                     {menu?.name}
                   </h2>
                   <span
-                    className={` ${
-                      isActiveNav && "hidden"
+                    className={`${
+                      isActiveNav ? "hidden" : ""
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -392,8 +488,24 @@ export function Navbar() {
               ))}
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-6">
-            <AccordionTrigger>Projetos do curso</AccordionTrigger>
+          <AccordionItem
+            value="item-6"
+            className={`flex flex-col justify-center text-center ${
+              isActiveNav ? "" : "w-8"
+            }`}
+          >
+            <AccordionTrigger>
+              <span>{React.createElement(HiClipboardCheck, { size: "20" })}</span>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                Dashboard
+              </span>
+              {isActiveNav ? "Projetos do curso" : ""}
+            </AccordionTrigger>
             <AccordionContent>
               {menuProjects?.map((menu, i) => (
                 <Link
@@ -407,17 +519,18 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      !isActiveNav &&
-                      "translate-x-[7vw] overflow-hidden opacity-0"
+                      isActiveNav
+                        ? ""
+                        : "translate-x-[7vw] overflow-hidden opacity-0"
                     }`}
                   >
                     {menu?.name}
                   </h2>
                   <span
-                    className={` ${
-                      isActiveNav && "hidden"
+                    className={`${
+                      isActiveNav ? "hidden" : ""
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
@@ -425,8 +538,24 @@ export function Navbar() {
               ))}
             </AccordionContent>
           </AccordionItem>
-          <AccordionItem value="item-7">
-            <AccordionTrigger>Publicações do Curso</AccordionTrigger>
+          <AccordionItem
+            value="item-7"
+            className={`flex flex-col justify-center text-center ${
+              isActiveNav ? "" : "w-8"
+            }`}
+          >
+            <AccordionTrigger>
+              <span>{React.createElement(HiAtSymbol, { size: "20" })}</span>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                Dashboard
+              </span>
+              {isActiveNav ? "Publicações do Curso" : ""}
+            </AccordionTrigger>
             <AccordionContent>
               {menuPublications?.map((menu, i) => (
                 <Link
@@ -440,17 +569,18 @@ export function Navbar() {
                       transitionDelay: `${i * 0.05}s`,
                     }}
                     className={`whitespace-pre duration-500 ${
-                      !isActiveNav &&
-                      "translate-x-[7vw] overflow-hidden opacity-0"
+                      isActiveNav
+                        ? ""
+                        : "translate-x-[7vw] overflow-hidden opacity-0"
                     }`}
                   >
                     {menu?.name}
                   </h2>
                   <span
-                    className={` ${
-                      isActiveNav && "hidden"
+                    className={`${
+                      isActiveNav ? "hidden" : ""
                     } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                    duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
                   >
                     {menu?.name}
                   </span>
