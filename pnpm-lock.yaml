@@ -29,7 +29,7 @@ dependencies:
     specifier: ^0.3.1
     version: 0.3.1(@supabase/supabase-js@2.14.0)
   '@supabase/supabase-js':
-    specifier: ^2.8.0
+    specifier: ^2.14.0
     version: 2.14.0
   '@tanstack/react-query':
     specifier: ^4.28.0

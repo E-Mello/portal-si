@@ -1,5 +1,5 @@
 import { UserLoginSchema, UserUpdateSchema } from "../../common/UserSchema";
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 import { TRPCClientError } from "@trpc/client";
 import bcrypt from "bcrypt";
