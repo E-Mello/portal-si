@@ -136,9 +136,9 @@ export function SideNav() {
           <Link
             href={menu?.Link}
             key={i}
-            className={`${
-              (menu?.margin && "mt-[5vh]") || (menu?.footer && "mt-[5vh]")
-            } group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 ${
+              menu?.margin ? "mt-[5vh]" : ""
+            }`}
           >
             <div>{React.createElement(menu.icon, { size: "20" })}</div>
             <h2
@@ -146,16 +146,16 @@ export function SideNav() {
                 transitionDelay: `${i * 0.05}s`,
               }}
               className={`whitespace-pre duration-500 ${
-                !isActiveNav && "translate-x-[7vw] overflow-hidden opacity-0"
+                isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
               }`}
             >
               {menu?.name}
             </h2>
             <span
-              className={` ${
-                isActiveNav && "hidden"
+              className={`${
+                isActiveNav ? "hidden" : ""
               } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-                 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
             >
               {menu?.name}
             </span>

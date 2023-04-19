@@ -1,32 +1,12 @@
-import { type NextPage } from "next";
-
-import { api } from "../utils/api";
-// import { Layout } from "../components/Layout";
-import type { NextPageWithLayout } from "../types/layout";
-import type {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-} from "react";
 import Layout from "../components/Layout";
-import Image from "next/image";
-// import LogoUnemat from "../assets/LogoUnemat.png";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../components/ui/accordion";
-
-import { Separator } from "../components/ui/separator";
-import Link from "next/link";
+import type { NextPageWithLayout } from "../types/layout";
+import type { ReactElement } from "react";
 
 const AboutCourse: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-[150vh] w-full flex-col items-start justify-center top-0 gap-4 py-2">
+    <section className="relative top-0 flex h-[150vh] w-full flex-col items-start justify-center gap-4 py-2">
       <h1 className="pl-4 text-xl">Sobre o Curso</h1>
-      <div className="h-[50vh] flex flex-col w-full justify-start pl-4 pr-10">
+      <div className="flex h-[50vh] w-full flex-col justify-start pl-4 pr-10">
         <p>
           O curso de de Bacharelado em Sistemas de informação (BSI) é
           considerado de atividade-fim, que visa a formação de profissionais em

@@ -1,34 +1,33 @@
 import {
-  HiAcademicCap,
-  HiHome,
-  HiMenu,
-  HiOutlineX,
-  HiPhotograph,
-  HiPencil,
-  HiOutlineIdentification,
-  HiInformationCircle,
-  HiViewGrid,
-  HiBell,
-  HiCog,
-  HiClipboardCheck,
-  HiAtSymbol,
-} from "react-icons/hi";
-
-import React, { type ReactElement } from "react";
-import { UserButton, useUser } from "@clerk/nextjs";
-import { dark, unstable_createTheme } from "@clerk/themes";
-
-import Link from "next/link";
-import ProtectedRoute from "~/components/ProtectedRoute";
-import { Separator } from "~/components/ui/separator";
-import { isActiveNavAtom } from "~/atoms/activeNavAtom";
-import { useAtom } from "jotai";
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
+import {
+  HiAcademicCap,
+  HiAtSymbol,
+  HiBell,
+  HiClipboardCheck,
+  HiCog,
+  HiHome,
+  HiInformationCircle,
+  HiMenu,
+  HiOutlineIdentification,
+  HiOutlineX,
+  HiPencil,
+  HiPhotograph,
+  HiViewGrid,
+} from "react-icons/hi";
+import { UserButton, useUser } from "@clerk/nextjs";
+import { dark, unstable_createTheme } from "@clerk/themes";
+
+import Link from "next/link";
+import ProtectedRoute from "~/components/ProtectedRoute";
+import React from "react";
+import { Separator } from "~/components/ui/separator";
+import { isActiveNavAtom } from "~/atoms/activeNavAtom";
+import { useAtom } from "jotai";
 
 export function Navbar() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
@@ -229,6 +228,30 @@ export function Navbar() {
         )}
       </div>
       <div className="relative mt-[3vh] flex flex-col gap-4">
+        <Link
+          href={"/"}
+          className={`group flex items-center gap-4 rounded-md p-2 text-sm mb-2 font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+        >
+          <div>{React.createElement(HiHome, { size: "20" })}</div>
+          <h2
+            style={{
+              transitionDelay: `${0.05}s`,
+            }}
+            className={`whitespace-pre duration-500 ${
+              isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
+            }`}
+          >
+            Home
+          </h2>
+          <span
+            className={`${
+              isActiveNav ? "hidden" : ""
+            } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+          >
+            Home
+          </span>
+        </Link>
         <Accordion
           type="single"
           collapsible
@@ -295,7 +318,9 @@ duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 
             }`}
           >
             <AccordionTrigger>
-              <span>{React.createElement(HiInformationCircle, { size: "20" })}</span>
+              <span>
+                {React.createElement(HiInformationCircle, { size: "20" })}
+              </span>
               <span
                 className={`${
                   isActiveNav ? "hidden" : ""
@@ -495,7 +520,9 @@ duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 
             }`}
           >
             <AccordionTrigger>
-              <span>{React.createElement(HiClipboardCheck, { size: "20" })}</span>
+              <span>
+                {React.createElement(HiClipboardCheck, { size: "20" })}
+              </span>
               <span
                 className={`${
                   isActiveNav ? "hidden" : ""

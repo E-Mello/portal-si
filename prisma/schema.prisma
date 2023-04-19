@@ -110,3 +110,12 @@ model Teachers {
     image     String   @unique
     updatedAt DateTime @updatedAt
 }
+
+model AboutCourse {
+    id        String   @id @default(cuid())
+    title     String
+    info      String?
+    content   String
+    image     String?   
+    updatedAt DateTime @updatedAt
+}
