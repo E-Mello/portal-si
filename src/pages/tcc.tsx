@@ -35,14 +35,14 @@ const Tcc: NextPageWithLayout = () => {
               className="rounded-md border-2 border-white"
               onClick={() => setIsActiveMenuTCC(!isActiveMenuTCC)}
             >
-              TCC's Teoricos
+              TCC{"'"}s Teoricos
             </button>
             <button
               type="submit"
               className="rounded-md border-2 border-white"
               onClick={() => setIsActiveMenuTCC(!isActiveMenuTCC)}
             >
-              TCC's Praticos
+              TCC{"'"}s Praticos
             </button>
           </div>
         </div>

@@ -28,7 +28,7 @@ interface Phase {
   subjects: Subject[];
 }
 
-interface Phases extends Array<Phase> {}
+type Phases = Phase[];
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
@@ -379,7 +379,10 @@ const CurriculumSubjects: NextPageWithLayout = () => {
       <br />
       <div className="flex flex-col items-center justify-center gap-4 pl-4">
         {phases?.map((phase: Phase) => (
-          <div className="flex flex-col items-center justify-center gap-4 pl-4">
+          <div
+            key={phase.name}
+            className="flex flex-col items-center justify-center gap-4 pl-4"
+          >
             <h1 className="pl-4 text-xl">{phase.name}</h1>
             <table className="table-auto">
               <thead>
@@ -392,7 +395,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
               </thead>
               <tbody>
                 {phase.subjects.map((subject: Subject) => (
-                  <tr>
+                  <tr key={subject.Name}>
                     <td className="border px-4 py-2">{subject.Name}</td>
                     <td className="border px-4 py-2">{subject.CH}</td>
                     <td className="border px-4 py-2">{subject.Créditos}</td>

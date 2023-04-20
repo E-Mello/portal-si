@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+
+import Image from "next/image";
 
 interface HeaderImgPageProps {
   src01: string;
@@ -14,7 +16,7 @@ export function HeaderPage({
   nIMG,
 }: HeaderImgPageProps) {
   const [qtdImg, setQtdImg] = useState(nIMG);
-  const imageRef = useRef<Array<HTMLImageElement | null>>(
+  const [imageLoaded, setImageLoaded] = useState<Array<boolean | null>>(
     new Array(qtdImg).fill(null)
   );
 
@@ -36,9 +38,10 @@ export function HeaderPage({
             key={i}
           >
             {i === 0 ? (
-              <img
-                ref={(el) => (imageRef.current[i] = el)}
+              <Image
+                ref={(el) => imageLoaded}
                 src={src01}
+                alt="img"
                 className={
                   qtdImg === 1
                     ? "flex h-[37.76824034334764vh] w-[25vw]"
@@ -46,9 +49,10 @@ export function HeaderPage({
                 }
               />
             ) : (
-              <img
-                ref={(el) => (imageRef.current[i] = el)}
+              <Image
+                ref={(el) => imageLoaded}
                 src={src02}
+                alt="img"
                 className={
                   qtdImg === 1
                     ? "flex h-[37.76824034334764vh] w-[25vw]"
@@ -70,11 +74,16 @@ export function HeaderPage({
             }
             key={i}
           >
-            <img
-              ref={(el) => (imageRef.current[i] = el)}
+            <Image
+              ref={(el) => {
+                imageLoaded;
+              }}
+              alt="img"
               src={src01}
               className={
-                qtdImg === 1 ? "flex h-[30.901287553648068vh] w-[25vw]" : "flex h-[20vh] w-[12.5vw]"
+                qtdImg === 1
+                  ? "flex h-[30.901287553648068vh] w-[25vw]"
+                  : "flex h-[20vh] w-[12.5vw]"
               }
             />
           </div>
@@ -90,7 +99,7 @@ export function HeaderPage({
     //classNameHeader
     //"flex h-full w-full justify-center bg-zinc-900 pl-10"
     <header className={`flex h-[26vh] w-full justify-center bg-zinc-900 pl-10`}>
-      <main className="flex h-full w-full justify-between pt-4 pr-4">
+      <main className="flex h-full w-full justify-between pr-4 pt-4">
         {renderImages()}
       </main>
     </header>

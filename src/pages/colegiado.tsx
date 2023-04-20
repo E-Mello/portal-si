@@ -1,34 +1,6 @@
-import { type NextPage } from "next";
-
-import { api } from "../utils/api";
-// import { Layout } from "../components/Layout";
-import type { NextPageWithLayout } from ".././types/layout";
-import type {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-} from "react";
 import Layout from "../components/Layout";
-import Image from "next/image";
-// import LogoUnemat from "../assets/LogoUnemat.png";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../components/ui/accordion";
-interface Semesters {
-  [key: string]: {
-    Ano: number;
-    Semestre: number;
-    Link: string;
-  }[];
-  // other properties
-}
-
-import { Separator } from "../components/ui/separator";
-import Link from "next/link";
+import type { NextPageWithLayout } from ".././types/layout";
+import type { ReactElement } from "react";
 
 const collegiate = [
   {
@@ -47,7 +19,7 @@ const collegiate = [
 
 const Colegiado: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center py-2 gap-4">
+    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
       <h1 className="pl-4 text-xl">Colegiado do curso</h1>
       <span className="pl-4">
         O quadro a seguir apresenta a relação de membros do colegiado do curso
@@ -65,7 +37,7 @@ const Colegiado: NextPageWithLayout = () => {
           </thead>
           <tbody>
             {collegiate.map((member) => (
-              <tr>
+              <tr key={member.Nome}>
                 <td className="border border-black">{member.Nome}</td>
                 <td className="border border-black">{member.Segmento}</td>
                 <td className="border border-black">{member.Email}</td>

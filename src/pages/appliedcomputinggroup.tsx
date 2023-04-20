@@ -131,7 +131,7 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
           </thead>
           <tbody className="border">
             {members?.map((member: Members) => (
-              <tr>
+              <tr key={member.Docente}>
                 <td className="border">{member.Docente}</td>
                 <td className="border">{member.Valor}</td>
                 <td className="border">{member.Edital}</td>

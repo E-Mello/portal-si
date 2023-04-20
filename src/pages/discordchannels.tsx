@@ -1,12 +1,11 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { type ReactElement } from "react";
 
 import { HeaderPage } from "../components/HeaderPage";
 import Image from "next/image";
 import Layout from "../components/Layout";
-import { NextPageWithLayout } from "../types/layout";
+import { type NextPageWithLayout } from "../types/layout";
 import { Separator } from "../components/ui/separator";
 import { cn } from "../utils/cn";
-import supabase from "../utils/createClient";
 import { useRouter } from "next/router";
 
 // import supabase from "../utils/createClient";
@@ -15,7 +14,7 @@ const DiscordChannels: NextPageWithLayout = () => {
   const router = useRouter();
 
   const handleButtonClick = (url: string) => {
-    router.push(url);
+    void router.push(url);
   };
 
   const discGroups = [

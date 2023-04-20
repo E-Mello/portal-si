@@ -370,7 +370,7 @@ const ElectiveSubjects: NextPageWithLayout = () => {
           </thead>
           <tbody>
             {subjects.map((subject: Subject) => (
-              <tr>
+              <tr key={subject.Name}>
                 <td className="border px-4 py-2">{subject.Name}</td>
                 <td className="border px-4 py-2">{subject.CH}</td>
                 <td className="border px-4 py-2">{subject.Creditos}</td>
