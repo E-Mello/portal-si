@@ -29,7 +29,7 @@ import { Separator } from "~/components/ui/separator";
 import { isActiveNavAtom } from "~/atoms/activeNavAtom";
 import { useAtom } from "jotai";
 
-export function Navbar() {
+export default function Navbar() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
   const user = useUser();
   function changeStateBtn() {
@@ -230,7 +230,7 @@ export function Navbar() {
       <div className="relative mt-[3vh] flex flex-col gap-4">
         <Link
           href={"/"}
-          className={`group flex items-center gap-4 rounded-md p-2 text-sm mb-2 font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+          className={`group mb-2 flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
         >
           <div>{React.createElement(HiHome, { size: "20" })}</div>
           <h2
