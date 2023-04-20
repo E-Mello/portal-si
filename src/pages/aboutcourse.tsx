@@ -21,14 +21,12 @@ const AboutCourse: NextPageWithLayout = () => {
   return (
     <section className="relative top-0 flex h-[150vh] w-full flex-col items-start justify-center gap-4 py-2">
       {pageData?.map((data) => (
-        <>
-          <h1 key={data.id} className="pl-4 text-xl">
-            {data.title}
-          </h1>
+        <div key={data.id}>
+          <h1 className="pl-4 text-xl">{data.title}</h1>
           <div className="flex h-[50vh] w-full flex-col justify-start pl-4 pr-10">
             <p>{data.content}</p>
           </div>
-        </>
+        </div>
       ))}
     </section>
   );

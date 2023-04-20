@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const AboutCourseUpdateSchema = z.object({
+  id: z.string(),
   title: z.string(),
   info: z.string().nullable(),
   content: z.string(),
@@ -9,6 +10,7 @@ export const AboutCourseUpdateSchema = z.object({
 });
 
 export const AboutCourseSchema = z.object({
+  id: z.string(),
   title: z.string(),
   info: z.string().nullable(),
   content: z.string(),
@@ -16,4 +18,4 @@ export const AboutCourseSchema = z.object({
   updateAt: z.string(),
 });
 
-export const UserResponseListSchema = z.array(AboutCourseSchema);
+export const AboutCourseResponseListSchema = z.array(AboutCourseSchema);

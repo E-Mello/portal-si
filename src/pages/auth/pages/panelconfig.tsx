@@ -13,7 +13,7 @@ const LogoUnemat =
 const PanelConfig: NextPageWithLayout = () => {
   return (
     <ProtectedRoute>
-      <div className="flex w-[100%] flex-col items-center justify-center bg-gradient-to-b from-[#272727a2] to-[#0e0e0f00]">
+      <div className="flex w-full flex-col items-center justify-center bg-gradient-to-b from-[#272727a2] to-[#0e0e0f00]">
         <Image
           src={LogoUnemat}
           alt=""
