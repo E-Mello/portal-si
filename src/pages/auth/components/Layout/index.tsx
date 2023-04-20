@@ -1,10 +1,7 @@
-import { ClerkProvider } from "@clerk/nextjs/app-beta";
-import { Navbar } from "../Navbar";
+import Navbar from "../Navbar";
 import ProtectedRoute from "~/components/ProtectedRoute";
 import React from "react";
 import type { ReactNode } from "react";
-import { Separator } from "~/components/ui/separator";
-import { cn } from "~/utils/cn";
 import { isActiveNavAtom } from "~/atoms/activeNavAtom";
 import { useAtom } from "jotai";
 
