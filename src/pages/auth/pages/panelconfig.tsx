@@ -1,9 +1,7 @@
 import Layout from "../components/Layout";
-import { Navbar } from "../components/Navbar";
 import { type NextPageWithLayout } from "~/types/layout";
 import ProtectedRoute from "~/components/ProtectedRoute";
 import React from "react";
-import { Separator } from "~/components/ui/separator";
 import type { ReactElement } from "react";
 import Image from "next/image";
 
