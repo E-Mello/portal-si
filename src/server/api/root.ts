@@ -2,6 +2,7 @@ import { aboutCourseRouter } from "./routers/aboutcourse";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { gcaRouter } from "./routers/gca";
 import { scheduleRouter } from "./routers/schedule";
+import { subjectsGridRouter } from "./routers/subjectsgrid";
 import { teacherRouter } from "./routers/teachingcenter";
 
 /**
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   teachercenter: teacherRouter,
   schedule: scheduleRouter,
   gca: gcaRouter,
+  subjectsgrid: subjectsGridRouter,
 });
 
 // export type definition of API
