@@ -1,55 +1,23 @@
-import Layout from "../components/Layout";
+import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "../components/ui/separator";
-
-interface Members {
-  Docente: string;
-  Valor: number;
-  Edital: string;
-  AgFomento: string;
-}
-
-const members: Members[] = [
-  {
-    Docente: "Prof. Dr. José Carlos de Oliveira",
-    Valor: 21800,
-    Edital: "Edital Nº. 006/2010",
-    AgFomento: "FAPEMAT",
-  },
-  {
-    Docente: "Prof. Dr. José Carlos de Oliveira",
-    Valor: 5000,
-    Edital: "Edital Nº. 006/2010",
-    AgFomento: "FAPEMAT",
-  },
-  {
-    Docente: "Prof. Dr. José Carlos de Oliveira",
-    Valor: 16402,
-    Edital: "Edital Nº. 006/2010",
-    AgFomento: "FAPEMAT",
-  },
-  {
-    Docente: "Prof. Dr. José Carlos de Oliveira",
-    Valor: 34783,
-    Edital: "Edital Nº. 006/2010",
-    AgFomento: "FAPEMAT",
-  },
-  {
-    Docente: "Prof. Dr. José Carlos de Oliveira",
-    Valor: 39500,
-    Edital: "Edital Nº. 006/2010",
-    AgFomento: "FAPEMAT",
-  },
-  {
-    Docente: "Prof. Dr. José Carlos de Oliveira",
-    Valor: 123500,
-    Edital: "Edital Nº. 006/2010",
-    AgFomento: "FAPEMAT",
-  },
-];
+import { Separator } from "~/components/ui/separator";
+import { api } from "~/utils/api";
 
 const AppliedComputingGroup: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.gca.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
       <div className="flex flex-col gap-4 pl-4">
@@ -59,7 +27,7 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
         <p>
           As atividades de Pesquisa e Desenvolvimento (P&D) do curso de Sistemas
           de Informação estão relacionadas principalmente ao Grupo de Computação
-          apliCada (GCC). Os membros do grupo GCC, lotados na Faculdade de
+          apliCada (GCA). Os membros do grupo GCC, lotados na Faculdade de
           Ciências Exatas e Tecnológica do Campus Universitário de Sinop
           concentram-se nas seguintes subáreas da Computação:
         </p>
@@ -124,23 +92,39 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
           <thead>
             <tr className="border">
               <th className="border">Docente</th>
-              <th className="border">Valor</th>
               <th className="border">Edital</th>
               <th className="border">Agência de Fomento</th>
+              <th className="border">Valor</th>
             </tr>
           </thead>
           <tbody className="border">
-            {members?.map((member: Members) => (
-              <tr key={member.Docente}>
-                <td className="border">{member.Docente}</td>
-                <td className="border">{member.Valor}</td>
-                <td className="border">{member.Edital}</td>
-                <td className="border">{member.AgFomento}</td>
+            {pageData?.map((data) => (
+              <tr key={data.id}>
+                <td className="border ">{data.name}</td>
+                <td className="border">{data.notice}</td>
+                <td className="border">{data.developmentagency}</td>
+                <td className="border">
+                  {parseFloat(data.value).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
+                </td>
               </tr>
             ))}
             <tr>
-              <td className="border">Total</td>
-              {<td className="border">R$ 240.000,00</td>}
+              <td />
+            </tr>
+            <tr>
+              <td className="border text-end" colSpan={4}>
+                <span className="flex h-0.5 text-start">Total</span>
+                R$
+                {pageData
+                  ?.reduce((total, data) => {
+                    const value = parseFloat(data.value);
+                    return isNaN(value) ? total : total + value;
+                  }, 0)
+                  .toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                <span className=""></span>
+              </td>
             </tr>
           </tbody>
         </table>

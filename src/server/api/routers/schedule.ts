@@ -1,12 +1,13 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const aboutCourseRouter = createTRPCRouter({
+export const scheduleRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.aboutCourse.findMany({
+    return await ctx.prisma.schedule.findMany({
       select: {
         id: true,
-        title: true,
-        content: true,
+        year: true,
+        semester: true,
+        link: true,
       },
     });
   }),

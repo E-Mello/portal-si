@@ -8,6 +8,8 @@ http://www.novoportal.unemat.br/?pg=site&i=sistemas-unemat
 
 https://clerk.com/docs/nextjs/pages-react
 
+Un3m4t#4dm1n
+
 $$U---n--3---m++4++t++#++4---d--m++1++n++$$
 DATABASE_URL="postgresql://postgres:P4p@L3gu4$91@db.zrohxlcjhxpnojvxpcju.supabase.co:5432/postgres"
 NEXTAUTH_URL= "http://localhost:3000"

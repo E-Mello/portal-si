@@ -1,29 +1,22 @@
 import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
-
-const members = [
-  {
-    Nome: "Prof. Dr. José Carlos de Oliveira",
-    Tipo: "Membro",
-    Email: "jose.pereira@unemat.br",
-    Vigencia: "01/01/2019 - 31/12/2021",
-  },
-  {
-    Nome: "Édio de Melo Pereira",
-    Tipo: "Membro Nato",
-    Email: "edio.pereira@unemat.br",
-    Vigencia: "01/01/2019 - 31/12/2021",
-  },
-  {
-    Nome: "Prof John Doe",
-    Tipo: "Cordenador",
-    Email: "john.doe@unemat.br",
-    Vigencia: "01/01/2019 - 31/12/2021",
-  },
-];
+import { api } from "~/utils/api";
 
 const TeachingCenter: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.teachercenter.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
       <h1 className="pl-4 text-xl">Núcleo Docente Estruturante (NDE)</h1>
@@ -43,13 +36,15 @@ const TeachingCenter: NextPageWithLayout = () => {
             </tr>
           </thead>
           <tbody>
-            {members.map((member) => (
-              <tr key={member.Nome}>
-                <td className="border border-gray-300 p-2">{member.Nome}</td>
-                <td className="border border-gray-300 p-2">{member.Tipo}</td>
-                <td className="border border-gray-300 p-2">{member.Email}</td>
+            {pageData.map((member) => (
+              <tr key={member.id}>
                 <td className="border border-gray-300 p-2">
-                  {member.Vigencia}
+                  {member.teachers}
+                </td>
+                <td className="border border-gray-300 p-2">{member.type}</td>
+                <td className="border border-gray-300 p-2">{member.email}</td>
+                <td className="border border-gray-300 p-2">
+                  {member.validity}
                 </td>
               </tr>
             ))}

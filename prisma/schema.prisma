@@ -11,8 +11,83 @@ datasource db {
 model AboutCourse {
   id        String   @id @default(cuid())
   title     String
-  info      String?
   content   String   @db.Text
   image     String?
   updatedAt DateTime @updatedAt
+  details   String   @db.Text
+}
+
+model Collegiate {
+  id        String   @id
+  teacher   String
+  segment   String
+  email     String
+  validity  String
+  image     String?
+  updatedAt DateTime
+}
+
+model CoursePurpose {
+  id         String   @id
+  title      String
+  mission    String   @db.Text
+  vision     String   @db.Text
+  values     String   @db.Text
+  principles String   @db.Text
+  image      String?
+  updatedAt  DateTime
+}
+
+model ProfissionalProfile {
+  id        String   @id
+  title     String
+  content   String   @db.Text
+  image     String?
+  updatedAt DateTime
+}
+
+model Schedule {
+  id        String   @id
+  year      String
+  semester  String
+  link      String
+  image     String?
+  updatedAt DateTime
+}
+
+model TeachingCenter {
+  id        String   @id
+  teachers  String
+  type      String
+  email     String
+  validity  String
+  image     String?
+  updatedAt DateTime
+}
+
+model ApliedGroup {
+  id                String   @id @default(cuid())
+  name              String
+  notice            String
+  developmentagency String
+  value             String
+  updatedAt         DateTime
+}
+
+model Phase {
+  id       Int       @id @default(autoincrement())
+  name     String
+  subjects Subject[]
+}
+
+model Subject {
+  id            Int    @id @default(autoincrement())
+  phaseId       Int
+  name          String
+  CH            Int
+  Credits       Int
+  Prerequisites String
+  phase         Phase  @relation(fields: [phaseId], references: [id])
+
+  @@index([phaseId])
 }

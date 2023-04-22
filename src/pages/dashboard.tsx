@@ -109,8 +109,8 @@ const menuInternalStandards: DashboardItem[] = [
 ];
 const menuProjects: DashboardItem[] = [
   {
-    name: "Grupo de Computação aplicada (GCC)",
-    Link: "/appliedcomputinggroup",
+    name: "Grupo de Computação aplicada (GCA)",
+    Link: "/gca",
     info: "Informações sobre o grupo de computação aplicada",
   },
   {

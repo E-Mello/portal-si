@@ -1,49 +1,24 @@
 import { type NextPage } from "next";
 
 import { api } from "../utils/api";
-// import { Layout } from "../components/Layout";
 import type { NextPageWithLayout } from ".././types/layout";
-import type {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-} from "react";
+import type { ReactElement } from "react";
 import Layout from "../components/Layout";
-import Image from "next/image";
-// import LogoUnemat from "../assets/LogoUnemat.png";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../components/ui/accordion";
-interface Semesters {
-  [key: string]: {
-    Ano: number;
-    Semestre: number;
-    Link: string;
-  }[];
-  // other properties
-}
-
-import { Separator } from "../components/ui/separator";
-import Link from "next/link";
-
-const time = [
-  {
-    Ano: 2020,
-    Semestre: 1,
-    Link: "https://drive.google.com/drive/u/0/folders/14YTNvKNKe-tM7qMKmx0QmRUqREP8EyFh",
-  },
-  {
-    Ano: 2020,
-    Semestre: 2,
-    Link: "https://drive.google.com/drive/u/0/folders/14YTNvKNKe-tM7qMKmx0QmRUqREP8EyFh",
-  },
-];
 
 const ClassSchedule: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.schedule.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
       <h1 className="pl-4 text-xl">
@@ -63,12 +38,12 @@ const ClassSchedule: NextPageWithLayout = () => {
             </tr>
           </thead>
           <tbody>
-            {time.map((semester, index) => (
-              <tr key={index}>
-                <td className="border border-black">{semester.Ano}</td>
-                <td className="border border-black">{semester.Semestre}</td>
+            {pageData.map((data) => (
+              <tr key={data.id}>
+                <td className="border border-black">{data.year}</td>
+                <td className="border border-black">{data.semester}</td>
                 <td className="border border-black">
-                  <a href={semester.Link} target="_blank">
+                  <a href={data.link} target="_blank">
                     Acessar
                   </a>
                 </td>
