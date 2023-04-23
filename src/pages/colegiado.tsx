@@ -1,23 +1,22 @@
 import Layout from "../components/Layout";
 import type { NextPageWithLayout } from ".././types/layout";
 import type { ReactElement } from "react";
-
-const collegiate = [
-  {
-    Nome: "Prof. Dr. José Carlos de Oliveira",
-    Segmento: "Docente",
-    Email: "jose.pereira@unemat.br",
-    Vigencia: "2021-2023",
-  },
-  {
-    Nome: "Édio de Melo Pereira",
-    Segmento: "Docente",
-    Email: "edio.pereira@unemat.br",
-    Vigencia: "2021-2023",
-  },
-];
+import { api } from "~/utils/api";
 
 const Colegiado: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.collegiate.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
       <h1 className="pl-4 text-xl">Colegiado do curso</h1>
@@ -36,12 +35,12 @@ const Colegiado: NextPageWithLayout = () => {
             </tr>
           </thead>
           <tbody>
-            {collegiate.map((member) => (
-              <tr key={member.Nome}>
-                <td className="border border-black">{member.Nome}</td>
-                <td className="border border-black">{member.Segmento}</td>
-                <td className="border border-black">{member.Email}</td>
-                <td className="border border-black">{member.Vigencia}</td>
+            {pageData.map((data) => (
+              <tr key={data.id}>
+                <td className="border border-black">{data.teacher}</td>
+                <td className="border border-black">{data.segment}</td>
+                <td className="border border-black">{data.email}</td>
+                <td className="border border-black">{data.validity}</td>
               </tr>
             ))}
           </tbody>

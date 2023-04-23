@@ -91,3 +91,47 @@ model Subject {
 
   @@index([phaseId])
 }
+
+model Equivalence {
+  id            Int      @id @default(autoincrement())
+  name          String
+  ch            Int
+  equivalence   String   @db.Text
+  chequivalence Int
+  updatedAt     DateTime
+}
+
+model CourseProgram {
+  id          Int      @id @default(autoincrement())
+  description String
+  link        String
+  updatedAt   DateTime
+}
+
+model ElectiveSubjects {
+  id            Int      @id @default(autoincrement())
+  name          String
+  ch            Int
+  credits       Int
+  prerequisites String
+  updatedAt     DateTime
+}
+
+model Tcc {
+  id          Int      @id @default(autoincrement())
+  title       String
+  resume      String   @db.Text
+  projectarea String
+  studentname String
+  link        String
+  updatedAt   DateTime
+}
+
+model Articles {
+  id        Int      @id @default(autoincrement())
+  title     String
+  resume    String   @db.Text
+  author    String
+  link      String
+  updatedAt DateTime
+}

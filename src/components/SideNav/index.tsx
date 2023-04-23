@@ -6,6 +6,7 @@ import {
   HiHome,
   HiMenu,
   HiNewspaper,
+  HiOutlineBookmark,
   HiOutlineX,
   HiPhotograph,
 } from "react-icons/hi";
@@ -43,9 +44,9 @@ export function SideNav() {
       auth: false,
     },
     {
-      name: "TCC's Feitos",
-      Link: "/tcc",
-      icon: HiAcademicCap,
+      name: "Informativos",
+      Link: "/informatives",
+      icon: HiNewspaper,
       haveOptions: false,
       auth: false,
     },
@@ -54,7 +55,6 @@ export function SideNav() {
       Link: "/discordchannels",
       icon: HiChatAlt2,
       haveOptions: false,
-      margin: true,
       auth: false,
     },
     {
@@ -62,14 +62,6 @@ export function SideNav() {
       Link: "/media",
       icon: HiPhotograph,
       haveOptions: true,
-      auth: false,
-    },
-    {
-      name: "Informativos",
-      Link: "/informatives",
-      icon: HiNewspaper,
-      haveOptions: false,
-      margin: true,
       auth: false,
     },
     ...(user && user.isSignedIn
@@ -84,6 +76,23 @@ export function SideNav() {
           },
         ]
       : []),
+  ];
+
+  const othersLinks = [
+    {
+      name: "Biblioteca Virtual",
+      Link: "https://ecosistema.unemat.br/login",
+      icon: HiAcademicCap,
+      haveOptions: false,
+      auth: false,
+    },
+    {
+      name: "Sigaa",
+      Link: "https://sigaa.unemat.br/sigaa/verTelaLogin.do;jsessionid=2AFB15EE6649F8E3DA07545D80045256.srv2inst1",
+      icon: HiOutlineBookmark,
+      haveOptions: false,
+      auth: false,
+    },
   ];
   return (
     <aside
@@ -131,14 +140,12 @@ export function SideNav() {
           />
         )}
       </div>
-      <div className="relative mt-[3vh] flex flex-col gap-4">
+      <section className="relative mt-[3vh] flex flex-col gap-4 pb-5">
         {menus?.map((menu, i) => (
           <Link
             href={menu?.Link}
             key={i}
-            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 ${
-              menu?.margin ? "mt-[5vh]" : ""
-            }`}
+            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
             <div>{React.createElement(menu.icon, { size: "20" })}</div>
             <h2
@@ -161,7 +168,39 @@ export function SideNav() {
             </span>
           </Link>
         ))}
-      </div>
+      </section>
+      <hr />
+      <section className="pt-5">
+        <h1 className="pb-2">Links Uteis</h1>
+        {othersLinks?.map((menu, i) => (
+          <Link
+            href={menu?.Link}
+            target="_blank"
+            key={i}
+            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+          >
+            <div>{React.createElement(menu.icon, { size: "20" })}</div>
+            <h2
+              style={{
+                transitionDelay: `${i * 0.05}s`,
+              }}
+              className={`whitespace-pre duration-500 ${
+                isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
+              }`}
+            >
+              {menu?.name}
+            </h2>
+            <span
+              className={`${
+                isActiveNav ? "hidden" : ""
+              } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+            >
+              {menu?.name}
+            </span>
+          </Link>
+        ))}
+      </section>
     </aside>
   );
 }

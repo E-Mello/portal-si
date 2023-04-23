@@ -42,6 +42,8 @@ export function HeaderPage({
                 ref={(el) => imageLoaded}
                 src={src01}
                 alt="img"
+                width={500}
+                height={500}
                 className={
                   qtdImg === 1
                     ? "flex h-[37.76824034334764vh] w-[25vw]"
@@ -53,6 +55,8 @@ export function HeaderPage({
                 ref={(el) => imageLoaded}
                 src={src02}
                 alt="img"
+                width={500}
+                height={500}
                 className={
                   qtdImg === 1
                     ? "flex h-[37.76824034334764vh] w-[25vw]"
@@ -80,6 +84,8 @@ export function HeaderPage({
               }}
               alt="img"
               src={src01}
+              width={500}
+              height={500}
               className={
                 qtdImg === 1
                   ? "flex h-[30.901287553648068vh] w-[25vw]"

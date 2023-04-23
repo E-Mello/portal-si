@@ -1,34 +1,6 @@
-import { type NextPage } from "next";
-
-import { api } from "../utils/api";
-// import { Layout } from "../components/Layout";
-import type { NextPageWithLayout } from "../types/layout";
-import type {
-  JSXElementConstructor,
-  Key,
-  ReactElement,
-  ReactFragment,
-} from "react";
 import Layout from "../components/Layout";
-import Image from "next/image";
-// import LogoUnemat from "../assets/LogoUnemat.png";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../components/ui/accordion";
-interface Semesters {
-  [key: string]: {
-    Ano: number;
-    Semestre: number;
-    Link: string;
-  }[];
-  // other properties
-}
-
-import { Separator } from "../components/ui/separator";
-import Link from "next/link";
+import type { NextPageWithLayout } from "../types/layout";
+import type { ReactElement } from "react";
 
 const JobProfile: NextPageWithLayout = () => {
   return (

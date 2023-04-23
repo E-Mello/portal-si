@@ -54,7 +54,7 @@ export default function Card(props: CardProps) {
               >
                 <p className={`whitespace-pre-line text-xl`}>{props.Info}</p>
               </div>
-              <Link href={props.Link}>
+              <Link href={props.Link} target="_blank">
                 <button
                   className={`${
                     isFlipped

@@ -2,9 +2,66 @@ import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
 
+const Values = [
+  {
+    name: "Respeito",
+  },
+  {
+    name: "Democracia",
+  },
+  {
+    name: "Comprometimento",
+  },
+  {
+    name: "Humanismo",
+  },
+  {
+    name: "Inovação",
+  },
+  {
+    name: "Sustentabilidade",
+  },
+];
+
+const Principles = [
+  {
+    name: "Honrar os critérios éticos e de cidadania",
+  },
+  {
+    name: "Transparência em todas atividades e processos",
+  },
+  {
+    name: "Garantir a aceitação do pluralismo de ideias e saberes",
+  },
+  {
+    name: "Respeitar e priorizar decisões colegiadas",
+  },
+  {
+    name: "Excelência na formação de profissionais e cidadãos responsáveis",
+  },
+  {
+    name: "Compromisso no desenvolvimento e projetos em prol da sociedade",
+  },
+  {
+    name: "Valorização humana e profissional",
+  },
+  {
+    name: "Justiça, liberdade, igualdade e cidadania",
+  },
+  {
+    name: "Priorizar e incentivar a criatividade e o empreendedorismo na comunidade acadêmica",
+  },
+  {
+    name: "Promoção da ciência e tecnologia na sociedade",
+  },
+  {
+    name: "Respeito ao meio ambiente e a sustentabilidade na execução das atividades e projetos acadêmicos",
+  },
+];
+
 const CoursePurpose: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
+    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2 pl-4">
       <h1 className="pl-4 text-xl">
         Propósito do Curso de Sistemas de Informação
       </h1>
@@ -24,62 +81,39 @@ const CoursePurpose: NextPageWithLayout = () => {
           ciência e tecnologia (C&T) pela sociedade.
         </p>
       </div>
-      <div className="h-[60vh] w-full justify-start pl-4 pr-10">
-        <table>
-          <thead>
-            <tr>
-              <th>VALORES</th>
-              <th>PRINCÍPIOS</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1. Respeito</td>
-              <td>2. Democracia</td>
-              <td>3. Comprometimento</td>
-              <td>4. Humanismo</td>
-              <td>5. Inovação</td>
-              <td>6. Sustentabilidade</td>
-            </tr>
-            <tr>
-              <td>
-                <p>1. Honrar os critérios éticos e de cidadania</p>
-                <p>2. Transparência em todas atividades e processos</p>
-              </td>
-              <td>
-                <p>3. Garantir a aceitação do pluralismo de ideias e saberes</p>
-                <p>4. Respeitar e priorizar decisões colegiadas</p>
-              </td>
-              <td>
-                <p>
-                  5. Excelência na formação de profissionais e cidadãos
-                  responsáveis
-                </p>
-                <p>
-                  6. Compromisso no desenvolvimento e projetos em prol da
-                  sociedade
-                </p>
-              </td>
-              <td>
-                <p>7. Valorização humana e profissional.</p>
-                <p>8. Justiça, liberdade, igualdade e cidadania</p>
-              </td>
-              <td>
-                <p>
-                  9. Priorizar e incentivar a criatividade e o empreendedorismo
-                  na comunidade acadêmica
-                </p>
-                <p> 10. Promoção da ciência e tecnologia na sociedade</p>
-              </td>
-              <td>
-                <p>
-                  11. Respeito ao meio ambiente e a sustentabilidade na execução
-                  das atividades e projetos acadêmicos
-                </p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="flex h-[60vh] w-full justify-start gap-12 pl-4 pr-10">
+        <div className="flex w-1/5 flex-col justify-center">
+          <table className="flex flex-col border ">
+            <thead className="gap-4 ">
+              <tr className="flex">
+                <th className="">VALORES</th>
+              </tr>
+            </thead>
+            <tbody className="">
+              {Values.map((value, index) => (
+                <tr key={index} className="flex border">
+                  <td className=" text-left">{value.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="w-1/2">
+          <table className="flex flex-col border">
+            <thead className="gap-4 ">
+              <tr className="flex ">
+                <th className="">PRINCÍPIOS</th>
+              </tr>
+            </thead>
+            <tbody className="">
+              {Principles.map((value, index) => (
+                <tr key={index} className="flex border">
+                  <td className=" text-left">{value.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );

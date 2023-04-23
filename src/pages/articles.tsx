@@ -5,12 +5,12 @@ import { type NextPageWithLayout } from "../types/layout";
 import { api } from "~/utils/api";
 import Link from "next/link";
 
-const Tcc: NextPageWithLayout = () => {
+const Articles: NextPageWithLayout = () => {
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.tcc.getAll.useQuery();
+  } = api.articles.getAll.useQuery();
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -43,10 +43,7 @@ const Tcc: NextPageWithLayout = () => {
             <span className={`text-xl `}>{data.title.toUpperCase()}</span>
             <span className={`flex text-start  text-sm `}>{data.resume}</span>
             <span className={`text-start text-sm`}>
-              Area de Estudo do projeto: {data.projectarea}
-            </span>
-            <span className={`text-start text-sm`}>
-              Nome do aluno: {data.studentname}
+              Nome do aluno: {data.author}
             </span>
           </Link>
         ))}
@@ -55,7 +52,7 @@ const Tcc: NextPageWithLayout = () => {
   );
 };
 
-Tcc.getLayout = function (page: ReactElement) {
+Articles.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default Tcc;
+export default Articles;

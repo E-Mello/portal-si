@@ -132,12 +132,12 @@ const menuProjects: DashboardItem[] = [
 const menuPublications: DashboardItem[] = [
   {
     name: "Artigos",
-    Link: "/dashboard",
+    Link: "/articles",
     info: "Informações sobre as publicações",
   },
   {
     name: "Trabalho de Conclusão de Curso (TCC)",
-    Link: "/dashboard",
+    Link: "/tcc",
     info: "Informações sobre as publicações",
   },
 ];

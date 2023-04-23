@@ -5,7 +5,7 @@ import { Separator } from "../components/ui/separator";
 
 const ReligiousGuard: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
+    <section className=" relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2 pl-4">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">Guarda Religiosa</h1>
         <p className="text-white">
