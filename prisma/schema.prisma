@@ -135,3 +135,15 @@ model Articles {
   link      String
   updatedAt DateTime
 }
+
+model Docentes {
+  id            Int      @id @default(autoincrement())
+  name          String
+  qualification String
+  area          String
+  email         String
+  lattes        String
+  year          String
+  semester      Int
+  updatedAt     DateTime
+}

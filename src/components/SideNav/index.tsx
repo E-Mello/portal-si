@@ -19,10 +19,12 @@ import React from "react";
 import { cn } from "../../utils/cn";
 import { isActiveNavAtom } from "../../atoms/activeNavAtom";
 import { useAtom } from "jotai";
+import { useRouter } from "next/router";
 
 export function SideNav() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
   const user = useUser();
+  const router = useRouter();
 
   function changeStateBtn() {
     setIsActiveNav(!isActiveNav);
@@ -143,7 +145,7 @@ export function SideNav() {
       <section className="relative mt-[3vh] flex flex-col gap-4 pb-5">
         {menus?.map((menu, i) => (
           <Link
-            href={menu?.Link}
+            href={typeof menu.Link === "string" ? menu.Link : "/"}
             key={i}
             className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
@@ -171,7 +173,7 @@ export function SideNav() {
       </section>
       <hr />
       <section className="pt-5">
-        <h1 className="pb-2">Links Uteis</h1>
+        <h1 className={`pb-2 ${isActiveNav ? "" : "hidden"}`}>Links Uteis</h1>
         {othersLinks?.map((menu, i) => (
           <Link
             href={menu?.Link}
@@ -185,7 +187,9 @@ export function SideNav() {
                 transitionDelay: `${i * 0.05}s`,
               }}
               className={`whitespace-pre duration-500 ${
-                isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
+                isActiveNav
+                  ? ""
+                  : " translate-x-[7vw] overflow-hidden opacity-0"
               }`}
             >
               {menu?.name}
