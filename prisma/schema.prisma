@@ -143,7 +143,5 @@ model Docentes {
   area          String
   email         String
   lattes        String
-  year          String
-  semester      Int
   updatedAt     DateTime
 }
