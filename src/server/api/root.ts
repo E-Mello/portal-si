@@ -10,6 +10,7 @@ import { scheduleRouter } from "./routers/schedule";
 import { subjectsGridRouter } from "./routers/subjectsgrid";
 import { tccRouter } from "./routers/tcc";
 import { teacherRouter } from "./routers/teachingcenter";
+import { teachersRouter } from "./routers/teachers";
 
 /**
  * This is the primary router for your server.
@@ -28,6 +29,7 @@ export const appRouter = createTRPCRouter({
   electivesubject: electiveSubjectRouter,
   tcc: tccRouter,
   articles: articlesRouter,
+  teachers: teachersRouter,
 });
 
 // export type definition of API

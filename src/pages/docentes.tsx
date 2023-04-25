@@ -11,78 +11,24 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../components/ui/accordion";
-interface Semesters {
-  [key: string]: {
-    Ano: number;
-    Semestre: number;
-    Link: string;
-  }[];
-  // other properties
-}
 
 import { Separator } from "../components/ui/separator";
 import Link from "next/link";
 
-const semesters: Semesters = {
-  2018: [
-    {
-      Semestre: 1,
-      Link: "/docentes/2018/1",
-    },
-    {
-      Semestre: 2,
-      Link: "/docentes/2018/2",
-    },
-  ],
-  2019: [
-    {
-      Semestre: 1,
-      Link: "/docentes/2019/1",
-    },
-    {
-      Semestre: 2,
-      Link: "/docentes/2019/2",
-    },
-  ],
-  2020: [
-    {
-      Semestre: 1,
-      Link: "/docentes/2020/1",
-    },
-    {
-      Semestre: 2,
-      Link: "/docentes/2020/2",
-    },
-  ],
-  2021: [
-    {
-      Semestre: 1,
-      Link: "/docentes/2021/1",
-    },
-    {
-      Semestre: 2,
-      Link: "/docentes/2021/2",
-    },
-  ],
-  2022: [
-    {
-      Semestre: 1,
-      Link: "/docentes/2022/1",
-    },
-    {
-      Semestre: 2,
-      Link: "/docentes/2022/2",
-    },
-  ],
-  2023: [
-    {
-      Semestre: 1,
-      Link: "/docentes/2023/1",
-    },
-  ],
-};
-
 const Docentes: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.teachers.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="relative  flex h-[80vh] w-full flex-col items-start justify-center py-2">
       <h1 className="pl-4 text-lg">Docentes por semestre</h1>
