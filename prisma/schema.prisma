@@ -136,6 +136,7 @@ model Articles {
   updatedAt DateTime
 }
 
+<<<<<<< HEAD
 model Docentes {
   id            Int      @id @default(autoincrement())
   name          String
@@ -144,4 +145,27 @@ model Docentes {
   email         String
   lattes        String
   updatedAt     DateTime
+=======
+model Teachers {
+  id                Int              @id @default(autoincrement())
+  teacherSemesterId Int
+  name              String
+  qualification     String
+  area              String
+  email             String
+  lattes            String
+  year              String
+  semester          Int
+  updatedAt         DateTime
+  TeacherSemester   TeacherSemester? @relation(fields: [teacherSemesterId], references: [id])
+
+  @@index([teacherSemesterId])
+}
+
+model TeacherSemester {
+  id       Int        @id @default(autoincrement())
+  year     String
+  semester Int
+  teachers Teachers[]
+>>>>>>> ad75182 (Adjusted the prism schema a little)
 }
