@@ -139,16 +139,25 @@ model Subject {
 model SchoolYear {
   id        Int      @id @default(autoincrement())
   teacherId Int
-  year      String
-  semester  Int
+  classId   Int
   teachers  Teachers @relation(fields: [teacherId], references: [id])
+  class     Class    @relation(fields: [classId], references: [id])
 
   @@index([teacherId])
+  @@index([classId])
+}
+
+model Class {
+  id         Int          @id @default(autoincrement())
+  year       String
+  semester   Int
+  updatedAt  DateTime
+  schoolYear SchoolYear[]
 }
 
 model Teachers {
   id            Int          @id @default(autoincrement())
-  name          String
+  name          String       @unique
   qualification String
   area          String
   email         String
