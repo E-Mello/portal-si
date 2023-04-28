@@ -13,18 +13,14 @@ import {
 import { UserButton, useUser } from "@clerk/nextjs";
 import { dark, unstable_createTheme } from "@clerk/themes";
 
-import { Avatar } from "../Avatar";
 import Link from "next/link";
 import React from "react";
-import { cn } from "../../utils/cn";
 import { isActiveNavAtom } from "../../atoms/activeNavAtom";
 import { useAtom } from "jotai";
-import { useRouter } from "next/router";
 
 export function SideNav() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
   const user = useUser();
-  const router = useRouter();
 
   function changeStateBtn() {
     setIsActiveNav(!isActiveNav);

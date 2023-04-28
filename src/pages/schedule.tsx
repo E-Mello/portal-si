@@ -1,9 +1,7 @@
-import { type NextPage } from "next";
-
-import { api } from "../utils/api";
+import Layout from "../components/Layout";
 import type { NextPageWithLayout } from ".././types/layout";
 import type { ReactElement } from "react";
-import Layout from "../components/Layout";
+import { api } from "../utils/api";
 
 const ClassSchedule: NextPageWithLayout = () => {
   const {

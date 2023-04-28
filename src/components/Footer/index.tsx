@@ -1,4 +1,4 @@
-import { isActiveNavAtom } from "../../atoms/activeNavAtom";
+import Image from "next/image";
 
 export function Footer() {
   return (
@@ -7,7 +7,7 @@ export function Footer() {
     >
       <div className={`-ml-1 flex w-full flex-col items-center`}>
         <div className="flex flex-col items-center ">
-          <img src="/LogoUnemat.ico" width={"40rem"} alt="Logo" />
+          <Image width={500} height={500} src="/LogoUnemat.ico" alt="Logo" />
           <span className="w-[calc(10rem)] text-center">
             Universidade do Estado de Mato Grosso
           </span>

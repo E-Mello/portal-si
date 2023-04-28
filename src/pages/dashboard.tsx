@@ -1,9 +1,8 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
-import React, { type ReactElement, useRef } from "react";
+import React, { type ReactElement } from "react";
 
 import Card from "../components/Card";
-import { HeaderPage } from "../components/HeaderPage";
 import Layout from "../components/Layout";
 import { type NextPageWithLayout } from "../types/layout";
 import { Separator } from "../components/ui/separator";

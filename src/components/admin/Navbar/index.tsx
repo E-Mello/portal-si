@@ -23,9 +23,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import { dark, unstable_createTheme } from "@clerk/themes";
 
 import Link from "next/link";
-import ProtectedRoute from "~/components/ProtectedRoute";
 import React from "react";
-import { Separator } from "~/components/ui/separator";
 import { isActiveNavAtom } from "~/atoms/activeNavAtom";
 import { useAtom } from "jotai";
 

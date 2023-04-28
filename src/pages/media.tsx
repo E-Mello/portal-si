@@ -1,8 +1,8 @@
-import React, { ReactElement, useState } from "react";
+import React, { type ReactElement, useState } from "react";
 
 import { HeaderPage } from "../components/HeaderPage";
 import Layout from "../components/Layout";
-import { NextPageWithLayout } from "../types/layout";
+import { type NextPageWithLayout } from "../types/layout";
 import { Separator } from "../components/ui/separator";
 import { cn } from "../utils/cn";
 

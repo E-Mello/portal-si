@@ -1,13 +1,8 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-
-import { api } from "../utils/api";
-// import { Layout } from "../components/Layout";
+import Image from "next/image";
+import Layout from "../components/Layout";
 import type { NextPageWithLayout } from ".././types/layout";
 import type { ReactElement } from "react";
-import Layout from "../components/Layout";
-import Image from "next/image";
+
 // import LogoUnemat from "../assets/LogoUnemat.png";
 
 const LogoUnemat = "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/LogoUnemat.png?t=2023-02-22T23%3A57%3A16.417Z"

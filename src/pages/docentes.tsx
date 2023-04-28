@@ -1,10 +1,3 @@
-import { type NextPage } from "next";
-
-import { api } from "../utils/api";
-import type { NextPageWithLayout } from ".././types/layout";
-import type { ReactElement } from "react";
-import Layout from "../components/Layout";
-import Image from "next/image";
 import {
   Accordion,
   AccordionContent,
@@ -12,8 +5,21 @@ import {
   AccordionTrigger,
 } from "../components/ui/accordion";
 
-import { Separator } from "../components/ui/separator";
-import Link from "next/link";
+import { HiOutlineCursorClick } from "react-icons/hi";
+import { IconBase } from "react-icons/lib";
+import Layout from "../components/Layout";
+import type { NextPageWithLayout } from ".././types/layout";
+import type { ReactElement } from "react";
+import { api } from "../utils/api";
+
+type Teacher = {
+  id: number;
+  name: string;
+  qualification: string;
+  area: string;
+  email: string;
+  lattes: string;
+};
 
 const Docentes: NextPageWithLayout = () => {
   const {
@@ -29,22 +35,54 @@ const Docentes: NextPageWithLayout = () => {
   if (isError) {
     return <div>Error</div>;
   }
+
+  // Group teachers by school year and class
+  const teachersByClass: { [key: string]: Teacher[] } = {};
+  pageData.forEach((teacher) => {
+    teacher.schoolYear.forEach((schoolYear) => {
+      const classKey = `${schoolYear.class.year}/${schoolYear.class.semester}`;
+      if (!teachersByClass[classKey]) {
+        teachersByClass[classKey] = [];
+      }
+      teachersByClass[classKey]?.push(teacher);
+    });
+  });
+
   return (
     <section className="relative  flex h-[80vh] w-full flex-col items-start justify-center py-2">
       <h1 className="pl-4 text-lg">Docentes por semestre</h1>
       <div className="h-[60vh] w-full justify-start pl-4 pr-10">
         <Accordion type="single" className="flex flex-col" collapsible>
-          {Object.keys(semesters).map((year) => (
-            <AccordionItem key={year} value={year}>
-              <AccordionTrigger>{year}</AccordionTrigger>
+          {Object.keys(teachersByClass).map((classKey) => (
+            <AccordionItem key={classKey} value={classKey}>
+              <AccordionTrigger>{classKey}</AccordionTrigger>
               <AccordionContent>
-                {semesters?.[year]?.map((semester) => (
-                  <div key={`${year}-${semester.Semestre}`}>
-                    <Link href={semester.Link}>
-                      Semester {semester.Semestre}
-                    </Link>
-                  </div>
-                ))}
+                <table className="w-full">
+                  <thead>
+                    <tr>
+                      <th className="border">Name</th>
+                      <th className="border">Qualification</th>
+                      <th className="border">Area</th>
+                      <th className="border">Email</th>
+                      <th className="border">Lattes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {teachersByClass[classKey]?.map((teacher) => (
+                      <tr key={teacher.id}>
+                        <td className="border">{teacher.name}</td>
+                        <td className="border">{teacher.qualification}</td>
+                        <td className="border">{teacher.area}</td>
+                        <td className="border">{teacher.email}</td>
+                        <td className="pl-3 items-center border">
+                          <IconBase   href={`${teacher.lattes}`}>
+                            <HiOutlineCursorClick />
+                          </IconBase>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </AccordionContent>
             </AccordionItem>
           ))}
