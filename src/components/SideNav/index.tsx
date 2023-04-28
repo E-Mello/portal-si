@@ -70,7 +70,7 @@ export function SideNav() {
       ? [
           {
             name: "Painel de Edição",
-            Link: "/auth/pages/panelconfig",
+            Link: "/admin/",
             icon: HiCog,
             haveOptions: false,
             footer: true,
