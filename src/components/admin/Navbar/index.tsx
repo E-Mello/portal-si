@@ -19,22 +19,16 @@ import {
   HiPhotograph,
   HiViewGrid,
 } from "react-icons/hi";
-import { UserButton, useUser } from "@clerk/nextjs";
 import { dark, unstable_createTheme } from "@clerk/themes";
 
 import Link from "next/link";
-import ProtectedRoute from "~/components/ProtectedRoute";
 import React from "react";
-import { Separator } from "~/components/ui/separator";
+import { UserButton } from "@clerk/nextjs";
 import { isActiveNavAtom } from "~/atoms/activeNavAtom";
 import { useAtom } from "jotai";
 
 export default function Navbar() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
-  const user = useUser();
-  function changeStateBtn() {
-    setIsActiveNav(!isActiveNav);
-  }
 
   const dashboard = [
     {

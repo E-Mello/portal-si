@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
@@ -55,7 +56,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
       <div className="flex flex-col items-center justify-center gap-4 pl-4">
         <h1 className="pl-4 text-xl">Grade Curricular</h1>
-        <img src={allSubjects} />
+        <Image width={500} height={500} alt="test" src={allSubjects} />
         <h1>
           Os quadro a seguir apresenta a sequência curricular do curso de
           Bacharelado em Sistemas de Informação, compreendendo oito fases

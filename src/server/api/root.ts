@@ -3,6 +3,7 @@ import { articlesRouter } from "./routers/articles";
 import { collegiateRouter } from "./routers/collegiate";
 import { courseProgramRouter } from "./routers/courseprogram";
 import { createTRPCRouter } from "~/server/api/trpc";
+import { dashboardRouter } from "./routers/dashboard";
 import { electiveSubjectRouter } from "./routers/electivesubject";
 import { equivalenceRouter } from "./routers/equivalence";
 import { gcaRouter } from "./routers/gca";
@@ -30,6 +31,7 @@ export const appRouter = createTRPCRouter({
   tcc: tccRouter,
   articles: articlesRouter,
   teachers: teachersRouter,
+  dashboard: dashboardRouter,
 });
 
 // export type definition of API

@@ -1,21 +1,7 @@
-import Image from "next/image";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "~/components/ui/separator";
 
-const time = [
-  {
-    Ano: 2020,
-    Semestre: 1,
-    Link: "https://drive.google.com/drive/u/0/folders/14YTNvKNKe-tM7qMKmx0QmRUqREP8EyFh",
-  },
-  {
-    Ano: 2020,
-    Semestre: 2,
-    Link: "https://drive.google.com/drive/u/0/folders/14YTNvKNKe-tM7qMKmx0QmRUqREP8EyFh",
-  },
-];
 
 const DashboardTitles: NextPageWithLayout = () => {
   return (

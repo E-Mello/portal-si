@@ -1,8 +1,6 @@
-import { useEffect, useState } from "react";
 
 import { SignIn } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-import { useRouter } from "next/router";
 
 export default function Login() {
   return (

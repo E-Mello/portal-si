@@ -1,11 +1,8 @@
 // import { withServerSideAuth } from '@clerk/nextjs/api'
-import { NextPage } from "next";
-import { WithAuthProp } from "@clerk/nextjs/api";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { type ReactNode } from "react";
 import { useUser } from "@clerk/clerk-react";
-import { ClerkProvider } from "@clerk/nextjs";
 
 interface Props {
   children: ReactNode;
