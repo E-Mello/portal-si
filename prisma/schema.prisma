@@ -165,3 +165,22 @@ model Teachers {
   updatedAt     DateTime
   schoolYear    SchoolYear[]
 }
+
+model Card {
+  id       Int       @id @default(autoincrement())
+  name     String
+  imageUrl String
+  info     String
+  locale   String
+  group    CardGroup @relation(fields: [groupId], references: [id])
+  groupId  Int
+
+  @@index([groupId])
+}
+
+model CardGroup {
+  id    Int    @id @default(autoincrement())
+  name  String
+  cards Card[]
+}
+

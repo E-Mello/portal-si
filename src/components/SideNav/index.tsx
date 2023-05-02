@@ -22,10 +22,6 @@ export function SideNav() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
   const user = useUser();
 
-  function changeStateBtn() {
-    setIsActiveNav(!isActiveNav);
-  }
-
   const menus = [
     {
       name: "Home",
@@ -92,12 +88,37 @@ export function SideNav() {
       auth: false,
     },
   ];
+
+  const socialMedias = [
+    {
+      name: "Facebook",
+      Link: "https://www.facebook.com/UnematOficial",
+      icon: HiAcademicCap,
+      haveOptions: false,
+      auth: false,
+    },
+    {
+      name: "Instagram",
+      Link: "https://www.instagram.com/unematoficial/",
+      icon: HiOutlineBookmark,
+      haveOptions: false,
+      auth: false,
+    },
+    {
+      name: "Instagram Atletica",
+      Link: "https://www.instagram.com/unematoficial/",
+      icon: HiOutlineBookmark,
+      haveOptions: false,
+      auth: false,
+    },
+  ];
+
   return (
     <aside
       className={`fixed left-0 top-0 z-50 min-h-screen justify-end ${
         isActiveNav ? "w-[15vw] " : "w-[4vw]"
       } duration-4000 rounded-md border-2 border-zinc-100
-        border-opacity-5 bg-[#0e0e0e] bg-opacity-5 px-4
+        border-opacity-5 bg-zinc-900 bg-opacity-5 px-4
         text-gray-100 transition-all ease-in-out`}
     >
       <div
@@ -139,9 +160,51 @@ export function SideNav() {
         )}
       </div>
       <section className="relative mt-[3vh] flex flex-col gap-4 pb-5">
-        {menus?.map((menu, i) => (
+        {menus
+          .filter(
+            (menu) =>
+              menu.Link !== "/" ||
+              (menu.Link === "/" &&
+                typeof window !== "undefined" &&
+                window.location.pathname !== "/")
+          )
+          .map((menu, i) => (
+            <Link
+              href={typeof menu.Link === "string" ? menu.Link : "/"}
+              key={i}
+              className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+            >
+              <div>{React.createElement(menu.icon, { size: "20" })}</div>
+              <h2
+                style={{
+                  transitionDelay: `${i * 0.05}s`,
+                }}
+                className={`whitespace-pre duration-500 ${
+                  isActiveNav
+                    ? ""
+                    : "translate-x-[7vw] overflow-hidden opacity-0"
+                }`}
+              >
+                {menu?.name}
+              </h2>
+              <span
+                className={`${
+                  isActiveNav ? "hidden" : ""
+                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              >
+                {menu?.name}
+              </span>
+            </Link>
+          ))}
+      </section>
+      <hr />
+      <section className="pb-1 pt-5">
+        <h1 className={`pb-2 ${isActiveNav ? "" : "hidden"}`}>Links Uteis</h1>
+        {othersLinks?.map((menu, i) => (
           <Link
-            href={typeof menu.Link === "string" ? menu.Link : "/"}
+            href={menu?.Link}
+            target="_blank"
             key={i}
             className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
@@ -151,7 +214,9 @@ export function SideNav() {
                 transitionDelay: `${i * 0.05}s`,
               }}
               className={`whitespace-pre duration-500 ${
-                isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
+                isActiveNav
+                  ? ""
+                  : " translate-x-[7vw] overflow-hidden opacity-0"
               }`}
             >
               {menu?.name}
@@ -169,8 +234,10 @@ export function SideNav() {
       </section>
       <hr />
       <section className="pt-5">
-        <h1 className={`pb-2 ${isActiveNav ? "" : "hidden"}`}>Links Uteis</h1>
-        {othersLinks?.map((menu, i) => (
+        <h1 className={`pb-2 ${isActiveNav ? "" : "hidden"}`}>
+          Redes Sociais do Curso
+        </h1>
+        {socialMedias?.map((menu, i) => (
           <Link
             href={menu?.Link}
             target="_blank"

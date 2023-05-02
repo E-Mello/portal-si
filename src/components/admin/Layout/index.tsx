@@ -10,9 +10,9 @@ export default function Layout({
   ...props
 }: {
   children: ReactNode;
-  [key: string]: any;
+  [key: string]: unknown;
 }): JSX.Element {
-  const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
+  const [isActiveNav] = useAtom(isActiveNavAtom);
   return (
     <ProtectedRoute>
       <div className="flex ">

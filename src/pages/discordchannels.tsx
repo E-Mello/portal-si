@@ -1,14 +1,9 @@
 import React, { type ReactElement } from "react";
 
-import { HeaderPage } from "../components/HeaderPage";
 import Image from "next/image";
 import Layout from "../components/Layout";
 import { type NextPageWithLayout } from "../types/layout";
-import { Separator } from "../components/ui/separator";
-import { cn } from "../utils/cn";
 import { useRouter } from "next/router";
-
-// import supabase from "../utils/createClient";
 
 const DiscordChannels: NextPageWithLayout = () => {
   const router = useRouter();
@@ -16,6 +11,9 @@ const DiscordChannels: NextPageWithLayout = () => {
   const handleButtonClick = (url: string) => {
     void router.push(url);
   };
+
+  const discordImage =
+    "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/banners-discord/discordBanner_resized.png";
 
   const discGroups = [
     {
@@ -94,59 +92,45 @@ const DiscordChannels: NextPageWithLayout = () => {
 
   return (
     <section
-      className={`flex h-full w-full flex-col items-center justify-between text-white`}
+      className={`flex h-full w-full flex-col items-center justify-evenly bg-zinc-800 p-2 text-white`}
     >
-      <HeaderPage
-        src01={
-          "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/banners-discord/discordBanner_resized.png?t=2023-02-22T00%3A03%3A30.635Z"
-        }
-        classNameImg="flex h-[calc(34.33476394849785vh)] w-[100%] object-cover"
-        nIMG={1}
-      />
-      <Separator
-        className={cn("bg-gradient-to-b from-zinc-900 to-[#0e0e0f00]")}
-      />
-      <main className="flex h-full w-full flex-col gap-4 pl-10">
-        <section className="flex flex-col gap-1">
-          <h1>Grupo destinado as grupos relacionados a cada materia</h1>
-          <h3>
-            Com a intencao de facilitar as interacoes entre os alunos com os
-            professores, abaixo estao um canal direto para cada semestre, dessa
-            forma ao entrar em um grupo, voce acessara todos os outros grupos de
-            cada materia daquele semestre, e assim podera interagir com os
-            outros alunos e professores.
-          </h3>
-        </section>
-        <section className="flex flex-wrap gap-6 pl-2">
-          {discGroups.map((group, index) => (
-            <div
-              key={index}
-              className="mx-5 my-5 flex h-[10vh] w-[35vw] flex-col items-center justify-between"
-            >
-              <div className="relative flex h-[27.467811158798284vh] w-full justify-between gap-4">
-                <Image
-                  src={group.avatarUrl}
-                  layout="fill"
-                  alt={group.name}
-                  objectFit="cover"
-                  className="flex h-[8vh] w-[4vw] rounded-full"
-                />
-              </div>
-              <div className="mt-2 text-center">
-                <h2 className="text-lg font-medium">{group.name}</h2>
-                <p className="text-sm font-medium">{group.Professor}</p>
-                <p className="text-sm">{group.notices}</p>
-                <button
-                  className="mt-2 rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
-                  onClick={() => handleButtonClick(group.link)}
-                >
-                  Join Channel
-                </button>
-              </div>
+      <Image width={500} height={500} alt="Discord Banner" src={discordImage} />
+      <header className="flex flex-col gap-2 pb-2">
+        <h1>Grupo destinado as grupos relacionados a cada materia</h1>
+        <h3 className="">
+          Com a intencao de facilitar as interacoes entre os alunos com os
+          professores, abaixo estao um canal direto para cada semestre, dessa
+          forma ao entrar em um grupo, voce acessara todos os outros grupos de
+          cada materia daquele semestre, e assim podera interagir com os outros
+          alunos e professores.
+        </h3>
+      </header>
+      <div className="col-span-2 flex h-full w-full flex-wrap gap-6 pl-2">
+        {discGroups.map((group, index) => (
+          <div key={index} className=" flex flex-col items-center p-4">
+            <div className="flex justify-center">
+              <Image
+                src={group.avatarUrl}
+                alt={group.name}
+                width={500}
+                height={500}
+                className="flex h-[8vh] w-[4vw] rounded-full"
+              />
             </div>
-          ))}
-        </section>
-      </main>
+            <div className="mt-2 text-center">
+              <h2 className="text-lg font-medium">{group.name}</h2>
+              <p className="text-sm font-medium">{group.Professor}</p>
+              <p className="text-sm">{group.notices}</p>
+              <button
+                className="mt-2 rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
+                onClick={() => handleButtonClick(group.link)}
+              >
+                Join Channel
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

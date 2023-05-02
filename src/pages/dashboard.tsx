@@ -6,256 +6,113 @@ import Card from "../components/Card";
 import Layout from "../components/Layout";
 import { type NextPageWithLayout } from "../types/layout";
 import { Separator } from "../components/ui/separator";
+import { api } from "~/utils/api";
 
-interface DashboardItem {
-  name: string;
-  Link: string;
-  info: string;
-}
-
-const menuCourse: DashboardItem[] = [
-  {
-    name: "Docentes",
-    Link: "/docentes",
-    info: "Informações sobre os docentes",
-  },
-  {
-    name: "Colegiado de Curso",
-    Link: "/colegiado",
-    info: "Informações sobre o colegiado",
-  },
-  {
-    name: "Horário",
-    Link: "/schedule",
-    info: "Informações sobre os Horarios",
-  },
-  {
-    name: "Nucleo Docente",
-    Link: "/teachingcenter",
-    info: "Informações sobre os docentes",
-  },
-  {
-    name: "Perfil Profissional",
-    Link: "/jobprofile",
-    info: "Informações sobre o perfil profissional",
-  },
-  {
-    name: "Propósito do Curso",
-    Link: "/coursepurpose",
-    info: "Informações sobre o propósito do curso",
-  },
-  {
-    name: "Sobre do Curso",
-    Link: "/aboutcourse",
-    info: "Informações sobre o curso",
-  },
-];
-const menuCurricularStructure: DashboardItem[] = [
-  {
-    name: "Ementas e bibliografias",
-    Link: "/ementa",
-    info: "Informações sobre a ementa",
-  },
-  {
-    name: "Equivalência de disciplinas",
-    Link: "/equivalencesubjects",
-    info: "Informações sobre as disciplinas",
-  },
-  {
-    name: "Grade Curricular",
-    Link: "/curriculumsubjects",
-    info: "Informações sobre a grade curricular",
-  },
-  {
-    name: "Rol de disciplinas eletivas",
-    Link: "/electivesubjects",
-    info: "Informações sobre as disciplinas",
-  },
-];
-const menuEvents: DashboardItem[] = [
-  {
-    name: "Eventos promovidos pela UNEMAT",
-    Link: "/dashboard",
-    info: "Informações sobre as publicações",
-  },
-  {
-    name: "Outros Eventos",
-    Link: "/dashboard",
-    info: "Informações sobre as publicações",
-  },
-];
-const menuInternalStandards: DashboardItem[] = [
-  {
-    name: "Atividades complementares",
-    Link: "/additionalactivities",
-    info: "Informações sobre as atividades complementares",
-  },
-  {
-    name: "Guarda religiosa",
-    Link: "/religiousguard",
-    info: "Informações sobre a guarda religiosa",
-  },
-  {
-    name: "Estágio Supervisionado",
-    Link: "/supervisedinternship",
-    info: "Informações sobre o estágio supervisionado",
-  },
-  {
-    name: "TCC",
-    Link: "/tccinternalstandards",
-    info: "Informações sobre as normativas internas",
-  },
-];
-const menuProjects: DashboardItem[] = [
-  {
-    name: "Grupo de Computação aplicada (GCA)",
-    Link: "/gca",
-    info: "Informações sobre o grupo de computação aplicada",
-  },
-  {
-    name: "Projetos de Ensino",
-    Link: "/dashboard",
-    info: "Informações sobre as publicações",
-  },
-  {
-    name: "Projetos de Extensão",
-    Link: "/dashboard",
-    info: "Informações sobre as publicações",
-  },
-  {
-    name: "Projetos de Pesquisa",
-    Link: "/dashboard",
-    info: "Informações sobre as publicações",
-  },
-];
-const menuPublications: DashboardItem[] = [
-  {
-    name: "Artigos",
-    Link: "/articles",
-    info: "Informações sobre as publicações",
-  },
-  {
-    name: "Trabalho de Conclusão de Curso (TCC)",
-    Link: "/tcc",
-    info: "Informações sobre as publicações",
-  },
-];
-
-const Dashboard: NextPageWithLayout = () => {
+const SkeletonCard = () => {
   return (
-    <section
-      className={`relative flex h-full w-[100vw] flex-col  items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
-    >
-      <h1 className="text-[2rem] font-bold">
-        Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
-      </h1>
-      <div className="hover:bg-silver flex w-[81vw] flex-col justify-between gap-5 ">
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">Paginas relacionadas ao curso</h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuCourse.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas a Estrutura Curricular
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuCurricularStructure.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas aos Eventos do Curso
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuEvents.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas as Regulamentacoes Internas
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuInternalStandards.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas aos projetos do curso
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuProjects.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1 className="text-lg font-bold">
-              Paginas relacionadas as Publicacoes do curso
-            </h1>
-          </div>
-          <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-            {menuPublications.map((item) => (
-              <Card
-                key={item.name}
-                name={item.name}
-                Link={item.Link}
-                Info={item.info}
-              />
-            ))}
-          </div>
-        </div>
-        <Separator />
-      </div>
-    </section>
+    <div className="h-[20vh] w-full animate-pulse rounded-md bg-gray-300"></div>
   );
 };
 
+const Dashboard: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.dashboard.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return (
+      <section
+        className={`relative flex h-full w-[100vw] flex-col items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
+      >
+        <h1 className="text-[2rem] font-bold">
+          Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
+        </h1>
+        <section className="flex w-[81vw] flex-col justify-between gap-5">
+          {[...Array<number>(6)].map((_, i) => (
+            <div key={i} className="flex flex-col gap-5">
+              <div>
+                <SkeletonCard />
+              </div>
+            </div>
+          ))}
+          <Separator />
+        </section>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center">
+          <svg
+            className="mb-4 h-full w-2/5 text-red-500"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3.646 16.354a.5.5 0 010-.708L16.293 3.646a.5.5 0 01.708 0l.708.708a.5.5 0 010 .708L4.354 17.768a.5.5 0 01-.708 0l-.708-.708z"
+              clipRule="evenodd"
+            />
+            <path
+              fillRule="evenodd"
+              d="M16.354 16.354a.5.5 0 010-.708L3.707 3.646a.5.5 0 01.708 0l.708.708a.5.5 0 010 .708L4.354 4.232a.5.5 0 01-.708 0L3.646 3.524a.5.5 0 010-.708L16.293 16.293a.5.5 0 01.708 0l.353.353zM3.354 16H16.5a.5.5 0 010 1H3.354a.5.5 0 010-1z"
+              clipRule="evenodd"
+            />
+            <path
+              fillRule="evenodd"
+              d="M16.354 3.646a.5.5 0 010 .708L3.707 16.354a.5.5 0 01-.708 0l-.708-.708a.5.5 0 010-.708L15.646 2.732a.5.5 0 01.708 0l.708.708z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <p className="mb-4 text-center text-xl font-medium">
+            Oops! Something went wrong.
+          </p>
+          <button
+            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            onClick={() => window.location.reload()}
+          >
+            Reload
+          </button>
+        </div>
+      </section>
+    );
+  } else {
+    return (
+      <section
+        className={`relative flex h-full w-[100vw] flex-col items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
+      >
+        <h1 className="text-[2rem] font-bold">
+          Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
+        </h1>
+        <div className="hover:bg-silver flex w-[81vw] flex-col justify-between gap-5 ">
+          {pageData.map((group) => (
+            <div key={group.name} className="flex flex-col gap-5">
+              <div>
+                <h1 className="text-lg font-bold">{group.name}</h1>
+              </div>
+              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
+                {group.cards.map((card) => (
+                  <Card
+                    key={card.id}
+                    name={card.name}
+                    Link={card.locale}
+                    Info={card.info}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+          <Separator />
+        </div>
+      </section>
+    );
+  }
+};
 Dashboard.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };

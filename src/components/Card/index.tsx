@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 interface CardProps {
@@ -7,11 +6,39 @@ interface CardProps {
   Info: string;
 }
 
+type Color = string;
+
+const colors: Color[] = [
+  "bg-red-500",
+  "bg-blue-500",
+  "bg-green-500",
+  "bg-yellow-500",
+  "bg-pink-500",
+  "bg-purple-500",
+  "bg-indigo-500",
+  "bg-red-500",
+  "bg-teal-500",
+  "bg-cyan-500",
+  "bg-sky-500",
+  "bg-violet-500",
+  "bg-fuchsia-500",
+  "bg-rose-500",
+];
+
 export default function Card(props: CardProps) {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
+  const randomColor: Color | undefined =
+    colors[Math.floor(Math.random() * colors.length)];
+
   return (
-    <div className="min-screen flex w-[10vw] flex-col justify-center whitespace-pre rounded-xl bg-zinc-800">
+    <div
+      className={
+        `min-screen flex w-[10vw] flex-col justify-center whitespace-pre rounded-xl ${
+          isFlipped ? "" : "bg-zinc-900"
+        }` + ` ${randomColor ?? ""} ${isFlipped ? "bg-black" : "bg-zinc-900"}`
+      }
+    >
       <div
         className={`group h-[20vh] w-[10vw] [perspective:1000px]`}
         onMouseLeave={() => setIsFlipped(false)}
@@ -19,21 +46,17 @@ export default function Card(props: CardProps) {
       >
         <div className="relative h-full w-full rounded-2xl shadow-xl transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
           <div className="fixed inset-0">
-            <Image
+            <div
               className={`h-full w-full rounded-xl object-cover shadow-xl ${
-                isFlipped ? "" : "shadow-black/40"
+                isFlipped ? "shadow-black/40" : "shadow-black/40"
               }`}
-              src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-              alt={""}
-              width={100}
-              height={100}
             />
           </div>
           <div
-            className={`hover:[transform:rotateY(180deg) fixed inset-0 h-full w-full rounded-xl bg-black/80 px-12 text-center text-slate-200 ${
+            className={`hover:[transform:rotateY(180deg) fixed inset-0 h-full w-full rounded-xl bg-black/80  px-12 text-center text-slate-200  ${
               isFlipped
-                ? "rotateY(180deg) [backface-visibility:hidden]"
-                : "rotateY(0deg) [backface-visibility:visible]"
+                ? "rotateY(180deg) [backface-visibility:hidden] "
+                : "rotateY(0deg) [backface-visibility:visible] "
             }`}
           >
             <div className="flex min-h-full flex-col items-center justify-center gap-4">

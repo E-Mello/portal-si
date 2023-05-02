@@ -6,8 +6,8 @@ import {
 } from "../components/ui/accordion";
 
 import { HiOutlineCursorClick } from "react-icons/hi";
-import { IconBase } from "react-icons/lib";
 import Layout from "../components/Layout";
+import Link from "next/link";
 import type { NextPageWithLayout } from ".././types/layout";
 import type { ReactElement } from "react";
 import { api } from "../utils/api";
@@ -74,10 +74,10 @@ const Docentes: NextPageWithLayout = () => {
                         <td className="border">{teacher.qualification}</td>
                         <td className="border">{teacher.area}</td>
                         <td className="border">{teacher.email}</td>
-                        <td className="pl-3 items-center border">
-                          <IconBase   href={`${teacher.lattes}`}>
+                        <td className=" border pl-3 ">
+                          <Link target="_blank" href={`${teacher.lattes}`}>
                             <HiOutlineCursorClick />
-                          </IconBase>
+                          </Link>
                         </td>
                       </tr>
                     ))}
