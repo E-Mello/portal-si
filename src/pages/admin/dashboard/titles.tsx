@@ -2,7 +2,6 @@ import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import type { ReactElement } from "react";
 
-
 const DashboardTitles: NextPageWithLayout = () => {
   return (
     <section className="flex w-full">
