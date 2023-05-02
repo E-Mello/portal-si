@@ -1,44 +1,23 @@
 import Link from "next/link";
 import React from "react";
+import { random } from "lodash";
+
 interface CardProps {
   name: string;
   Link: string;
   Info: string;
 }
 
-type Color = string;
-
-const colors: Color[] = [
-  "bg-red-500",
-  "bg-blue-500",
-  "bg-green-500",
-  "bg-yellow-500",
-  "bg-pink-500",
-  "bg-purple-500",
-  "bg-indigo-500",
-  "bg-red-500",
-  "bg-teal-500",
-  "bg-cyan-500",
-  "bg-sky-500",
-  "bg-violet-500",
-  "bg-fuchsia-500",
-  "bg-rose-500",
-];
-
 export default function Card(props: CardProps) {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
-  const randomColor: Color | undefined =
-    colors[Math.floor(Math.random() * colors.length)];
+  const randomColor = `rgb(${random(0, 255)}, ${random(0, 255)}, ${random(
+    0,
+    255
+  )})`;
 
   return (
-    <div
-      className={
-        `min-screen flex w-[10vw] flex-col justify-center whitespace-pre rounded-xl ${
-          isFlipped ? "" : "bg-zinc-900"
-        }` + ` ${randomColor ?? ""} ${isFlipped ? "bg-black" : "bg-zinc-900"}`
-      }
-    >
+    <div className="min-screen flex w-[10vw] flex-col justify-center whitespace-pre rounded-xl bg-zinc-800">
       <div
         className={`group h-[20vh] w-[10vw] [perspective:1000px]`}
         onMouseLeave={() => setIsFlipped(false)}
@@ -48,15 +27,16 @@ export default function Card(props: CardProps) {
           <div className="fixed inset-0">
             <div
               className={`h-full w-full rounded-xl object-cover shadow-xl ${
-                isFlipped ? "shadow-black/40" : "shadow-black/40"
+                isFlipped ? "" : "shadow-black/40"
               }`}
+              style={{ backgroundColor: randomColor }}
             />
           </div>
           <div
-            className={`hover:[transform:rotateY(180deg) fixed inset-0 h-full w-full rounded-xl bg-black/80  px-12 text-center text-slate-200  ${
+            className={`hover:[transform:rotateY(180deg) fixed inset-0 h-full w-full rounded-xl bg-black/80 px-12 text-center text-slate-200 ${
               isFlipped
-                ? "rotateY(180deg) [backface-visibility:hidden] "
-                : "rotateY(0deg) [backface-visibility:visible] "
+                ? "rotateY(180deg) [backface-visibility:hidden]"
+                : "rotateY(0deg) [backface-visibility:visible]"
             }`}
           >
             <div className="flex min-h-full flex-col items-center justify-center gap-4">

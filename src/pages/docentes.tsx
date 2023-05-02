@@ -36,6 +36,7 @@ const Docentes: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
+
   // Group teachers by school year and class
   const teachersByClass: { [key: string]: Teacher[] } = {};
   pageData.forEach((teacher) => {

@@ -10,17 +10,22 @@ import {
   HiOutlineX,
   HiPhotograph,
 } from "react-icons/hi";
+import React, { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { dark, unstable_createTheme } from "@clerk/themes";
 
 import Link from "next/link";
-import React from "react";
 import { isActiveNavAtom } from "../../atoms/activeNavAtom";
 import { useAtom } from "jotai";
 
 export function SideNav() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
+  const [isMounted, setIsMounted] = useState(false);
   const user = useUser();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const menus = [
     {
@@ -165,7 +170,7 @@ export function SideNav() {
             (menu) =>
               menu.Link !== "/" ||
               (menu.Link === "/" &&
-                typeof window !== "undefined" &&
+                isMounted &&
                 window.location.pathname !== "/")
           )
           .map((menu, i) => (
@@ -175,7 +180,7 @@ export function SideNav() {
               className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
             >
               <div>{React.createElement(menu.icon, { size: "20" })}</div>
-              <h2
+              <p
                 style={{
                   transitionDelay: `${i * 0.05}s`,
                 }}
@@ -186,15 +191,17 @@ export function SideNav() {
                 }`}
               >
                 {menu?.name}
-              </h2>
-              <span
-                className={`${
-                  isActiveNav ? "hidden" : ""
-                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
-              >
-                {menu?.name}
-              </span>
+              </p>
+              {isMounted && (
+                <p
+                  className={`${
+                    isActiveNav ? "hidden" : ""
+                  } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+        duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                >
+                  {menu?.name}
+                </p>
+              )}
             </Link>
           ))}
       </section>
@@ -209,7 +216,7 @@ export function SideNav() {
             className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
             <div>{React.createElement(menu.icon, { size: "20" })}</div>
-            <h2
+            <p
               style={{
                 transitionDelay: `${i * 0.05}s`,
               }}
@@ -220,15 +227,15 @@ export function SideNav() {
               }`}
             >
               {menu?.name}
-            </h2>
-            <span
+            </p>
+            <p
               className={`${
                 isActiveNav ? "hidden" : ""
               } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
               duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
             >
               {menu?.name}
-            </span>
+            </p>
           </Link>
         ))}
       </section>
@@ -245,7 +252,7 @@ export function SideNav() {
             className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
             <div>{React.createElement(menu.icon, { size: "20" })}</div>
-            <h2
+            <p
               style={{
                 transitionDelay: `${i * 0.05}s`,
               }}
@@ -256,15 +263,15 @@ export function SideNav() {
               }`}
             >
               {menu?.name}
-            </h2>
-            <span
+            </p>
+            <p
               className={`${
                 isActiveNav ? "hidden" : ""
               } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
               duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
             >
               {menu?.name}
-            </span>
+            </p>
           </Link>
         ))}
       </section>
