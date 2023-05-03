@@ -23,6 +23,56 @@ export const dashboardRouter = createTRPCRouter({
     });
   }),
 
+  insert: publicProcedure.mutation(async ({ ctx, input }) => {
+    const validatedInput = CardSchema.parse(input);
+
+    const newCard = await ctx.prisma.card.create({
+      data: {
+        name: validatedInput.name,
+        imageUrl: validatedInput.imageUrl,
+        info: validatedInput.info,
+        locale: validatedInput.locale,
+        group: {
+          connect: {
+            id: validatedInput.group.id,
+          },
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        imageUrl: true,
+        info: true,
+        locale: true,
+      },
+    });
+
+    return newCard;
+  }),
+
+  updateCard: publicProcedure.mutation(async ({ ctx, input }) => {
+    const validatedInput = CardSchema.parse(input);
+
+    const updatedCard = await ctx.prisma.card.update({
+      where: { id: validatedInput.id },
+      data: {
+        name: validatedInput.name,
+        imageUrl: validatedInput.imageUrl,
+        info: validatedInput.info,
+        locale: validatedInput.locale,
+      },
+      select: {
+        id: true,
+        name: true,
+        imageUrl: true,
+        info: true,
+        locale: true,
+      },
+    });
+
+    return updatedCard;
+  }),
+
   update: publicProcedure.mutation(async ({ ctx, input }) => {
     const validatedInput = CardSchema.parse(input);
 
