@@ -2,7 +2,17 @@ import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
 import { api } from "~/utils/api";
-import { Dialog } from "~/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import Card from "~/components/Card";
 import { ToastContainer, toast } from "react-toastify";
@@ -42,8 +52,47 @@ const DashboardCardInfo: NextPageWithLayout = () => {
       </h1>
       {pageData?.map((group) => (
         <div key={group.name} className="flex flex-col gap-5 pb-10">
-          <div>
+          <div className="flex items-center justify-between">
             <h1 className="text-lg font-bold">{group.name}</h1>
+            <Dialog >
+              <DialogTrigger asChild>
+                <Button variant="outline">Edit This Card Group</Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Editing Card Group</DialogTitle>
+                  <DialogDescription>
+                    Make changes to your profile here. Click save when you're
+                    done.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex gap-4 py-4">
+                  <div className="flex flex-col  items-center gap-4">
+                    <Label htmlFor="name"  className="text-right">
+                      Group Name
+                    </Label>
+                    <Input
+                      id="name"
+                      value="Pedro Duarte"
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="username" className="text-right">
+                      Username
+                    </Label>
+                    <Input
+                      id="username"
+                      value="@peduarte"
+                      className="col-span-3"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Save changes</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
           <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
             {group.cards.map((card) => (
@@ -52,73 +101,11 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                 name={card.name}
                 Link={card.locale}
                 Info={card.info}
-              >
-                <Button
-                  onClick={() => {
-                    setEditingCard(card.id);
-                    setNewCardName(card.name);
-                    setNewCardInfo(card.info);
-                    setIsEditDialogOpen(true);
-                  }}
-                >
-                  Edit
-                </Button>
-              </Card>
+              />
             ))}
           </div>
         </div>
       ))}
-      {editingCard && (
-        <Dialog
-          isOpen={true}
-          onClose={() => setEditingCard(null)}
-          title="Edit Card"
-        >
-          <div className="flex flex-col gap-3">
-            <label>
-              New Card Name:
-              <input
-                type="text"
-                value={newCardName}
-                onChange={(e) => setNewCardName(e.target.value)}
-              />
-            </label>
-            <label>
-              New Card Info:
-              <textarea
-                value={newCardInfo}
-                onChange={(e) => setNewCardInfo(e.target.value)}
-              />
-            </label>
-            <div className="flex justify-end">
-              <Button
-                variant="primary"
-                onClick={async () => {
-                  const updatedCard =
-                    await api.dashboard.updateCard.mutateAsync({
-                      id: editingCard.id,
-                      name: newCardName,
-                      info: newCardInfo,
-                    });
-                  if (updatedCard) {
-                    // show success toast
-                  } else {
-                    // show error toast
-                  }
-                  setEditingCard(null);
-                  setNewCardName("");
-                  setNewCardInfo("");
-                }}
-              >
-                Save
-              </Button>
-              <Button variant="outline" onClick={() => setEditingCard(null)}>
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </Dialog>
-      )}
     </section>
   );
 };
