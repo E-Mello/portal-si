@@ -13,6 +13,17 @@ export const CardSchema = z.object({
   }),
 });
 
+export const CardUpdateSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  info: z.string(),
+  locale: z.string().optional(),
+  group: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+});
+
 export const CardDeleteSchema = z.object({
   id: z.number(),
 });

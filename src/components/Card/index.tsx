@@ -1,5 +1,6 @@
+import React, { useCallback } from "react";
+
 import Link from "next/link";
-import React from "react";
 import { random } from "lodash";
 
 interface CardProps {
@@ -11,10 +12,10 @@ interface CardProps {
 export default function Card(props: CardProps) {
   const [isFlipped, setIsFlipped] = React.useState(false);
 
-  const randomColor = `rgb(${random(0, 255)}, ${random(0, 255)}, ${random(
-    0,
-    255
-  )})`;
+  const randomColor = useCallback(
+    () => `rgb(${random(0, 255)}, ${random(0, 255)}, ${random(0, 255)})`,
+    []
+  );
 
   return (
     <div className="min-screen flex w-[10vw] flex-col justify-center whitespace-pre rounded-xl bg-zinc-800">
@@ -29,7 +30,7 @@ export default function Card(props: CardProps) {
               className={`h-full w-full rounded-xl object-cover shadow-xl ${
                 isFlipped ? "" : "shadow-black/40"
               }`}
-              style={{ backgroundColor: randomColor }}
+              style={{ backgroundColor: randomColor() }}
             />
           </div>
           <div
