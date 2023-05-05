@@ -1,6 +1,6 @@
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { useState, type ReactElement, SetStateAction } from "react";
+import { useState, type ReactElement } from "react";
 import { api } from "~/utils/api";
 import {
   Dialog,
@@ -31,18 +31,16 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "~/utils/cn";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { CardUpdateSchema } from "~/server/common/CardSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 
 const DashboardCardInfo: NextPageWithLayout = () => {
-  const [newCardName, setNewCardName] = useState("");
-  const [newCardInfo, setNewCardInfo] = useState("");
-  const [newCardGroupName, setNewCardGroupName] = useState("");
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
+  const [cardIdSelected, setCardIdSelected] = useState<number>();
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
@@ -66,18 +64,18 @@ const DashboardCardInfo: NextPageWithLayout = () => {
     reset,
   } = useForm<z.infer<typeof CardUpdateSchema>>({
     resolver: zodResolver(CardUpdateSchema),
-    // defaultValues: {
-    //   name: cardNameSelected,
-    //   info: cardInfoSelected,
-
-    // }
+    defaultValues: {
+      name: cardNameSelected,
+      info: cardInfoSelected,
+    },
   });
 
   const changeCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
     data
   ) => {
-    const response = await updateCard(data);
-    if (response) {
+    const res = await updateCard(data);
+    console.log("res:", res);
+    if (res) {
       toast.success("Card updated successfully");
       reset();
     } else {
@@ -86,6 +84,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
       );
     }
   };
+
   return (
     <section className="flex h-full w-full flex-col items-center justify-between bg-zinc-800 p-4 text-white">
       <h1 className="pb-10 text-[2rem] font-bold">
@@ -151,6 +150,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                                     setOpen(false);
                                     setCardNameSelected(card.name);
                                     setCardInfoSelected(card.info);
+                                    setCardIdSelected(card.id);
                                   }}
                                 >
                                   <Check
@@ -182,7 +182,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                         className="col-span-2 w-80"
                         // onInvalid={errors.name?.message ? true : false}
                         {...register("name")}
-                        key={group.id}
+                        key={cardIdSelected}
                       />
                     </div>
                   </section>
@@ -197,7 +197,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                         className="col-span-2 w-80"
                         // onInvalid={errors.name?.message ? true : false}
                         {...register("info")}
-                        key={group.id}
+                        key={cardIdSelected}
                       />
                     </div>
                   </section>

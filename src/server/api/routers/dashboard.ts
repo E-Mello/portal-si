@@ -1,4 +1,8 @@
-import { CardDeleteSchema, CardSchema } from "~/server/common/CardSchema";
+import {
+  CardDeleteSchema,
+  CardSchema,
+  CardUpdateSchema,
+} from "~/server/common/CardSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const dashboardRouter = createTRPCRouter({
@@ -51,22 +55,18 @@ export const dashboardRouter = createTRPCRouter({
   }),
 
   updateCard: publicProcedure.mutation(async ({ ctx, input }) => {
-    const validatedInput = CardSchema.parse(input);
+    const validatedInput = CardUpdateSchema.parse(input);
 
     const updatedCard = await ctx.prisma.card.update({
       where: { id: validatedInput.id },
       data: {
         name: validatedInput.name,
-        imageUrl: validatedInput.imageUrl,
         info: validatedInput.info,
-        locale: validatedInput.locale,
       },
       select: {
         id: true,
         name: true,
-        imageUrl: true,
         info: true,
-        locale: true,
       },
     });
 
