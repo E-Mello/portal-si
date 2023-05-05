@@ -57,6 +57,8 @@ const AboutCourse: NextPageWithLayout = () => {
             estão vinculados principalmente as áreas de Ciência da Computação,
             Matemática e Administração. O curso visa uma formação sólida na área
             da computação, com uma grande diversidade de conteúdos como:
+            <br />
+            <br />
           </p>
           <ul>
             {Content.map((item) => (
