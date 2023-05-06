@@ -2,33 +2,6 @@ import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import { type ReactElement } from "react";
 
-const Content = [
-  "Algoritmos e complexidade;",
-  "Arquitetura e organização de computadores;",
-  "Banco de dados;",
-  "Circuitos digitais;",
-  "Computação gráfica;",
-  "Engenharia de software;",
-  "Estruturas de dados;",
-  "Fundamentos de linguagens;",
-  "Inteligência artificial e computacional;",
-  "Interação humano-computador;",
-  "Linguagens formais e autômatos;",
-  "Lógica;",
-  "Sistemas multimídias e hipermídias;",
-  "Processamento de imagens;",
-  "Processamento distribuído;",
-  "Processamento paralelo;",
-  "Programação;",
-  "Realidade virtual;",
-  "Redes de computadores;",
-  "Robótica;",
-  "Segurança;",
-  "Sistemas embarcados;",
-  "Sistemas operacionais;",
-  "Entre outros..",
-];
-
 const AboutCourse: NextPageWithLayout = () => {
   return (
     <section className="relative flex w-full flex-col items-start justify-center gap-4 py-2 pl-4 pt-10">
@@ -58,13 +31,31 @@ const AboutCourse: NextPageWithLayout = () => {
             Matemática e Administração. O curso visa uma formação sólida na área
             da computação, com uma grande diversidade de conteúdos como:
             <br />
-            <br />
+            <br /> Algoritmos e complexidade;
+            <br /> Arquitetura e organização de computadores;
+            <br /> Banco de dados;
+            <br /> Circuitos digitais;
+            <br /> Computação gráfica;
+            <br /> Engenharia de software;
+            <br /> Estruturas de dados;
+            <br /> Fundamentos de linguagens;
+            <br /> Inteligência artificial e computacional;
+            <br /> Interação humano-computador;
+            <br /> Linguagens formais e autômatos;
+            <br /> Lógica;
+            <br /> Sistemas multimídias e hipermídias;
+            <br /> Processamento de imagens;
+            <br /> Processamento distribuído;
+            <br /> Processamento paralelo;
+            <br /> Programação;
+            <br /> Realidade virtual;
+            <br /> Redes de computadores;
+            <br /> Robótica;
+            <br /> Segurança;
+            <br /> Sistemas embarcados;
+            <br /> Sistemas operacionais;
+            <br /> Entre outros..
           </p>
-          <ul>
-            {Content.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
         </div>
       </div>
     </section>

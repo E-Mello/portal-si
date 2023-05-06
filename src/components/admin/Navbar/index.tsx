@@ -28,8 +28,8 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
-      name: "Dados do curso",
-      link: "/coursedata",
+      name: "Sobre o curso",
+      link: "/aboutcourse",
       icon: HiPencil,
     },
     {
