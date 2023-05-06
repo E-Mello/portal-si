@@ -19,47 +19,61 @@ import { Textarea } from "~/components/ui/textarea";
 
 const DashboardCardInfo: NextPageWithLayout = () => {
   return (
-    <section className="flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
-      <div className="flex flex-col gap-4 pl-4">
-        <h1 className="text-3xl font-bold text-white">
-          Atividades Complementares
-        </h1>
-        <p className="text-white">
-          Os acadêmicos matriculados no curso de Bacharelado em Sistemas de
-          Informação deverão cumprir a carga horária de 150 horas em atividades
-          complementares que envolvam atividades em ensino, pesquisa ou
-          extensão, devendo ser desenvolvidas pelo acadêmico durante a
-          integralização do Curso. As Atividades Complementares são de total
-          responsabilidade dos acadêmicos, cabendo à Coordenação do Curso cobrar
-          o cumprimento da carga horária no decorrer do curso. As Atividades
-          Complementares são componentes curriculares enriquecedores e
-          implementadores do próprio perfil do formando e deverão possibilitar o
-          desenvolvimento de habilidades, conhecimentos, competências e atitudes
-          do aluno, inclusive as adquiridas fora do ambiente acadêmico, que
-          serão reconhecidas mediante processo de avaliação. <br /> <br /> As
-          Atividades Complementares podem incluir atividades desenvolvidas na
-          própria Instituição ou em outras instituições e variados ambientes
-          sociais, técnico-científicos ou profissionais de formação
-          profissional, incluindo experiências de trabalho, estágios não
-          obrigatórios, extensão universitária, iniciação científica,
-          participação em eventos técnico-científicos, publicações científicas,
-          programas de monitoria e tutoria, disciplinas de outras áreas,
-          representação discente em comissões e comitês, participação em
-          empresas juniores, incubadoras de empresas ou outras atividades de
-          empreendedorismo e inovação. As Atividades Complementares devem ser
-          realizadas em área específica ou afim do curso e/ou relacionados aos
-          temas transversais, sendo desenvolvidas na instituição ou fora dela.
-          As normas para o cumprimento das Atividades Complementares do Curso de
-          Bacharelado em Sistemas de Informação do Campus Universitário de
-          Sinop, estão Regulamentadas pela{" "}
-          <a href="http://www.unemat.br/resolucoes/resolucoes/conepe/1748_res_conepe_297_2004.pdf">
-            <b className="text-blue-900">RESOLUÇÃO Nº 297/2004 - CONEPE</b>
-          </a>{" "}
-          de 14 de dezembro de 2004 e as normas internas, a serem definidas pelo
-          NDE, coordenação de curso e docentes.
-        </p>
+    <section className="flex h-full flex-col items-start justify-center gap-4 pl-4 pt-4">
+      <div className="flex flex-col ">
+        <h1 className=" pb-4 text-xl">Sobre o curso</h1>
+        <div className="flex  w-full flex-col pr-10">
+          <p className="pb-4">
+            O curso de de Bacharelado em Sistemas de informação (BSI) é
+            considerado de atividade-fim, que visa a formação de profissionais
+            em computação ou informática com intuito principal de automatizar
+            sistemas para gerência de informação nas organizações. A área de
+            Sistemas de Informação lida com sistemas complexos em empresas e
+            governo, com a necessidade de conhecimentos técnicos e
+            organizacionais em seu projeto, desenvolvimento e gerenciamento para
+            trazer suporte na tomada de decisão e nas estratégias das
+            organizações. Os Sistemas de Informação e as Tecnologias da
+            Informação e Comunicação nas organizações destacam-se pelo uso
+            eficiente de recursos oferecendo um impacto significativo na
+            produtividade e na competitividade das empresas nacionais e
+            internacionais, em um mundo globalizado e competitivo. Em Sistemas
+            de Informação abrange-se em sua formação a aquisição de conhecimento
+            teórico e prático, de técnicas e ferramentas computacionais
+            necessárias para desenvolver, selecionar, aplicar e gerir soluções
+            de forma a atender às necessidades da sociedade. Os conhecimentos
+            adquiridos na formação do Bacharelado em Sistemas de informação
+            estão vinculados principalmente as áreas de Ciência da Computação,
+            Matemática e Administração. O curso visa uma formação sólida na área
+            da computação, com uma grande diversidade de conteúdos como:
+            <br />
+            <br /> Algoritmos e complexidade;
+            <br /> Arquitetura e organização de computadores;
+            <br /> Banco de dados;
+            <br /> Circuitos digitais;
+            <br /> Computação gráfica;
+            <br /> Engenharia de software;
+            <br /> Estruturas de dados;
+            <br /> Fundamentos de linguagens;
+            <br /> Inteligência artificial e computacional;
+            <br /> Interação humano-computador;
+            <br /> Linguagens formais e autômatos;
+            <br /> Lógica;
+            <br /> Sistemas multimídias e hipermídias;
+            <br /> Processamento de imagens;
+            <br /> Processamento distribuído;
+            <br /> Processamento paralelo;f
+            <br /> Programação;
+            <br /> Realidade virtual;
+            <br /> Redes de computadores;
+            <br /> Robótica;
+            <br /> Segurança;
+            <br /> Sistemas embarcados;
+            <br /> Sistemas operacionais;
+            <br /> Entre outros..
+          </p>
+        </div>
       </div>
-      <div className="flex pl-4">
+      <div className="flex ">
         <Sheet>
           <SheetTrigger asChild>
             <Button className="bg-slate-200 text-zinc-900">
@@ -98,14 +112,6 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                   </Label>
                   <Textarea />
                 </div>
-                <Label htmlFor="link" className="">
-                  Alterar o link de acesso a resolução do CONEPE
-                </Label>
-                <Input id="linkPage" placeholder="" className="col-span-3" />
-                <Label htmlFor="link" className="">
-                  Alterar o nome do link
-                </Label>
-                <Input id="nameLink" placeholder="" className="col-span-3" />
               </div>
               <SheetFooter>
                 <Button type="submit" className="bg-slate-200 text-zinc-900">
