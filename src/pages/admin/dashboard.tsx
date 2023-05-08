@@ -70,20 +70,20 @@ const DashboardCardInfo: NextPageWithLayout = () => {
     },
   });
 
-  const changeCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
-    data
-  ) => {
-    const res = await updateCard(data);
-    console.log("res:", res);
-    if (res) {
-      toast.success("Card updated successfully");
-      reset();
-    } else {
-      toast.error(
-        "Something is wrong in update data, please validate the data"
-      );
-    }
-  };
+  // const changeCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
+  //   data
+  // ) => {
+  //   const res = await updateCard(data);
+  //   console.log("res:", res);
+  //   if (res) {
+  //     toast.success("Card updated successfully");
+  //     reset();
+  //   } else {
+  //     toast.error(
+  //       "Something is wrong in update data, please validate the data"
+  //     );
+  //   }
+  // };
 
   return (
     <section className="flex h-full w-full flex-col items-center justify-between bg-zinc-800 p-4 text-white">
@@ -94,7 +94,8 @@ const DashboardCardInfo: NextPageWithLayout = () => {
         <div key={group.name} className="flex flex-col gap-5 pb-10">
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-bold">{group.name}</h1>
-            <form onSubmit={handleSubmit(changeCard)}>
+            {/* <form onSubmit={handleSubmit(changeCard)}> */}
+            <form>
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline">Edit This Card Group</Button>
