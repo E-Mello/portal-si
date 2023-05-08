@@ -33,6 +33,51 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
+      name: "Proposito do curso",
+      link: "/coursepurpose",
+      icon: HiPencil,
+    },
+    {
+      name: "Perfil profissional",
+      link: "/jobprofile",
+      icon: HiPencil,
+    },
+    {
+      name: "Nucleo docente",
+      link: "/teachingcenter",
+      icon: HiPencil,
+    },
+    {
+      name: "Horario de aulas",
+      link: "/schedule",
+      icon: HiPencil,
+    },
+    {
+      name: "Colegiado do curso",
+      link: "/colegiatte",
+      icon: HiPencil,
+    },
+    {
+      name: "Ementas e bibliografias",
+      link: "/courseprogram",
+      icon: HiPencil,
+    },
+    {
+      name: "Equivalencias de disciplinas",
+      link: "/equivalencesubjects",
+      icon: HiPencil,
+    },
+    {
+      name: "Grade Curricular",
+      link: "/curriculumsubjects",
+      icon: HiPencil,
+    },
+    {
+      name: "Rol de Disciplinas Eletivas",
+      link: "/electivesubjects",
+      icon: HiPencil,
+    },
+    {
       name: "Estrutura Curricular",
       link: "/curricularstructure",
       icon: HiPencil,
@@ -43,13 +88,53 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
-      name: "Projetos",
-      link: "/projects",
+      name: "Demais Eventos",
+      link: "/othersevents",
       icon: HiPencil,
     },
     {
-      name: "Publicações",
-      link: "/publications",
+      name: "Grupo de Computacao Aplicada",
+      link: "/gca",
+      icon: HiPencil,
+    },
+    {
+      name: "Projetos de Ensino",
+      link: "/teachingprojects",
+      icon: HiPencil,
+    },
+    {
+      name: "Projetos de Extensao",
+      link: "/extensionprojects",
+      icon: HiPencil,
+    },
+    {
+      name: "Projetos de Pesquisa",
+      link: "/researchprojects",
+      icon: HiPencil,
+    },
+    {
+      name: "Artigos Publicados",
+      link: "/articles",
+      icon: HiPencil,
+    },
+    {
+      name: "Tcc's Publicados",
+      link: "/tcc",
+      icon: HiPencil,
+    },
+    {
+      name: "Guarda religiosaa",
+      link: "/religiousguard",
+      icon: HiPencil,
+    },
+    {
+      name: "Estagio Supervisionado",
+      link: "/supervisedinternship",
+      icon: HiPencil,
+    },
+    {
+      name: "Regulamentacoes do TCC",
+      link: "/tccinternalstandards",
       icon: HiPencil,
     },
   ];
@@ -100,33 +185,36 @@ export default function Navbar() {
           />
         )}
       </div>
-      <div className="relative mt-[3vh] flex flex-col gap-4">
-        <Link
-          href={"/"}
-          className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
-        >
-          <div>{React.createElement(HiHome, { size: "20" })}</div>
-          <h2
-            style={{
-              transitionDelay: `${0.05}s`,
-            }}
-            className={`whitespace-pre duration-500 ${
-              isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
-            }`}
+      <ScrollArea
+        className={`h-full ${isActiveNav ? "w-[14vw] " : "w-[2vw]"} rounded-md`}
+      >
+        <div className="relative mt-[3vh] flex flex-col gap-4">
+          <Link
+            href={"/"}
+            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
-            Home
-          </h2>
-          <span
-            className={`${
-              isActiveNav ? "hidden" : ""
-            } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+            <div>{React.createElement(HiHome, { size: "20" })}</div>
+            <h2
+              style={{
+                transitionDelay: `${0.05}s`,
+              }}
+              className={`whitespace-pre duration-500 ${
+                isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
+              }`}
+            >
+              Home
+            </h2>
+            <span
+              className={`${
+                isActiveNav ? "hidden" : ""
+              } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
               duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
-          >
-            Home
-          </span>
-        </Link>
-        <hr />
-        <ScrollArea>
+            >
+              Home
+            </span>
+          </Link>
+          <hr />
+
           {menuEdit?.map((menu, i) => (
             <Link
               href={`/admin/${menu?.link}`}
@@ -156,8 +244,8 @@ duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 
               </span>
             </Link>
           ))}
-        </ScrollArea>
-      </div>
+        </div>
+      </ScrollArea>
     </aside>
   );
 }

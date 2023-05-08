@@ -1,8 +1,8 @@
-import Layout from "../components/Layout";
-import type { NextPageWithLayout } from "../types/layout";
+import Layout from "~/components/Layout";
+import type { NextPageWithLayout } from "~/types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "../components/ui/separator";
-import { api } from "../utils/api";
+import { Separator } from "~/components/ui/separator";
+import { api } from "~/utils/api";
 
 const Ementas: NextPageWithLayout = () => {
   const {
