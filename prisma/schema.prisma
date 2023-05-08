@@ -18,7 +18,7 @@ model AboutCourse {
 }
 
 model Collegiate {
-  id        String   @id
+  id        Int      @id @default(autoincrement())
   teacher   String
   segment   String
   email     String
@@ -28,7 +28,7 @@ model Collegiate {
 }
 
 model CoursePurpose {
-  id         String   @id
+  id         Int      @id @default(autoincrement())
   title      String
   mission    String   @db.Text
   vision     String   @db.Text
@@ -39,7 +39,7 @@ model CoursePurpose {
 }
 
 model ProfissionalProfile {
-  id        String   @id
+  id        Int      @id @default(autoincrement())
   title     String
   content   String   @db.Text
   image     String?
@@ -47,7 +47,7 @@ model ProfissionalProfile {
 }
 
 model Schedule {
-  id        String   @id
+  id        Int      @id @default(autoincrement())
   year      String
   semester  String
   link      String
@@ -56,12 +56,11 @@ model Schedule {
 }
 
 model TeachingCenter {
-  id        String   @id
+  id        Int      @id @default(autoincrement())
   teachers  String
   type      String
   email     String
   validity  String
-  image     String?
   updatedAt DateTime
 }
 
@@ -183,4 +182,3 @@ model CardGroup {
   name  String
   cards Card[]
 }
-
