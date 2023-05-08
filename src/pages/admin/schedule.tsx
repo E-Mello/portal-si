@@ -104,8 +104,8 @@ const DashboardCardInfo: NextPageWithLayout = () => {
             </tr>
           </thead>
           <tbody>
-            {pageData?.map((member) => (
-              <tr key={member.id}>
+            {pageData?.map((data) => (
+              <tr key={data.id}>
                 <td className="border border-black">{data.year}</td>
                 <td className="border border-black">{data.semester}</td>
                 <td className="border border-black">
