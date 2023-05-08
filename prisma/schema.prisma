@@ -169,10 +169,10 @@ model Card {
   id       Int       @id @default(autoincrement())
   name     String
   imageUrl String
-  info     String
-  locale   String
-  group    CardGroup @relation(fields: [groupId], references: [id])
   groupId  Int
+  locale   String
+  info     String
+  group    CardGroup @relation(fields: [groupId], references: [id])
 
   @@index([groupId])
 }
@@ -181,4 +181,14 @@ model CardGroup {
   id    Int    @id @default(autoincrement())
   name  String
   cards Card[]
+}
+
+model ViewsPage {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique(map: "title")
+  content   String   @db.Text
+  image     String?
+  link      String?
+  updatedAt DateTime
+  nameLink  String?
 }

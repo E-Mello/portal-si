@@ -141,7 +141,7 @@ export default function Navbar() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-50 h-[100vh] justify-end ${
+      className={`fixed left-0 top-0 z-50 h-full justify-end ${
         isActiveNav ? "w-[15vw] " : "w-[4vw]"
       } duration-4000 rounded-md border-2 border-zinc-100
         border-opacity-5 bg-[#0e0e0e] bg-opacity-5 px-4
@@ -186,12 +186,14 @@ export default function Navbar() {
         )}
       </div>
       <ScrollArea
-        className={`h-full ${isActiveNav ? "w-[14vw] " : "w-[2vw]"} rounded-md`}
+        className={` h-full ${
+          isActiveNav ? "w-[14vw] " : "w-[2vw]"
+        } rounded-md`}
       >
         <div className="relative mt-[3vh] flex flex-col gap-4">
           <Link
             href={"/"}
-            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+            className={`group flex items-center rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
             <div>{React.createElement(HiHome, { size: "20" })}</div>
             <h2
@@ -217,9 +219,9 @@ export default function Navbar() {
 
           {menuEdit?.map((menu, i) => (
             <Link
-              href={`/admin/${menu?.link}`}
+              href={`/admin${menu?.link}`}
               key={i}
-              className={` group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+              className={` group flex items-center  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
             >
               <div>{React.createElement(menu.icon, { size: "20" })}</div>
               <h2

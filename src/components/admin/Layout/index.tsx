@@ -15,7 +15,7 @@ export default function Layout({
   const [isActiveNav] = useAtom(isActiveNavAtom);
   return (
     <ProtectedRoute>
-      <div className="flex ">
+      <div className="flex justify-between">
         <Navbar />
         <section className={`${isActiveNav ? "ml-[15vw]" : "ml-[4vw]"}`}>
           <div
