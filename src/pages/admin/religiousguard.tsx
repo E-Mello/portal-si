@@ -17,7 +17,7 @@ import type { NextPageWithLayout } from "~/types/layout";
 import { type ReactElement } from "react";
 import { Textarea } from "~/components/ui/textarea";
 
-const DashboardCardInfo: NextPageWithLayout = () => {
+const ReligiousGuardAdmin: NextPageWithLayout = () => {
   return (
     <section className="flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
       <div className="flex flex-col gap-4 pl-4">
@@ -120,7 +120,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   );
 };
 
-DashboardCardInfo.getLayout = function (page: ReactElement) {
+ReligiousGuardAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default DashboardCardInfo;
+export default ReligiousGuardAdmin;

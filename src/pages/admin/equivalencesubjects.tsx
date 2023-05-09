@@ -19,7 +19,7 @@ import { Separator } from "~/components/ui/separator";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 
-const DashboardCardInfo: NextPageWithLayout = () => {
+const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -118,7 +118,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   );
 };
 
-DashboardCardInfo.getLayout = function (page: ReactElement) {
+EquivalenceSubjectsAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default DashboardCardInfo;
+export default EquivalenceSubjectsAdmin;

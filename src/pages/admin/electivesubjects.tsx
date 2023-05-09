@@ -42,7 +42,7 @@ import { Separator } from "~/components/ui/separator";
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
 
-const ElectiveSubjects: NextPageWithLayout = () => {
+const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
@@ -226,7 +226,7 @@ const ElectiveSubjects: NextPageWithLayout = () => {
   );
 };
 
-ElectiveSubjects.getLayout = function (page: ReactElement) {
+ElectiveSubjectsAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default ElectiveSubjects;
+export default ElectiveSubjectsAdmin;

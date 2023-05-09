@@ -17,7 +17,7 @@ import type { ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 
-const DashboardCardInfo: NextPageWithLayout = () => {
+const EventsAdmin: NextPageWithLayout = () => {
   return (
     <section className="flex h-full flex-col items-start justify-center gap-4 pl-4 pt-4">
       <div className="flex flex-col ">
@@ -126,7 +126,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   );
 };
 
-DashboardCardInfo.getLayout = function (page: ReactElement) {
+EventsAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default DashboardCardInfo;
+export default EventsAdmin;

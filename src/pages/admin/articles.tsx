@@ -2,7 +2,6 @@ import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
 import { api } from "~/utils/api";
-import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -39,8 +38,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
 import Link from "next/link";
+import { PageViewSchema, PublicationsSchema } from "~/server/common/PageSchema";
 
-const CurriculumSubjects: NextPageWithLayout = () => {
+const ArticlesAdmin: NextPageWithLayout = () => {
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
@@ -54,6 +54,28 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     isError,
   } = api.articles.getAll.useQuery();
 
+  const { mutateAsync: update } = api.aboutcourse.update.useMutation({
+    onSuccess: () => {
+      // show success toast
+      toast.success("Conteúdo da página atualizado com sucesso!");
+    },
+  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof PublicationsSchema>>({
+    resolver: zodResolver(PublicationsSchema),
+  });
+  const updatePage: SubmitHandler<z.infer<typeof PublicationsSchema>> = async (
+    data
+  ) => {
+    const res = await update(data);
+    console.log("res", res);
+    reset();
+  };
+
   if (pageIsLoading) {
     return <div>Loading...</div>;
   }
@@ -61,45 +83,6 @@ const CurriculumSubjects: NextPageWithLayout = () => {
   if (isError) {
     return <div>Error</div>;
   }
-
-  // const { mutateAsync: updateCard } = api.dashboard.updateCard.useMutation({
-  //   onSuccess: () => {
-  //     toast.success("Card updated successfully");
-  //   },
-  //   onError: () => {
-  //     toast.error(
-  //       "Something is wrong in update data, please validate the data "
-  //     );
-  //   },
-  // });
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors, isSubmitting },
-  //   reset,
-  // } = useForm<z.infer<typeof CardUpdateSchema>>({
-  //   resolver: zodResolver(CardUpdateSchema),
-  //   defaultValues: {
-  //     name: cardNameSelected,
-  //     info: cardInfoSelected,
-  //   },
-  // });
-
-  // const changeCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
-  //   data
-  // ) => {
-  //   const res = await updateCard(data);
-  //   console.log("res:", res);
-  //   if (res) {
-  //     toast.success("Card updated successfully");
-  //     reset();
-  //   } else {
-  //     toast.error(
-  //       "Something is wrong in update data, please validate the data"
-  //     );
-  //   }
-  // };
 
   return (
     <section
@@ -122,7 +105,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
             <span className={`text-xl `}>{data.title.toUpperCase()}</span>
             <span className={`flex text-start  text-sm `}>{data.resume}</span>
             <span className={`text-start text-sm`}>
-              Nome do aluno: {data.author}
+              Nome do estudante: {data.author}
             </span>
             <span className={`text-start text-sm`}>
               <Link
@@ -130,7 +113,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                 href={data.link}
                 target="_blank"
               >
-                Click aqui para acessar o trabalho
+                {data.linkName}
               </Link>
             </span>
           </div>
@@ -141,7 +124,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
   );
 };
 
-CurriculumSubjects.getLayout = function (page: ReactElement) {
+ArticlesAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default CurriculumSubjects;
+export default ArticlesAdmin;

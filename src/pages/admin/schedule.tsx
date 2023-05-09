@@ -37,7 +37,7 @@ import { CardUpdateSchema } from "~/server/common/CardSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 
-const DashboardCardInfo: NextPageWithLayout = () => {
+const ScheduleAdmin: NextPageWithLayout = () => {
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
@@ -203,7 +203,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   );
 };
 
-DashboardCardInfo.getLayout = function (page: ReactElement) {
+ScheduleAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default DashboardCardInfo;
+export default ScheduleAdmin;

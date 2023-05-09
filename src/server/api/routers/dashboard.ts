@@ -18,7 +18,6 @@ export const dashboardRouter = createTRPCRouter({
           select: {
             id: true,
             name: true,
-            imageUrl: true,
             info: true,
             locale: true,
           },
@@ -33,7 +32,6 @@ export const dashboardRouter = createTRPCRouter({
     const newCard = await ctx.prisma.card.create({
       data: {
         name: validatedInput.name,
-        imageUrl: validatedInput.imageUrl,
         info: validatedInput.info,
         locale: validatedInput.locale,
         group: {
@@ -45,7 +43,6 @@ export const dashboardRouter = createTRPCRouter({
       select: {
         id: true,
         name: true,
-        imageUrl: true,
         info: true,
         locale: true,
       },
@@ -54,47 +51,31 @@ export const dashboardRouter = createTRPCRouter({
     return newCard;
   }),
 
-  updateCard: publicProcedure.mutation(async ({ ctx, input }) => {
-    const validatedInput = CardUpdateSchema.parse(input);
-
-    const updatedCard = await ctx.prisma.card.update({
-      where: { id: validatedInput.id },
-      data: {
-        name: validatedInput.name,
-        info: validatedInput.info,
-      },
-      select: {
-        id: true,
-        name: true,
-        info: true,
-      },
-    });
-
-    return updatedCard;
-  }),
-
-  update: publicProcedure.mutation(async ({ ctx, input }) => {
-    const validatedInput = CardSchema.parse(input);
-
-    const updatedCard = await ctx.prisma.card.update({
-      where: { id: validatedInput.id },
-      data: {
-        name: validatedInput.name,
-        imageUrl: validatedInput.imageUrl,
-        info: validatedInput.info,
-        locale: validatedInput.locale,
-      },
-      select: {
-        id: true,
-        name: true,
-        imageUrl: true,
-        info: true,
-        locale: true,
-      },
-    });
-
-    return updatedCard;
-  }),
+  update: publicProcedure
+    .input(CardUpdateSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const data = input;
+        // Save the card to the database
+        const card = await ctx.prisma.card.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            name: data.name,
+            info: data.info,
+            group: {
+              connect: {
+                id: data.group.id,
+              },
+            },
+          },
+        });
+        return card;
+      } catch (error) {
+        console.log("Error update card:", error);
+      }
+    }),
 
   delete: publicProcedure.mutation(async ({ ctx, input }) => {
     const validatedInput = CardDeleteSchema.parse(input);

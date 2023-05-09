@@ -8,15 +8,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-model AboutCourse {
-  id        String   @id @default(cuid())
-  title     String
-  content   String   @db.Text
-  image     String?
-  updatedAt DateTime @updatedAt
-  details   String   @db.Text
-}
-
 model Collegiate {
   id        Int      @id @default(autoincrement())
   teacher   String
@@ -108,6 +99,27 @@ model Tcc {
   updatedAt   DateTime
 }
 
+model TypesOfPublications {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  updatedAt           DateTime
+  StudentPublications StudentPublications[]
+}
+
+model StudentPublications {
+  id                  Int                 @id @default(autoincrement())
+  typeOfPublicationId Int
+  title               String
+  resume              String              @db.Text
+  author              String
+  link                String
+  linkName            String
+  updatedAt           DateTime
+  typeOfPublication   TypesOfPublications @relation(fields: [typeOfPublicationId], references: [id])
+
+  @@index([typeOfPublicationId])
+}
+
 model Articles {
   id        Int      @id @default(autoincrement())
   title     String
@@ -166,13 +178,12 @@ model Teachers {
 }
 
 model Card {
-  id       Int       @id @default(autoincrement())
-  name     String
-  imageUrl String
-  groupId  Int
-  locale   String
-  info     String
-  group    CardGroup @relation(fields: [groupId], references: [id])
+  id      Int       @id @default(autoincrement())
+  name    String
+  groupId Int
+  locale  String
+  info    String
+  group   CardGroup @relation(fields: [groupId], references: [id])
 
   @@index([groupId])
 }

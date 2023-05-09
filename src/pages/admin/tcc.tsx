@@ -40,7 +40,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
 import Link from "next/link";
 
-const CurriculumSubjects: NextPageWithLayout = () => {
+const TccAdmin: NextPageWithLayout = () => {
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
@@ -143,7 +143,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
   );
 };
 
-CurriculumSubjects.getLayout = function (page: ReactElement) {
+TccAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default CurriculumSubjects;
+export default TccAdmin;

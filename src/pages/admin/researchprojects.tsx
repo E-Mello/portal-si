@@ -39,7 +39,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
 
-const CurriculumSubjects: NextPageWithLayout = () => {
+const ResearchProjectsAdmin: NextPageWithLayout = () => {
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
@@ -298,7 +298,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
   );
 };
 
-CurriculumSubjects.getLayout = function (page: ReactElement) {
+ResearchProjectsAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default CurriculumSubjects;
+export default ResearchProjectsAdmin;

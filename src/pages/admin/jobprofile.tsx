@@ -17,7 +17,7 @@ import type { ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 
-const DashboardCardInfo: NextPageWithLayout = () => {
+const JobProfileAdmin: NextPageWithLayout = () => {
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
       <div className="flex w-[95%] flex-col gap-10">
@@ -110,7 +110,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   );
 };
 
-DashboardCardInfo.getLayout = function (page: ReactElement) {
+JobProfileAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default DashboardCardInfo;
+export default JobProfileAdmin;

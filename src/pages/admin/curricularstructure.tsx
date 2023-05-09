@@ -57,7 +57,7 @@ type Phase = {
   subjects: Subject[];
 };
 
-const CurriculumSubjects: NextPageWithLayout = () => {
+const CurricularStructureAdmin: NextPageWithLayout = () => {
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
@@ -292,7 +292,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
   );
 };
 
-CurriculumSubjects.getLayout = function (page: ReactElement) {
+CurricularStructureAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default CurriculumSubjects;
+export default CurricularStructureAdmin;

@@ -33,7 +33,7 @@ import { CardUpdateSchema } from "~/server/common/CardSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 
-const Collegiate: NextPageWithLayout = () => {
+const CollegiateAdmin: NextPageWithLayout = () => {
   const [open, setOpen] = useState(false);
   const {
     data: pageData,
@@ -195,7 +195,7 @@ const Collegiate: NextPageWithLayout = () => {
   );
 };
 
-Collegiate.getLayout = function (page: ReactElement) {
+CollegiateAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default Collegiate;
+export default CollegiateAdmin;
