@@ -186,14 +186,14 @@ export default function Navbar() {
         )}
       </div>
       <ScrollArea
-        className={` h-full ${
+        className={` h-full gap-4 ${
           isActiveNav ? "w-[14vw] " : "w-[2vw]"
         } rounded-md`}
       >
-        <div className="relative mt-[3vh] flex flex-col gap-4">
+        <div className=" mt-[3vh] flex flex-col gap-4 overscroll-none">
           <Link
             href={"/"}
-            className={`group flex items-center rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+            className={`group flex items-center gap-2 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
           >
             <div>{React.createElement(HiHome, { size: "20" })}</div>
             <h2
@@ -221,7 +221,7 @@ export default function Navbar() {
             <Link
               href={`/admin${menu?.link}`}
               key={i}
-              className={` group flex items-center  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+              className={`group flex items-center gap-2  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
             >
               <div>{React.createElement(menu.icon, { size: "20" })}</div>
               <h2

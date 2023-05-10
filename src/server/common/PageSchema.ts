@@ -24,3 +24,28 @@ export const PublicationsSchema = z.object({
   link: z.string(),
   linkName: z.string(),
 });
+
+export const TeachersSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  qualification: z.string(),
+  area: z.string(),
+  email: z.string(),
+  lattes: z.string(),
+  schoolYear: z.object({
+    id: z.number(),
+    class: z.object({
+      year: z.number(),
+      semester: z.string(),
+    }),
+  }),
+});
+
+export const CollegiateSchema = z.object({
+  id: z.number(),
+  teacher: z.string(),
+  segment: z.string(),
+  email: z.string(),
+  validity: z.string(),
+  image: z.string().optional(),
+});

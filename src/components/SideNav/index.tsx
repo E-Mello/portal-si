@@ -164,7 +164,7 @@ export function SideNav() {
           />
         )}
       </div>
-      <section className="relative mt-[3vh] flex flex-col gap-4 pb-5">
+      <section className="relative mt-[3vh] flex flex-col gap-4  pb-5">
         {menus
           .filter(
             (menu) =>
