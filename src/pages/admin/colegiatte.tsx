@@ -65,11 +65,26 @@ const CollegiateAdmin: NextPageWithLayout = () => {
     reset();
   };
 
-  // const { mutateAsync: create } = trpc.collegiate.create.useMutation({
-  //   onSuccess: () => {
-  //     utils.device.getAll.invalidate();
-  //   },
-  // });
+  const { mutateAsync: create } = api.collegiate.create.useMutation({
+    onSuccess: () => {
+      // show success toast
+      toast.success("Membro adicionado com sucesso!");
+    },
+  });
+
+  const { mutate } = api.collegiate.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Conteúdo da página atualizado com sucesso!");
+    },
+  });
+
+  function handleDeleteMember() {
+    try {
+      mutate({ id: member.id });
+    } catch (error) {
+      console.log("Error deleting provider:", error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -80,11 +95,10 @@ const CollegiateAdmin: NextPageWithLayout = () => {
   }
   return (
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
-      <h1 className="pl-4 text-xl">Núcleo Docente Estruturante (NDE)</h1>
+      <h1 className="pl-4 text-xl">Colegiado de Curso</h1>
       <span className="pl-4">
-        O quadro a seguir apresenta a relação de membros designados ao Núcleo
-        Docente Estruturante (NDE) do curso de Bacharelado em Sistemas de
-        Informação.
+        O quadro a seguir apresenta a relação de membros do colegiado do curso
+        de Bacharelado em Sistemas de Informação.
       </span>
       <div className=" flex w-full flex-col gap-4 pl-4 pr-10">
         <table className="w-full">
@@ -171,8 +185,12 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                       </form>
                     </DialogContent>
                   </Dialog>
-                  <Button variant={"outline"} className="hover:bg-red-500">
-                    Excluir
+                  <Button
+                    variant={"outline"}
+                    className="hover:bg-red-500"
+                    onClick={handleDeleteMember}
+                  >
+                    {isSubmitting ? "Deletando..." : "Deletar"}
                   </Button>
                 </td>
               </tr>

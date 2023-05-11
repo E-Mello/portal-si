@@ -68,10 +68,12 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
           <div className="flex flex-col ">
             <h1 className=" pb-4 text-xl">{pageData.title}</h1>
             <div className="flex  w-full flex-col pr-10">
-              <ReactMarkdown>{pageData.content}</ReactMarkdown>
+              {pageData.content.split(/[;:]/).map((item, index) => (
+                <p key={index}>{item.trim()}</p>
+              ))}
             </div>
           </div>
-          <div className="flex ">
+          <div className="flex pt-2 ">
             <form onSubmit={handleSubmit(updatePage)}>
               <Sheet>
                 <SheetTrigger asChild>

@@ -7,17 +7,58 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "~/components/ui/sheet";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
+import { PageViewSchema } from "~/server/common/PageSchema";
 import type { ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
+import { api } from "~/utils/api";
+import { toast } from "react-toastify";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const JobProfileAdmin: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.jobProfile.getAll.useQuery();
+
+  const { mutateAsync: update } = api.jobProfile.update.useMutation({
+    onSuccess: () => {
+      // show success toast
+      toast.success("Conteúdo da página atualizado com sucesso!");
+    },
+  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof PageViewSchema>>({
+    resolver: zodResolver(PageViewSchema),
+  });
+  const updatePage: SubmitHandler<z.infer<typeof PageViewSchema>> = async (
+    data
+  ) => {
+    const res = await update(data);
+    console.log("res", res);
+    reset();
+  };
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
       <div className="flex w-[95%] flex-col gap-10">
@@ -25,8 +66,8 @@ const JobProfileAdmin: NextPageWithLayout = () => {
           Perfil Profissional de um profissional de Sistemas de Informação
         </h1>
         <p className="pl-4">
-          O bacharel em Sistemas de Informação (BSI) é uma evolução natural do
-          profissional de tecnologia da informação, o curso proporciona o
+          O bacharel em Sistemas de Informação {"(BSI)"} é uma evolução natural
+          do profissional de tecnologia da informação, o curso proporciona o
           alinhamento dos conhecimentos em computação e o conhecimento em
           gestão. Sua formação é focada no desenvolvimento, manutenção e gestão
           de sistemas de informação dos dados de uma organização, seja para

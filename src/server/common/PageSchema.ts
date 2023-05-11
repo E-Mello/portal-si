@@ -10,10 +10,17 @@ export const AdditionalActivitiesSchema = z.object({
 
 export const PageViewSchema = z.object({
   title: z.string(),
+  info: z.string().optional(),
   content: z.string(),
-  image: z.string().optional(),
-  link: z.string().optional(),
+  info02: z.string().optional(),
+  content02: z.string().optional(),
+  info03: z.string().optional(),
+  content03: z.string().optional(),
+  info04: z.string().optional(),
+  content04: z.string().optional(),
   nameLink: z.string().optional(),
+  link: z.string().optional(),
+  image: z.string().optional(),
 });
 
 export const PublicationsSchema = z.object({
@@ -48,4 +55,20 @@ export const CollegiateSchema = z.object({
   email: z.string(),
   validity: z.string(),
   image: z.string().optional(),
+});
+
+export const CollegiateCreateSchema = z.object({
+  teacher: z.string(),
+  segment: z.string(),
+  email: z.string(),
+  validity: z.string(),
+  image: z.string().optional(),
+});
+
+export const TeachingCenterSchema = z.object({
+  id: z.number(),
+  teachers: z.string(),
+  type: z.string(),
+  email: z.string(),
+  validity: z.string(),
 });
