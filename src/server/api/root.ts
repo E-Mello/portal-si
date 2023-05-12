@@ -5,13 +5,14 @@ import { collegiateRouter } from "./routers/collegiate";
 import { courseProgramRouter } from "./routers/courseprogram";
 import { coursePurposeRouter } from "./routers/coursepurpose";
 import { createTRPCRouter } from "~/server/api/trpc";
+import { curriculumSubjectsRouter } from "~/server/api/routers/curriculumsubjects";
 import { dashboardRouter } from "./routers/dashboard";
 import { electiveSubjectRouter } from "./routers/electivesubject";
 import { equivalenceRouter } from "./routers/equivalence";
+import { eventsRouter } from "./routers/events";
 import { gcaRouter } from "./routers/gca";
 import { jobProfileRouter } from "./routers/jobprofile";
 import { scheduleRouter } from "./routers/schedule";
-import { subjectsGridRouter } from "./routers/subjectsgrid";
 import { tccRouter } from "./routers/tcc";
 import { teacherRouter } from "./routers/teachingcenter";
 import { teachersRouter } from "./routers/teachers";
@@ -26,7 +27,7 @@ export const appRouter = createTRPCRouter({
   teachercenter: teacherRouter,
   schedule: scheduleRouter,
   gca: gcaRouter,
-  subjectsgrid: subjectsGridRouter,
+  curriculumSubjects: curriculumSubjectsRouter,
   equivalence: equivalenceRouter,
   collegiate: collegiateRouter,
   courseprogram: courseProgramRouter,
@@ -38,6 +39,7 @@ export const appRouter = createTRPCRouter({
   additionalActivities: additionalActivitiesRouter,
   coursePurpose: coursePurposeRouter,
   jobProfile: jobProfileRouter,
+  events: eventsRouter,
 });
 
 // export type definition of API

@@ -78,18 +78,8 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
-      name: "Estrutura Curricular",
-      link: "/curricularstructure",
-      icon: HiPencil,
-    },
-    {
       name: "Eventos",
       link: "/events",
-      icon: HiPencil,
-    },
-    {
-      name: "Demais Eventos",
-      link: "/othersevents",
       icon: HiPencil,
     },
     {
@@ -123,7 +113,7 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
-      name: "Guarda religiosaa",
+      name: "Guarda religiosa",
       link: "/religiousguard",
       icon: HiPencil,
     },

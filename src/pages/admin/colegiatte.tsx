@@ -11,26 +11,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "~/components/ui/command";
 import { HiOutlinePlus } from "react-icons/hi";
 
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import Card from "~/components/Card";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "~/utils/cn";
+
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
-import { CardUpdateSchema } from "~/server/common/CardSchema";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { CollegiateSchema } from "~/server/common/PageSchema";
@@ -100,7 +92,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
         O quadro a seguir apresenta a relação de membros do colegiado do curso
         de Bacharelado em Sistemas de Informação.
       </span>
-      <div className=" flex w-full flex-col gap-4 pl-4 pr-10">
+      <div className="flex w-full flex-col gap-4 pl-4 pr-10">
         <table className="w-full">
           <thead>
             <tr>
@@ -135,7 +127,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                         </DialogDescription>
                       </DialogHeader>
                       <form onSubmit={handleSubmit(updateMember)} className="">
-                        <section className="grid h-full grid-cols-1 items-center gap-2 ">
+                        <section className="grid h-full grid-cols-1 items-center gap-2">
                           <div className="flex columns-1 flex-col items-start gap-3">
                             <Label htmlFor="name" className="text-right">
                               Nome
@@ -226,7 +218,8 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                 <div className="flex columns-1 flex-col items-start gap-3">
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="text" {...register("email")} />
-                  <div className="flex columns-1 flex-col items-start gap-3"></div>
+                </div>
+                <div className="flex columns-1 flex-col items-start gap-3">
                   <Label htmlFor="validity">Vigência</Label>
                   <Input id="validity" type="text" {...register("validity")} />
                 </div>

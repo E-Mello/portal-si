@@ -72,3 +72,35 @@ export const TeachingCenterSchema = z.object({
   email: z.string(),
   validity: z.string(),
 });
+
+export const ScheduleSchema = z.object({
+  id: z.number(),
+  year: z.string(),
+  semester: z.string(),
+  link: z.string(),
+});
+
+export const EquivalenceSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  ch: z.string(),
+  equivalence: z.string(),
+  chequivalence: z.string(),
+});
+
+export const CurriculumSubjectsSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  ch: z.string(),
+  credits: z.string(),
+  prerequisites: z.string(),
+  phaseId: z.number(),
+});
+
+export const ElectiveSubjectsSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  ch: z.string(),
+  credits: z.string(),
+  prerequisites: z.string(),
+});

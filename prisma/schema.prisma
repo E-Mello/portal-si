@@ -163,3 +163,21 @@ model ViewsPage {
   image     String?
   updatedAt DateTime
 }
+
+model Schedule {
+  id        Int      @id @default(autoincrement())
+  year      String
+  semester  String
+  updatedAt DateTime
+  link      String
+}
+
+model Events {
+  id        Int      @id @default(autoincrement())
+  title     String
+  info      String
+  content   String   @db.Text
+  date      String
+  image     String?
+  updatedAt DateTime
+}

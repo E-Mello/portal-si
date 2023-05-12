@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Layout from "../components/Layout";
+import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "../components/ui/separator";
-import { api } from "../utils/api";
+import { Separator } from "~/components/ui/separator";
+import { api } from "~/utils/api";
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
@@ -28,7 +28,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.subjectsgrid.getAll.useQuery();
+  } = api.curriculumSubjects.getAll.useQuery();
 
   if (pageIsLoading) {
     return <div>Loading...</div>;

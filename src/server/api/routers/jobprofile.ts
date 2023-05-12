@@ -21,7 +21,7 @@ export const jobProfileRouter = createTRPCRouter({
         image: false,
       },
       where: {
-        title: "Propósito do curso",
+        id: 4,
       },
     });
   }),
@@ -30,7 +30,7 @@ export const jobProfileRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.viewsPage.update({
         where: {
-          title: "Propósito do curso",
+          title: "Perfil Profissional",
         },
         data: {
           title: input.title,
