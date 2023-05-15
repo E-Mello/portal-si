@@ -104,7 +104,7 @@ const GcaAdmin: NextPageWithLayout = () => {
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">
-          Grupo de Computação apliCada (GCC)
+          Grupo de Computação apliCada (GCA)
         </h1>
         <p>
           As atividades de Pesquisa e Desenvolvimento (P&D) do curso de Sistemas

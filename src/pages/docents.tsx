@@ -3,14 +3,14 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "../components/ui/accordion";
+} from "~/components/ui/accordion";
 
 import { HiOutlineCursorClick } from "react-icons/hi";
-import Layout from "../components/Layout";
+import Layout from "~/components/Layout";
 import Link from "next/link";
 import type { NextPageWithLayout } from ".././types/layout";
 import type { ReactElement } from "react";
-import { api } from "../utils/api";
+import { api } from "~/utils/api";
 
 type Teacher = {
   id: number;

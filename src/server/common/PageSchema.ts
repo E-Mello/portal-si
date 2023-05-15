@@ -104,3 +104,21 @@ export const ElectiveSubjectsSchema = z.object({
   credits: z.string(),
   prerequisites: z.string(),
 });
+
+export const EventsSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  info: z.string(),
+  content: z.string(),
+  publicationDay: z.string(),
+  image: z.string().optional(),
+  link: z.string().optional(),
+});
+
+export const ApliedGroup = z.object({
+  id: z.number(),
+  name: z.string(),
+  notice: z.string(),
+  developmentagency: z.string(),
+  value: z.string(),
+});

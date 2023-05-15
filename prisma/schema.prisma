@@ -28,12 +28,19 @@ model TeachingCenter {
 }
 
 model ApliedGroup {
-  id                String   @id @default(cuid())
+  id                Int      @id @default(autoincrement())
   name              String
   notice            String
+  link              String
   developmentagency String
   value             String
   updatedAt         DateTime
+}
+
+model ApliedGroupContent {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String @db.LongText
 }
 
 model Equivalence {
@@ -173,11 +180,12 @@ model Schedule {
 }
 
 model Events {
-  id        Int      @id @default(autoincrement())
-  title     String
-  info      String
-  content   String   @db.Text
-  date      String
-  image     String?
-  updatedAt DateTime
+  id             Int      @id @default(autoincrement())
+  title          String
+  info           String
+  content        String   @db.Text
+  publicationDay DateTime
+  image          String?
+  link           String?
+  updatedAt      DateTime @default(now())
 }

@@ -14,26 +14,17 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import Card from "~/components/Card";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "~/utils/cn";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
-import { CardUpdateSchema } from "~/server/common/CardSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { TeachingCenterSchema } from "~/server/common/PageSchema";
 import { HiOutlinePlus } from "react-icons/hi";
 
 const TeachingCenterAdmin: NextPageWithLayout = () => {
-  const [cardNameSelected, setCardNameSelected] = useState("");
-  const [cardInfoSelected, setCardInfoSelected] = useState("");
-  const [cardIdSelected, setCardIdSelected] = useState<number>();
-
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
 
   const {
     data: pageData,
