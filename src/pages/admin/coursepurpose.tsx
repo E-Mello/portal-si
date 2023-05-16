@@ -69,9 +69,7 @@ const CoursePurposeAdmin: NextPageWithLayout = () => {
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-4 pl-4 pt-4">
       <div className="flex w-[95%] flex-col gap-10">
-        <h1 className="pl-4 text-xl">
-          Propósito do Curso de Sistemas de Informação
-        </h1>
+        <h1 className="pl-4 text-xl">{pageData?.title}</h1>
         {fieldsets.map((fieldset, index) => (
           <section key={index} className="flex flex-col gap-4">
             <fieldset className="justify-start border pb-2 pl-4 pt-2">

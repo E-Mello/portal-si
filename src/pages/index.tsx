@@ -8,7 +8,7 @@ const LogoUnematSupabase =
 
 const Home: NextPageWithLayout = () => {
   return (
-    <section className="flex  h-full w-full flex-col justify-evenly bg-zinc-800">
+    <section className="flex h-full w-full flex-col justify-evenly bg-zinc-800">
       <div className="flex h-[75vh] items-center justify-center">
         <Image
           src={LogoUnematSupabase}

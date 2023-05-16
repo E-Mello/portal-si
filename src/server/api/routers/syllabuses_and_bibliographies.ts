@@ -2,7 +2,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 import { PageViewSchema } from "~/server/common/PageSchema";
 
-export const courseProgramRouter = createTRPCRouter({
+export const syllabusesAndBibliographiesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.viewsPage.findMany({
       select: {
@@ -30,7 +30,7 @@ export const courseProgramRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.viewsPage.update({
         where: {
-          title: "Propósito do curso",
+          id: 5,
         },
         data: {
           title: input.title,

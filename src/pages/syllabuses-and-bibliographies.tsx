@@ -9,7 +9,7 @@ const Ementas: NextPageWithLayout = () => {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.courseprogram.getAll.useQuery();
+  } = api.syllabusesAndBibliographies.getAll.useQuery();
 
   if (pageIsLoading) {
     return <div>Loading...</div>;

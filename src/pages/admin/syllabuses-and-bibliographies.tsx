@@ -30,14 +30,15 @@ const CourseProgramAdmin: NextPageWithLayout = () => {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.courseprogram.getAll.useQuery();
+  } = api.syllabusesAndBibliographies.getAll.useQuery();
 
-  const { mutateAsync: update } = api.courseprogram.update.useMutation({
-    onSuccess: () => {
-      // show success toast
-      toast.success("Conteúdo da página atualizado com sucesso!");
-    },
-  });
+  const { mutateAsync: update } =
+    api.syllabusesAndBibliographies.update.useMutation({
+      onSuccess: () => {
+        // show success toast
+        toast.success("Conteúdo da página atualizado com sucesso!");
+      },
+    });
   const {
     register,
     handleSubmit,
@@ -64,29 +65,28 @@ const CourseProgramAdmin: NextPageWithLayout = () => {
 
   const fieldsets = [
     {
-      title: pageData.info02 as string,
-      content: pageData.content02 as string,
+      nameLink: pageData.info02 as string,
+      link: pageData.content02 as string,
     },
     {
-      title: pageData.info03 as string,
-      content: pageData.content03 as string,
+      nameLink: pageData.info03 as string,
+      link: pageData.content03 as string,
     },
   ];
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
       <div className="flex w-[95%] flex-col gap-10">
-        {pageData && <p>{pageData?.title}</p>}
         <h1 className="pl-4 text-xl">
-          {pageData.title || "Erro ao buscar as informações do banco de dados"}
+          {pageData?.title || "Erro ao buscar as informações do banco de dados"}
         </h1>
         <p className="pl-4 text-xl">
-          {pageData.info || "Erro ao buscar as informações do banco de dados"}
+          {pageData?.info || "Erro ao buscar as informações do banco de dados"}
         </p>
         {fieldsets.map((fieldset, index) => (
           <section key={index} className="flex flex-col gap-4">
             <fieldset className="justify-start border pb-2 pl-4 pt-2">
               <legend className="text-xl">
-                {fieldset.title ||
+                {fieldset.nameLink ||
                   "Erro ao buscar as informações do banco de dados"}
               </legend>
               {fieldset.content?.split(";").map((item, key) => (

@@ -81,10 +81,9 @@ const EventsAdmin: NextPageWithLayout = () => {
               className="bg-zinc-800"
             >
               <SheetHeader>
-                <SheetTitle>Editar Conteudo</SheetTitle>
+                <SheetTitle>Incluir novo evento</SheetTitle>
                 <SheetDescription>
-                  Nessa folha lateral é possível estar editando o conteúdo desta
-                  página
+                  Nessa folha lateral é possível estar criando um novo evento
                 </SheetDescription>
               </SheetHeader>
               <div className="flex flex-col gap-4 py-4">

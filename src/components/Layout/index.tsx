@@ -13,13 +13,13 @@ export default function Layout({
 }): JSX.Element {
   const [isActiveNav] = useAtom(isActiveNavAtom);
   return (
-    <>
+    <section className="bg-zinc-900">
       <SideNav />
-      <div className={`${isActiveNav ? "ml-[15vw]" : "ml-[4vw]"}`}>
-        <main className={`flex h-full w-full`} {...props}>
+      <section className={`${isActiveNav ? "ml-[15vw]" : "ml-[4vw]"}`}>
+        <main className={`flex h-full w-full text-gray-300`} {...props}>
           {children}
         </main>
-      </div>
-    </>
+      </section>
+    </section>
   );
 }

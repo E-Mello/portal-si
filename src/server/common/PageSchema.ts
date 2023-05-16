@@ -122,3 +122,15 @@ export const ApliedGroup = z.object({
   developmentagency: z.string(),
   value: z.string(),
 });
+
+export const ProjectsSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  resume: z.string(),
+  projectArea: z.string(),
+  teacherName: z.string(),
+  teacherEmail: z.string(),
+  teacherTel: z.string(),
+  link: z.string().optional(),
+  typesOfProjectsId: z.number(),
+});

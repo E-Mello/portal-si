@@ -62,7 +62,7 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
   }
 
   return (
-    <section className="flex h-full flex-col items-start justify-center gap-4 pl-4 pt-4">
+    <section className="flex h-full flex-col items-start justify-center gap-4 bg-zinc-800 pl-4 pt-4">
       {pageData && (
         <div>
           <div className="flex flex-col ">

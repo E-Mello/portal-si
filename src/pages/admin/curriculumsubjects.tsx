@@ -161,7 +161,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
             <legend className="flex justify-center text-xl">
               {phase.phaseId} Semestre
             </legend>
-            <table className="table-auto">
+            <table className="">
               <thead>
                 <tr>
                   <th className="border border-gray-300 p-2">Disciplina</th>
@@ -173,7 +173,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                   <th className="w-40 border border-gray-300 p-2">Ações</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="">
                 {phase.subjects.map((subject) => (
                   <tr key={subject.id}>
                     <td className="border px-4 py-2">{subject.name}</td>
@@ -182,7 +182,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                     <td className="border px-4 py-2">
                       {subject.Prerequisites}
                     </td>
-                    <td className="flex w-40 justify-center gap-1 border border-gray-300 p-1 px-4">
+                    <td className="h-full space-x-[5rem] border p-1 px-4">
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button

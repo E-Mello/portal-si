@@ -13,7 +13,7 @@ export const additionalActivitiesRouter = createTRPCRouter({
         nameLink: true,
       },
       where: {
-        title: "Atividades Complementares",
+        id: 1,
       },
     });
   }),

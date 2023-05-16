@@ -62,7 +62,7 @@ const JobProfileAdmin: NextPageWithLayout = () => {
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
       <div className="flex w-[95%] flex-col gap-10">
-        <h1 className="pl-4 text-xl">{pageData?.info}</h1>
+        <h1 className="pl-4 text-xl">{pageData?.title}</h1>
         {pageData && (
           <div>
             {pageData.content.split("+").map((item, index) => (

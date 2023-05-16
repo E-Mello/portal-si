@@ -59,7 +59,7 @@ export default function Navbar() {
     },
     {
       name: "Ementas e bibliografias",
-      link: "/courseprogram",
+      link: "/syllabuses-and-bibliographies",
       icon: HiPencil,
     },
     {
@@ -88,18 +88,8 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
-      name: "Projetos de Ensino",
-      link: "/teachingprojects",
-      icon: HiPencil,
-    },
-    {
-      name: "Projetos de Extensao",
-      link: "/extensionprojects",
-      icon: HiPencil,
-    },
-    {
-      name: "Projetos de Pesquisa",
-      link: "/researchprojects",
+      name: "Projetos do Curso",
+      link: "/projects",
       icon: HiPencil,
     },
     {
@@ -131,7 +121,7 @@ export default function Navbar() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-50 h-full justify-end ${
+      className={`fixed left-0 top-0 z-50 h-full justify-end bg-zinc-800 ${
         isActiveNav ? "w-[15vw] " : "w-[4vw]"
       } duration-4000 rounded-md border-2 border-zinc-100
         border-opacity-5 bg-[#0e0e0e] bg-opacity-5 px-4
@@ -175,11 +165,7 @@ export default function Navbar() {
           />
         )}
       </div>
-      <ScrollArea
-        className={` h-full gap-4 ${
-          isActiveNav ? "w-[14vw] " : "w-[2vw]"
-        } rounded-md`}
-      >
+      <ScrollArea className={` h-100vh gap-4  rounded-md`}>
         <div className=" mt-[3vh] flex flex-col gap-4 overscroll-none">
           <Link
             href={"/"}

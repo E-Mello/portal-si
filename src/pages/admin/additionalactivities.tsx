@@ -20,7 +20,6 @@ import { type ReactElement } from "react";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
 import { AdditionalActivitiesSchema } from "~/server/common/PageSchema";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,14 +62,16 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
   }
 
   return (
-    <section className="flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
+    <section className="flex h-full w-full  flex-col items-start justify-center gap-4 bg-zinc-800 py-2">
       <div className="flex flex-col gap-4 pl-4">
         {pageData && (
           <div>
             <h1 className="pb-4 text-3xl font-bold text-white">
               {pageData.title}
             </h1>
-            <ReactMarkdown>{pageData.content}</ReactMarkdown>
+            {pageData.content?.split("+").map((item, index) => (
+              <p key={index}>{item.trim()}</p>
+            ))}
             <br></br>
             <Link className="text-blue-900" href={pageData.link || "/"}>
               <b>{pageData.nameLink}</b>

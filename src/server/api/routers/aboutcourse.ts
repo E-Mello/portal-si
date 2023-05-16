@@ -1,4 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+
 import { PageViewSchema } from "~/server/common/PageSchema";
 
 export const aboutCourseRouter = createTRPCRouter({
@@ -12,7 +13,7 @@ export const aboutCourseRouter = createTRPCRouter({
         nameLink: false,
       },
       where: {
-        title: "Sobre o curso",
+        id: 2,
       },
     });
   }),
@@ -20,7 +21,7 @@ export const aboutCourseRouter = createTRPCRouter({
     .input(PageViewSchema)
     .mutation(async ({ input, ctx }) => {
       try {
-        const { title, content} = input;
+        const { title, content } = input;
         const page = ctx.prisma.viewsPage.update({
           data: {
             title,
