@@ -1,3 +1,12 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+
 import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
@@ -24,28 +33,32 @@ const EquivalenceSubjects: NextPageWithLayout = () => {
         Tabela de Equivalência de Disciplinas
       </h1>
       <div className="flex flex-col items-center justify-center gap-4 pl-4">
-        <table className="table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Disciplina em SI</th>
-              <th className="px-4 py-2">Carga Horária</th>
-              <th className="px-4 py-2">
+        <Table className="table-auto text-[1rem]">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="px-4 py-2">Disciplina em SI</TableHead>
+              <TableHead className="px-4 py-2">Carga Horária</TableHead>
+              <TableHead className="px-4 py-2">
                 Disciplina (Curso) - Equivalências no campus de Sinop
-              </th>
-              <th className="px-4 py-2">Carga Horária</th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableHead>
+              <TableHead className="px-4 py-2">Carga Horária</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {pageData.map((data) => (
-              <tr key={data.id}>
-                <td className="border px-4 py-2">{data.name}</td>
-                <td className="border px-4 py-2">{data.ch}</td>
-                <td className="border px-4 py-2">{data.equivalence}</td>
-                <td className="border px-4 py-2">{data.chequivalence}</td>
-              </tr>
+              <TableRow key={data.id}>
+                <TableCell className="border px-4 py-2">{data.name}</TableCell>
+                <TableCell className="border px-12 py-2 ">{data.ch}</TableCell>
+                <TableCell className="border px-4 py-2">
+                  {data.equivalence}
+                </TableCell>
+                <TableCell className="border px-12 py-2">
+                  {data.chequivalence}
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
       <Separator />
     </section>

@@ -1,3 +1,13 @@
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+
 import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
@@ -19,10 +29,10 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
   return (
-    <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
+    <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">
-          Grupo de Computação apliCada (GCC)
+          Grupo de Computação apliCada (GCA)
         </h1>
         <p>
           As atividades de Pesquisa e Desenvolvimento (P&D) do curso de Sistemas
@@ -88,33 +98,31 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
           destaca-se a evolução da aquisição de recursos por meio dos projetos.
         </p>
         <br />
-        <table className="table-auto border">
-          <thead>
-            <tr className="border">
-              <th className="border">Docente</th>
-              <th className="border">Edital</th>
-              <th className="border">Agência de Fomento</th>
-              <th className="border">Valor</th>
-            </tr>
-          </thead>
-          <tbody className="border">
+        <Table className="">
+          <TableCaption>A list of your recent invoices</TableCaption>
+          <TableHeader>
+            <TableRow className="">
+              <TableHead className="">Docente</TableHead>
+              <TableHead className="">Edital</TableHead>
+              <TableHead className="">Agência de Fomento</TableHead>
+              <TableHead className="">Valor</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="">
             {pageData?.map((data) => (
-              <tr key={data.id}>
-                <td className="border ">{data.name}</td>
-                <td className="border">{data.notice}</td>
-                <td className="border">{data.developmentagency}</td>
-                <td className="border">
+              <TableRow key={data.id}>
+                <TableCell className=" ">{data.name}</TableCell>
+                <TableCell className="">{data.notice}</TableCell>
+                <TableCell className="">{data.developmentagency}</TableCell>
+                <TableCell className="">
                   {parseFloat(data.value).toLocaleString("pt-BR", {
                     minimumFractionDigits: 2,
                   })}
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-            <tr>
-              <td />
-            </tr>
-            <tr>
-              <td className="border text-end" colSpan={4}>
+            <TableRow>
+              <TableCell className=" text-end" colSpan={4}>
                 <span className="flex h-0.5 text-start">Total</span>
                 R$
                 {pageData
@@ -124,10 +132,10 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
                   }, 0)
                   .toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                 <span className=""></span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </div>
       <Separator />
     </section>

@@ -37,11 +37,9 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import Card from "~/components/Card";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "~/utils/cn";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { CardUpdateSchema } from "~/server/common/CardSchema";
@@ -50,10 +48,6 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
 
 const GcaAdmin: NextPageWithLayout = () => {
-  const [cardNameSelected, setCardNameSelected] = useState("");
-  const [cardInfoSelected, setCardInfoSelected] = useState("");
-  const [cardIdSelected, setCardIdSelected] = useState<number>();
-
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -70,45 +64,6 @@ const GcaAdmin: NextPageWithLayout = () => {
   if (isError) {
     return <div>Error</div>;
   }
-
-  // const { mutateAsync: updateCard } = api.dashboard.updateCard.useMutation({
-  //   onSuccess: () => {
-  //     toast.success("Card updated successfully");
-  //   },
-  //   onError: () => {
-  //     toast.error(
-  //       "Something is wrong in update data, please validate the data "
-  //     );
-  //   },
-  // });
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors, isSubmitting },
-  //   reset,
-  // } = useForm<z.infer<typeof CardUpdateSchema>>({
-  //   resolver: zodResolver(CardUpdateSchema),
-  //   defaultValues: {
-  //     name: cardNameSelected,
-  //     info: cardInfoSelected,
-  //   },
-  // });
-
-  // const changeCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
-  //   data
-  // ) => {
-  //   const res = await updateCard(data);
-  //   console.log("res:", res);
-  //   if (res) {
-  //     toast.success("Card updated successfully");
-  //     reset();
-  //   } else {
-  //     toast.error(
-  //       "Something is wrong in update data, please validate the data"
-  //     );
-  //   }
-  // };
 
   return (
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
@@ -223,11 +178,6 @@ const GcaAdmin: NextPageWithLayout = () => {
                             placeholder="Nome"
                             // {...register("name")}
                           />
-                          {/* {errors.name && (
-                                <span className="text-red-500">
-                                  {errors.name.message}
-                                </span>
-                              )} */}
                           <Label htmlFor="type">Tipo</Label>
                           <Input
                             id="type"
@@ -235,11 +185,6 @@ const GcaAdmin: NextPageWithLayout = () => {
                             placeholder="Tipo"
                             // {...register("type")}
                           />
-                          {/* {errors.type && (
-                            <span className="text-red-500">
-                              {errors.type.message}
-                            </span>
-                          )} */}
                           <Label htmlFor="email">Email</Label>
                           <Input
                             id="email"
@@ -247,11 +192,6 @@ const GcaAdmin: NextPageWithLayout = () => {
                             placeholder="Email"
                             // {...register("email")}
                           />
-                          {/* {errors.email && (
-                            <span className="text-red-500">
-                              {errors.email.message}
-                            </span>
-                          )} */}
                           <Label htmlFor="validity">Vigência</Label>
                           <Input
                             id="validity"
@@ -259,11 +199,6 @@ const GcaAdmin: NextPageWithLayout = () => {
                             placeholder="Vigência"
                             // {...register("validity")}
                           />
-                          {/* {errors.validity && (
-                            <span className="text-red-500">
-                              {errors.validity.message}
-                            </span>
-                          )} */}
                         </div>
                       </section>
                       <DialogFooter>

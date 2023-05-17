@@ -40,7 +40,7 @@ export default function Card(props: CardProps) {
                 : "rotateY(0deg) [backface-visibility:visible]"
             }`}
           >
-            <div className="flex min-h-full flex-col items-center justify-center gap-4">
+            <div className="flex h-full flex-col items-center justify-center gap-4 ">
               <h1
                 className={`${
                   isFlipped ? "hidden" : "whitespace-pre-line text-xl font-bold"
@@ -49,20 +49,20 @@ export default function Card(props: CardProps) {
                 {props.name}
               </h1>
               <div
-                className={`${
+                className={` ${
                   isFlipped
                     ? "rotateY(0deg)"
                     : "rotateY(180deg) hidden [backface-visibility:hidden]"
                 }`}
                 style={{ transform: "rotateY(180deg)" }}
               >
-                <p className={`whitespace-pre-line text-xl`}>{props.Info}</p>
+                <p className={` whitespace-break-spaces `}>{props.Info}</p>
               </div>
               <Link href={`/` + props.Link} target="_blank">
                 <button
                   className={`${
                     isFlipped
-                      ? "mt-2 rounded-md bg-neutral-800 px-2 py-1 text-sm hover:bg-neutral-900 "
+                      ? " rounded-md bg-neutral-800 px-2 py-1 text-sm hover:bg-neutral-900 "
                       : "hidden"
                   }`}
                   style={{ transform: "rotateY(180deg)" }}

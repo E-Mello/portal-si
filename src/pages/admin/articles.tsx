@@ -91,7 +91,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                 href={data.link}
                 target="_blank"
               >
-                {data.linkName}
+                Acessar o trabalho: {data.linkName}
               </Link>
             </span>
           </section>

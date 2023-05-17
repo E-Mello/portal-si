@@ -7,7 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "~/components/ui/sheet";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -17,15 +17,23 @@ import type { NextPageWithLayout } from "~/types/layout";
 import { PageViewSchema } from "~/server/common/PageSchema";
 import type { ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { Separator } from "~/components/ui/separator";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
-import { title } from "process";
 import { toast } from "react-toastify";
-import { z } from "zod";
+import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-const CourseProgramAdmin: NextPageWithLayout = () => {
+type pageData = {
+  id: number;
+  title: string;
+  info: string | null;
+  info02: string | null; // Add this line
+  content02: string | null; // Add this line
+  info03: string | null; // Add this line
+  content03: string | null; // Add this line
+};
+
+const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -146,7 +154,7 @@ const CourseProgramAdmin: NextPageWithLayout = () => {
   );
 };
 
-CourseProgramAdmin.getLayout = function (page: ReactElement) {
+SyllabusesAndBibliographiesAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default CourseProgramAdmin;
+export default SyllabusesAndBibliographiesAdmin;

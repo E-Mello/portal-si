@@ -43,7 +43,7 @@ import {
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { ProjectsSchema } from "~/server/common/PageSchema";
 
-const TeachingProjectsAdmin: NextPageWithLayout = () => {
+const ProjectsAdmin: NextPageWithLayout = () => {
   const [open, setOpen] = useState(false);
 
   const {
@@ -693,7 +693,7 @@ const TeachingProjectsAdmin: NextPageWithLayout = () => {
   );
 };
 
-TeachingProjectsAdmin.getLayout = function (page: ReactElement) {
+ProjectsAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default TeachingProjectsAdmin;
+export default ProjectsAdmin;

@@ -4,6 +4,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
 
 import { HiOutlineCursorClick } from "react-icons/hi";
 import Layout from "~/components/Layout";
@@ -36,7 +44,6 @@ const Docentes: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
-
   // Group teachers by school year and class
   const teachersByClass: { [key: string]: Teacher[] } = {};
   pageData.forEach((teacher) => {
@@ -50,40 +57,48 @@ const Docentes: NextPageWithLayout = () => {
   });
 
   return (
-    <section className="relative  flex h-[80vh] w-full flex-col items-start justify-center py-2">
-      <h1 className="pl-4 text-lg">Docentes por semestre</h1>
+    <section className="flex  w-full flex-col gap-4 py-2 pr-6">
+      <h1 className="pl-4 text-2xl font-bold">Docentes por semestre</h1>
       <div className="h-[60vh] w-full justify-start pl-4 pr-10">
         <Accordion type="single" className="flex flex-col" collapsible>
           {Object.keys(teachersByClass).map((classKey) => (
             <AccordionItem key={classKey} value={classKey}>
               <AccordionTrigger>{classKey}</AccordionTrigger>
               <AccordionContent>
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      <th className="border">Name</th>
-                      <th className="border">Qualification</th>
-                      <th className="border">Area</th>
-                      <th className="border">Email</th>
-                      <th className="border">Lattes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                <Table className="w-full text-[1rem]">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="border">Name</TableHead>
+                      <TableHead className="border">Qualification</TableHead>
+                      <TableHead className="border">Area</TableHead>
+                      <TableHead className="border">Email</TableHead>
+                      <TableHead className="border">Lattes</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {teachersByClass[classKey]?.map((teacher) => (
-                      <tr key={teacher.id}>
-                        <td className="border">{teacher.name}</td>
-                        <td className="border">{teacher.qualification}</td>
-                        <td className="border">{teacher.area}</td>
-                        <td className="border">{teacher.email}</td>
-                        <td className=" border pl-3 ">
-                          <Link target="_blank" href={`${teacher.lattes}`}>
+                      <TableRow key={teacher.id}>
+                        <TableCell className="border">{teacher.name}</TableCell>
+                        <TableCell className="border">
+                          {teacher.qualification}
+                        </TableCell>
+                        <TableCell className="border">{teacher.area}</TableCell>
+                        <TableCell className="border">
+                          {teacher.email}
+                        </TableCell>
+                        <TableCell className=" w-[5vw] items-center border">
+                          <Link
+                            target="_blank"
+                            className="flex items-center justify-center"
+                            href={`${teacher.lattes}`}
+                          >
                             <HiOutlineCursorClick />
                           </Link>
-                        </td>
-                      </tr>
+                        </TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
-                </table>
+                  </TableBody>
+                </Table>
               </AccordionContent>
             </AccordionItem>
           ))}

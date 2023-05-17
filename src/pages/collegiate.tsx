@@ -1,3 +1,12 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+
 import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from ".././types/layout";
 import type { ReactElement } from "react";
@@ -18,33 +27,33 @@ const Colegiado: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
   return (
-    <section className="relative flex h-[80vh] w-full flex-col items-start justify-center gap-4 py-2">
-      <h1 className="pl-4 text-xl">Colegiado do curso</h1>
+    <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
+      <h1 className="pl-4 text-xl">Colegiado de Curso</h1>
       <span className="pl-4">
         O quadro a seguir apresenta a relação de membros do colegiado do curso
         de Bacharelado em Sistemas de Informação.
       </span>
       <div className="h-[60vh] w-full justify-start pl-4 pr-10">
-        <table className="w-full table-auto">
-          <thead>
-            <tr>
-              <th className="border border-black">Nome</th>
-              <th className="border border-black">Segmento</th>
-              <th className="border border-black">Email</th>
-              <th className="border border-black">Vigência</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table className="w-full table-auto">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="border text-center">Nome</TableHead>
+              <TableHead className="border text-center">Segmento</TableHead>
+              <TableHead className="border text-center">Email</TableHead>
+              <TableHead className="border text-center">Vigência</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {pageData.map((data) => (
-              <tr key={data.id}>
-                <td className="border border-black">{data.teacher}</td>
-                <td className="border border-black">{data.segment}</td>
-                <td className="border border-black">{data.email}</td>
-                <td className="border border-black">{data.validity}</td>
-              </tr>
+              <TableRow key={data.id}>
+                <TableCell className="border ">{data.teacher}</TableCell>
+                <TableCell className="border ">{data.segment}</TableCell>
+                <TableCell className="border ">{data.email}</TableCell>
+                <TableCell className="border ">{data.validity}</TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </section>
   );

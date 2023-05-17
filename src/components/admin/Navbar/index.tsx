@@ -165,7 +165,7 @@ export default function Navbar() {
           />
         )}
       </div>
-      <ScrollArea className={` h-100vh gap-4  rounded-md`}>
+      <ScrollArea className={` h-full gap-4 rounded-md`}>
         <div className=" mt-[3vh] flex flex-col gap-4 overscroll-none">
           <Link
             href={"/"}
