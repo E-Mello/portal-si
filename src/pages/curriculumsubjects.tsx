@@ -1,9 +1,18 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+
 import Image from "next/image";
-import Layout from "../components/Layout";
+import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "../components/ui/separator";
-import { api } from "../utils/api";
+import { Separator } from "~/components/ui/separator";
+import { api } from "~/utils/api";
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
@@ -28,7 +37,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.subjectsgrid.getAll.useQuery();
+  } = api.curriculumSubjects.getAll.useQuery();
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -38,93 +47,102 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
-  const phases: Phase[] = [];
-
-  pageData?.forEach((subject) => {
-    const phase = phases.find((p) => p.phaseId === subject.phaseId);
-    if (phase) {
-      phase.subjects.push(subject);
-    } else {
-      phases.push({
-        id: phases.length,
-        phaseId: subject.phaseId,
-        subjects: [subject],
-      });
-    }
-  });
+  const phaseIds = [
+    ...new Set(
+      pageData?.map((subject: { phaseId: any }) => subject.phaseId as number)
+    ),
+  ];
   return (
-    <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
-      <div className="flex flex-col items-center justify-center gap-4 pl-4">
-        <h1 className="pl-4 text-xl">Grade Curricular</h1>
-        <Image width={500} height={500} alt="test" src={allSubjects} />
-        <h1>
-          Os quadro a seguir apresenta a sequência curricular do curso de
-          Bacharelado em Sistemas de Informação, compreendendo oito fases
-          (semestres) letivas.
-        </h1>
-      </div>
+    <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
+      <h1 className="pl-4 text-xl">Grade Curricular</h1>
+      <Image width={500} height={500} alt="test" src={allSubjects} />
+      <span>
+        Os quadro a seguir apresenta a sequência curricular do curso de
+        Bacharelado em Sistemas de Informação, compreendendo oito fases
+        (semestres) letivas.
+      </span>
+      <section className="flex flex-col items-center justify-center gap-4 pl-4">
+        <h1>Resumo</h1>
+        <Table className="table-auto text-[1rem]">
+          <TableBody>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
+                Carga horária de disciplinas
+              </TableCell>
+              <TableCell className="border px-4 py-2">2.820</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
+                Estágio Supervisionado
+              </TableCell>
+              <TableCell className="border px-4 py-2">180</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
+                Atividades Complementares
+              </TableCell>
+              <TableCell className="border px-4 py-2">150</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
+                Carga Horária Total da Matriz
+              </TableCell>
+              <TableCell className="border px-4 py-2">3.150 horas</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </section>
       <br />
-      <div className="flex flex-col items-center justify-center gap-4 pl-4">
-        {phases.map((phase) => (
+      <section className="grid w-full grid-cols-2 gap-4 pl-4 pr-10">
+        {phaseIds.map((phaseId) => (
           <div
-            key={phase.id}
-            className="flex flex-col items-center justify-center gap-4 pl-4"
+            key={phaseId}
+            className="flex flex-col justify-center gap-4 pb-2 pl-4 pt-2"
           >
-            <h1 className="pl-4 text-xl">Fase {phase.phaseId}</h1>
-            <table className="table-auto">
-              <thead>
-                <tr>
-                  <th className="border px-4 py-2">Disciplina</th>
-                  <th className="border px-4 py-2">Carga Horária</th>
-                  <th className="border px-4 py-2">Créditos</th>
-                  <th className="border px-4 py-2">Pré-requisitos</th>
-                </tr>
-              </thead>
-              <tbody>
-                {phase.subjects.map((subject) => (
-                  <tr key={subject.id}>
-                    <td className="border px-4 py-2">{subject.name}</td>
-                    <td className="border px-4 py-2">{subject.CH}</td>
-                    <td className="border px-4 py-2">{subject.Credits}</td>
-                    <td className="border px-4 py-2">
-                      {subject.Prerequisites}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <legend className="flex justify-center text-xl">
+              {phaseId} Semestre
+            </legend>
+            <Table className="text-[1rem]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="border border-gray-300 p-2">
+                    Disciplina
+                  </TableHead>
+                  <TableHead className="border border-gray-300 p-2">
+                    Carga Horária
+                  </TableHead>
+                  <TableHead className="border border-gray-300 p-2">
+                    Créditos
+                  </TableHead>
+                  <TableHead className=" border border-gray-300 p-2">
+                    Pré-requisitos
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="">
+                {pageData
+                  ?.filter((subject) => subject.phaseId === phaseId)
+                  .map((subject) => (
+                    <TableRow key={subject.id}>
+                      <TableCell className="border px-4 py-2">
+                        {subject.name}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.ch}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.credits}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.prerequisites}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
           </div>
         ))}
-        <br />
-        <div className="flex flex-col items-center justify-center gap-4 pl-4">
-          <h1>Resumo</h1>
-          <table className="table-auto">
-            <tbody>
-              <tr>
-                <td className="border px-4 py-2">
-                  Carga horária de disciplinas
-                </td>
-                <td className="border px-4 py-2">2.820</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Estágio Supervisionado</td>
-                <td className="border px-4 py-2">180</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Atividades Complementares</td>
-                <td className="border px-4 py-2">150</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">
-                  Carga Horária Total da Matriz
-                </td>
-                <td className="border px-4 py-2">3.150 horas</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <Separator />
+      </section>
     </section>
   );
 };

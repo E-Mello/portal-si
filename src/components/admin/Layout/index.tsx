@@ -15,19 +15,21 @@ export default function Layout({
   const [isActiveNav] = useAtom(isActiveNavAtom);
   return (
     <ProtectedRoute>
-      <div className="flex ">
+      <section className="bg-zinc-900 text-gray-300">
         <Navbar />
-        <section className={`${isActiveNav ? "ml-[15vw]" : "ml-[4vw]"}`}>
-          <div
+        <section
+          className={`bg-zinc-800 ${isActiveNav ? "ml-[15vw]" : "ml-[4vw]"}`}
+        >
+          <main
             className={`flex min-h-screen ${
               isActiveNav ? "w-[85vw]" : "w-[96vw]"
             } `}
             {...props}
           >
             {children}
-          </div>
+          </main>
         </section>
-      </div>
+      </section>
     </ProtectedRoute>
   );
 }

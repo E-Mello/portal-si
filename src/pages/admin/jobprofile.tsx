@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import type { Key, ReactElement } from "react";
+>>>>>>> dev
 import {
   Sheet,
   SheetContent,
@@ -7,12 +11,17 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "~/components/ui/sheet";
+<<<<<<< HEAD
+=======
+import { SubmitHandler, useForm } from "react-hook-form";
+>>>>>>> dev
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
+<<<<<<< HEAD
 import type { ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
@@ -56,6 +65,63 @@ const DashboardCardInfo: NextPageWithLayout = () => {
           científica, bem como ser capaz de inovar, planejar e gerenciar a
           infraestrutura de tecnologia da informação em organizações.
         </p>
+=======
+import { PageViewSchema } from "~/server/common/PageSchema";
+import { ScrollArea } from "~/components/ui/scroll-area";
+import { Textarea } from "~/components/ui/textarea";
+import { api } from "~/utils/api";
+import { toast } from "react-toastify";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const JobProfileAdmin: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.jobProfile.getAll.useQuery();
+
+  const { mutateAsync: update } = api.jobProfile.update.useMutation({
+    onSuccess: () => {
+      // show success toast
+      toast.success("Conteúdo da página atualizado com sucesso!");
+    },
+  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof PageViewSchema>>({
+    resolver: zodResolver(PageViewSchema),
+  });
+  const updatePage: SubmitHandler<z.infer<typeof PageViewSchema>> = async (
+    data
+  ) => {
+    const res = await update(data);
+    console.log("res", res);
+    reset();
+  };
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+  return (
+    <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
+      <div className="flex w-[95%] flex-col gap-10">
+        <h1 className="pl-4 text-xl">{pageData?.title}</h1>
+        {pageData && (
+          <div>
+            {pageData.content.split("+").map((item, index) => (
+              <p key={index}>{item.trim()}</p>
+            ))}
+          </div>
+        )}
+>>>>>>> dev
       </div>
       <div className="flex ">
         <Sheet>
@@ -74,7 +140,12 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                 <SheetTitle>Editar Conteudo</SheetTitle>
                 <SheetDescription>
                   Nessa folha lateral é possível estar editando o conteúdo desta
+<<<<<<< HEAD
                   página
+=======
+                  página, lembrando que para pular uma linha é necessário usar o
+                  símbolo +
+>>>>>>> dev
                 </SheetDescription>
               </SheetHeader>
               <div className="flex flex-col gap-4 py-4">
@@ -84,6 +155,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                   </Label>
                   <Input
                     id="titlePage"
+<<<<<<< HEAD
                     placeholder="Atividades Complementares"
                     className="col-span-3"
                   />
@@ -91,6 +163,14 @@ const DashboardCardInfo: NextPageWithLayout = () => {
                     Informação atual
                   </Label>
                   <Textarea value={"oi"} disabled />
+=======
+                    placeholder={
+                      pageData?.info ||
+                      "Não foi possível carregar o conteúdo do banco de dados"
+                    }
+                    className="col-span-3"
+                  />
+>>>>>>> dev
                   <Label htmlFor="newValue" className="">
                     Digite o novo conteúdo a ser apresentado no corpo da página
                   </Label>
@@ -110,7 +190,14 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   );
 };
 
+<<<<<<< HEAD
 DashboardCardInfo.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 export default DashboardCardInfo;
+=======
+JobProfileAdmin.getLayout = function (page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+export default JobProfileAdmin;
+>>>>>>> dev

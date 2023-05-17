@@ -21,3 +21,6 @@ SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZi
 DATABASE_URL='mysql://8okrx5cunjxw4xvj1jh2:pscale_pw_sHjpVAaPBnggFqtWlF8G1R8P2eajccvhboK6DpzeVkK@aws.connect.psdb.cloud/portal-si?sslaccept=strict'
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_c2ltcGxlLXNlcnZhbC0zMC5jbGVyay5hY2NvdW50cy5kZXYk
 CLERK_SECRET_KEY=sk_test_usr8uS3hvc1llL0DFkVwJgS6kyadblxh5TiUL8Ntva
+
+
+DATABASE_URL='mysql://47ns6bw6siux4bu9q6l4:pscale_pw_BCds9h0fjd5KM7O47zFArzPPH9b3BgxqKjuP8hc3KHV@aws.connect.psdb.cloud/portal-si?sslaccept=strict'

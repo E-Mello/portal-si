@@ -18,7 +18,6 @@ export const dashboardRouter = createTRPCRouter({
           select: {
             id: true,
             name: true,
-            imageUrl: true,
             info: true,
             locale: true,
           },
@@ -28,6 +27,7 @@ export const dashboardRouter = createTRPCRouter({
   }),
 
   insert: publicProcedure.mutation(async ({ ctx, input }) => {
+<<<<<<< HEAD
     const validatedInput = CardSchema.parse(input);
 
     const newCard = await ctx.prisma.card.create({
@@ -74,27 +74,57 @@ export const dashboardRouter = createTRPCRouter({
   }),
 
   update: publicProcedure.mutation(async ({ ctx, input }) => {
+=======
+>>>>>>> dev
     const validatedInput = CardSchema.parse(input);
 
-    const updatedCard = await ctx.prisma.card.update({
-      where: { id: validatedInput.id },
+    const newCard = await ctx.prisma.card.create({
       data: {
         name: validatedInput.name,
-        imageUrl: validatedInput.imageUrl,
         info: validatedInput.info,
         locale: validatedInput.locale,
+        group: {
+          connect: {
+            id: validatedInput.group.id,
+          },
+        },
       },
       select: {
         id: true,
         name: true,
-        imageUrl: true,
         info: true,
         locale: true,
       },
     });
 
-    return updatedCard;
+    return newCard;
   }),
+
+  update: publicProcedure
+    .input(CardUpdateSchema)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        const data = input;
+        // Save the card to the database
+        const card = await ctx.prisma.card.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            name: data.name,
+            info: data.info,
+            group: {
+              connect: {
+                id: data.group.id,
+              },
+            },
+          },
+        });
+        return card;
+      } catch (error) {
+        console.log("Error update card:", error);
+      }
+    }),
 
   delete: publicProcedure.mutation(async ({ ctx, input }) => {
     const validatedInput = CardDeleteSchema.parse(input);

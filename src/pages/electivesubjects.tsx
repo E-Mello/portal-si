@@ -1,3 +1,12 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+
 import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
@@ -33,26 +42,28 @@ const ElectiveSubjects: NextPageWithLayout = () => {
         </p>
       </div>
       <div className="flex flex-col gap-4 pl-4">
-        <table className="table-auto">
-          <thead>
-            <tr>
-              <th className="px-4 py-2">Nome</th>
-              <th className="px-4 py-2">CH</th>
-              <th className="px-4 py-2">Créditos</th>
-              <th className="px-4 py-2">Pré-requisitos</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table className="table-auto border text-[1rem]">
+          <TableHeader className="">
+            <TableRow>
+              <TableHead className="px-4 py-2">Nome</TableHead>
+              <TableHead className="px-4 py-2">CH</TableHead>
+              <TableHead className="px-4 py-2">Créditos</TableHead>
+              <TableHead className="px-4 py-2">Pré-requisitos</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="">
             {pageData.map((data) => (
-              <tr key={data.id}>
-                <td className="border px-4 py-2">{data.name}</td>
-                <td className="border px-4 py-2">{data.ch}</td>
-                <td className="border px-4 py-2">{data.credits}</td>
-                <td className="border px-4 py-2">{data.prerequisites}</td>
-              </tr>
+              <TableRow key={data.id} className="">
+                <TableCell className=" px-4 py-2">{data.name}</TableCell>
+                <TableCell className=" px-4 py-2">{data.ch}</TableCell>
+                <TableCell className=" px-4 py-2">{data.credits}</TableCell>
+                <TableCell className=" px-4 py-2">
+                  {data.prerequisites}
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
       <Separator />
     </section>

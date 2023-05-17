@@ -18,7 +18,7 @@ const DiscordChannels: NextPageWithLayout = () => {
   const discGroups = [
     {
       name: "Coordenadoria",
-      link: "https://discord.com/invite/group1",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/1984-Macintosh.png?t=2023-02-22T03%3A04%3A49.454Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -26,7 +26,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Primeiro Semestre",
-      link: "https://discord.com/invite/group2",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/1989-MacintoshIIci.png?t=2023-02-22T03%3A12%3A12.781Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -34,7 +34,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Segundo Semestre",
-      link: "https://discord.com/invite/group3",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/1989-MacintoshIIfx.png?t=2023-02-22T03%3A12%3A23.622Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -42,7 +42,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Terceiro Semestre",
-      link: "https://discord.com/invite/group4",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/1993-MacintoshCentris.png?t=2023-02-22T03%3A12%3A31.348Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -50,7 +50,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Quarto Semestre",
-      link: "https://discord.com/invite/group5",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/1993-MacintoshTV.png?t=2023-02-22T03%3A12%3A45.006Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -58,7 +58,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Quinto Semestre",
-      link: "https://discord.com/invite/group5",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/2002-iMac.png?t=2023-02-22T03%3A13%3A03.049Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -66,7 +66,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Sexto Semestre",
-      link: "https://discord.com/invite/group5",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/2007-NovoIMac.png?t=2023-02-22T03%3A13%3A14.031Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -74,7 +74,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Setimo Semestre",
-      link: "https://discord.com/invite/group5",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/iMacPatterns.png?t=2023-02-22T03%3A13%3A55.700Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",
@@ -82,7 +82,7 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
     {
       name: "Oitavo Semestre",
-      link: "https://discord.com/invite/group5",
+      link: "https://discord.gg/rT7X5Sjh85",
       avatarUrl:
         "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/discord.groups.images/Pc-2023.png?t=2023-02-22T03%3A15%3A39.891Z",
       notices: "lore ipsum dolor sit amet consectetur adipisicing elit",

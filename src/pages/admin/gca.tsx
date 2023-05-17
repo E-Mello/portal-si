@@ -13,6 +13,19 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import {
+<<<<<<< HEAD
+=======
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+
+import {
+>>>>>>> dev
   Command,
   CommandEmpty,
   CommandGroup,
@@ -27,11 +40,17 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
+<<<<<<< HEAD
 import Card from "~/components/Card";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "~/utils/cn";
+=======
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Check, ChevronsUpDown } from "lucide-react";
+>>>>>>> dev
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { CardUpdateSchema } from "~/server/common/CardSchema";
@@ -39,11 +58,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
 
+<<<<<<< HEAD
 const CurriculumSubjects: NextPageWithLayout = () => {
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
 
+=======
+const GcaAdmin: NextPageWithLayout = () => {
+>>>>>>> dev
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -61,6 +84,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
+<<<<<<< HEAD
   // const { mutateAsync: updateCard } = api.dashboard.updateCard.useMutation({
   //   onSuccess: () => {
   //     toast.success("Card updated successfully");
@@ -100,11 +124,17 @@ const CurriculumSubjects: NextPageWithLayout = () => {
   //   }
   // };
 
+=======
+>>>>>>> dev
   return (
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">
+<<<<<<< HEAD
           Grupo de Computação apliCada (GCC)
+=======
+          Grupo de Computação apliCada (GCA)
+>>>>>>> dev
         </h1>
         <p>
           As atividades de Pesquisa e Desenvolvimento (P&D) do curso de Sistemas
@@ -170,6 +200,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
           destaca-se a evolução da aquisição de recursos por meio dos projetos.
         </p>
         <br />
+<<<<<<< HEAD
         <table className="table-auto border">
           <thead>
             <tr className="border">
@@ -192,6 +223,31 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                   })}
                 </td>
                 <td className="w-16 border">
+=======
+        <Table className="">
+          <TableCaption>A list of your recent invoices</TableCaption>
+          <TableHeader>
+            <TableRow className="">
+              <TableHead className="">Docente</TableHead>
+              <TableHead className="">Edital</TableHead>
+              <TableHead className="">Agência de Fomento</TableHead>
+              <TableHead className="">Valor</TableHead>
+              <TableHead className="">Ações</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="">
+            {pageData?.map((data) => (
+              <TableRow key={data.id}>
+                <TableCell className="">{data.name}</TableCell>
+                <TableCell className="">{data.notice}</TableCell>
+                <TableCell className="">{data.developmentagency}</TableCell>
+                <TableCell className="">
+                  {parseFloat(data.value).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
+                </TableCell>
+                <TableCell className="w-16 ">
+>>>>>>> dev
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="outline">Editar</Button>
@@ -212,11 +268,14 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                             placeholder="Nome"
                             // {...register("name")}
                           />
+<<<<<<< HEAD
                           {/* {errors.name && (
                                 <span className="text-red-500">
                                   {errors.name.message}
                                 </span>
                               )} */}
+=======
+>>>>>>> dev
                           <Label htmlFor="type">Tipo</Label>
                           <Input
                             id="type"
@@ -224,11 +283,14 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                             placeholder="Tipo"
                             // {...register("type")}
                           />
+<<<<<<< HEAD
                           {/* {errors.type && (
                             <span className="text-red-500">
                               {errors.type.message}
                             </span>
                           )} */}
+=======
+>>>>>>> dev
                           <Label htmlFor="email">Email</Label>
                           <Input
                             id="email"
@@ -236,11 +298,14 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                             placeholder="Email"
                             // {...register("email")}
                           />
+<<<<<<< HEAD
                           {/* {errors.email && (
                             <span className="text-red-500">
                               {errors.email.message}
                             </span>
                           )} */}
+=======
+>>>>>>> dev
                           <Label htmlFor="validity">Vigência</Label>
                           <Input
                             id="validity"
@@ -248,11 +313,14 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                             placeholder="Vigência"
                             // {...register("validity")}
                           />
+<<<<<<< HEAD
                           {/* {errors.validity && (
                             <span className="text-red-500">
                               {errors.validity.message}
                             </span>
                           )} */}
+=======
+>>>>>>> dev
                         </div>
                       </section>
                       <DialogFooter>
@@ -271,14 +339,23 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
+<<<<<<< HEAD
                 </td>
               </tr>
+=======
+                </TableCell>
+              </TableRow>
+>>>>>>> dev
             ))}
             <tr>
               <td />
             </tr>
             <tr>
+<<<<<<< HEAD
               <td className="border text-end" colSpan={4}>
+=======
+              <td className=" text-end" colSpan={4}>
+>>>>>>> dev
                 <span className="flex h-0.5 text-start">Total</span>
                 R$
                 {pageData
@@ -290,15 +367,27 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                 <span className=""></span>
               </td>
             </tr>
+<<<<<<< HEAD
           </tbody>
         </table>
+=======
+          </TableBody>
+        </Table>
+>>>>>>> dev
       </div>
       <Separator />
     </section>
   );
 };
 
+<<<<<<< HEAD
 CurriculumSubjects.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 export default CurriculumSubjects;
+=======
+GcaAdmin.getLayout = function (page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+export default GcaAdmin;
+>>>>>>> dev

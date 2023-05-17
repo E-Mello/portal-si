@@ -1,5 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
+import { TeachersSchema } from "~/server/common/PageSchema";
+
 export const teachersRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.teachers.findMany({
@@ -24,4 +26,25 @@ export const teachersRouter = createTRPCRouter({
       },
     });
   }),
+  update: publicProcedure
+    .input(TeachersSchema)
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.teachers.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          name: input.name,
+          qualification: input.qualification,
+          area: input.area,
+          email: input.email,
+          lattes: input.lattes,
+          schoolYear: {
+            connect: {
+              id: input.schoolYear.id,
+            },
+          },
+        },
+      });
+    }),
 });

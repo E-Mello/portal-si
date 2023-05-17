@@ -37,7 +37,11 @@ import { CardUpdateSchema } from "~/server/common/CardSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 
+<<<<<<< HEAD
 const DashboardCardInfo: NextPageWithLayout = () => {
+=======
+const DashboardAdmin: NextPageWithLayout = () => {
+>>>>>>> dev
   const [cardNameSelected, setCardNameSelected] = useState("");
   const [cardInfoSelected, setCardInfoSelected] = useState("");
   const [cardIdSelected, setCardIdSelected] = useState<number>();
@@ -46,7 +50,11 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   const [value, setValue] = useState("");
 
   const { data: pageData } = api.dashboard.getAll.useQuery();
+<<<<<<< HEAD
   const { mutateAsync: updateCard } = api.dashboard.updateCard.useMutation({
+=======
+  const { mutateAsync: update } = api.dashboard.update.useMutation({
+>>>>>>> dev
     onSuccess: () => {
       toast.success("Card updated successfully");
     },
@@ -64,6 +72,7 @@ const DashboardCardInfo: NextPageWithLayout = () => {
     reset,
   } = useForm<z.infer<typeof CardUpdateSchema>>({
     resolver: zodResolver(CardUpdateSchema),
+<<<<<<< HEAD
     defaultValues: {
       name: cardNameSelected,
       info: cardInfoSelected,
@@ -84,6 +93,24 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   //     );
   //   }
   // };
+=======
+  });
+
+  const updateCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
+    data
+  ) => {
+    const res = await update(data);
+    console.log("res:", res);
+    if (res) {
+      toast.success("Card updated successfully");
+      reset();
+    } else {
+      toast.error(
+        "Something is wrong in update data, please validate the data"
+      );
+    }
+  };
+>>>>>>> dev
 
   return (
     <section className="flex h-full w-full flex-col items-center justify-between bg-zinc-800 p-4 text-white">
@@ -94,7 +121,12 @@ const DashboardCardInfo: NextPageWithLayout = () => {
         <div key={group.name} className="flex flex-col gap-5 pb-10">
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-bold">{group.name}</h1>
+<<<<<<< HEAD
             {/* <form onSubmit={handleSubmit(changeCard)}> */}
+=======
+
+            {/* <form onSubmit={handleSubmit(updateCard)}> */}
+>>>>>>> dev
             <form>
               <Dialog>
                 <DialogTrigger asChild>
@@ -227,7 +259,14 @@ const DashboardCardInfo: NextPageWithLayout = () => {
   );
 };
 
+<<<<<<< HEAD
 DashboardCardInfo.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 export default DashboardCardInfo;
+=======
+DashboardAdmin.getLayout = function (page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
+export default DashboardAdmin;
+>>>>>>> dev

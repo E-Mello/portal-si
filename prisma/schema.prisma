@@ -8,15 +8,6 @@ datasource db {
   relationMode = "prisma"
 }
 
-model AboutCourse {
-  id        String   @id @default(cuid())
-  title     String
-  content   String   @db.Text
-  image     String?
-  updatedAt DateTime @updatedAt
-  details   String   @db.Text
-}
-
 model Collegiate {
   id        Int      @id @default(autoincrement())
   teacher   String
@@ -27,6 +18,7 @@ model Collegiate {
   updatedAt DateTime
 }
 
+<<<<<<< HEAD
 model CoursePurpose {
   id         Int      @id @default(autoincrement())
   title      String
@@ -55,6 +47,8 @@ model Schedule {
   updatedAt DateTime
 }
 
+=======
+>>>>>>> dev
 model TeachingCenter {
   id        Int      @id @default(autoincrement())
   teachers  String
@@ -65,12 +59,19 @@ model TeachingCenter {
 }
 
 model ApliedGroup {
-  id                String   @id @default(cuid())
+  id                Int      @id @default(autoincrement())
   name              String
   notice            String
+  link              String
   developmentagency String
   value             String
   updatedAt         DateTime
+}
+
+model ApliedGroupContent {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String @db.LongText
 }
 
 model Equivalence {
@@ -82,13 +83,6 @@ model Equivalence {
   updatedAt     DateTime
 }
 
-model CourseProgram {
-  id          Int      @id @default(autoincrement())
-  description String
-  link        String
-  updatedAt   DateTime
-}
-
 model ElectiveSubjects {
   id            Int      @id @default(autoincrement())
   name          String
@@ -98,23 +92,25 @@ model ElectiveSubjects {
   updatedAt     DateTime
 }
 
-model Tcc {
-  id          Int      @id @default(autoincrement())
-  title       String
-  resume      String   @db.Text
-  projectarea String
-  studentname String
-  link        String
-  updatedAt   DateTime
+model TypesOfPublications {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  updatedAt           DateTime
+  StudentPublications StudentPublications[]
 }
 
-model Articles {
-  id        Int      @id @default(autoincrement())
-  title     String
-  resume    String   @db.Text
-  author    String
-  link      String
-  updatedAt DateTime
+model StudentPublications {
+  id                  Int                 @id @default(autoincrement())
+  typeOfPublicationId Int
+  title               String
+  resume              String              @db.Text
+  author              String
+  link                String
+  linkName            String
+  updatedAt           DateTime
+  typeOfPublication   TypesOfPublications @relation(fields: [typeOfPublicationId], references: [id])
+
+  @@index([typeOfPublicationId])
 }
 
 model Phase {
@@ -127,9 +123,9 @@ model Subject {
   id            Int    @id @default(autoincrement())
   phaseId       Int
   name          String
-  CH            Int
-  Credits       Int
-  Prerequisites String
+  ch            Int
+  credits       Int
+  prerequisites String
   phase         Phase  @relation(fields: [phaseId], references: [id])
 
   @@index([phaseId])
@@ -166,13 +162,12 @@ model Teachers {
 }
 
 model Card {
-  id       Int       @id @default(autoincrement())
-  name     String
-  imageUrl String
-  info     String
-  locale   String
-  group    CardGroup @relation(fields: [groupId], references: [id])
-  groupId  Int
+  id      Int       @id @default(autoincrement())
+  name    String
+  groupId Int
+  locale  String
+  info    String
+  group   CardGroup @relation(fields: [groupId], references: [id])
 
   @@index([groupId])
 }
@@ -182,3 +177,65 @@ model CardGroup {
   name  String
   cards Card[]
 }
+<<<<<<< HEAD
+=======
+
+model ViewsPage {
+  id        Int      @id @default(autoincrement())
+  title     String   @unique(map: "title")
+  info      String?
+  content   String   @db.Text
+  info02    String?
+  content02 String?  @db.Text
+  info03    String?
+  content03 String?  @db.Text
+  info04    String?
+  content04 String?  @db.Text
+  nameLink  String?
+  link      String?
+  image     String?
+  updatedAt DateTime
+}
+
+model Schedule {
+  id        Int      @id @default(autoincrement())
+  year      String
+  semester  String
+  updatedAt DateTime
+  link      String
+}
+
+model Events {
+  id             Int      @id @default(autoincrement())
+  title          String
+  info           String
+  publicationDay DateTime
+  image          String?
+  link           String?
+  updatedAt      DateTime @default(now())
+  content        String   @db.Text
+}
+
+model Projects {
+  id                Int              @id @default(autoincrement())
+  title             String
+  link              String?
+  updatedAt         DateTime         @default(now())
+  typesOfProjectsId Int
+  projectArea       String
+  resume            String           @db.Text
+  teacherEmail      String
+  teacherName       String
+  teacherTel        String
+  TypesOfProjects   TypesOfProjects? @relation(fields: [typesOfProjectsId], references: [id])
+
+  @@index([typesOfProjectsId])
+}
+
+model TypesOfProjects {
+  id        Int        @id @default(autoincrement())
+  name      String
+  updatedAt DateTime   @default(now())
+  projects  Projects[]
+}
+>>>>>>> dev

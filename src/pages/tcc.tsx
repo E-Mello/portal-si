@@ -43,10 +43,7 @@ const Tcc: NextPageWithLayout = () => {
             <span className={`text-xl `}>{data.title.toUpperCase()}</span>
             <span className={`flex text-start  text-sm `}>{data.resume}</span>
             <span className={`text-start text-sm`}>
-              Area de Estudo do projeto: {data.projectarea}
-            </span>
-            <span className={`text-start text-sm`}>
-              Nome do aluno: {data.studentname}
+              Nome do aluno: {data.author}
             </span>
           </Link>
         ))}

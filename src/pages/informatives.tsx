@@ -46,6 +46,7 @@ const Informativos: NextPageWithLayout = () => {
             />
             <p className="legend">Legend 2</p>
           </div>
+
           <div>
             <Image
               width={500}

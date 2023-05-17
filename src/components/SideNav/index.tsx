@@ -120,7 +120,7 @@ export function SideNav() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-50 min-h-screen justify-end ${
+      className={`fixed left-0 top-0 z-50 h-full justify-end bg-zinc-800 ${
         isActiveNav ? "w-[15vw] " : "w-[4vw]"
       } duration-4000 rounded-md border-2 border-zinc-100
         border-opacity-5 bg-zinc-900 bg-opacity-5 px-4
@@ -164,7 +164,7 @@ export function SideNav() {
           />
         )}
       </div>
-      <section className="relative mt-[3vh] flex flex-col gap-4 pb-5">
+      <section className="relative mt-[3vh] flex flex-col gap-4  pb-5">
         {menus
           .filter(
             (menu) =>

@@ -84,28 +84,35 @@ const Dashboard: NextPageWithLayout = () => {
   } else {
     return (
       <section
-        className={`relative flex h-full w-[100vw] flex-col items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
+        className={`flex h-full w-full flex-col items-center bg-zinc-800 p-4 pl-4 text-white`}
       >
         <h1 className="text-[2rem] font-bold">
           Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
         </h1>
-        <div className="hover:bg-silver flex w-[81vw] flex-col justify-between gap-5 ">
+        <div className="hover:bg-silver flex w-full flex-col justify-between gap-5">
           {pageData.map((group) => (
-            <div key={group.name} className="flex flex-col gap-5">
-              <div>
-                <h1 className="text-lg font-bold">{group.name}</h1>
+            <fieldset
+              key={group.name}
+              className="justify-start border-t pb-2 pl-4 "
+            >
+              <legend className="">
+                <h1 className=" w-full items-center justify-center pb-2 pl-4 pr-4 text-lg font-bold">
+                  {group.name}
+                </h1>
+              </legend>
+              <div className="flex h-full w-full flex-col gap-5">
+                <div className="grid  grid-cols-6 flex-row gap-10 whitespace-pre-line">
+                  {group.cards.map((card) => (
+                    <Card
+                      key={card.id}
+                      name={card.name}
+                      Link={card.locale}
+                      Info={card.info}
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="flex h-[20vh] w-[80vw] flex-row gap-5 whitespace-pre-line">
-                {group.cards.map((card) => (
-                  <Card
-                    key={card.id}
-                    name={card.name}
-                    Link={card.locale}
-                    Info={card.info}
-                  />
-                ))}
-              </div>
-            </div>
+            </fieldset>
           ))}
           <Separator />
         </div>

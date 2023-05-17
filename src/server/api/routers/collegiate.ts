@@ -1,3 +1,7 @@
+import {
+  CollegiateCreateSchema,
+  CollegiateSchema,
+} from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const collegiateRouter = createTRPCRouter({
@@ -12,4 +16,51 @@ export const collegiateRouter = createTRPCRouter({
       },
     });
   }),
+  update: publicProcedure
+    .input(CollegiateSchema)
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.collegiate.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          teacher: input.teacher,
+          segment: input.segment,
+          email: input.email,
+          validity: input.validity,
+        },
+      });
+    }),
+  delete: publicProcedure
+    .input(CollegiateSchema)
+    .mutation(async ({ input, ctx }) => {
+      try {
+        return await ctx.prisma.collegiate.delete({
+          where: {
+            id: input.id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+  create: publicProcedure
+    .input(CollegiateCreateSchema)
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const collegiate = await ctx.prisma.collegiate.create({
+          data: {
+            teacher: input.teacher,
+            segment: input.segment,
+            email: input.email,
+            validity: input.validity,
+            image: input.image,
+            updatedAt: new Date(),
+          },
+        });
+        return collegiate;
+      } catch (error) {
+        console.log("Erro ao inserir um novo membro: ", error);
+      }
+    }),
 });
