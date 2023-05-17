@@ -72,13 +72,13 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteMember() {
-    try {
-      mutate({ id: member.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteMember() {
+  //   try {
+  //     mutate({ id: member.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -125,7 +125,8 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 shadow-2xl  shadow-zinc-700">
-                      <form onSubmit={handleSubmit(updateMember)}>
+                      {/* <form onSubmit={handleSubmit(updateMember)}> */}
+                      <form>
                         <DialogHeader className="flex items-center ">
                           <DialogTitle>Edicao de professores</DialogTitle>
                           <DialogDescription>
@@ -184,7 +185,7 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
                   <Button
                     variant={"outline"}
                     className="hover:bg-red-500"
-                    onClick={handleDeleteMember}
+                    // onClick={handleDeleteMember}
                   >
                     {isSubmitting ? "Deletando..." : "Deletar"}
                   </Button>

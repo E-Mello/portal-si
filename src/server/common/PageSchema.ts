@@ -63,6 +63,7 @@ export const CollegiateCreateSchema = z.object({
   email: z.string(),
   validity: z.string(),
   image: z.string().optional(),
+  updatedAt: z.string(),
 });
 
 export const TeachingCenterSchema = z.object({
@@ -83,16 +84,16 @@ export const ScheduleSchema = z.object({
 export const EquivalenceSchema = z.object({
   id: z.number(),
   name: z.string(),
-  ch: z.string(),
+  ch: z.number(),
   equivalence: z.string(),
-  chequivalence: z.string(),
+  chequivalence: z.number(),
 });
 
 export const CurriculumSubjectsSchema = z.object({
   id: z.number(),
   name: z.string(),
-  ch: z.string(),
-  credits: z.string(),
+  ch: z.number(),
+  credits: z.number(),
   prerequisites: z.string(),
   phaseId: z.number(),
 });
@@ -100,9 +101,10 @@ export const CurriculumSubjectsSchema = z.object({
 export const ElectiveSubjectsSchema = z.object({
   id: z.number(),
   name: z.string(),
-  ch: z.string(),
-  credits: z.string(),
+  ch: z.number(),
+  credits: z.number(),
   prerequisites: z.string(),
+  updateAt: z.string(),
 });
 
 export const EventsSchema = z.object({
@@ -119,6 +121,7 @@ export const ApliedGroup = z.object({
   id: z.number(),
   name: z.string(),
   notice: z.string(),
+  link: z.string(),
   developmentagency: z.string(),
   value: z.string(),
 });

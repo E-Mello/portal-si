@@ -92,9 +92,9 @@ model Subject {
   id            Int    @id @default(autoincrement())
   phaseId       Int
   name          String
-  CH            Int
-  Credits       Int
-  Prerequisites String
+  ch            Int
+  credits       Int
+  prerequisites String
   phase         Phase  @relation(fields: [phaseId], references: [id])
 
   @@index([phaseId])
@@ -186,15 +186,15 @@ model Events {
 model Projects {
   id                Int              @id @default(autoincrement())
   title             String
-  resume            String           @db.Text
-  projectArea       String
-  teacherName       String
-  teacherEmail      String
-  teacherTel        String
   link              String?
   updatedAt         DateTime         @default(now())
-  TypesOfProjects   TypesOfProjects? @relation(fields: [typesOfProjectsId], references: [id])
   typesOfProjectsId Int
+  projectArea       String
+  resume            String           @db.Text
+  teacherEmail      String
+  teacherName       String
+  teacherTel        String
+  TypesOfProjects   TypesOfProjects? @relation(fields: [typesOfProjectsId], references: [id])
 
   @@index([typesOfProjectsId])
 }

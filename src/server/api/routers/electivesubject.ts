@@ -52,6 +52,7 @@ export const electiveSubjectRouter = createTRPCRouter({
             ch: input.ch,
             credits: input.credits,
             prerequisites: input.prerequisites,
+            updatedAt: new Date(),
           },
         });
         return electiveSubjects;

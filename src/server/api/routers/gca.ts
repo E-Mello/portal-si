@@ -52,6 +52,8 @@ export const gcaRouter = createTRPCRouter({
             notice: input.notice,
             developmentagency: input.developmentagency,
             value: input.value,
+            link: input.link,
+            updatedAt: new Date(),
           },
         });
         return collegiate;

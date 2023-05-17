@@ -29,10 +29,10 @@ const Ementas: NextPageWithLayout = () => {
       {pageData.map((data) => (
         <div className="flex  gap-4 " key={data.id}>
           <p>
-            {data.description} {"=>"}
+            {data.content02} {"=>"}
           </p>
           <p>
-            <a href={`${data.link}`} target="_blank" rel="noreferrer">
+            <a href={`${data.info02 || "/"}`} target="_blank" rel="noreferrer">
               Link para visualização
             </a>
           </p>

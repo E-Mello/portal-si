@@ -52,6 +52,7 @@ export const teacherRouter = createTRPCRouter({
             type: input.type,
             email: input.email,
             validity: input.validity,
+            updatedAt: new Date(),
           },
         });
         return collegiate;

@@ -47,20 +47,11 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
-  const phases: Phase[] = [];
-
-  pageData?.forEach((subject) => {
-    const phase = phases.find((p) => p.phaseId === subject.phaseId);
-    if (phase) {
-      phase.subjects.push(subject);
-    } else {
-      phases.push({
-        id: phases.length,
-        phaseId: subject.phaseId,
-        subjects: [subject],
-      });
-    }
-  });
+  const phaseIds = [
+    ...new Set(
+      pageData?.map((subject: { phaseId: any }) => subject.phaseId as number)
+    ),
+  ];
   return (
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
       <h1 className="pl-4 text-xl">Grade Curricular</h1>
@@ -103,13 +94,13 @@ const CurriculumSubjects: NextPageWithLayout = () => {
       </section>
       <br />
       <section className="grid w-full grid-cols-2 gap-4 pl-4 pr-10">
-        {phases.map((phase) => (
+        {phaseIds.map((phaseId) => (
           <div
-            key={phase.id}
+            key={phaseId}
             className="flex flex-col justify-center gap-4 pb-2 pl-4 pt-2"
           >
             <legend className="flex justify-center text-xl">
-              {phase.phaseId} Semestre
+              {phaseId} Semestre
             </legend>
             <Table className="text-[1rem]">
               <TableHeader>
@@ -129,22 +120,24 @@ const CurriculumSubjects: NextPageWithLayout = () => {
                 </TableRow>
               </TableHeader>
               <TableBody className="">
-                {phase.subjects.map((subject) => (
-                  <TableRow key={subject.id}>
-                    <TableCell className="border px-4 py-2">
-                      {subject.name}
-                    </TableCell>
-                    <TableCell className="border px-4 py-2">
-                      {subject.CH}
-                    </TableCell>
-                    <TableCell className="border px-4 py-2">
-                      {subject.Credits}
-                    </TableCell>
-                    <TableCell className="border px-4 py-2">
-                      {subject.Prerequisites}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {pageData
+                  ?.filter((subject) => subject.phaseId === phaseId)
+                  .map((subject) => (
+                    <TableRow key={subject.id}>
+                      <TableCell className="border px-4 py-2">
+                        {subject.name}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.ch}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.credits}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.prerequisites}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </div>

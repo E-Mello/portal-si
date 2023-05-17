@@ -74,13 +74,13 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteData() {
-    try {
-      mutate({ id: data.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteData() {
+  //   try {
+  //     mutate({ id: data.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -136,7 +136,8 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                           Edicao de professores
                         </DialogDescription>
                       </DialogHeader>
-                      <form onSubmit={handleSubmit(updateSubject)} className="">
+                      {/* <form onSubmit={handleSubmit(updateMember)} className=""> */}
+                      <form className="">
                         <section className="grid h-full grid-cols-1 items-center gap-2">
                           <div className="flex flex-col items-start justify-start gap-3">
                             <Label htmlFor="name">Nome da matéria</Label>
@@ -191,7 +192,7 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                   <Button
                     variant={"outline"}
                     className="hover:bg-red-500"
-                    onClick={handleDeleteData}
+                    // onClick={handleDeleteData}
                   >
                     {isSubmitting ? "Deletando..." : "Deletar"}
                   </Button>

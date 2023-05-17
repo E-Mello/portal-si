@@ -461,9 +461,10 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                                 <SelectTrigger className="w-52">
                                   <SelectValue
                                     placeholder={
-                                      project.typesOfProjectsId === 1
+                                      project.typesOfProjectsId === Number(1)
                                         ? "Projeto de ensino"
-                                        : project.typesOfProjectsId === 2
+                                        : project.typesOfProjectsId ===
+                                          Number(2)
                                         ? "Projeto de extensao"
                                         : "Projeto de pesquisa"
                                     }
@@ -636,9 +637,10 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                                 <SelectTrigger className="w-52">
                                   <SelectValue
                                     placeholder={
-                                      project.typesOfProjectsId === 1
+                                      project.typesOfProjectsId === Number(1)
                                         ? "Projeto de ensino"
-                                        : project.typesOfProjectsId === 2
+                                        : project.typesOfProjectsId ===
+                                          Number(2)
                                         ? "Projeto de extensao"
                                         : "Projeto de pesquisa"
                                     }

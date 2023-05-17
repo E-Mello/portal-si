@@ -8,9 +8,9 @@ export const curriculumSubjectsRouter = createTRPCRouter({
       select: {
         id: true,
         name: true,
-        CH: true,
-        Credits: true,
-        Prerequisites: true,
+        ch: true,
+        credits: true,
+        prerequisites: true,
         phaseId: true,
       },
       orderBy: {
@@ -27,9 +27,9 @@ export const curriculumSubjectsRouter = createTRPCRouter({
         },
         data: {
           name: input.name,
-          CH: input.ch,
-          Credits: input.credits,
-          Prerequisites: input.prerequisites,
+          ch: input.ch,
+          credits: input.credits,
+          prerequisites: input.prerequisites,
           phaseId: input.phaseId,
         },
       });
@@ -54,9 +54,9 @@ export const curriculumSubjectsRouter = createTRPCRouter({
         const collegiate = await ctx.prisma.subject.create({
           data: {
             name: input.name,
-            CH: input.ch,
-            Credits: input.credits,
-            Prerequisites: input.prerequisites,
+            ch: input.ch,
+            credits: input.credits,
+            prerequisites: input.prerequisites,
             phaseId: input.phaseId,
           },
         });

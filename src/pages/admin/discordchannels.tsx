@@ -1,11 +1,11 @@
 import React, { type ReactElement } from "react";
 
 import Image from "next/image";
-import Layout from "../components/Layout";
-import { type NextPageWithLayout } from "../types/layout";
+import Layout from "~/components/admin/Layout";
+import { type NextPageWithLayout } from "~/types/layout";
 import { useRouter } from "next/router";
 
-const DiscordChannels: NextPageWithLayout = () => {
+const DiscordChannelsAdmin: NextPageWithLayout = () => {
   const router = useRouter();
 
   const handleButtonClick = (url: string) => {
@@ -135,7 +135,7 @@ const DiscordChannels: NextPageWithLayout = () => {
   );
 };
 
-DiscordChannels.getLayout = function (page: ReactElement) {
+DiscordChannelsAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default DiscordChannels;
+export default DiscordChannelsAdmin;

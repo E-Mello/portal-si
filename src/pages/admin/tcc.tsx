@@ -108,7 +108,7 @@ const TccAdmin: NextPageWithLayout = () => {
                   className="bg-zinc-800"
                 >
                   <form
-                    onSubmit={handleSubmit(updatePage)}
+                    // onSubmit={handleSubmit(updatePage)}
                     className="flex flex-col gap-4 p-4"
                   >
                     <SheetHeader>

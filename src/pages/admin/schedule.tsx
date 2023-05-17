@@ -81,13 +81,13 @@ const ScheduleAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteSchedule() {
-    try {
-      mutate({ id: data.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteSchedule() {
+  //   try {
+  //     mutate({ id: data.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -140,7 +140,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                         </DialogDescription>
                       </DialogHeader>
                       <form
-                        onSubmit={handleSubmit(updateSchedule)}
+                        // onSubmit={handleSubmit(updateSchedule)}
                         className=""
                       >
                         <section className="grid h-full grid-cols-1 items-center gap-2 ">
@@ -185,7 +185,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                   <Button
                     variant={"outline"}
                     className="hover:bg-red-500"
-                    onClick={handleDeleteSchedule}
+                    // onClick={handleDeleteSchedule}
                   >
                     {isSubmitting ? "Deletando..." : "Deletar"}
                   </Button>

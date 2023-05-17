@@ -14,7 +14,6 @@ import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import type { ReactElement } from "react";
-import ReactMarkdown from "react-markdown";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
@@ -74,7 +73,8 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
             </div>
           </div>
           <div className="flex pt-2 ">
-            <form onSubmit={handleSubmit(updatePage)}>
+            {/* <form onSubmit={handleSubmit(updatePage)}> */}
+            <form>
               <Sheet>
                 <SheetTrigger asChild>
                   <Button className="bg-slate-200 text-zinc-900">

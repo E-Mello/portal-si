@@ -49,6 +49,7 @@ export const scheduleRouter = createTRPCRouter({
             year: input.year,
             semester: input.semester,
             link: input.link,
+            updatedAt: new Date(),
           },
         });
         return schedule;

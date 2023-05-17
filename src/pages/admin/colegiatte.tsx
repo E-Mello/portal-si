@@ -70,13 +70,13 @@ const CollegiateAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteMember() {
-    try {
-      mutate({ id: member.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteMember() {
+  //   try {
+  //     mutate({ id: member.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -126,7 +126,8 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                           Edição de professores
                         </DialogDescription>
                       </DialogHeader>
-                      <form onSubmit={handleSubmit(updateMember)} className="">
+                      {/* <form onSubmit={handleSubmit(updateMember)} className=""></form> */}
+                      <form className="">
                         <section className="grid h-full grid-cols-1 items-center gap-2">
                           <div className="flex columns-1 flex-col items-start gap-3">
                             <Label htmlFor="name" className="text-right">
@@ -180,7 +181,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                   <Button
                     variant={"outline"}
                     className="hover:bg-red-500"
-                    onClick={handleDeleteMember}
+                    // onClick={handleDeleteMember}
                   >
                     {isSubmitting ? "Deletando..." : "Deletar"}
                   </Button>

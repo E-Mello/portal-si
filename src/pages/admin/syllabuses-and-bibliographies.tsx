@@ -71,84 +71,92 @@ const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
-  const fieldsets = [
-    {
-      nameLink: pageData.info02 as string,
-      link: pageData.content02 as string,
-    },
-    {
-      nameLink: pageData.info03 as string,
-      link: pageData.content03 as string,
-    },
-  ];
+  // const fieldsets = [
+  //   {
+  //     nameLink: pageData.info02 as string,
+  //     link: pageData.content02 as string,
+  //   },
+  //   {
+  //     nameLink: pageData.info03 as string,
+  //     link: pageData.content03 as string,
+  //   },
+  // ];
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
       <div className="flex w-[95%] flex-col gap-10">
         <h1 className="pl-4 text-xl">
-          {pageData?.title || "Erro ao buscar as informações do banco de dados"}
+          {/* {pageData?.title || "Erro ao buscar as informações do banco de dados"} */}
+          Erro ao buscar as informações do banco de dados
         </h1>
         <p className="pl-4 text-xl">
-          {pageData?.info || "Erro ao buscar as informações do banco de dados"}
+          {/* {pageData?.info || "Erro ao buscar as informações do banco de dados"} */}
+          Erro ao buscar as informações do banco de dados
         </p>
-        {fieldsets.map((fieldset, index) => (
-          <section key={index} className="flex flex-col gap-4">
-            <fieldset className="justify-start border pb-2 pl-4 pt-2">
-              <legend className="text-xl">
-                {fieldset.nameLink ||
-                  "Erro ao buscar as informações do banco de dados"}
-              </legend>
-              {fieldset.content?.split(";").map((item, key) => (
-                <p key={key}>
+        {/* {fieldsets.map((fieldset, index) => ( */}
+        {/* <section key={index} className="flex flex-col gap-4"> */}
+        <section className="flex flex-col gap-4">
+          <fieldset className="justify-start border pb-2 pl-4 pt-2">
+            <legend className="text-xl">
+              {/* {fieldset.nameLink ||
+                  "Erro ao buscar as informações do banco de dados"} */}
+              Erro ao buscar as informações do banco de dados
+            </legend>
+            {/* {fieldset.content?.split(";").map((item, key) => ( */}
+            {/* <p key={key}>
+                
                   {item.trim() ||
                     "Erro ao buscar as informações do banco de dados"}
-                </p>
-              ))}
-            </fieldset>
-            <div className="flex">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button className="bg-slate-200 text-zinc-900">
-                    Editar Conteudo
-                  </Button>
-                </SheetTrigger>
-                <ScrollArea className="h-full">
-                  <form onSubmit={handleSubmit(updatePage)}>
-                    <SheetContent
-                      position="right"
-                      size={"default"}
-                      className="bg-zinc-800"
-                    >
-                      <SheetHeader>
-                        <SheetTitle>Editar Conteudo</SheetTitle>
-                        <SheetDescription>
-                          Nessa folha lateral é possível estar editando o
-                          conteúdo desta página e lembrando que para efetuar uma
-                          quebra de linha, basta utilizar o caractere {'" ; "'}
-                        </SheetDescription>
-                      </SheetHeader>
-                      <div className="flex flex-col gap-4 py-4">
-                        <Label htmlFor="newValue" className="">
-                          Digite o novo conteúdo
-                        </Label>
-                        <Textarea
-                          value={fieldset.content || "Erro ao trazer conteúdo"}
-                        />
-                      </div>
-                      <SheetFooter>
-                        <Button
-                          type="submit"
-                          className="bg-slate-200 text-zinc-900"
-                        >
-                          Save changes
-                        </Button>
-                      </SheetFooter>
-                    </SheetContent>
-                  </form>
-                </ScrollArea>
-              </Sheet>
-            </div>
-          </section>
-        ))}
+                </p> */}
+            {/* ))} */}
+            <p>Erro ao buscar as informações do banco de dados</p>
+          </fieldset>
+          <div className="flex">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button className="bg-slate-200 text-zinc-900">
+                  Editar Conteudo
+                </Button>
+              </SheetTrigger>
+              <ScrollArea className="h-full">
+                {/* <form onSubmit={handleSubmit(updatePage)}> */}
+                <form>
+                  <SheetContent
+                    position="right"
+                    size={"default"}
+                    className="bg-zinc-800"
+                  >
+                    <SheetHeader>
+                      <SheetTitle>Editar Conteudo</SheetTitle>
+                      <SheetDescription>
+                        Nessa folha lateral é possível estar editando o conteúdo
+                        desta página e lembrando que para efetuar uma quebra de
+                        linha, basta utilizar o caractere {'" ; "'}
+                      </SheetDescription>
+                    </SheetHeader>
+                    <div className="flex flex-col gap-4 py-4">
+                      <Label htmlFor="newValue" className="">
+                        Digite o novo conteúdo
+                      </Label>
+                      <Textarea
+                        // value={fieldset.content || "Erro ao trazer conteúdo"}
+                        value="Erro ao trazer conteúdo"
+                      />
+                    </div>
+                    <SheetFooter>
+                      <Button
+                        type="submit"
+                        className="bg-slate-200 text-zinc-900"
+                      >
+                        Save changes
+                      </Button>
+                    </SheetFooter>
+                  </SheetContent>
+                </form>
+              </ScrollArea>
+            </Sheet>
+          </div>
+        </section>
+        {/* ))} */}
       </div>
     </section>
   );

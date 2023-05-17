@@ -83,7 +83,7 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
       <div className="flex pl-4">
         <form
           className="flex flex-col gap-4 py-4"
-          onSubmit={handleSubmit(updatePage)}
+          // onSubmit={handleSubmit(updatePage)}
         >
           <Sheet>
             <SheetTrigger asChild>

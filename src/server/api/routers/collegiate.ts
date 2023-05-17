@@ -54,6 +54,8 @@ export const collegiateRouter = createTRPCRouter({
             segment: input.segment,
             email: input.email,
             validity: input.validity,
+            image: input.image,
+            updatedAt: new Date(),
           },
         });
         return collegiate;

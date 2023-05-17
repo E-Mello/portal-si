@@ -87,13 +87,13 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteData() {
-    try {
-      mutate({ id: data.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteData() {
+  //   try {
+  //     mutate({ id: data.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -102,20 +102,12 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
   if (isError) {
     return <div>Error</div>;
   }
-  const phases: Phase[] = [];
 
-  pageData?.forEach((subject) => {
-    const phase = phases.find((p) => p.phaseId === subject.phaseId);
-    if (phase) {
-      phase.subjects.push(subject);
-    } else {
-      phases.push({
-        id: phases.length,
-        phaseId: subject.phaseId,
-        subjects: [subject],
-      });
-    }
-  });
+  const phaseIds = [
+    ...new Set(
+      pageData?.map((subject: { phaseId: any }) => subject.phaseId as number)
+    ),
+  ];
 
   return (
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
@@ -153,13 +145,13 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
       </section>
       <br />
       <section className="grid w-full grid-cols-2 gap-4 pl-4 pr-10">
-        {phases.map((phase) => (
+        {phaseIds.map((phaseId) => (
           <div
-            key={phase.id}
+            key={phaseId}
             className="flex flex-col justify-center gap-4 pb-2 pl-4 pt-2"
           >
             <legend className="flex justify-center text-xl">
-              {phase.phaseId} Semestre
+              {phaseId} Semestre
             </legend>
             <table className="">
               <thead>
@@ -174,100 +166,107 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                 </tr>
               </thead>
               <tbody className="">
-                {phase.subjects.map((subject) => (
-                  <tr key={subject.id}>
-                    <td className="border px-4 py-2">{subject.name}</td>
-                    <td className="border px-4 py-2">{subject.CH}</td>
-                    <td className="border px-4 py-2">{subject.Credits}</td>
-                    <td className="border px-4 py-2">
-                      {subject.Prerequisites}
-                    </td>
-                    <td className="h-full space-x-[5rem] border p-1 px-4">
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="hover:bg-cyan-800"
-                          >
-                            Editar
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 shadow-2xl  shadow-zinc-700">
-                          <DialogHeader className="flex items-center ">
-                            <DialogTitle>Edicao de professores</DialogTitle>
-                            <DialogDescription>
-                              Edicao de professores
-                            </DialogDescription>
-                          </DialogHeader>
-                          <form
-                            onSubmit={handleSubmit(updateData)}
-                            className=""
-                          >
-                            <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                              <div className="flex flex-col items-start justify-start gap-3">
-                                <Label htmlFor="name">Nome da Matéria</Label>
-                                <Input
-                                  id="name"
-                                  type="text"
-                                  placeholder={subject.name}
-                                  {...register("name")}
-                                />
-                              </div>
-                              <div>
-                                <Label htmlFor="type">Carga Horária</Label>
-                                <Input
-                                  id="type"
-                                  type="text"
-                                  placeholder={"Fazer dps"}
-                                  {...register("ch")}
-                                />
-                              </div>
-                              <div>
-                                <Label htmlFor="email">Créditos</Label>
-                                <Input
-                                  id="email"
-                                  type="text"
-                                  placeholder={"Fazer dps"}
-                                  {...register("credits")}
-                                />
-                              </div>
-                              <div>
-                                <Label htmlFor="validity">Pré-requisitos</Label>
-                                <Input
-                                  id="validity"
-                                  type="text"
-                                  placeholder={subject.Prerequisites}
-                                  {...register("prerequisites")}
-                                />
-                              </div>
-                            </section>
-                            <DialogFooter>
-                              <Button
-                                className="bg-red-500 hover:bg-red-600"
-                                onClick={() => setOpen(false)}
-                              >
-                                Cancelar
-                              </Button>
-                              <Button
-                                className="bg-green-500 hover:bg-green-600"
-                                onClick={() => setOpen(false)}
-                              >
-                                Salvar
-                              </Button>
-                            </DialogFooter>
-                          </form>
-                        </DialogContent>
-                      </Dialog>
-                      <Button
-                        variant={"outline"}
-                        className="hover:bg-red-500"
-                        onClick={handleDeleteData}
-                      >
-                        {isSubmitting ? "Deletando..." : "Deletar"}
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                {pageData
+                  ?.filter((subject) => subject.phaseId === phaseId)
+                  .map((subject) => (
+                    <tr key={subject.id}>
+                      <td className="border px-4 py-2">{subject.name}</td>
+                      <td className="border px-4 py-2">{subject.ch}</td>
+                      <td className="border px-4 py-2">{subject.credits}</td>
+                      <td className="border px-4 py-2">
+                        {subject.prerequisites}
+                      </td>
+                      <td className="h-full space-x-[5rem] border p-1 px-4">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className="hover:bg-cyan-800"
+                            >
+                              Editar
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
+                            <DialogHeader className="flex items-center ">
+                              <DialogTitle>Edicao de professores</DialogTitle>
+                              <DialogDescription>
+                                Edicao de professores
+                              </DialogDescription>
+                            </DialogHeader>
+                            <form
+                              // onSubmit={handleSubmit(updateData)}
+                              className=""
+                            >
+                              <section className="grid h-full grid-cols-1 items-center gap-2 ">
+                                <div className="flex flex-col items-start justify-start gap-3">
+                                  <Label htmlFor="name">Nome da Matéria</Label>
+                                  <Input
+                                    id="name"
+                                    type="text"
+                                    placeholder={subject.name}
+                                    {...register("name")}
+                                  />
+                                </div>
+                                <div>
+                                  <Label htmlFor="type">Carga Horária</Label>
+                                  <Input
+                                    id="type"
+                                    type="text"
+                                    placeholder={"Fazer dps"}
+                                    {...register("ch")}
+                                  />
+                                </div>
+                                <div>
+                                  <Label htmlFor="email">Créditos</Label>
+                                  <Input
+                                    id="email"
+                                    type="text"
+                                    placeholder={"Fazer dps"}
+                                    {...register("credits")}
+                                  />
+                                </div>
+                                <div>
+                                  <Label htmlFor="validity">
+                                    Pré-requisitos
+                                  </Label>
+                                  <Input
+                                    id="validity"
+                                    type="text"
+                                    // placeholder={
+                                    //   subject.prerequisites ||
+                                    //   "Erro ao buscar a informacao do banco de dados"
+                                    // }
+                                    {...register("prerequisites")}
+                                  />
+                                </div>
+                              </section>
+                              <DialogFooter>
+                                <Button
+                                  className="bg-red-500 hover:bg-red-600"
+                                  onClick={() => setOpen(false)}
+                                >
+                                  Cancelar
+                                </Button>
+                                <Button
+                                  className="bg-green-500 hover:bg-green-600"
+                                  onClick={() => setOpen(false)}
+                                >
+                                  Salvar
+                                </Button>
+                              </DialogFooter>
+                            </form>
+                          </DialogContent>
+                        </Dialog>
+                        <Button
+                          variant={"outline"}
+                          className="hover:bg-red-500"
+                          // onClick={handleDeleteData}
+                        >
+                          {isSubmitting ? "Deletando..." : "Deletar"}
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
             <Dialog>
@@ -276,7 +275,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                   <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
                 </div>
               </DialogTrigger>
-              <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 shadow-2xl  shadow-zinc-700">
+              <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
                 <DialogHeader className="flex items-center justify-center">
                   <DialogTitle>
                     Cadastrar uma nova matéria para esse semestre

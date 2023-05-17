@@ -103,6 +103,21 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
+      name: "Canais do discord",
+      link: "/discordchannels",
+      icon: HiPencil,
+    },
+    {
+      name: "Informativos",
+      link: "/informatives",
+      icon: HiPencil,
+    },
+    {
+      name: "Midias",
+      link: "/media",
+      icon: HiPencil,
+    },
+    {
       name: "Guarda religiosa",
       link: "/religiousguard",
       icon: HiPencil,

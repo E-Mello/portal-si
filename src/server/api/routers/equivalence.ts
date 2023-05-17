@@ -52,6 +52,7 @@ export const equivalenceRouter = createTRPCRouter({
             ch: input.ch,
             equivalence: input.equivalence,
             chequivalence: input.chequivalence,
+            updatedAt: new Date(),
           },
         });
         return equivalence;

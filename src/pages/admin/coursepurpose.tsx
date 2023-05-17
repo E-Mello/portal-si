@@ -86,7 +86,8 @@ const CoursePurposeAdmin: NextPageWithLayout = () => {
                   </Button>
                 </SheetTrigger>
                 <ScrollArea className="h-full">
-                  <form onSubmit={handleSubmit(updatePage)}>
+                  {/* <form onSubmit={handleSubmit(updatePage)}> */}
+                  <form>
                     <SheetContent
                       position="right"
                       size={"default"}

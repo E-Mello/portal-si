@@ -49,13 +49,13 @@ const ArticlesAdmin: NextPageWithLayout = () => {
   } = useForm<z.infer<typeof PublicationsSchema>>({
     resolver: zodResolver(PublicationsSchema),
   });
-  const updatePage: SubmitHandler<z.infer<typeof PublicationsSchema>> = async (
-    data
-  ) => {
-    const res = await update(data);
-    console.log("res", res);
-    reset();
-  };
+  // const updatePage: SubmitHandler<z.infer<typeof PublicationsSchema>> = async (
+  //   data
+  // ) => {
+  //   const res = await update(data);
+  //   console.log("res", res);
+  //   reset();
+  // };
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -96,7 +96,8 @@ const ArticlesAdmin: NextPageWithLayout = () => {
             </span>
           </section>
           <section className="flex gap-2">
-            <form onSubmit={handleSubmit(updatePage)} className="flex gap-2">
+            {/* <form onSubmit={handleSubmit(updatePage)} className="flex gap-2"> */}
+            <form className="flex gap-2">
               <Sheet>
                 <SheetTrigger asChild>
                   <Button className="bg-slate-200 text-zinc-900">

@@ -177,7 +177,8 @@ const DocentsAdmin: NextPageWithLayout = () => {
                                     substituidas.
                                   </DialogDescription>
                                 </DialogHeader>
-                                <form onSubmit={handleSubmit(updateTeacher)}>
+                                {/* <form onSubmit={handleSubmit(updateTeacher)}> */}
+                                <form>
                                   <section className="grid h-full grid-cols-2 gap-2">
                                     <div className="flex columns-1 flex-col items-start gap-3">
                                       <Label

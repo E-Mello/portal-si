@@ -91,7 +91,8 @@ const DashboardAdmin: NextPageWithLayout = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-bold">{group.name}</h1>
 
-            <form onSubmit={handleSubmit(updateCard)}>
+            {/* <form onSubmit={handleSubmit(updateCard)}> */}
+            <form>
               <Dialog>
                 <DialogTrigger asChild>
                   <Button variant="outline">Edit This Card Group</Button>
