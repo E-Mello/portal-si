@@ -17,29 +17,20 @@
     "@emotion/server": "^11.11.0",
     "@heroicons/react": "^2.0.17",
     "@hookform/resolvers": "^3.1.0",
-<<<<<<< HEAD
-    "@prisma/client": "^4.13.0",
-=======
     "@mantine/core": "^6.0.10",
     "@mantine/hooks": "^6.0.10",
     "@mantine/next": "^6.0.10",
     "@prisma/client": "^4.14.0",
->>>>>>> dev
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-label": "^2.0.1",
     "@radix-ui/react-navigation-menu": "^1.1.2",
     "@radix-ui/react-popover": "^1.0.5",
     "@radix-ui/react-scroll-area": "^1.0.3",
-<<<<<<< HEAD
-    "@radix-ui/react-separator": "^1.0.2",
-    "@radix-ui/react-slot": "^1.0.1",
-=======
     "@radix-ui/react-select": "^1.2.1",
     "@radix-ui/react-separator": "^1.0.2",
     "@radix-ui/react-slot": "^1.0.1",
     "@radix-ui/react-tabs": "^1.0.3",
->>>>>>> dev
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/supabase-js": "^2.21.0",
     "@t3-oss/env-nextjs": "^0.2.2",
@@ -68,10 +59,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.2",
-<<<<<<< HEAD
-=======
     "remark-breaks": "^3.0.3",
->>>>>>> dev
     "superjson": "1.12.2",
     "tailwind-merge": "^1.12.0",
     "zod": "^3.21.4"

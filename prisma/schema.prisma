@@ -18,37 +18,6 @@ model Collegiate {
   updatedAt DateTime
 }
 
-<<<<<<< HEAD
-model CoursePurpose {
-  id         Int      @id @default(autoincrement())
-  title      String
-  mission    String   @db.Text
-  vision     String   @db.Text
-  values     String   @db.Text
-  principles String   @db.Text
-  image      String?
-  updatedAt  DateTime
-}
-
-model ProfissionalProfile {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String   @db.Text
-  image     String?
-  updatedAt DateTime
-}
-
-model Schedule {
-  id        Int      @id @default(autoincrement())
-  year      String
-  semester  String
-  link      String
-  image     String?
-  updatedAt DateTime
-}
-
-=======
->>>>>>> dev
 model TeachingCenter {
   id        Int      @id @default(autoincrement())
   teachers  String
@@ -177,8 +146,6 @@ model CardGroup {
   name  String
   cards Card[]
 }
-<<<<<<< HEAD
-=======
 
 model ViewsPage {
   id        Int      @id @default(autoincrement())
@@ -238,4 +205,3 @@ model TypesOfProjects {
   updatedAt DateTime   @default(now())
   projects  Projects[]
 }
->>>>>>> dev

@@ -59,11 +59,7 @@ export default function Navbar() {
     },
     {
       name: "Ementas e bibliografias",
-<<<<<<< HEAD
-      link: "/courseprogram",
-=======
       link: "/syllabuses-and-bibliographies",
->>>>>>> dev
       icon: HiPencil,
     },
     {
@@ -82,63 +78,6 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
-<<<<<<< HEAD
-      name: "Estrutura Curricular",
-      link: "/curricularstructure",
-      icon: HiPencil,
-    },
-    {
-      name: "Eventos",
-      link: "/events",
-      icon: HiPencil,
-    },
-    {
-      name: "Demais Eventos",
-      link: "/othersevents",
-      icon: HiPencil,
-    },
-    {
-      name: "Grupo de Computacao Aplicada",
-      link: "/gca",
-      icon: HiPencil,
-    },
-    {
-      name: "Projetos de Ensino",
-      link: "/teachingprojects",
-      icon: HiPencil,
-    },
-    {
-      name: "Projetos de Extensao",
-      link: "/extensionprojects",
-      icon: HiPencil,
-    },
-    {
-      name: "Projetos de Pesquisa",
-      link: "/researchprojects",
-      icon: HiPencil,
-    },
-    {
-      name: "Artigos Publicados",
-      link: "/articles",
-      icon: HiPencil,
-    },
-    {
-      name: "Tcc's Publicados",
-      link: "/tcc",
-      icon: HiPencil,
-    },
-    {
-      name: "Guarda religiosaa",
-      link: "/religiousguard",
-      icon: HiPencil,
-    },
-    {
-      name: "Estagio Supervisionado",
-      link: "/supervisedinternship",
-      icon: HiPencil,
-    },
-    {
-=======
       name: "Eventos",
       link: "/events",
       icon: HiPencil,
@@ -189,7 +128,6 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
->>>>>>> dev
       name: "Regulamentacoes do TCC",
       link: "/tccinternalstandards",
       icon: HiPencil,
@@ -242,21 +180,11 @@ export default function Navbar() {
           />
         )}
       </div>
-<<<<<<< HEAD
-      <ScrollArea
-        className={`h-full ${isActiveNav ? "w-[14vw] " : "w-[2vw]"} rounded-md`}
-      >
-        <div className="relative mt-[3vh] flex flex-col gap-4">
-          <Link
-            href={"/"}
-            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
-=======
       <ScrollArea className={` h-full gap-4 rounded-md`}>
         <div className=" mt-[3vh] flex flex-col gap-4 overscroll-none">
           <Link
             href={"/"}
             className={`group flex items-center gap-2 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
->>>>>>> dev
           >
             <div>{React.createElement(HiHome, { size: "20" })}</div>
             <h2
@@ -282,15 +210,9 @@ export default function Navbar() {
 
           {menuEdit?.map((menu, i) => (
             <Link
-<<<<<<< HEAD
-              href={`/admin/${menu?.link}`}
-              key={i}
-              className={` group flex items-center gap-4  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
-=======
               href={`/admin${menu?.link}`}
               key={i}
               className={`group flex items-center gap-2  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
->>>>>>> dev
             >
               <div>{React.createElement(menu.icon, { size: "20" })}</div>
               <h2

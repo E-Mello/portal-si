@@ -11,35 +11,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-<<<<<<< HEAD
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "~/components/ui/command";
-=======
 import { HiOutlinePlus } from "react-icons/hi";
->>>>>>> dev
 
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-<<<<<<< HEAD
-import Card from "~/components/Card";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "~/utils/cn";
-import { type SubmitHandler, useForm } from "react-hook-form";
-import type z from "zod";
-import { CardUpdateSchema } from "~/server/common/CardSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import SyncLoader from "react-spinners/SyncLoader";
-
-const Collegiate: NextPageWithLayout = () => {
-=======
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -52,7 +28,6 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { CollegiateSchema } from "~/server/common/PageSchema";
 
 const CollegiateAdmin: NextPageWithLayout = () => {
->>>>>>> dev
   const [open, setOpen] = useState(false);
   const {
     data: pageData,
@@ -60,8 +35,6 @@ const CollegiateAdmin: NextPageWithLayout = () => {
     isError,
   } = api.collegiate.getAll.useQuery();
 
-<<<<<<< HEAD
-=======
   const { mutateAsync: update } = api.collegiate.update.useMutation({
     onSuccess: () => {
       // show success toast
@@ -105,7 +78,6 @@ const CollegiateAdmin: NextPageWithLayout = () => {
   //   }
   // }
 
->>>>>>> dev
   if (pageIsLoading) {
     return <div>Loading...</div>;
   }
@@ -113,46 +85,6 @@ const CollegiateAdmin: NextPageWithLayout = () => {
   if (isError) {
     return <div>Error</div>;
   }
-<<<<<<< HEAD
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors, isSubmitting },
-  //   reset,
-  // } = useForm<z.infer<typeof CardUpdateSchema>>({
-  //   resolver: zodResolver(CardUpdateSchema),
-  //   defaultValues: {
-  //     name: cardNameSelected,
-  //     info: cardInfoSelected,
-  //   },
-  // });
-
-  // const changeCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
-  //   data
-  // ) => {
-  //   const res = await updateCard(data);
-  //   console.log("res:", res);
-  //   if (res) {
-  //     toast.success("Card updated successfully");
-  //     reset();
-  //   } else {
-  //     toast.error(
-  //       "Something is wrong in update data, please validate the data"
-  //     );
-  //   }
-  // };
-
-  return (
-    <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
-      <h1 className="pl-4 text-xl">Núcleo Docente Estruturante (NDE)</h1>
-      <span className="pl-4">
-        O quadro a seguir apresenta a relação de membros designados ao Núcleo
-        Docente Estruturante (NDE) do curso de Bacharelado em Sistemas de
-        Informação.
-      </span>
-      <div className=" w-full justify-start pl-4 pr-10">
-=======
   return (
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
       <h1 className="pl-4 text-xl">Colegiado de Curso</h1>
@@ -161,22 +93,14 @@ const CollegiateAdmin: NextPageWithLayout = () => {
         de Bacharelado em Sistemas de Informação.
       </span>
       <div className="flex w-full flex-col gap-4 pl-4 pr-10">
->>>>>>> dev
         <table className="w-full">
           <thead>
             <tr>
               <th className="border border-gray-300 p-2">Nome</th>
-<<<<<<< HEAD
-              <th className="border border-gray-300 p-2">Tipo</th>
-              <th className="border border-gray-300 p-2">Email</th>
-              <th className="border border-gray-300 p-2">Vigência</th>
-              <th className="border border-gray-300 p-2">Acoes</th>
-=======
               <th className="border border-gray-300 p-2">Segmento</th>
               <th className="border border-gray-300 p-2">Email</th>
               <th className="border border-gray-300 p-2">Vigência</th>
               <th className="w-40 border border-gray-300 p-2">Acoes</th>
->>>>>>> dev
             </tr>
           </thead>
           <tbody>
@@ -188,88 +112,6 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                 <td className="border border-gray-300 p-2">
                   {member.validity}
                 </td>
-<<<<<<< HEAD
-                <td className="border border-gray-300 p-2">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline">Editar</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Edicao de professores</DialogTitle>
-                        <DialogDescription>
-                          Edicao de professores
-                        </DialogDescription>
-                      </DialogHeader>
-                      <section className="flex justify-between">
-                        <div className="flex flex-col items-start justify-start gap-3">
-                          <Label htmlFor="name">Nome</Label>
-                          <Input
-                            id="name"
-                            type="text"
-                            placeholder="Nome"
-                            // {...register("name")}
-                          />
-                          {/* {errors.teacher && (
-                            <span className="text-red-500">
-                              {errors.name.message}
-                            </span>
-                          )} */}
-                          <Label htmlFor="type">Tipo</Label>
-                          <Input
-                            id="type"
-                            type="text"
-                            placeholder="Tipo"
-                            // {...register("type")}
-                          />
-                          {/* {errors.type && (
-                            <span className="text-red-500">
-                              {errors.type.message}
-                            </span>
-                          )} */}
-                          <Label htmlFor="email">Email</Label>
-                          <Input
-                            id="email"
-                            type="text"
-                            placeholder="Email"
-                            // {...register("email")}
-                          />
-                          {/* {errors.email && (
-                            <span className="text-red-500">
-                              {errors.email.message}
-                            </span>
-                          )} */}
-                          <Label htmlFor="validity">Vigência</Label>
-                          <Input
-                            id="validity"
-                            type="text"
-                            placeholder="Vigência"
-                            // {...register("validity")}
-                          />
-                          {/* {errors.validity && (
-                            <span className="text-red-500">
-                              {errors.validity.message}
-                            </span>
-                          )} */}
-                        </div>
-                      </section>
-                      <DialogFooter>
-                        <Button
-                          className="bg-red-500 hover:bg-red-600"
-                          onClick={() => setOpen(false)}
-                        >
-                          Cancelar
-                        </Button>
-                        <Button
-                          className="bg-green-500 hover:bg-green-600"
-                          onClick={() => setOpen(false)}
-                        >
-                          Salvar
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-=======
                 <td className="flex w-40 justify-center gap-1 border border-gray-300 px-4 py-2">
                   <Dialog>
                     <DialogTrigger asChild>
@@ -343,14 +185,11 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                   >
                     {isSubmitting ? "Deletando..." : "Deletar"}
                   </Button>
->>>>>>> dev
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-<<<<<<< HEAD
-=======
 
         <Dialog>
           <DialogTrigger asChild>
@@ -397,20 +236,12 @@ const CollegiateAdmin: NextPageWithLayout = () => {
             </form>
           </DialogContent>
         </Dialog>
->>>>>>> dev
       </div>
     </section>
   );
 };
 
-<<<<<<< HEAD
-Collegiate.getLayout = function (page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-export default Collegiate;
-=======
 CollegiateAdmin.getLayout = function (page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 export default CollegiateAdmin;
->>>>>>> dev
