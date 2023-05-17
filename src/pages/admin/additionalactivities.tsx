@@ -24,6 +24,7 @@ import { AdditionalActivitiesSchema } from "~/server/common/PageSchema";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
+import { LoadingSpinner } from "~/components/Loading";
 
 const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
   const {
@@ -62,7 +63,7 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
   }
 
   return (
-    <section className="flex h-full w-full  flex-col items-start justify-center gap-4 bg-zinc-800 py-2">
+    <section className="flex h-full w-full  flex-col items-start justify-center gap-4 bg-zinc-800 py-2 text-gray-300">
       <div className="flex flex-col gap-4 pl-4">
         {pageData && (
           <div>
@@ -81,22 +82,21 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
       </div>
 
       <div className="flex pl-4">
-        <form
-          className="flex flex-col gap-4 py-4"
-          // onSubmit={handleSubmit(updatePage)}
-        >
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button className="bg-slate-200 text-zinc-900">
-                Editar Conteudo da página
-              </Button>
-            </SheetTrigger>
-
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button className="bg-slate-200 text-zinc-900">
+              Editar Conteudo da página
+            </Button>
+          </SheetTrigger>
+          <form
+            className="flex flex-col gap-4 py-4"
+            onSubmit={handleSubmit(updatePage)}
+          >
             <ScrollArea className="h-full ">
               <SheetContent
                 position="right"
                 size={"default"}
-                className="flex h-full flex-col gap-4 bg-zinc-800"
+                className="flex h-full flex-col gap-4 bg-zinc-800 text-white"
               >
                 <SheetHeader>
                   <SheetTitle>Editar Conteudo</SheetTitle>
@@ -114,7 +114,7 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                     id="titlePage"
                     placeholder={pageData?.title}
                     className="col-span-3"
-                    {...register("title", { required: true })}
+                    {...register("title")}
                   />
                   <Label htmlFor="newValue" className="">
                     Digite o novo conteúdo a ser apresentado no corpo da página
@@ -150,13 +150,13 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                     disabled={isSubmitting}
                     className="bg-slate-200 text-zinc-900"
                   >
-                    {isSubmitting ? "Salvando..." : "Salvar Alterações"}
+                    {isSubmitting ? <LoadingSpinner /> : "Salvar Alterações"}
                   </Button>
                 </SheetFooter>
               </SheetContent>
             </ScrollArea>
-          </Sheet>
-        </form>
+          </form>
+        </Sheet>
       </div>
     </section>
   );

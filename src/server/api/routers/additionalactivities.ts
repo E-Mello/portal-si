@@ -30,7 +30,7 @@ export const additionalActivitiesRouter = createTRPCRouter({
             nameLink,
           },
           where: {
-            title: input.title,
+            id: 1,
           },
         });
         return page;
