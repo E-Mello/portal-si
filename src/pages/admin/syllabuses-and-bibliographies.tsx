@@ -23,16 +23,6 @@ import { toast } from "react-toastify";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-type pageData = {
-  id: number;
-  title: string;
-  info: string | null;
-  info02: string | null; // Add this line
-  content02: string | null; // Add this line
-  info03: string | null; // Add this line
-  content03: string | null; // Add this line
-};
-
 const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
   const {
     data: pageData,
@@ -71,18 +61,15 @@ const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
-  // const fieldsets = [
-  //   {
-  //     nameLink: pageData.info02 as string,
-  //     link: pageData.content02 as string,
-  //   },
-  //   {
-  //     nameLink: pageData.info03 as string,
-  //     link: pageData.content03 as string,
-  //   },
-  // ];
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
+      {pageData && (
+        <div className="flex w-[95%] flex-col gap-10">
+          <h1 className="pl-4 text-xl">
+            {pageData.title || "Erro ao buscar as informações do banco de dados"}
+          </h1>
+        </div>
+      )}
       <div className="flex w-[95%] flex-col gap-10">
         <h1 className="pl-4 text-xl">
           {/* {pageData?.title || "Erro ao buscar as informações do banco de dados"} */}

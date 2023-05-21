@@ -20,12 +20,7 @@ export default function Layout({
         <section
           className={`bg-zinc-800 ${isActiveNav ? "ml-[15vw]" : "ml-[4vw]"}`}
         >
-          <main
-            className={`flex min-h-screen ${
-              isActiveNav ? "w-[85vw]" : "w-[96vw]"
-            } `}
-            {...props}
-          >
+          <main className={`flex min-h-screen  `} {...props}>
             {children}
           </main>
         </section>

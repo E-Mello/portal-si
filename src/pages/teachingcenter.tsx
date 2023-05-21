@@ -17,7 +17,7 @@ const TeachingCenter: NextPageWithLayout = () => {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.teachercenter.getAll.useQuery();
+  } = api.facultyCore.getAll.useQuery();
 
   if (pageIsLoading) {
     return <div>Loading...</div>;

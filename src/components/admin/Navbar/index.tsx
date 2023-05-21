@@ -44,7 +44,7 @@ export default function Navbar() {
     },
     {
       name: "Nucleo docente",
-      link: "/teachingcenter",
+      link: "/facultycore",
       icon: HiPencil,
     },
     {
@@ -180,8 +180,8 @@ export default function Navbar() {
           />
         )}
       </div>
-      <ScrollArea className={` h-full gap-4 rounded-md`}>
-        <div className=" mt-[3vh] flex flex-col gap-4 overscroll-none">
+      <ScrollArea className={`h-full`}>
+        <div className="mt-[3vh] flex h-full flex-col gap-4 overscroll-none">
           <Link
             href={"/"}
             className={`group flex items-center gap-2 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
@@ -207,7 +207,6 @@ export default function Navbar() {
             </span>
           </Link>
           <hr />
-
           {menuEdit?.map((menu, i) => (
             <Link
               href={`/admin${menu?.link}`}

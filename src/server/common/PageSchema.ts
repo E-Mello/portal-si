@@ -1,13 +1,5 @@
 import { z } from "zod";
 
-export const AdditionalActivitiesSchema = z.object({
-  title: z.string(),
-  content: z.string(),
-  image: z.string().optional(),
-  link: z.string().optional(),
-  nameLink: z.string().optional(),
-});
-
 export const PageViewSchema = z.object({
   title: z.string(),
   info: z.string().optional(),
@@ -21,6 +13,52 @@ export const PageViewSchema = z.object({
   nameLink: z.string().optional(),
   link: z.string().optional(),
   image: z.string().optional(),
+});
+
+export const AdditionalActivitiesSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  content: z.string(),
+  link: z.string().optional(),
+  nameLink: z.string().optional(),
+});
+
+export const AdditionalActivitiesUpdateSchema = z.object({
+  id: z.number().optional(),
+  title: z.string().optional(),
+  content: z.string().optional(),
+  link: z.string().optional(),
+  nameLink: z.string().optional(),
+});
+
+export const AboutCourseSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  content: z.string(),
+});
+
+export const AboutCourseUpdateSchema = z.object({
+  title: z.string().optional(),
+  content: z.string().optional(),
+});
+
+export const CoursePurposeUpdateSchema = z.object({
+  id: z.number().optional(),
+  title: z.string().optional(),
+  info: z.string().optional(),
+  content: z.string().optional(),
+  info02: z.string().optional(),
+  content02: z.string().optional(),
+  info03: z.string().optional(),
+  content03: z.string().optional(),
+  info04: z.string().optional(),
+  content04: z.string().optional(),
+});
+
+export const JobProfileSchema = z.object({
+  id: z.number().optional(),
+  title: z.string().optional(),
+  content: z.string().optional(),
 });
 
 export const PublicationsSchema = z.object({
@@ -39,13 +77,40 @@ export const TeachersSchema = z.object({
   area: z.string(),
   email: z.string(),
   lattes: z.string(),
-  schoolYear: z.object({
-    id: z.number(),
-    class: z.object({
-      year: z.number(),
-      semester: z.string(),
-    }),
-  }),
+  schoolYearId: z.number(),
+});
+
+export const TeachersUpdateSchema = z.object({
+  id: z.number().optional(),
+  name: z.string().optional(),
+  qualification: z.string().optional(),
+  area: z.string().optional(),
+  email: z.string().optional(),
+  lattes: z.string().optional(),
+  schoolYearId: z.number().optional(),
+});
+
+export const TeachersCreateSchema = z.object({
+  name: z.string(),
+  qualification: z.string(),
+  area: z.string(),
+  email: z.string(),
+  lattes: z.string(),
+  updateAt: z.string(),
+  schoolYears: z
+    .array(
+      z.object({
+        id: z.number(),
+        year: z.string(),
+        semester: z.string(),
+      })
+    )
+    .nonempty(),
+});
+
+export const SchoolYearCreateSchema = z.object({
+  year: z.string(),
+  semester: z.string(),
 });
 
 export const CollegiateSchema = z.object({
@@ -66,7 +131,7 @@ export const CollegiateCreateSchema = z.object({
   updatedAt: z.string(),
 });
 
-export const TeachingCenterSchema = z.object({
+export const FacultyCoreSchema = z.object({
   id: z.number(),
   teachers: z.string(),
   type: z.string(),
@@ -74,11 +139,32 @@ export const TeachingCenterSchema = z.object({
   validity: z.string(),
 });
 
-export const ScheduleSchema = z.object({
+export const FacultyCoreUpdateSchema = z.object({
   id: z.number(),
+  teachers: z.string().optional(),
+  type: z.string().optional(),
+  email: z.string().optional(),
+  validity: z.string().optional(),
+});
+
+export const FacultyCoreCreateSchema = z.object({
+  teachers: z.string(),
+  type: z.string(),
+  email: z.string(),
+  validity: z.string(),
+});
+
+export const ScheduleCreateSchema = z.object({
   year: z.string(),
   semester: z.string(),
   link: z.string(),
+});
+
+export const ScheduleUpdateSchema = z.object({
+  id: z.number(),
+  year: z.string().optional(),
+  semester: z.string().optional(),
+  link: z.string().optional(),
 });
 
 export const EquivalenceSchema = z.object({

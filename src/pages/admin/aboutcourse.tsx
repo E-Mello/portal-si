@@ -13,17 +13,20 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { PageViewSchema } from "~/server/common/PageSchema";
+import { AboutCourseUpdateSchema } from "~/server/common/PageSchema";
 import { type z } from "zod";
+import { LoadingSpinner } from "~/components/Loading";
 
 const AboutCourseAdmin: NextPageWithLayout = () => {
+  const [open, setOpen] = useState(false);
+  const utils = api.useContext();
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -33,7 +36,18 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
   const { mutateAsync: update } = api.aboutcourse.update.useMutation({
     onSuccess: () => {
       // show success toast
-      toast.success("Conteúdo da página atualizado com sucesso!");
+      void utils.aboutcourse.getAll.invalidate();
+      reset();
+      setOpen(false);
+      toast.success("Conteúdo da página atualizado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      // show error toast
+      toast.error("Falha ao atualizar o conteúdo da página.", {
+        autoClose: 2000,
+      });
     },
   });
   const {
@@ -41,15 +55,43 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof PageViewSchema>>({
-    resolver: zodResolver(PageViewSchema),
+  } = useForm<z.infer<typeof AboutCourseUpdateSchema>>({
+    resolver: zodResolver(AboutCourseUpdateSchema),
   });
-  const updatePage: SubmitHandler<z.infer<typeof PageViewSchema>> = async (
-    data
-  ) => {
-    const res = await update(data);
-    console.log("res", res);
-    reset();
+  const updatePage: SubmitHandler<
+    z.infer<typeof AboutCourseUpdateSchema>
+  > = async (data) => {
+    const changedFields = {};
+
+    // Iterate over the submitted data and check for changes
+    for (const key in data) {
+      if (data[key] !== "") {
+        changedFields[key] = data[key];
+      }
+    }
+
+    if (Object.keys(changedFields).length === 0) {
+      // No changes detected, show a message or handle it as per your requirement
+      toast.info("No changes made.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    console.log("Changed fields:", changedFields);
+
+    try {
+      const updatedData = { ...pageData, ...changedFields };
+      const res = await update(updatedData);
+      console.log("res", res);
+      reset();
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      toast.error("Failed to update page.", {
+        autoClose: 2000,
+      });
+    }
   };
 
   if (pageIsLoading) {
@@ -63,70 +105,79 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
   return (
     <section className="flex h-full flex-col items-start justify-center gap-4 bg-zinc-800 pl-4 pt-4">
       {pageData && (
-        <div>
-          <div className="flex flex-col ">
-            <h1 className=" pb-4 text-xl">{pageData.title}</h1>
-            <div className="flex  w-full flex-col pr-10">
-              {pageData.content.split(/[;:]/).map((item, index) => (
-                <p key={index}>{item.trim()}</p>
-              ))}
-            </div>
-          </div>
-          <div className="flex pt-2 ">
-            {/* <form onSubmit={handleSubmit(updatePage)}> */}
-            <form>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button className="bg-slate-200 text-zinc-900">
-                    Editar Conteudo da página
-                  </Button>
-                </SheetTrigger>
-                <ScrollArea>
-                  <SheetContent
-                    position="right"
-                    size={"default"}
-                    className="bg-zinc-800"
-                  >
-                    <SheetHeader>
-                      <SheetTitle>Editar Conteudo</SheetTitle>
-                      <SheetDescription>
-                        Nessa folha lateral é possível estar editando o conteúdo
-                        desta página
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="flex flex-col gap-4 py-4">
-                      <div className="col-span-3 flex flex-col items-start gap-4">
-                        <Label htmlFor="title" className="">
-                          Alterar o titulo da página
-                        </Label>
-                        <Input
-                          id="titlePage"
-                          placeholder="Atividades Complementares"
-                          className="col-span-3"
-                          {...register("title")}
-                        />
-                        <Label htmlFor="newValue" className="">
-                          Digite o novo conteúdo a ser apresentado no corpo da
-                          página
-                        </Label>
-                        <Textarea {...register("content")}></Textarea>
-                      </div>
-                    </div>
-                    <SheetFooter>
-                      <input
-                        type="submit"
-                        className="bg-slate-200 text-zinc-900"
-                      >
-                        Save changes
-                      </input>
-                    </SheetFooter>
-                  </SheetContent>
-                </ScrollArea>
-              </Sheet>
-            </form>
+        <div className="flex flex-col ">
+          <h1 className=" pb-4 text-xl">{pageData.title}</h1>
+          <div className="flex  w-full flex-col pr-10">
+            {pageData?.content?.split(/[;:]/).map((item, index) => (
+              <p key={index}>{item.trim()}</p>
+            ))}
           </div>
         </div>
       )}
+
+      <div className="flex pl-4">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button aria-expanded={open} className="bg-slate-200 text-zinc-900">
+              Editar Conteudo da página
+            </Button>
+          </SheetTrigger>
+
+          <ScrollArea className="h-full ">
+            <SheetContent
+              position="right"
+              size={"default"}
+              className="flex h-full flex-col gap-4 bg-zinc-800 text-white"
+            >
+              <form
+                className="flex flex-col gap-4 py-4"
+                onSubmit={handleSubmit(updatePage)}
+              >
+                <SheetHeader>
+                  <SheetTitle>Editar Conteudo</SheetTitle>
+                  <SheetDescription>
+                    Nessa folha lateral é possível estar editando o conteúdo
+                    desta página, lembrando que o caractere `:` e `;` serve para
+                    quebrar linha, quando o codigo ler, ira substituir por uma
+                    quebra de linha
+                  </SheetDescription>
+                </SheetHeader>
+
+                <div className="col-span-3 flex flex-col items-start gap-4">
+                  <Label htmlFor="title" className="">
+                    Alterar o titulo da página
+                  </Label>
+                  <Input
+                    id="titlePage"
+                    placeholder={pageData?.title}
+                    className="col-span-3"
+                    defaultValue={pageData?.title || ""}
+                    {...register("title")}
+                  />
+                  <Label htmlFor="newValue" className="">
+                    Editar conteúdo a ser apresentado no corpo da página
+                  </Label>
+                  <Textarea
+                    className="col-span-3 h-64"
+                    {...register("content")}
+                    defaultValue={pageData?.content || ""}
+                  ></Textarea>
+                </div>
+
+                <SheetFooter className="">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-slate-200 text-zinc-900"
+                  >
+                    {isSubmitting ? <LoadingSpinner /> : "Salvar Alterações"}
+                  </Button>
+                </SheetFooter>
+              </form>
+            </SheetContent>
+          </ScrollArea>
+        </Sheet>
+      </div>
     </section>
   );
 };

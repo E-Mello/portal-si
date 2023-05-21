@@ -1,6 +1,8 @@
+import {
+  ScheduleCreateSchema,
+  ScheduleUpdateSchema,
+} from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-import { ScheduleSchema } from "~/server/common/PageSchema";
 
 export const scheduleRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -14,7 +16,7 @@ export const scheduleRouter = createTRPCRouter({
     });
   }),
   update: publicProcedure
-    .input(ScheduleSchema)
+    .input(ScheduleUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.schedule.update({
         where: {
@@ -28,7 +30,7 @@ export const scheduleRouter = createTRPCRouter({
       });
     }),
   delete: publicProcedure
-    .input(ScheduleSchema)
+    .input(ScheduleUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         return await ctx.prisma.schedule.delete({
@@ -41,7 +43,7 @@ export const scheduleRouter = createTRPCRouter({
       }
     }),
   create: publicProcedure
-    .input(ScheduleSchema)
+    .input(ScheduleCreateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         const schedule = await ctx.prisma.schedule.create({
@@ -54,7 +56,7 @@ export const scheduleRouter = createTRPCRouter({
         });
         return schedule;
       } catch (error) {
-        console.log("Erro ao inserir um novo membro: ", error);
+        console.log("Erro ao criar um horário: ", error);
       }
     }),
 });

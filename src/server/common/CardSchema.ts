@@ -14,12 +14,12 @@ export const CardSchema = z.object({
 });
 
 export const CardUpdateSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  info: z.string(),
+  id: z.number().optional(),
+  name: z.string().optional(),
+  info: z.string().optional(),
   group: z.object({
-    id: z.number(),
-    name: z.string(),
+    id: z.number().optional(),
+    name: z.string().optional(),
   }),
 });
 

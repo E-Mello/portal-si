@@ -10,23 +10,32 @@ import {
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 
-import { type SubmitHandler, useForm } from "react-hook-form";
+import {
+  type SubmitHandler,
+  useForm,
+  SubmitErrorHandler,
+} from "react-hook-form";
 
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { type ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import Link from "next/link";
-import { AdditionalActivitiesSchema } from "~/server/common/PageSchema";
+import {
+  AdditionalActivitiesSchema,
+  AdditionalActivitiesUpdateSchema,
+} from "~/server/common/PageSchema";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { LoadingSpinner } from "~/components/Loading";
 
 const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
+  const utils = api.useContext();
+  const [open, setOpen] = useState(false);
   const {
     data: pageData,
     isError,
@@ -35,7 +44,10 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
   const { mutateAsync: update } = api.additionalActivities.update.useMutation({
     onSuccess: () => {
       // show success toast
-      toast.success("Conteúdo da página atualizado com sucesso!");
+      void utils.additionalActivities.getAll.invalidate();
+      toast.success("Conteúdo da página atualizado com sucesso!", {
+        autoClose: 2000,
+      });
     },
   });
   const {
@@ -43,15 +55,44 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof AdditionalActivitiesSchema>>({
-    resolver: zodResolver(AdditionalActivitiesSchema),
+  } = useForm<z.infer<typeof AdditionalActivitiesUpdateSchema>>({
+    resolver: zodResolver(AdditionalActivitiesUpdateSchema),
   });
+
   const updatePage: SubmitHandler<
-    z.infer<typeof AdditionalActivitiesSchema>
+    z.infer<typeof AdditionalActivitiesUpdateSchema>
   > = async (data) => {
-    const res = await update(data);
-    console.log("res", res);
-    reset();
+    const changedFields = {};
+
+    // Iterate over the submitted data and check for changes
+    for (const key in data) {
+      if (data[key] !== "") {
+        changedFields[key] = data[key];
+      }
+    }
+
+    if (Object.keys(changedFields).length === 0) {
+      // No changes detected, show a message or handle it as per your requirement
+      toast.info("No changes made.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    console.log("Changed fields:", changedFields);
+
+    try {
+      const updatedData = { ...pageData, ...changedFields };
+      const res = await update(updatedData);
+      console.log("res", res);
+      reset();
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      toast.error("Failed to update page.", {
+        autoClose: 2000,
+      });
+    }
   };
 
   if (pageIsLoading) {
@@ -74,7 +115,11 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
               <p key={index}>{item.trim()}</p>
             ))}
             <br></br>
-            <Link className="text-blue-900" href={pageData.link || "/"}>
+            <Link
+              className="text-blue-900"
+              target="_blank"
+              href={pageData.link || "/"}
+            >
               <b>{pageData.nameLink}</b>
             </Link>
           </div>
@@ -82,27 +127,30 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
       </div>
 
       <div className="flex pl-4">
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button className="bg-slate-200 text-zinc-900">
               Editar Conteudo da página
             </Button>
           </SheetTrigger>
-          <form
-            className="flex flex-col gap-4 py-4"
-            onSubmit={handleSubmit(updatePage)}
-          >
-            <ScrollArea className="h-full ">
-              <SheetContent
-                position="right"
-                size={"default"}
-                className="flex h-full flex-col gap-4 bg-zinc-800 text-white"
+
+          <ScrollArea className="h-full ">
+            <SheetContent
+              position="right"
+              size={"default"}
+              className="flex h-full flex-col gap-4 bg-zinc-800 text-white"
+            >
+              <form
+                className="flex flex-col gap-4 py-4"
+                onSubmit={handleSubmit(updatePage)}
               >
                 <SheetHeader>
                   <SheetTitle>Editar Conteudo</SheetTitle>
                   <SheetDescription>
                     Nessa folha lateral é possível estar editando o conteúdo
-                    desta página
+                    desta página, lembrando que o caractere `+` serve para
+                    quebrar linha, quando o codigo ler, ira substituir por uma
+                    quebra de linha
                   </SheetDescription>
                 </SheetHeader>
 
@@ -117,45 +165,47 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                     {...register("title")}
                   />
                   <Label htmlFor="newValue" className="">
-                    Digite o novo conteúdo a ser apresentado no corpo da página
+                    Editar conteúdo a ser apresentado no corpo da página
                   </Label>
                   <Textarea
                     className="col-span-3 h-64"
                     {...register("content")}
+                    defaultValue={pageData?.content || ""}
+                  ></Textarea>
+                  <Label htmlFor="link" className="">
+                    Alterar o link de acesso a documentação
+                  </Label>
+                  <Input
+                    id="linkPage"
+                    placeholder={pageData?.link || ""}
+                    className="col-span-3"
+                    {...register("link")}
+                  />
+
+                  <Label htmlFor="link" className="">
+                    Alterar o nome do link
+                  </Label>
+                  <Input
+                    id="nameLink"
+                    placeholder={pageData?.nameLink || ""}
+                    className="col-span-3"
+                    {...register("nameLink")}
                   />
                 </div>
-                <Label htmlFor="link" className="">
-                  Alterar o link de acesso a documentação
-                </Label>
-                <Input
-                  id="linkPage"
-                  placeholder={pageData?.link || ""}
-                  className="col-span-3"
-                  {...register("link")}
-                />
-
-                <Label htmlFor="link" className="">
-                  Alterar o nome do link
-                </Label>
-                <Input
-                  id="nameLink"
-                  placeholder={pageData?.nameLink || ""}
-                  className="col-span-3"
-                  {...register("nameLink")}
-                />
 
                 <SheetFooter className="">
                   <Button
                     type="submit"
                     disabled={isSubmitting}
                     className="bg-slate-200 text-zinc-900"
+                    onClick={() => setOpen(false)}
                   >
                     {isSubmitting ? <LoadingSpinner /> : "Salvar Alterações"}
                   </Button>
                 </SheetFooter>
-              </SheetContent>
-            </ScrollArea>
-          </form>
+              </form>
+            </SheetContent>
+          </ScrollArea>
         </Sheet>
       </div>
     </section>

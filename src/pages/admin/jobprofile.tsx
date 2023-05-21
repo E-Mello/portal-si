@@ -1,4 +1,5 @@
-import type { Key, ReactElement } from "react";
+import { JobProfileSchema } from "~/server/common/PageSchema";
+import { useState, type ReactElement } from "react";
 import {
   Sheet,
   SheetContent,
@@ -8,22 +9,25 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "~/components/ui/sheet";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
+import { LoadingSpinner } from "~/components/Loading";
 import type { NextPageWithLayout } from "~/types/layout";
-import { PageViewSchema } from "~/server/common/PageSchema";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
+import { merge } from "lodash";
 import { toast } from "react-toastify";
-import { z } from "zod";
+import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const JobProfileAdmin: NextPageWithLayout = () => {
+  const utils = api.useContext();
+  const [open, setOpen] = useState(false);
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -33,7 +37,18 @@ const JobProfileAdmin: NextPageWithLayout = () => {
   const { mutateAsync: update } = api.jobProfile.update.useMutation({
     onSuccess: () => {
       // show success toast
-      toast.success("Conteúdo da página atualizado com sucesso!");
+      void utils.jobProfile.getAll.invalidate();
+      reset();
+      setOpen(false);
+      toast.success("Conteúdo da página atualizado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      // show error toast
+      toast.error("Falha ao atualizar conteúdo da página.", {
+        autoClose: 2000,
+      });
     },
   });
   const {
@@ -41,15 +56,43 @@ const JobProfileAdmin: NextPageWithLayout = () => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof PageViewSchema>>({
-    resolver: zodResolver(PageViewSchema),
+  } = useForm<z.infer<typeof JobProfileSchema>>({
+    resolver: zodResolver(JobProfileSchema),
   });
-  const updatePage: SubmitHandler<z.infer<typeof PageViewSchema>> = async (
+  const updatePage: SubmitHandler<z.infer<typeof JobProfileSchema>> = async (
     data
   ) => {
-    const res = await update(data);
-    console.log("res", res);
-    reset();
+    const changedFields = {};
+
+    // Iterate over the submitted data and check for changes
+    for (const key in data) {
+      if (data[key] !== "") {
+        changedFields[key] = data[key];
+      }
+    }
+
+    if (Object.keys(changedFields).length === 0) {
+      // No changes detected, show a message or handle it as per your requirement
+      toast.info("No changes made.", {
+        autoClose: 2000,
+      });
+      return;
+    }
+
+    console.log("Changed fields:", changedFields);
+
+    try {
+      const updatedData = merge({}, pageData, changedFields);
+      const res = await update(updatedData);
+      console.log("res", res);
+      reset();
+    } catch (error) {
+      // Handle error
+      console.error(error);
+      toast.error("Failed to update page.", {
+        autoClose: 2000,
+      });
+    }
   };
 
   if (pageIsLoading) {
@@ -63,35 +106,38 @@ const JobProfileAdmin: NextPageWithLayout = () => {
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
       <div className="flex w-[95%] flex-col gap-10">
         <h1 className="pl-4 text-xl">{pageData?.title}</h1>
-        {pageData && (
-          <div>
-            {pageData.content.split("+").map((item, index) => (
-              <p key={index}>{item.trim()}</p>
-            ))}
-          </div>
-        )}
+        <span>
+          {pageData?.content?.split("+").map((item, index) => (
+            <p key={index}>{item.trim()}</p>
+          ))}
+        </span>
       </div>
       <div className="flex ">
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button className="bg-slate-200 text-zinc-900">
+            <Button
+              onClick={() => {
+                reset();
+              }}
+              className="bg-slate-200 text-zinc-900"
+            >
               Editar Conteudo da página
             </Button>
           </SheetTrigger>
-          <ScrollArea>
-            <SheetContent
-              position="right"
-              size={"default"}
-              className="bg-zinc-800"
-            >
-              <SheetHeader>
-                <SheetTitle>Editar Conteudo</SheetTitle>
-                <SheetDescription>
-                  Nessa folha lateral é possível estar editando o conteúdo desta
-                  página, lembrando que para pular uma linha é necessário usar o
-                  símbolo +
-                </SheetDescription>
-              </SheetHeader>
+          <SheetContent
+            position="right"
+            size={"default"}
+            className="bg-zinc-800 text-white"
+          >
+            <SheetHeader>
+              <SheetTitle>Editar Conteudo</SheetTitle>
+              <SheetDescription>
+                Nessa folha lateral é possível estar editando o conteúdo desta
+                página, lembrando que para pular uma linha é necessário usar o
+                símbolo +
+              </SheetDescription>
+            </SheetHeader>
+            <form onSubmit={handleSubmit(updatePage)}>
               <div className="flex flex-col gap-4 py-4">
                 <div className="col-span-3 flex flex-col items-start gap-4">
                   <Label htmlFor="title" className="">
@@ -99,25 +145,35 @@ const JobProfileAdmin: NextPageWithLayout = () => {
                   </Label>
                   <Input
                     id="titlePage"
-                    placeholder={
-                      pageData?.info ||
+                    defaultValue={
+                      pageData?.title ||
                       "Não foi possível carregar o conteúdo do banco de dados"
                     }
+                    {...register("title")}
                     className="col-span-3"
                   />
                   <Label htmlFor="newValue" className="">
                     Digite o novo conteúdo a ser apresentado no corpo da página
                   </Label>
-                  <Textarea />
+                  <ScrollArea className="h-full w-full">
+                    <Textarea
+                      className="h-[50vh] w-full"
+                      defaultValue={
+                        pageData?.content ||
+                        "Não foi possível carregar o conteúdo do banco de dados"
+                      }
+                      {...register("content")}
+                    ></Textarea>
+                  </ScrollArea>
                 </div>
               </div>
               <SheetFooter>
                 <Button type="submit" className="bg-slate-200 text-zinc-900">
-                  Save changes
+                  {isSubmitting ? <LoadingSpinner /> : "Salvar alteracoes"}
                 </Button>
               </SheetFooter>
-            </SheetContent>
-          </ScrollArea>
+            </form>
+          </SheetContent>
         </Sheet>
       </div>
     </section>

@@ -9,13 +9,13 @@ import { dashboardRouter } from "./routers/dashboard";
 import { electiveSubjectRouter } from "./routers/electivesubject";
 import { equivalenceRouter } from "./routers/equivalence";
 import { eventsRouter } from "./routers/events";
+import { facultyCoreRouter } from "~/server/api/routers/facultycore";
 import { gcaRouter } from "./routers/gca";
 import { jobProfileRouter } from "./routers/jobprofile";
 import { projectsRouter } from "./routers/projects";
 import { scheduleRouter } from "./routers/schedule";
 import { syllabusesAndBibliographiesRouter } from "~/server/api/routers/syllabuses_and_bibliographies";
 import { tccRouter } from "./routers/tcc";
-import { teacherRouter } from "./routers/teachingcenter";
 import { teachersRouter } from "./routers/teachers";
 
 /**
@@ -25,7 +25,7 @@ import { teachersRouter } from "./routers/teachers";
  */
 export const appRouter = createTRPCRouter({
   aboutcourse: aboutCourseRouter,
-  teachercenter: teacherRouter,
+  facultyCore: facultyCoreRouter,
   schedule: scheduleRouter,
   gca: gcaRouter,
   curriculumSubjects: curriculumSubjectsRouter,

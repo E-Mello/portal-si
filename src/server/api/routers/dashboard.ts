@@ -68,6 +68,9 @@ export const dashboardRouter = createTRPCRouter({
               connect: {
                 id: data.group.id,
               },
+              update: {
+                name: data.group.name,
+              },
             },
           },
         });

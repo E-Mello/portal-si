@@ -1,10 +1,13 @@
+import {
+  FacultyCoreCreateSchema,
+  FacultyCoreSchema,
+  FacultyCoreUpdateSchema,
+} from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { TeachingCenterSchema } from "~/server/common/PageSchema";
-
-export const teacherRouter = createTRPCRouter({
+export const facultyCoreRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.teachingCenter.findMany({
+    return await ctx.prisma.facultyCore.findMany({
       select: {
         id: true,
         teachers: true,
@@ -15,25 +18,30 @@ export const teacherRouter = createTRPCRouter({
     });
   }),
   update: publicProcedure
-    .input(TeachingCenterSchema)
-    .mutation(async ({ input, ctx }) => {
-      return await ctx.prisma.teachingCenter.update({
-        where: {
-          id: input.id,
-        },
-        data: {
-          teachers: input.teachers,
-          type: input.type,
-          email: input.email,
-          validity: input.validity,
-        },
-      });
-    }),
-  delete: publicProcedure
-    .input(TeachingCenterSchema)
+    .input(FacultyCoreUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
-        return await ctx.prisma.teachingCenter.delete({
+        const member = await ctx.prisma.facultyCore.update({
+          data: {
+            teachers: input.teachers,
+            type: input.type,
+            email: input.email,
+            validity: input.validity,
+          },
+          where: {
+            id: input.id,
+          },
+        });
+        return member;
+      } catch (error) {
+        console.log("Erro ao atualizar um membro: ", error);
+      }
+    }),
+  delete: publicProcedure
+    .input(FacultyCoreUpdateSchema)
+    .mutation(async ({ input, ctx }) => {
+      try {
+        return await ctx.prisma.facultyCore.delete({
           where: {
             id: input.id,
           },
@@ -43,10 +51,10 @@ export const teacherRouter = createTRPCRouter({
       }
     }),
   create: publicProcedure
-    .input(TeachingCenterSchema)
+    .input(FacultyCoreCreateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
-        const collegiate = await ctx.prisma.teachingCenter.create({
+        const member = await ctx.prisma.facultyCore.create({
           data: {
             teachers: input.teachers,
             type: input.type,
@@ -55,7 +63,7 @@ export const teacherRouter = createTRPCRouter({
             updatedAt: new Date(),
           },
         });
-        return collegiate;
+        return member;
       } catch (error) {
         console.log("Erro ao inserir um novo membro: ", error);
       }

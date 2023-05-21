@@ -1,6 +1,8 @@
+import {
+  AdditionalActivitiesSchema,
+  AdditionalActivitiesUpdateSchema,
+} from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-import { AdditionalActivitiesSchema } from "~/server/common/PageSchema";
 
 export const additionalActivitiesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -18,7 +20,7 @@ export const additionalActivitiesRouter = createTRPCRouter({
     });
   }),
   update: publicProcedure
-    .input(AdditionalActivitiesSchema)
+    .input(AdditionalActivitiesUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         const { title, content, link, nameLink } = input;

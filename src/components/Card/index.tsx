@@ -43,7 +43,9 @@ export default function Card(props: CardProps) {
             <div className="flex h-full flex-col items-center justify-center gap-4 ">
               <h1
                 className={`${
-                  isFlipped ? "hidden" : "whitespace-pre-line text-xl font-bold"
+                  isFlipped
+                    ? "hidden"
+                    : "whitespace-pre-line text-[1rem] font-bold"
                 }`}
               >
                 {props.name}

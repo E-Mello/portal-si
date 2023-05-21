@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { PageViewSchema } from "~/server/common/PageSchema";
+import { AboutCourseUpdateSchema } from "~/server/common/PageSchema";
 
 export const aboutCourseRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -9,8 +9,6 @@ export const aboutCourseRouter = createTRPCRouter({
         id: true,
         title: true,
         content: true,
-        link: false,
-        nameLink: false,
       },
       where: {
         id: 2,
@@ -18,7 +16,7 @@ export const aboutCourseRouter = createTRPCRouter({
     });
   }),
   update: publicProcedure
-    .input(PageViewSchema)
+    .input(AboutCourseUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         const { title, content } = input;
@@ -28,12 +26,12 @@ export const aboutCourseRouter = createTRPCRouter({
             content,
           },
           where: {
-            title: input.title,
+            id: 2,
           },
         });
         return page;
       } catch (error) {
-        console.log("Error update device:", error);
+        console.log("Error update AboutCourse page:", error);
       }
     }),
 });

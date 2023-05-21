@@ -18,15 +18,6 @@ model Collegiate {
   updatedAt DateTime
 }
 
-model TeachingCenter {
-  id        Int      @id @default(autoincrement())
-  teachers  String
-  type      String
-  email     String
-  validity  String
-  updatedAt DateTime
-}
-
 model ApliedGroup {
   id                Int      @id @default(autoincrement())
   name              String
@@ -101,22 +92,12 @@ model Subject {
 }
 
 model SchoolYear {
-  id        Int      @id @default(autoincrement())
-  teacherId Int
-  classId   Int
-  teachers  Teachers @relation(fields: [teacherId], references: [id])
-  class     Class    @relation(fields: [classId], references: [id])
+  id       Int        @id @default(autoincrement())
+  year     String
+  semester String
+  teachers Teachers[]
 
-  @@index([teacherId])
-  @@index([classId])
-}
-
-model Class {
-  id         Int          @id @default(autoincrement())
-  year       String
-  semester   Int
-  updatedAt  DateTime
-  schoolYear SchoolYear[]
+  @@unique([year, semester])
 }
 
 model Teachers {
@@ -127,7 +108,9 @@ model Teachers {
   email         String
   lattes        String
   updatedAt     DateTime
-  schoolYear    SchoolYear[]
+  schoolYears   SchoolYear[]
+
+  @@index([name])
 }
 
 model Card {
@@ -151,7 +134,7 @@ model ViewsPage {
   id        Int      @id @default(autoincrement())
   title     String   @unique(map: "title")
   info      String?
-  content   String   @db.Text
+  content   String?  @db.Text
   info02    String?
   content02 String?  @db.Text
   info03    String?
@@ -204,4 +187,22 @@ model TypesOfProjects {
   name      String
   updatedAt DateTime   @default(now())
   projects  Projects[]
+}
+
+model FacultyCore {
+  id        Int      @id @default(autoincrement())
+  teachers  String
+  type      String
+  email     String
+  validity  String
+  updatedAt DateTime
+}
+
+model SchoolYearToTeachers {
+  A Int
+  B Int
+
+  @@unique([A, B], map: "_SchoolYearToTeachers_AB_unique")
+  @@index([B], map: "_SchoolYearToTeachers_B_index")
+  @@map("_SchoolYearToTeachers")
 }
