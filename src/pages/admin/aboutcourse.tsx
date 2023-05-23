@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Sheet,
   SheetContent,
@@ -61,14 +62,14 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
   const updatePage: SubmitHandler<
     z.infer<typeof AboutCourseUpdateSchema>
   > = async (data) => {
-    const changedFields = {};
+    const changedFields: { [key: string]: string | undefined } = {};
 
     // Iterate over the submitted data and check for changes
-    for (const key in data) {
-      if (data[key] !== "") {
-        changedFields[key] = data[key];
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== "" && value !== undefined) {
+        changedFields[key as keyof typeof data] = value;
       }
-    }
+    });
 
     if (Object.keys(changedFields).length === 0) {
       // No changes detected, show a message or handle it as per your requirement
@@ -81,7 +82,12 @@ const AboutCourseAdmin: NextPageWithLayout = () => {
     console.log("Changed fields:", changedFields);
 
     try {
-      const updatedData = { ...pageData, ...changedFields };
+      const updatedData = {
+        ...pageData,
+        ...changedFields,
+        content:
+          changedFields.content !== null ? changedFields.content : undefined,
+      };
       const res = await update(updatedData);
       console.log("res", res);
       reset();

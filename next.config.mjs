@@ -21,9 +21,5 @@ const config = {
   images: {
     domains: ["github.com", "zrohxlcjhxpnojvxpcju.supabase.co", "images.unsplash.com", "pngimg.com", "images.tcdn.com.br"],
   },
-  server: {
-    host: '192.168.0.32',
-    port: 3000,
-  },
 };
 export default config;

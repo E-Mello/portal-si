@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Sheet,
   SheetContent,
@@ -24,10 +25,7 @@ import { useState, type ReactElement } from "react";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import Link from "next/link";
-import {
-  AdditionalActivitiesSchema,
-  AdditionalActivitiesUpdateSchema,
-} from "~/server/common/PageSchema";
+import { AdditionalActivitiesUpdateSchema } from "~/server/common/PageSchema";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
@@ -62,12 +60,17 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
   const updatePage: SubmitHandler<
     z.infer<typeof AdditionalActivitiesUpdateSchema>
   > = async (data) => {
-    const changedFields = {};
+    const changedFields: { [key: string]: string | number | undefined } = {};
 
     // Iterate over the submitted data and check for changes
     for (const key in data) {
-      if (data[key] !== "") {
-        changedFields[key] = data[key];
+      if (
+        data.hasOwnProperty(key) &&
+        data[key as keyof typeof data] !== "" &&
+        data[key as keyof typeof data] !== undefined
+      ) {
+        changedFields[key as keyof typeof changedFields] =
+          data[key as keyof typeof data];
       }
     }
 
@@ -82,7 +85,37 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
     console.log("Changed fields:", changedFields);
 
     try {
-      const updatedData = { ...pageData, ...changedFields };
+      const updatedData: {
+        content: string;
+        link: string;
+        id?: number | undefined;
+        title?: string | undefined;
+        nameLink?: string | undefined;
+      } = {
+        ...pageData,
+        ...changedFields,
+        content:
+          typeof changedFields.content === "string"
+            ? changedFields.content
+            : changedFields.content !== null &&
+              changedFields.content !== undefined
+            ? changedFields.content.toString()
+            : "",
+        link:
+          changedFields.link !== null && changedFields.link !== undefined
+            ? changedFields.link.toString()
+            : "",
+        nameLink:
+          changedFields.nameLink !== null &&
+          changedFields.nameLink !== undefined
+            ? changedFields.nameLink.toString()
+            : undefined,
+      };
+
+      if (changedFields.content === null) {
+        updatedData.content = ""; // Set it to an empty string or handle it as per your requirement
+      }
+
       const res = await update(updatedData);
       console.log("res", res);
       reset();
@@ -198,7 +231,6 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                     type="submit"
                     disabled={isSubmitting}
                     className="bg-slate-200 text-zinc-900"
-                    onClick={() => setOpen(false)}
                   >
                     {isSubmitting ? <LoadingSpinner /> : "Salvar Alterações"}
                   </Button>

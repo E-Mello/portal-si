@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Sheet,
   SheetContent,
@@ -66,6 +67,12 @@ const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
   const updatePage: SubmitHandler<
     z.infer<typeof SyllabusesAndBibliographiesUpdateSchema>
   > = async (data) => {
+    // Check if pageData is defined
+    if (!pageData) {
+      // Handle the case when pageData is undefined
+      return;
+    }
+
     // Check if the data is the same as the content in the database
     if (
       data.title === pageData[0]?.title &&

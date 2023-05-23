@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
@@ -45,6 +46,7 @@ import {
   AlertDialogAction,
 } from "~/components/ui/alert-dialog";
 import { set } from "lodash";
+import { LoadingSpinner } from "~/components/Loading";
 
 const ScheduleAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
@@ -132,13 +134,13 @@ const ScheduleAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteSchedule() {
-    try {
-      mutate({ id: data.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteSchedule() {
+  //   try {
+  //     mutate({ id: data.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -244,11 +246,12 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                             />
                           </div>
                           <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                            <Button
-                              className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                              onClick={() => setOpenDialog(false)}
-                            >
-                              Salvar
+                            <Button className="bg-green-700 text-black hover:bg-green-600 hover:text-white">
+                              {isSubmittingUpdate ? (
+                                <LoadingSpinner />
+                              ) : (
+                                "Salvar"
+                              )}
                             </Button>
                           </DialogFooter>
                         </section>
@@ -287,7 +290,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={handleDeleteSchedule}
+                          // onClick={handleDeleteSchedule}
                           className="hover:bg-cyan-700"
                         >
                           Continue

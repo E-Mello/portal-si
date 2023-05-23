@@ -28,7 +28,16 @@ const Docentes: NextPageWithLayout = () => {
   } = api.teachers.getAll.useQuery();
 
   // Group teachers by school year and semester
-  const teachersByClass = {};
+  const teachersByClass: {
+    [key: string]: Array<{
+      id: number;
+      email: string;
+      name: string;
+      qualification: string;
+      area: string;
+      lattes: string;
+    }>;
+  } = {};
   if (!pageIsLoading && !isError) {
     pageData.forEach((schoolYear) => {
       const { year, semester } = schoolYear;
@@ -37,7 +46,7 @@ const Docentes: NextPageWithLayout = () => {
         teachersByClass[classKey] = [];
       }
       schoolYear.teachers.forEach((teacher) => {
-        teachersByClass[classKey].push(teacher);
+        teachersByClass[classKey]?.push(teacher);
       });
     });
   }

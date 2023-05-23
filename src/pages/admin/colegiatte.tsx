@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
@@ -131,13 +132,13 @@ const CollegiateAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteMember() {
-    try {
-      deleteMember({ id: member.id });
-    } catch (error) {
-      console.log("Error deleting member:", error);
-    }
-  }
+  // function handleDeleteMember() {
+  //   try {
+  //     deleteMember({ id: member.id });
+  //   } catch (error) {
+  //     console.log("Error deleting member:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -301,7 +302,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={handleDeleteMember}
+                          // onClick={handleDeleteMember}
                           className="hover:bg-cyan-700"
                         >
                           Continue

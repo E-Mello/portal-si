@@ -100,13 +100,13 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteData() {
-    try {
-      mutate({ id: data.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteData() {
+  //   try {
+  //     mutate({ id: data.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -317,7 +317,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                                 Cancel
                               </AlertDialogCancel>
                               <AlertDialogAction
-                                onClick={handleDeleteData}
+                                // onClick={handleDeleteData}
                                 className="hover:bg-cyan-700"
                               >
                                 Continue

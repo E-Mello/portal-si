@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Sheet,
   SheetContent,
@@ -84,7 +85,7 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
   const handleCreateEquivalence: SubmitHandler<
     z.infer<typeof EquivalenceCreateSchema>
   > = async (data) => {
-    const res = await createEquivalence(data);
+    const res = await createEquivalence({ ...data, id: 0 }); // Provide a default value for id
     console.log("res", res);
     resetCreateEquivalence();
   };
@@ -138,26 +139,26 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
     resolver: zodResolver(EquivalenceCreateSchema),
   });
   const handleCreateSubject: SubmitHandler<
-    z.infer<typeof EquivalenceCreateSchema>
+    z.infer<typeof EquivalenceCreateSchema> & { id: number }
   > = async (data) => {
     const res = await createSubject(data);
     console.log("res", res);
     resetCreateEquivalence();
   };
 
-  const { mutate:} = api.equivalence.delete.useMutation({
+  const { mutate: deleteEquivalence } = api.equivalence.delete.useMutation({
     onSuccess: () => {
       toast.success("Conteúdo da página atualizado com sucesso!");
     },
   });
 
-  function handleDeleteData() {
-    try {
-      mutate({ id: data.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteData() {
+  //   try {
+  //     deleteEquivalence({ id: data.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;

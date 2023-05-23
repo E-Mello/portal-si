@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
   Dialog,
@@ -222,7 +223,16 @@ const DocentsAdmin: NextPageWithLayout = () => {
   }
 
   // Group teachers by school year and semester
-  const teachersByClass = {};
+  const teachersByClass: {
+    [key: string]: Array<{
+      id: number;
+      email: string;
+      name: string;
+      qualification: string;
+      area: string;
+      lattes: string;
+    }>;
+  } = {};
   if (!teachersLoading && !teachersError) {
     teachersData.forEach((schoolYear) => {
       const { year, semester } = schoolYear;
@@ -231,7 +241,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
         teachersByClass[classKey] = [];
       }
       schoolYear.teachers.forEach((teacher) => {
-        teachersByClass[classKey].push(teacher);
+        teachersByClass[classKey]?.push(teacher);
       });
     });
   }
@@ -381,20 +391,23 @@ const DocentsAdmin: NextPageWithLayout = () => {
                           className="w-60 justify-between"
                         >
                           {value
-                            ? teachersData.find(
-                                (schoolYear) => schoolYear.id === value
-                              )
+                            ? teachersData?.find(
+                                (schoolYear) => schoolYear.id === Number(value)
+                              )?.year
                               ? `${
-                                  teachersData.find(
-                                    (schoolYear) => schoolYear.id === value
-                                  ).year
+                                  teachersData?.find(
+                                    (schoolYear) =>
+                                      schoolYear.id === Number(value)
+                                  )?.year ?? "Ano"
                                 } - ${
-                                  teachersData.find(
-                                    (schoolYear) => schoolYear.id === value
-                                  ).semester
-                                } Semestre`
+                                  teachersData?.find(
+                                    (schoolYear) =>
+                                      schoolYear.id === Number(value)
+                                  )?.semester ?? "Semestre"
+                                }`
                               : "Selecione o periodo letivo"
                             : "Selecione o periodo letivo"}
+
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>
@@ -408,14 +421,14 @@ const DocentsAdmin: NextPageWithLayout = () => {
                                 className="hover:bg-zinc-700"
                                 key={schoolYear.id}
                                 onSelect={() => {
-                                  setValue(schoolYear.id);
+                                  setValue(String(schoolYear.id)); //convert to string
                                   setOpen(false);
                                 }}
                               >
                                 <Check
                                   className={cn(
                                     "mr-2 h-4 w-4",
-                                    value === schoolYear.id
+                                    Number(value) === schoolYear.id
                                       ? "opacity-100"
                                       : "opacity-0"
                                   )}
@@ -455,7 +468,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                   {year} - Semester {semester}
                 </AccordionTrigger>
                 <AccordionContent className="">
-                  {teachersByClass[classKey]?.length > 0 ? (
+                  {teachersByClass[classKey]?.length ?? 0 > 0 ? (
                     <table className="w-full">
                       <thead>
                         <tr>
@@ -468,7 +481,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {teachersByClass[classKey]?.map((teacher: any) => (
+                        {teachersByClass[classKey]?.map((teacher) => (
                           <tr key={teacher.id} className="">
                             <td className="border pl-2">{teacher.name}</td>
                             <td className="border pl-2">
@@ -641,7 +654,6 @@ const DocentsAdmin: NextPageWithLayout = () => {
                           <DialogTitle>Vinculo de professor</DialogTitle>
                           <DialogDescription className="">
                             Selecione o professor para esse periodo letivo
-                            
                           </DialogDescription>
                         </DialogHeader>
                         <form
@@ -659,18 +671,19 @@ const DocentsAdmin: NextPageWithLayout = () => {
                                 >
                                   {value
                                     ? teachersData.find(
-                                        (schoolYear) => schoolYear.id === value
+                                        (schoolYear) =>
+                                          schoolYear.id === Number(value)
                                       )
                                       ? `${
                                           teachersData.find(
                                             (schoolYear) =>
-                                              schoolYear.id === value
-                                          ).year
+                                              schoolYear.id === Number(value)
+                                          )?.year ?? "Ano"
                                         } - ${
                                           teachersData.find(
                                             (schoolYear) =>
-                                              schoolYear.id === value
-                                          ).semester
+                                              schoolYear.id === Number(value)
+                                          )?.semester ?? "Semestre"
                                         } Semestre`
                                       : "Selecione o periodo letivo"
                                     : "Selecione o periodo letivo"}
@@ -689,14 +702,14 @@ const DocentsAdmin: NextPageWithLayout = () => {
                                         className="hover:bg-zinc-700"
                                         key={schoolYear.id}
                                         onSelect={() => {
-                                          setValue(schoolYear.id);
+                                          setValue(String(schoolYear.id));
                                           setOpen(false);
                                         }}
                                       >
                                         <Check
                                           className={cn(
                                             "mr-2 h-4 w-4",
-                                            value === schoolYear.id
+                                            Number(value) === schoolYear.id
                                               ? "opacity-100"
                                               : "opacity-0"
                                           )}

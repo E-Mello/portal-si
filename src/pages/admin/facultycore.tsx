@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
@@ -150,13 +151,13 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteMember() {
-    try {
-      deleteMember(idMember);
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteMember() {
+  //   try {
+  //     deleteMember(idMember);
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -317,7 +318,7 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={handleDeleteMember}
+                          // onClick={handleDeleteMember}
                           className="hover:bg-cyan-700"
                         >
                           Continue

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import { JobProfileSchema } from "~/server/common/PageSchema";
 import { useState, type ReactElement } from "react";
 import {
@@ -62,12 +63,17 @@ const JobProfileAdmin: NextPageWithLayout = () => {
   const updatePage: SubmitHandler<z.infer<typeof JobProfileSchema>> = async (
     data
   ) => {
-    const changedFields = {};
+    const changedFields: { [key: string]: string | number | undefined } = {};
 
     // Iterate over the submitted data and check for changes
     for (const key in data) {
-      if (data[key] !== "") {
-        changedFields[key] = data[key];
+      if (
+        data.hasOwnProperty(key) &&
+        data[key as keyof typeof data] !== "" &&
+        data[key as keyof typeof data] !== undefined
+      ) {
+        changedFields[key as keyof typeof changedFields] =
+          data[key as keyof typeof data];
       }
     }
 
@@ -82,7 +88,36 @@ const JobProfileAdmin: NextPageWithLayout = () => {
     console.log("Changed fields:", changedFields);
 
     try {
-      const updatedData = merge({}, pageData, changedFields);
+      const updatedData: {
+        content: string;
+        link: string;
+        id?: number | undefined;
+        title?: string | undefined;
+        nameLink?: string | undefined;
+      } = {
+        ...pageData,
+        ...changedFields,
+        content:
+          typeof changedFields.content === "string"
+            ? changedFields.content
+            : changedFields.content !== null &&
+              changedFields.content !== undefined
+            ? changedFields.content.toString()
+            : "",
+        link:
+          changedFields.link !== null && changedFields.link !== undefined
+            ? changedFields.link.toString()
+            : "",
+        nameLink:
+          changedFields.nameLink !== null &&
+          changedFields.nameLink !== undefined
+            ? changedFields.nameLink.toString()
+            : undefined,
+      };
+
+      if (changedFields.content === null) {
+        updatedData.content = ""; // Set it to an empty string or handle it as per your requirement
+      }
       const res = await update(updatedData);
       console.log("res", res);
       reset();

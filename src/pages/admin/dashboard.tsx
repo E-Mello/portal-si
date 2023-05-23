@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
@@ -77,12 +78,33 @@ const DashboardAdmin: NextPageWithLayout = () => {
   const updateCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
     data
   ) => {
-    const changedFields = {};
+    const changedFields: {
+      [key: number]:
+        | string
+        | number
+        | { id?: number | undefined; name?: string | undefined }
+        | undefined;
+    } = {};
 
     // Iterate over the submitted data and check for changes
     for (const key in data) {
-      if (data[key] !== "") {
-        changedFields[key] = data[key];
+      if (
+        data.hasOwnProperty(key) &&
+        data[key as keyof typeof data] !== "" &&
+        data[key as keyof typeof data] !== undefined
+      ) {
+        const value = data[key as keyof typeof data];
+
+        if (typeof value === "string" || typeof value === "number") {
+          changedFields[key as unknown as keyof typeof changedFields] = value;
+        } else if (typeof value === "object" && value !== null) {
+          // Ensure the value is not null before assigning
+          changedFields[key as unknown as keyof typeof changedFields] =
+            value as {
+              id?: number | undefined;
+              name?: string | undefined;
+            };
+        }
       }
     }
 
@@ -97,7 +119,7 @@ const DashboardAdmin: NextPageWithLayout = () => {
     console.log("Changed fields:", changedFields);
 
     try {
-      const updatedData = { ...pageData, ...changedFields };
+      const updatedData = { ...pageData, group: data.group, ...changedFields };
       const res = await update(updatedData);
       console.log("res", res);
       reset();

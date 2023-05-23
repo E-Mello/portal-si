@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 
 import Link from "next/link";
 import { random } from "lodash";
-import tw from "twin.macro";
 
 interface CardProps {
   name: string;

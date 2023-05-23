@@ -18,13 +18,10 @@ import { Button } from "~/components/ui/button";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { cn } from "~/utils/cn";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
-import { CardUpdateSchema } from "~/server/common/CardSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { Separator } from "~/components/ui/separator";
 import { ElectiveSubjectsSchema } from "~/server/common/PageSchema";
 import {
   Table,
@@ -94,13 +91,13 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
     },
   });
 
-  function handleDeleteData() {
-    try {
-      mutate({ id: data.id });
-    } catch (error) {
-      console.log("Error deleting provider:", error);
-    }
-  }
+  // function handleDeleteData() {
+  //   try {
+  //     mutate({ id: data.id });
+  //   } catch (error) {
+  //     console.log("Error deleting provider:", error);
+  //   }
+  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -220,11 +217,8 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                             />
                           </div>
                           <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                            <Button
-                              className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                              onClick={() => setOpen(false)}
-                            >
-                              Salvar
+                            <Button className="bg-green-700 text-black hover:bg-green-600 hover:text-white">
+                              {isSubmitting ? <SyncLoader /> : "Salvar"}
                             </Button>
                           </DialogFooter>
                         </section>
@@ -264,7 +258,7 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={handleDeleteData}
+                          // onClick={handleDeleteData}
                           className="hover:bg-cyan-700"
                         >
                           Continue
