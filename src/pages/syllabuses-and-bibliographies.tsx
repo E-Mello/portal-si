@@ -1,7 +1,8 @@
 import Layout from "~/components/Layout";
+import Link from "next/link";
+import { Link as LinkIcon } from "lucide-react";
 import type { NextPageWithLayout } from "~/types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "~/components/ui/separator";
 import { api } from "~/utils/api";
 
 const Ementas: NextPageWithLayout = () => {
@@ -19,25 +20,34 @@ const Ementas: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
   return (
-    <section className="relative flex w-full flex-col items-start justify-center gap-4 pl-4 pt-4">
-      <h1 className=" text-xl">Ementas e Bibliografias</h1>
-      <p className="">
-        Aqui você encontra as ementas e bibliografias de todas as disciplinas do
-        curso.
-      </p>
-      <Separator />
-      {pageData.map((data) => (
-        <div className="flex  gap-4 " key={data.id}>
-          <p>
-            {data.content02} {"=>"}
-          </p>
-          <p>
-            <a href={`${data.info02 || "/"}`} target="_blank" rel="noreferrer">
-              Link para visualização
-            </a>
-          </p>
+    <section className="flex h-[100vh] w-full flex-col items-start justify-start gap-4 pl-4 pt-4 ">
+      <div className="flex flex-col gap-4">
+        <legend className="text-xl">{pageData[0]?.title}</legend>
+        <p className="">{pageData[0]?.info}</p>
+        <div className="flex h-full w-full flex-col gap-2">
+          <legend className="text-xl">{pageData[0]?.content02}</legend>
+          <Link
+            target="_blank"
+            href={pageData[0]?.info02 || "/"}
+            className="flex "
+          >
+            <span>Acessar</span>
+            <LinkIcon />
+          </Link>
         </div>
-      ))}
+
+        <div className="flex h-full w-full flex-col gap-2">
+          <legend className="text-xl">{pageData[0]?.content03}</legend>
+          <Link
+            target="_blank"
+            href={pageData[0]?.info03 || "/"}
+            className="flex gap-2"
+          >
+            <span className="flex">Acessar</span>
+            <LinkIcon />
+          </Link>
+        </div>
+      </div>
     </section>
   );
 };

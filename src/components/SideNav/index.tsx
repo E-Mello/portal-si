@@ -120,10 +120,10 @@ export function SideNav() {
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-50 h-full justify-end bg-zinc-800 ${
-        isActiveNav ? "w-[15vw] " : "w-[4vw]"
-      } duration-4000 rounded-md border-2 border-zinc-100
-        border-opacity-5 bg-zinc-900 bg-opacity-5 px-4
+      className={`fixed top-0 z-50 h-[100vh] justify-end bg-zinc-800 max-sm:h-full max-sm:bg-zinc-900 ${
+        isActiveNav ? "max-sm:w-52 2xl:w-72 " : "max-sm:w-14 2xl:w-[4.8rem]"
+      } duration-4000 rounded-md border-zinc-100
+        border-opacity-5 bg-zinc-900 bg-opacity-5 
         text-gray-100 transition-all ease-in-out`}
     >
       <div
@@ -149,22 +149,27 @@ export function SideNav() {
             },
           }}
         />
-        <span className={`whitespace-nowrap text-xs transition-all`}></span>
-        {isActiveNav ? (
-          <HiOutlineX
-            size={26}
-            className="cursor-pointer transition-all duration-500"
-            onClick={() => setIsActiveNav(!isActiveNav)}
-          />
-        ) : (
-          <HiMenu
-            size={26}
-            className="cursor-pointer transition-all duration-500"
-            onClick={() => setIsActiveNav(!isActiveNav)}
-          />
-        )}
+        <span
+          className={`whitespace-nowrap  text-xs transition-all ${
+            isActiveNav ? "pr-5" : ""
+          }`}
+        >
+          {isActiveNav ? (
+            <HiOutlineX
+              size={26}
+              className="cursor-pointer  transition-all duration-500"
+              onClick={() => setIsActiveNav(!isActiveNav)}
+            />
+          ) : (
+            <HiMenu
+              size={26}
+              className="cursor-pointer transition-all duration-500"
+              onClick={() => setIsActiveNav(!isActiveNav)}
+            />
+          )}
+        </span>
       </div>
-      <section className="relative mt-[3vh] flex flex-col gap-4  pb-5">
+      <section className=" flex flex-col gap-4 pb-5 pl-2 pr-2 pt-8">
         {menus
           .filter(
             (menu) =>
@@ -177,7 +182,11 @@ export function SideNav() {
             <Link
               href={typeof menu.Link === "string" ? menu.Link : "/"}
               key={i}
-              className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+              className={`group flex  gap-4 rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center ${
+                isActiveNav
+                  ? "w-ful"
+                  : "ml-3  w-9 max-sm:ml-1 max-sm:w-8 max-sm:pl-[0.38rem]"
+              }`}
             >
               <div>{React.createElement(menu.icon, { size: "20" })}</div>
               <p
@@ -187,7 +196,7 @@ export function SideNav() {
                 className={`whitespace-pre duration-500 ${
                   isActiveNav
                     ? ""
-                    : "translate-x-[7vw] overflow-hidden opacity-0"
+                    : "translate-x-[8.4rem] overflow-hidden opacity-0"
                 }`}
               >
                 {menu?.name}
@@ -206,14 +215,20 @@ export function SideNav() {
           ))}
       </section>
       <hr />
-      <section className="pb-1 pt-5">
-        <h1 className={`pb-2 ${isActiveNav ? "" : "hidden"}`}>Links Uteis</h1>
+      <section className="flex flex-col pb-2 pl-2 pr-2 pt-4">
+        <h1 className={`pb-2 ${isActiveNav ? "pl-4" : "hidden"}`}>
+          Links Uteis
+        </h1>
         {othersLinks?.map((menu, i) => (
           <Link
             href={menu?.Link}
             target="_blank"
             key={i}
-            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+            className={`group flex  gap-4 rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center ${
+              isActiveNav
+                ? "w-ful"
+                : "ml-3  w-9 max-sm:ml-1 max-sm:w-8 max-sm:pl-[0.38rem]"
+            }`}
           >
             <div>{React.createElement(menu.icon, { size: "20" })}</div>
             <p
@@ -240,8 +255,8 @@ export function SideNav() {
         ))}
       </section>
       <hr />
-      <section className="pt-5">
-        <h1 className={`pb-2 ${isActiveNav ? "" : "hidden"}`}>
+      <section className="flex flex-col pl-2 pr-2 pt-4">
+        <h1 className={`pb-2 ${isActiveNav ? " pl-4" : "hidden"}`}>
           Redes Sociais do Curso
         </h1>
         {socialMedias?.map((menu, i) => (
@@ -249,7 +264,11 @@ export function SideNav() {
             href={menu?.Link}
             target="_blank"
             key={i}
-            className={`group flex items-center gap-4 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+            className={`group flex  gap-4 rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center ${
+              isActiveNav
+                ? "w-ful ml-2"
+                : "ml-3  w-9 max-sm:ml-1 max-sm:w-8 max-sm:pl-[0.38rem]"
+            }`}
           >
             <div>{React.createElement(menu.icon, { size: "20" })}</div>
             <p

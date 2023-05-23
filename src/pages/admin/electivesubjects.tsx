@@ -15,7 +15,6 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import Card from "~/components/Card";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,11 +26,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
 import { ElectiveSubjectsSchema } from "~/server/common/PageSchema";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
 
 const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
+  const [openAlert, setOpenAlert] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const {
     data: pageData,
@@ -74,13 +94,13 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
     },
   });
 
-  // function handleDeleteData() {
-  //   try {
-  //     mutate({ id: data.id });
-  //   } catch (error) {
-  //     console.log("Error deleting provider:", error);
-  //   }
-  // }
+  function handleDeleteData() {
+    try {
+      mutate({ id: data.id });
+    } catch (error) {
+      console.log("Error deleting provider:", error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -103,33 +123,55 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
         Curso e o Núcleo Docente Estruturante (NDE).
       </p>
       <section className="flex w-2/3 flex-col gap-4 pl-4 pr-10">
-        <table className="w-full">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 p-2">Nome</th>
-              <th className="border border-gray-300 p-2">CH</th>
-              <th className="border border-gray-300 p-2">Créditos</th>
-              <th className="border border-gray-300 p-2">Pré-requisitos</th>
-              <th className="w-40 border border-gray-300 p-2">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
+        <Table className="w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="border border-gray-300 p-2">Nome</TableHead>
+              <TableHead className="border border-gray-300 p-2">CH</TableHead>
+              <TableHead className="border border-gray-300 p-2">
+                Créditos
+              </TableHead>
+              <TableHead className="border border-gray-300 p-2">
+                Pré-requisitos
+              </TableHead>
+              <TableHead className="w-40 border border-gray-300 p-2 text-center">
+                Ações
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {pageData.map((data) => (
-              <tr key={data.id}>
-                <td className="border border-gray-300 p-2">{data.name}</td>
-                <td className="border border-gray-300 p-2">{data.ch}</td>
-                <td className="border border-gray-300 p-2">{data.credits}</td>
-                <td className="border border-gray-300 p-2">
+              <TableRow key={data.id}>
+                <TableCell className="border border-gray-300 p-2">
+                  {data.name}
+                </TableCell>
+                <TableCell className="border border-gray-300 p-2">
+                  {data.ch}
+                </TableCell>
+                <TableCell className="border border-gray-300 p-2">
+                  {data.credits}
+                </TableCell>
+                <TableCell className="border border-gray-300 p-2">
                   {data.prerequisites}
-                </td>
-                <td className="flex w-40 justify-center gap-1 border border-gray-300 px-4 py-2">
-                  <Dialog>
+                </TableCell>
+                <TableCell className=" w-52 justify-center gap-1 space-x-2 border border-gray-300 px-4 py-2 text-center">
+                  <Dialog
+                    open={openEditDialog}
+                    onOpenChange={setOpenEditDialog}
+                  >
                     <DialogTrigger asChild>
-                      <Button variant="outline" className="hover:bg-cyan-800">
+                      <Button
+                        onClick={() => {
+                          setOpenEditDialog(true);
+                          // reset(data);
+                        }}
+                        variant="outline"
+                        className="hover:bg-cyan-800"
+                      >
                         Editar
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 shadow-2xl  shadow-zinc-700">
+                    <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
                       <DialogHeader className="flex items-center ">
                         <DialogTitle>Edicao de professores</DialogTitle>
                         <DialogDescription>
@@ -189,25 +231,60 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                       </form>
                     </DialogContent>
                   </Dialog>
-                  <Button
-                    variant={"outline"}
-                    className="hover:bg-red-500"
-                    // onClick={handleDeleteData}
-                  >
-                    {isSubmitting ? "Deletando..." : "Deletar"}
-                  </Button>
-                </td>
-              </tr>
+                  <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        onClick={() => {
+                          setOpenAlert(true);
+                        }}
+                        className=" hover:bg-red-500"
+                        variant="outline"
+                      >
+                        Deletar
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-zinc-800 text-white">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Voce tem certeza que deseja desvincular essa materia
+                          desse semestre?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Lembre que, para a materia aparecer novamente nesse
+                          semestre e necessario vincular de novo.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel
+                          onClick={() => {
+                            setOpenAlert(false);
+                          }}
+                          className="hover:bg-red-600"
+                        >
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={handleDeleteData}
+                          className="hover:bg-cyan-700"
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
         <Dialog>
           <DialogTrigger asChild>
-            <div className=" group flex w-full items-center justify-center rounded-xl  border p-2 hover:outline-double ">
+            <Button className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double ">
               <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-            </div>
+              <span className="ml-2">Adicionar matéria eletiva</span>
+            </Button>
           </DialogTrigger>
-          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 shadow-2xl  shadow-zinc-700">
+          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
             <DialogHeader className="flex items-center justify-center">
               <DialogTitle>Cadastro de membro do colegiado</DialogTitle>
               <DialogDescription className="">

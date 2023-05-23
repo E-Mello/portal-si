@@ -11,7 +11,6 @@ import Image from "next/image";
 import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "~/components/ui/separator";
 import { api } from "~/utils/api";
 
 const allSubjects =
@@ -56,12 +55,12 @@ const CurriculumSubjects: NextPageWithLayout = () => {
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
       <h1 className="pl-4 text-xl">Grade Curricular</h1>
       <Image width={500} height={500} alt="test" src={allSubjects} />
-      <span>
+      <span className="text-justify">
         Os quadro a seguir apresenta a sequência curricular do curso de
         Bacharelado em Sistemas de Informação, compreendendo oito fases
         (semestres) letivas.
       </span>
-      <section className="flex flex-col items-center justify-center gap-4 pl-4">
+      <section className="flex flex-col items-center justify-center gap-4 pl-4 max-sm:pl-0">
         <h1>Resumo</h1>
         <Table className="table-auto text-[1rem]">
           <TableBody>
@@ -93,16 +92,16 @@ const CurriculumSubjects: NextPageWithLayout = () => {
         </Table>
       </section>
       <br />
-      <section className="grid w-full grid-cols-2 gap-4 pl-4 pr-10">
+      <section className="grid w-full grid-cols-2 gap-4 pl-4 pr-10 max-sm:grid-cols-1 max-sm:pl-0 max-sm:pr-0">
         {phaseIds.map((phaseId) => (
           <div
             key={phaseId}
-            className="flex flex-col justify-center gap-4 pb-2 pl-4 pt-2"
+            className="flex flex-col justify-center gap-4 pb-2 pl-4 pt-2 max-sm:pl-0"
           >
             <legend className="flex justify-center text-xl">
               {phaseId} Semestre
             </legend>
-            <Table className="text-[1rem]">
+            <Table className="w-full text-[1rem] max-sm:text-[0.7rem]">
               <TableHeader>
                 <TableRow>
                   <TableHead className="border border-gray-300 p-2">

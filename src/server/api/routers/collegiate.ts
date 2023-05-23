@@ -1,6 +1,6 @@
 import {
   CollegiateCreateSchema,
-  CollegiateSchema,
+  CollegiateUpdateSchema,
 } from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
@@ -17,7 +17,7 @@ export const collegiateRouter = createTRPCRouter({
     });
   }),
   update: publicProcedure
-    .input(CollegiateSchema)
+    .input(CollegiateUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.collegiate.update({
         where: {
@@ -32,7 +32,7 @@ export const collegiateRouter = createTRPCRouter({
       });
     }),
   delete: publicProcedure
-    .input(CollegiateSchema)
+    .input(CollegiateUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         return await ctx.prisma.collegiate.delete({
@@ -54,7 +54,6 @@ export const collegiateRouter = createTRPCRouter({
             segment: input.segment,
             email: input.email,
             validity: input.validity,
-            image: input.image,
             updatedAt: new Date(),
           },
         });

@@ -29,12 +29,12 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
   return (
-    <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
+    <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white max-sm:block">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">
           Grupo de Computação apliCada (GCA)
         </h1>
-        <p>
+        <p className="text-justify">
           As atividades de Pesquisa e Desenvolvimento (P&D) do curso de Sistemas
           de Informação estão relacionadas principalmente ao Grupo de Computação
           apliCada (GCA). Os membros do grupo GCC, lotados na Faculdade de
@@ -50,7 +50,7 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
             </i>
           </code>
         }
-        <p>
+        <p className="text-justify">
           O grupo de pesquisa GCC, no qual os docentes estão relacionados, está
           institucionalizado na UNEMAT e no Diretório de Grupos de Pesquisa
           (DGP) do CNPQ, pode ser acessado aqui. Porém, os docentes do curso de
@@ -59,7 +59,7 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
           pesquisa em Informática na Educação da FACIN
         </p>
         {
-          <code className="text-white">
+          <code className="text-white ">
             <i>
               {`>> Grupo de Pesquisa em Aquisição e Representação de Dados Espaciais;`}{" "}
               <br />
@@ -75,7 +75,7 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
       </div>
       <div className="flex flex-col gap-4 pl-4">
         <h3 className="">Aquisição de Recursos:</h3>
-        <p>
+        <p className="text-justify">
           A Aquisição de Recursos Externos por meio de agências de fomento ao
           longo de 6 anos chega a aproximadamente R$ 240.000,00, isso devido ao
           empenho dos professores vinculados ao curso de Sistemas de Informação.
@@ -84,7 +84,7 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
           oportunidades de bolsas aos estudantes e os materiais permanentes
           posteriormente tornam-se patrimônio da universidade.
         </p>
-        <p>
+        <p className="text-justify">
           Atualmente, o grupo de pesquisa tem um projeto aprovado na CAPES
           intitulado “ Provas Presenciais Conectadas”, Edital/CAPES Nº 40/2017,
           e dois projetos de pesquisa vigentes na FAPEMAT, um sob a Coordenação
@@ -98,7 +98,7 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
           destaca-se a evolução da aquisição de recursos por meio dos projetos.
         </p>
         <br />
-        <Table className="">
+        <Table className="w-full max-sm:w-3/5">
           <TableCaption>A list of your recent invoices</TableCaption>
           <TableHeader>
             <TableRow className="">

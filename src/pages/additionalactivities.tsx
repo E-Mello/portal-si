@@ -5,12 +5,12 @@ import { Separator } from "../components/ui/separator";
 
 const AdditionalActivities: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
+    <section className="flex h-[100vh] w-full  items-start justify-center gap-4 pt-2 max-sm:h-full">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">
           Atividades Complementares
         </h1>
-        <p className="text-white">
+        <p className="text-justify text-white">
           Os acadêmicos matriculados no curso de Bacharelado em Sistemas de
           Informação deverão cumprir a carga horária de 150 horas em atividades
           complementares que envolvam atividades em ensino, pesquisa ou
@@ -19,7 +19,7 @@ const AdditionalActivities: NextPageWithLayout = () => {
           responsabilidade dos acadêmicos, cabendo à Coordenação do Curso cobrar
           o cumprimento da carga horária no decorrer do curso.
         </p>
-        <p className="text-white">
+        <p className="text-justify text-white">
           As Atividades Complementares são componentes curriculares
           enriquecedores e implementadores do próprio perfil do formando e
           deverão possibilitar o desenvolvimento de habilidades, conhecimentos,
@@ -36,7 +36,7 @@ const AdditionalActivities: NextPageWithLayout = () => {
           empresas juniores, incubadoras de empresas ou outras atividades de
           empreendedorismo e inovação.
         </p>
-        <p className="text-white">
+        <p className="text-justify text-white">
           As Atividades Complementares devem ser realizadas em área específica
           ou afim do curso e/ou relacionados aos temas transversais, sendo
           desenvolvidas na instituição ou fora dela. As normas para o

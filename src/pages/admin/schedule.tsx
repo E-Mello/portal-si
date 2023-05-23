@@ -90,7 +90,12 @@ const ScheduleAdmin: NextPageWithLayout = () => {
       // show success toast
       void utils.schedule.getAll.invalidate();
       setOpenDialogCreate(false);
-      toast.success("Membro adicionado com sucesso!", {
+      toast.success("Horario adicionado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao adicionar Horario!", {
         autoClose: 2000,
       });
     },

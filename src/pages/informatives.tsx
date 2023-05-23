@@ -5,8 +5,6 @@ import React, { type ReactElement } from "react";
 import { Carousel } from "react-responsive-carousel";
 import Layout from "../components/Layout";
 import { type NextPageWithLayout } from "../types/layout";
-import { Separator } from "../components/ui/separator";
-import { cn } from "../utils/cn";
 import Image from "next/image";
 
 const testIMG =
@@ -15,120 +13,127 @@ const testIMG =
 const Informativos: NextPageWithLayout = () => {
   return (
     <section
-      className={`flex h-full flex-col items-center justify-between text-white `}
+      className={`flex h-full w-full flex-col items-center bg-zinc-900/50 text-white  max-sm:pl-0`}
     >
-      <div className=" flex h-[calc(65vh)] w-full items-center justify-center bg-zinc-900">
-        <Carousel
-          showArrows={false}
-          showThumbs={false}
-          infiniteLoop={true}
-          autoPlay={true}
-          width={780}
-          className={`flex w-full items-center justify-center`}
-        >
-          <div className="flex items-end justify-between">
-            <Image
-              width={500}
-              height={500}
-              alt="test"
-              src={testIMG}
-              className="flex h-full w-full"
-            />
-            <p className="legend">Legend 1</p>
-          </div>
-          <div>
-            <Image
-              width={500}
-              height={500}
-              alt="test"
-              src={testIMG}
-              className="flex h-full w-full"
-            />
-            <p className="legend">Legend 2</p>
-          </div>
+      <section className="flex h-full w-full flex-col items-center gap-4">
+        <h1 className="flex items-center justify-center p-2 text-center text-3xl font-bold max-sm:text-2xl">
+          Aqui voce pode acompanhar as principais noticias do curso
+        </h1>
+        <div className="flex h-full w-full items-center justify-center">
+          <Carousel
+            showArrows={false}
+            showThumbs={false}
+            infiniteLoop={true}
+            autoPlay={true}
+            width={780}
+            className={`flex w-full items-center justify-center pb-4`}
+          >
+            <div className="flex items-end justify-between">
+              <Image
+                width={500}
+                height={500}
+                alt="test"
+                src={testIMG}
+                className="flex h-full w-full"
+              />
+              <p className="legend bg-zinc-800">Legend 1</p>
+            </div>
+            <div>
+              <Image
+                width={500}
+                height={500}
+                alt="test"
+                src={testIMG}
+                className="flex h-full w-full"
+              />
+              <p className="legend">Legend 2</p>
+            </div>
 
-          <div>
+            <div>
+              <Image
+                width={500}
+                height={500}
+                alt="test"
+                src={testIMG}
+                className="flex h-full w-full"
+              />
+              <p className="legend">Legend 3</p>
+            </div>
+            <div>
+              <Image
+                width={500}
+                height={500}
+                alt="test"
+                src={testIMG}
+                className="flex h-full w-full"
+              />
+              <p className="legend">Legend 3</p>
+            </div>
+            <div>
+              <Image
+                width={500}
+                height={500}
+                alt="test"
+                src={testIMG}
+                className="flex h-full w-full"
+              />
+              <p className="legend">Legend 3</p>
+            </div>
+          </Carousel>
+        </div>
+        <div
+          className={`mb-2 flex h-full w-full flex-col items-center gap-4 bg-zinc-900/10 p-2 text-justify`}
+        >
+          <div
+            className={`flex h-fit w-fit flex-col items-center  justify-center pt-4`}
+          >
+            <h3>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam
+              voluptatum modi officia totam temporibus libero nobis id ducimus
+              sed delectus amet voluptate qui labore, maxime veritatis omnis
+              quam dignissimos! Assumenda.Lorem ipsum dolor, sit amet
+              consectetur adipisicing elit. Numquam voluptatum modi officia
+              totam temporibus libero nobis id ducimus sed delectus amet
+              voluptate qui labore, maxime veritatis omnis quam dignissimos!
+              Assumenda. Lorem ipsum dolor, sit amet consectetur adipisicing
+              elit. Numquam voluptatum modi officia totam temporibus libero
+              nobis id ducimus sed delectus amet voluptate qui labore, maxime
+              veritatis omnis quam dignissimos! Assumenda.
+            </h3>
             <Image
               width={500}
               height={500}
               alt="test"
               src={testIMG}
-              className="flex h-full w-full"
+              className="flex h-full w-2/6 pt-2 max-sm:w-3/4"
             />
-            <p className="legend">Legend 3</p>
           </div>
-          <div>
+          <div
+            className={`flex flex-col items-center  justify-center pt-2 max-sm:pt-2`}
+          >
+            <h3>
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam
+              voluptatum modi officia totam temporibus libero nobis id ducimus
+              sed delectus amet voluptate qui labore, maxime veritatis omnis
+              quam dignissimos! Assumenda.Lorem ipsum dolor, sit amet
+              consectetur adipisicing elit. Numquam voluptatum modi officia
+              totam temporibus libero nobis id ducimus sed delectus amet
+              voluptate qui labore, maxime veritatis omnis quam dignissimos!
+              Assumenda. Lorem ipsum dolor, sit amet consectetur adipisicing
+              elit. Numquam voluptatum modi officia totam temporibus libero
+              nobis id ducimus sed delectus amet voluptate qui labore, maxime
+              veritatis omnis quam dignissimos! Assumenda.
+            </h3>
             <Image
               width={500}
               height={500}
               alt="test"
               src={testIMG}
-              className="flex h-full w-full"
+              className="flex h-full w-2/6 pt-2 max-sm:w-3/4"
             />
-            <p className="legend">Legend 3</p>
           </div>
-          <div>
-            <Image
-              width={500}
-              height={500}
-              alt="test"
-              src={testIMG}
-              className="flex h-full w-full"
-            />
-            <p className="legend">Legend 3</p>
-          </div>
-        </Carousel>
-      </div>
-      <Separator
-        className={cn("bg-gradient-to-t from-[#0e0e0f00] to-zinc-900")}
-      />
-      <span>dashboard</span>
-      <div
-        className={`flex h-full w-2/3 flex-col items-center justify-center `}
-      >
-        <h3>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam
-          voluptatum modi officia totam temporibus libero nobis id ducimus sed
-          delectus amet voluptate qui labore, maxime veritatis omnis quam
-          dignissimos! Assumenda.Lorem ipsum dolor, sit amet consectetur
-          adipisicing elit. Numquam voluptatum modi officia totam temporibus
-          libero nobis id ducimus sed delectus amet voluptate qui labore, maxime
-          veritatis omnis quam dignissimos! Assumenda. Lorem ipsum dolor, sit
-          amet consectetur adipisicing elit. Numquam voluptatum modi officia
-          totam temporibus libero nobis id ducimus sed delectus amet voluptate
-          qui labore, maxime veritatis omnis quam dignissimos! Assumenda.
-        </h3>
-        <Image
-          width={500}
-          height={500}
-          alt="test"
-          src={testIMG}
-          className="flex h-full w-[calc(45vh)]"
-        />
-      </div>
-      <div
-        className={`flex h-full w-2/3 flex-col items-center justify-center `}
-      >
-        <h3>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam
-          voluptatum modi officia totam temporibus libero nobis id ducimus sed
-          delectus amet voluptate qui labore, maxime veritatis omnis quam
-          dignissimos! Assumenda.Lorem ipsum dolor, sit amet consectetur
-          adipisicing elit. Numquam voluptatum modi officia totam temporibus
-          libero nobis id ducimus sed delectus amet voluptate qui labore, maxime
-          veritatis omnis quam dignissimos! Assumenda. Lorem ipsum dolor, sit
-          amet consectetur adipisicing elit. Numquam voluptatum modi officia
-          totam temporibus libero nobis id ducimus sed delectus amet voluptate
-          qui labore, maxime veritatis omnis quam dignissimos! Assumenda.
-        </h3>
-        <Image
-          width={500}
-          height={500}
-          alt="test"
-          src={testIMG}
-          className="flex h-full w-[calc(45vh)]"
-        />
-      </div>
+        </div>
+      </section>
     </section>
   );
 };

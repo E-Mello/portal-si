@@ -96,8 +96,10 @@ const DiscordChannels: NextPageWithLayout = () => {
     >
       <Image width={500} height={500} alt="Discord Banner" src={discordImage} />
       <header className="flex flex-col gap-2 pb-2">
-        <h1>Grupo destinado as grupos relacionados a cada materia</h1>
-        <h3 className="">
+        <h1 className="text-3xl font-bold">
+          Grupo destinado as grupos relacionados a cada materia
+        </h1>
+        <h3 className="text-justify">
           Com a intencao de facilitar as interacoes entre os alunos com os
           professores, abaixo estao um canal direto para cada semestre, dessa
           forma ao entrar em um grupo, voce acessara todos os outros grupos de
@@ -114,7 +116,7 @@ const DiscordChannels: NextPageWithLayout = () => {
                 alt={group.name}
                 width={500}
                 height={500}
-                className="flex h-[8vh] w-[4vw] rounded-full"
+                className="flex h-[8vh] w-[4vw] rounded-full max-sm:w-16"
               />
             </div>
             <div className="mt-2 text-center">

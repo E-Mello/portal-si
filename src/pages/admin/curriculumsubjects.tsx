@@ -25,6 +25,25 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
 import { CurriculumSubjectsSchema } from "~/server/common/PageSchema";
 import { HiOutlinePlus } from "react-icons/hi";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
@@ -45,6 +64,7 @@ type Phase = {
 };
 
 const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
+  const [openAlert, setOpenAlert] = useState(false);
   const [open, setOpen] = useState(false);
   const {
     data: pageData,
@@ -74,26 +94,19 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
     reset();
   };
 
-  const { mutateAsync: create } = api.collegiate.create.useMutation({
-    onSuccess: () => {
-      // show success toast
-      toast.success("Membro adicionado com sucesso!");
-    },
-  });
-
   const { mutate } = api.collegiate.delete.useMutation({
     onSuccess: () => {
       toast.success("Conteúdo da página atualizado com sucesso!");
     },
   });
 
-  // function handleDeleteData() {
-  //   try {
-  //     mutate({ id: data.id });
-  //   } catch (error) {
-  //     console.log("Error deleting provider:", error);
-  //   }
-  // }
+  function handleDeleteData() {
+    try {
+      mutate({ id: data.id });
+    } catch (error) {
+      console.log("Error deleting provider:", error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -120,28 +133,34 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
       </span>
       <section className="flex flex-col items-center justify-center gap-4 pl-4">
         <h1>Resumo</h1>
-        <table className="table-auto">
-          <tbody>
-            <tr>
-              <td className="border px-4 py-2">Carga horária de disciplinas</td>
-              <td className="border px-4 py-2">2.820</td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2">Estágio Supervisionado</td>
-              <td className="border px-4 py-2">180</td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2">Atividades Complementares</td>
-              <td className="border px-4 py-2">150</td>
-            </tr>
-            <tr>
-              <td className="border px-4 py-2">
+        <Table className="table-auto">
+          <TableBody>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
+                Carga horária de disciplinas
+              </TableCell>
+              <TableCell className="border px-4 py-2">2.820</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
+                Estágio Supervisionado
+              </TableCell>
+              <TableCell className="border px-4 py-2">180</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
+                Atividades Complementares
+              </TableCell>
+              <TableCell className="border px-4 py-2">150</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="border px-4 py-2">
                 Carga Horária Total da Matriz
-              </td>
-              <td className="border px-4 py-2">3.150 horas</td>
-            </tr>
-          </tbody>
-        </table>
+              </TableCell>
+              <TableCell className="border px-4 py-2">3.150 horas</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </section>
       <br />
       <section className="grid w-full grid-cols-2 gap-4 pl-4 pr-10">
@@ -153,37 +172,51 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
             <legend className="flex justify-center text-xl">
               {phaseId} Semestre
             </legend>
-            <table className="">
-              <thead>
-                <tr>
-                  <th className="border border-gray-300 p-2">Disciplina</th>
-                  <th className="border border-gray-300 p-2">Carga Horária</th>
-                  <th className="border border-gray-300 p-2">Créditos</th>
-                  <th className=" border border-gray-300 p-2">
+            <Table className="">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="border border-gray-300 p-2">
+                    Disciplina
+                  </TableHead>
+                  <TableHead className="border border-gray-300 p-2">
+                    Carga Horária
+                  </TableHead>
+                  <TableHead className="border border-gray-300 p-2">
+                    Créditos
+                  </TableHead>
+                  <TableHead className=" border border-gray-300 p-2">
                     Pré-requisitos
-                  </th>
-                  <th className="w-40 border border-gray-300 p-2">Ações</th>
-                </tr>
-              </thead>
-              <tbody className="">
+                  </TableHead>
+                  <TableHead className="w-40 border border-gray-300 p-2">
+                    Ações
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody className="">
                 {pageData
                   ?.filter((subject) => subject.phaseId === phaseId)
                   .map((subject) => (
-                    <tr key={subject.id}>
-                      <td className="border px-4 py-2">{subject.name}</td>
-                      <td className="border px-4 py-2">{subject.ch}</td>
-                      <td className="border px-4 py-2">{subject.credits}</td>
-                      <td className="border px-4 py-2">
+                    <TableRow key={subject.id}>
+                      <TableCell className="border px-4 py-2">
+                        {subject.name}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.ch}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
+                        {subject.credits}
+                      </TableCell>
+                      <TableCell className="border px-4 py-2">
                         {subject.prerequisites}
-                      </td>
-                      <td className="h-full space-x-[5rem] border p-1 px-4">
+                      </TableCell>
+                      <TableCell className=" space-y-2 border p-1 px-4 text-center">
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button
                               variant="outline"
                               className="hover:bg-cyan-800"
                             >
-                              Editar
+                              Editar vinculo
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
@@ -241,39 +274,68 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                                 </div>
                               </section>
                               <DialogFooter>
-                                <Button
-                                  className="bg-red-500 hover:bg-red-600"
-                                  onClick={() => setOpen(false)}
-                                >
-                                  Cancelar
-                                </Button>
-                                <Button
-                                  className="bg-green-500 hover:bg-green-600"
-                                  onClick={() => setOpen(false)}
-                                >
+                                <Button className="bg-green-500 hover:bg-green-600">
                                   Salvar
                                 </Button>
                               </DialogFooter>
                             </form>
                           </DialogContent>
                         </Dialog>
-                        <Button
-                          variant={"outline"}
-                          className="hover:bg-red-500"
-                          // onClick={handleDeleteData}
+                        <AlertDialog
+                          open={openAlert}
+                          onOpenChange={setOpenAlert}
                         >
-                          {isSubmitting ? "Deletando..." : "Deletar"}
-                        </Button>
-                      </td>
-                    </tr>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              onClick={() => {
+                                setOpenAlert(true);
+                              }}
+                              className=" w-full hover:bg-red-500"
+                              variant="outline"
+                            >
+                              Remover vinculo
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent className="bg-zinc-800 text-white">
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Voce tem certeza que deseja desvincular essa
+                                materia desse semestre?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Lembre que, para a materia aparecer novamente
+                                nesse semestre e necessario vincular de novo.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel
+                                onClick={() => {
+                                  setOpenAlert(false);
+                                }}
+                                className="hover:bg-red-600"
+                              >
+                                Cancel
+                              </AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={handleDeleteData}
+                                className="hover:bg-cyan-700"
+                              >
+                                Continue
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </TableCell>
+                    </TableRow>
                   ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
             <Dialog>
               <DialogTrigger asChild>
-                <div className=" group flex w-full items-center justify-center rounded-xl  border p-2 hover:outline-double ">
+                <Button className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double ">
                   <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-                </div>
+                  <p className="ml-2">Adicionar nova matéria</p>
+                </Button>
               </DialogTrigger>
               <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
                 <DialogHeader className="flex items-center justify-center">

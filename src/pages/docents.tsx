@@ -20,21 +20,27 @@ import type { NextPageWithLayout } from ".././types/layout";
 import type { ReactElement } from "react";
 import { api } from "~/utils/api";
 
-type Teacher = {
-  id: number;
-  name: string;
-  qualification: string;
-  area: string;
-  email: string;
-  lattes: string;
-};
-
 const Docentes: NextPageWithLayout = () => {
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
   } = api.teachers.getAll.useQuery();
+
+  // Group teachers by school year and semester
+  const teachersByClass = {};
+  if (!pageIsLoading && !isError) {
+    pageData.forEach((schoolYear) => {
+      const { year, semester } = schoolYear;
+      const classKey = `${year}/${semester}`;
+      if (!teachersByClass[classKey]) {
+        teachersByClass[classKey] = [];
+      }
+      schoolYear.teachers.forEach((teacher) => {
+        teachersByClass[classKey].push(teacher);
+      });
+    });
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -44,28 +50,16 @@ const Docentes: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
-  // Group teachers by school year and class
-  const teachersByClass: { [key: string]: Teacher[] } = {};
-  pageData.forEach((teacher) => {
-    teacher.schoolYear.forEach((schoolYear) => {
-      const classKey = `${schoolYear.class.year}/${schoolYear.class.semester}`;
-      if (!teachersByClass[classKey]) {
-        teachersByClass[classKey] = [];
-      }
-      teachersByClass[classKey]?.push(teacher);
-    });
-  });
-
   return (
-    <section className="flex  w-full flex-col gap-4 py-2 pr-6">
+    <section className="flex h-[100vh] w-full flex-col gap-4 py-2 pr-6">
       <h1 className="pl-4 text-2xl font-bold">Docentes por semestre</h1>
-      <div className="h-[60vh] w-full justify-start pl-4 pr-10">
+      <div className="h-[60vh] w-full justify-start pl-4 pr-10 max-sm:pr-0">
         <Accordion type="single" className="flex flex-col" collapsible>
           {Object.keys(teachersByClass).map((classKey) => (
             <AccordionItem key={classKey} value={classKey}>
               <AccordionTrigger>{classKey}</AccordionTrigger>
               <AccordionContent>
-                <Table className="w-full text-[1rem]">
+                <Table className="text-[1rem] max-sm:text-[0.6rem]">
                   <TableHeader>
                     <TableRow>
                       <TableHead className="border">Name</TableHead>

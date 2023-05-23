@@ -1,26 +1,7 @@
-import {
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "~/components/ui/sheet";
-import { SubmitHandler, useForm } from "react-hook-form";
-
-import { Button } from "~/components/ui/button";
-import { Label } from "@radix-ui/react-label";
 import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
-import { PageViewSchema } from "~/server/common/PageSchema";
 import type { ReactElement } from "react";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Sheet } from "lucide-react";
-import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
-import { toast } from "react-toastify";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 const CoursePurpose: NextPageWithLayout = () => {
   const {
@@ -44,9 +25,9 @@ const CoursePurpose: NextPageWithLayout = () => {
     { title: pageData?.info04, content: pageData?.content04 as string },
   ];
   return (
-    <section className="flex h-full w-full flex-col items-start justify-center gap-4 pl-4 pt-4">
-      <div className="flex w-[95%] flex-col gap-10">
-        <h1 className="pl-4 text-xl">{pageData?.title}</h1>
+    <section className="flex h-[100vh] w-full  items-start justify-center gap-4 pl-4 pt-4 max-sm:h-full">
+      <div className="flex flex-col gap-2 pr-4">
+        <h1 className="text-2xl font-bold">{pageData?.title}</h1>
         {fieldsets.map((fieldset, index) => (
           <section key={index} className="flex flex-col gap-4">
             <fieldset className="justify-start border pb-2 pl-4 pt-2">
@@ -59,7 +40,6 @@ const CoursePurpose: NextPageWithLayout = () => {
           </section>
         ))}
       </div>
-      <div className="flex "></div>
     </section>
   );
 };

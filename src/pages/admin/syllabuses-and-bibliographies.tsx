@@ -14,16 +14,24 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { PageViewSchema } from "~/server/common/PageSchema";
-import type { ReactElement } from "react";
+import {
+  PageViewSchema,
+  SyllabusesAndBibliographiesUpdateSchema,
+} from "~/server/common/PageSchema";
+import { useState, type ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { Link as LinkIcon } from "lucide-react";
+import SyncLoader from "react-spinners/SyncLoader";
 
 const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
+  const [open, setOpen] = useState(false);
+  const utils = api.useContext();
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -34,7 +42,17 @@ const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
     api.syllabusesAndBibliographies.update.useMutation({
       onSuccess: () => {
         // show success toast
-        toast.success("Conteúdo da página atualizado com sucesso!");
+        void utils.syllabusesAndBibliographies.getAll.invalidate();
+        reset();
+        setOpen(false);
+        toast.success("Conteúdo da página atualizado com sucesso!", {
+          autoClose: 2000,
+        });
+      },
+      onError: () => {
+        toast.error("Erro ao atualizar o conteúdo da página!", {
+          autoClose: 2000,
+        });
       },
     });
   const {
@@ -42,12 +60,26 @@ const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof PageViewSchema>>({
-    resolver: zodResolver(PageViewSchema),
+  } = useForm<z.infer<typeof SyllabusesAndBibliographiesUpdateSchema>>({
+    resolver: zodResolver(SyllabusesAndBibliographiesUpdateSchema),
   });
-  const updatePage: SubmitHandler<z.infer<typeof PageViewSchema>> = async (
-    data
-  ) => {
+  const updatePage: SubmitHandler<
+    z.infer<typeof SyllabusesAndBibliographiesUpdateSchema>
+  > = async (data) => {
+    // Check if the data is the same as the content in the database
+    if (
+      data.title === pageData[0]?.title &&
+      data.info === pageData[0]?.info &&
+      data.content02 === pageData[0]?.content02 &&
+      data.info02 === pageData[0]?.info02 &&
+      data.content03 === pageData[0]?.content03 &&
+      data.info03 === pageData[0]?.info03
+    ) {
+      toast.info("Não há alterações a serem feitas.", {
+        autoClose: 2000,
+      });
+      return;
+    }
     const res = await update(data);
     console.log("res", res);
     reset();
@@ -63,87 +95,136 @@ const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
 
   return (
     <section className="flex h-full w-full flex-col items-start justify-center gap-10 pl-4 pt-4">
-      {pageData && (
-        <div className="flex w-[95%] flex-col gap-10">
-          <h1 className="pl-4 text-xl">
-            {pageData.title || "Erro ao buscar as informações do banco de dados"}
-          </h1>
+      <div className="flex flex-col gap-4">
+        <legend className="text-xl">{pageData[0]?.title}</legend>
+        <p className="">{pageData[0]?.info}</p>
+        <div className="flex h-full w-full flex-col gap-2">
+          <legend className="text-xl">{pageData[0]?.content02}</legend>
+          <Link
+            target="_blank"
+            href={pageData[0]?.info02 || "/"}
+            className="flex "
+          >
+            <span>Acessar</span>
+            <LinkIcon />
+          </Link>
         </div>
-      )}
-      <div className="flex w-[95%] flex-col gap-10">
-        <h1 className="pl-4 text-xl">
-          {/* {pageData?.title || "Erro ao buscar as informações do banco de dados"} */}
-          Erro ao buscar as informações do banco de dados
-        </h1>
-        <p className="pl-4 text-xl">
-          {/* {pageData?.info || "Erro ao buscar as informações do banco de dados"} */}
-          Erro ao buscar as informações do banco de dados
-        </p>
-        {/* {fieldsets.map((fieldset, index) => ( */}
-        {/* <section key={index} className="flex flex-col gap-4"> */}
-        <section className="flex flex-col gap-4">
-          <fieldset className="justify-start border pb-2 pl-4 pt-2">
-            <legend className="text-xl">
-              {/* {fieldset.nameLink ||
-                  "Erro ao buscar as informações do banco de dados"} */}
-              Erro ao buscar as informações do banco de dados
-            </legend>
-            {/* {fieldset.content?.split(";").map((item, key) => ( */}
-            {/* <p key={key}>
-                
-                  {item.trim() ||
-                    "Erro ao buscar as informações do banco de dados"}
-                </p> */}
-            {/* ))} */}
-            <p>Erro ao buscar as informações do banco de dados</p>
-          </fieldset>
-          <div className="flex">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button className="bg-slate-200 text-zinc-900">
-                  Editar Conteudo
+
+        <div className="flex h-full w-full flex-col gap-2">
+          <legend className="text-xl">{pageData[0]?.content03}</legend>
+          <Link
+            target="_blank"
+            href={pageData[0]?.info03 || "/"}
+            className="flex gap-2"
+          >
+            <span className="flex">Acessar</span>
+            <LinkIcon />
+          </Link>
+        </div>
+      </div>
+      <div className="flex">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button
+              onClick={() => {
+                setOpen(true);
+                reset();
+              }}
+              className="bg-slate-200 text-zinc-800"
+            >
+              Editar Conteudo
+            </Button>
+          </SheetTrigger>
+
+          <SheetContent
+            position="right"
+            size={"default"}
+            className="bg-zinc-800 text-white"
+          >
+            <SheetHeader>
+              <SheetTitle>Editar Conteudo</SheetTitle>
+              <SheetDescription>
+                Nessa folha lateral é possível estar editando o conteúdo desta
+                página.
+              </SheetDescription>
+            </SheetHeader>
+            <form onSubmit={handleSubmit(updatePage)}>
+              <section>
+                <div className="flex flex-col gap-4 py-4">
+                  <Label htmlFor="infoEmenta" className="">
+                    Editar titulo da pagina
+                  </Label>
+                  <Input
+                    defaultValue={
+                      pageData[0]?.title || "Erro ao trazer conteúdo"
+                    }
+                    {...register("title")}
+                  />
+                </div>
+                <div className="flex flex-col gap-4 py-4">
+                  <Label htmlFor="infoEmenta" className="">
+                    Editar informacao da pagina
+                  </Label>
+                  <Input
+                    defaultValue={
+                      pageData[0]?.info || "Erro ao trazer conteúdo"
+                    }
+                    {...register("info")}
+                  />
+                </div>
+                <div className="flex flex-col gap-4 py-4">
+                  <Label htmlFor="infoEmenta" className="">
+                    Editar informacao da ementa
+                  </Label>
+                  <Input
+                    defaultValue={
+                      pageData[0]?.content02 || "Erro ao trazer conteúdo"
+                    }
+                    {...register("content02")}
+                  />
+                </div>
+                <div className="flex flex-col gap-4 py-4">
+                  <Label htmlFor="linkEmenta" className="">
+                    Editar o link de acesso a ementa
+                  </Label>
+                  <Input
+                    defaultValue={
+                      pageData[0]?.info02 || "Erro ao trazer conteúdo"
+                    }
+                    {...register("info02")}
+                  />
+                </div>
+                <div className="flex flex-col gap-4 py-4">
+                  <Label htmlFor="infoMatriz" className="">
+                    Editar a informacao da matriz curricular
+                  </Label>
+                  <Input
+                    defaultValue={
+                      pageData[0]?.content03 || "Erro ao trazer conteúdo"
+                    }
+                    {...register("content03")}
+                  />
+                </div>
+                <div className="flex flex-col gap-4 py-4">
+                  <Label htmlFor="linkMatriz" className="">
+                    Editar o link de acesso a matriz curricular
+                  </Label>
+                  <Input
+                    defaultValue={
+                      pageData[0]?.info03 || "Erro ao trazer conteúdo"
+                    }
+                    {...register("info03")}
+                  />
+                </div>
+              </section>
+              <SheetFooter>
+                <Button type="submit" className="bg-slate-200 text-zinc-900">
+                  {isSubmitting ? <SyncLoader /> : "Salvar"}
                 </Button>
-              </SheetTrigger>
-              <ScrollArea className="h-full">
-                {/* <form onSubmit={handleSubmit(updatePage)}> */}
-                <form>
-                  <SheetContent
-                    position="right"
-                    size={"default"}
-                    className="bg-zinc-800"
-                  >
-                    <SheetHeader>
-                      <SheetTitle>Editar Conteudo</SheetTitle>
-                      <SheetDescription>
-                        Nessa folha lateral é possível estar editando o conteúdo
-                        desta página e lembrando que para efetuar uma quebra de
-                        linha, basta utilizar o caractere {'" ; "'}
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="flex flex-col gap-4 py-4">
-                      <Label htmlFor="newValue" className="">
-                        Digite o novo conteúdo
-                      </Label>
-                      <Textarea
-                        // value={fieldset.content || "Erro ao trazer conteúdo"}
-                        value="Erro ao trazer conteúdo"
-                      />
-                    </div>
-                    <SheetFooter>
-                      <Button
-                        type="submit"
-                        className="bg-slate-200 text-zinc-900"
-                      >
-                        Save changes
-                      </Button>
-                    </SheetFooter>
-                  </SheetContent>
-                </form>
-              </ScrollArea>
-            </Sheet>
-          </div>
-        </section>
-        {/* ))} */}
+              </SheetFooter>
+            </form>
+          </SheetContent>
+        </Sheet>
       </div>
     </section>
   );

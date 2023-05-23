@@ -7,6 +7,7 @@ import Layout from "../components/Layout";
 import { type NextPageWithLayout } from "../types/layout";
 import { Separator } from "../components/ui/separator";
 import { api } from "~/utils/api";
+import { ScrollArea } from "~/components/ui/scroll-area";
 
 const SkeletonCard = () => {
   return (
@@ -24,9 +25,9 @@ const Dashboard: NextPageWithLayout = () => {
   if (pageIsLoading) {
     return (
       <section
-        className={`relative flex h-full w-[100vw] flex-col items-center justify-between gap-10 bg-zinc-800 pt-[10vh] text-white`}
+        className={`relative flex h-full w-full flex-col items-center justify-between gap-10 bg-zinc-800 pt-48 text-white`}
       >
-        <h1 className="text-[2rem] font-bold">
+        <h1 className="text-base ">
           Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
         </h1>
         <section className="flex w-[81vw] flex-col justify-between gap-5">
@@ -84,24 +85,26 @@ const Dashboard: NextPageWithLayout = () => {
   } else {
     return (
       <section
-        className={`flex h-full w-full flex-col items-center bg-zinc-800 p-4 pl-4 text-white`}
+        className={`flex h-full w-full flex-col items-center bg-zinc-800 pl-4 pt-4 text-white  max-sm:pl-0`}
       >
-        <h1 className="text-[2rem] font-bold">
-          Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
-        </h1>
-        <div className="hover:bg-silver flex w-full flex-col justify-between gap-5">
-          {pageData.map((group) => (
-            <fieldset
-              key={group.name}
-              className="justify-start border-t pb-2 pl-4 "
-            >
-              <legend className="">
-                <h1 className=" w-full items-center justify-center pb-2 pl-4 pr-4 text-lg font-bold">
-                  {group.name}
-                </h1>
-              </legend>
-              <div className="flex h-full w-full flex-col gap-5">
-                <div className="grid  grid-cols-6 flex-row gap-10 whitespace-pre-line">
+        <ScrollArea className="h-full w-full">
+          <h1 className="pb-4 font-bold max-sm:w-96 max-sm:pl-2  lg:text-lg  xl:text-xl  2xl:text-3xl">
+            Dashboard de Navegacao do Portal do Curso de Sistemas de Informacoes
+          </h1>
+          <div className="hover:bg-silver flex w-full flex-col justify-between gap-5 ">
+            {pageData.map((group) => (
+              <fieldset
+                key={group.name}
+                className="justify-start border-t pb-2 pl-4  "
+              >
+                <legend className="">
+                  <h1 className=" w-full items-center justify-center pb-2 pl-4 pr-4 text-lg font-bold max-lg:text-sm">
+                    {group.name}
+                  </h1>
+                </legend>
+                {/* <div className="flex h-full w-full flex-col  gap-5 max-sm:w-56"> */}
+                <div className="grid h-full w-full grid-cols-6 flex-col gap-10  max-sm:w-5/6  max-sm:grid-cols-3 ">
+                  {/* <div className="grid grid-cols-6  flex-row gap-10 whitespace-pre-line max-sm:grid-cols-3 max-sm:gap-10"> */}
                   {group.cards.map((card) => (
                     <Card
                       key={card.id}
@@ -110,12 +113,13 @@ const Dashboard: NextPageWithLayout = () => {
                       Info={card.info}
                     />
                   ))}
+                  {/* </div> */}
                 </div>
-              </div>
-            </fieldset>
-          ))}
-          <Separator />
-        </div>
+              </fieldset>
+            ))}
+            <Separator />
+          </div>
+        </ScrollArea>
       </section>
     );
   }

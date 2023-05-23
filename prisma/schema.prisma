@@ -14,7 +14,6 @@ model Collegiate {
   segment   String
   email     String
   validity  String
-  image     String?
   updatedAt DateTime
 }
 
@@ -34,15 +33,6 @@ model ApliedGroupContent {
   description String @db.LongText
 }
 
-model Equivalence {
-  id            Int      @id @default(autoincrement())
-  name          String
-  ch            Int
-  equivalence   String   @db.Text
-  chequivalence Int
-  updatedAt     DateTime
-}
-
 model ElectiveSubjects {
   id            Int      @id @default(autoincrement())
   name          String
@@ -50,6 +40,38 @@ model ElectiveSubjects {
   credits       Int
   prerequisites String
   updatedAt     DateTime
+}
+
+model Equivalence {
+  id            Int       @id @default(autoincrement())
+  name          String
+  ch            Int
+  equivalence   String    @db.Text
+  chequivalence Int
+  updatedAt     DateTime
+  subjects      Subject[] @relation("SubjectEquivalence")
+
+  @@index([name])
+}
+
+model Subject {
+  id            Int           @id @default(autoincrement())
+  phaseId       Int
+  name          String
+  ch            Int
+  credits       Int
+  prerequisites String
+  isElective    Boolean       @default(false)
+  phase         Phase         @relation(fields: [phaseId], references: [id])
+  equivalences  Equivalence[] @relation("SubjectEquivalence")
+
+  @@index([phaseId])
+}
+
+model Phase {
+  id       Int       @id @default(autoincrement())
+  name     String
+  subjects Subject[]
 }
 
 model TypesOfPublications {
@@ -71,24 +93,6 @@ model StudentPublications {
   typeOfPublication   TypesOfPublications @relation(fields: [typeOfPublicationId], references: [id])
 
   @@index([typeOfPublicationId])
-}
-
-model Phase {
-  id       Int       @id @default(autoincrement())
-  name     String
-  subjects Subject[]
-}
-
-model Subject {
-  id            Int    @id @default(autoincrement())
-  phaseId       Int
-  name          String
-  ch            Int
-  credits       Int
-  prerequisites String
-  phase         Phase  @relation(fields: [phaseId], references: [id])
-
-  @@index([phaseId])
 }
 
 model SchoolYear {

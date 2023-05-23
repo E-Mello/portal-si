@@ -28,12 +28,12 @@ const EquivalenceSubjects: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
   return (
-    <section className="relative flex h-full  w-[80vw] flex-col items-start justify-center gap-4 py-2">
-      <h1 className="flex self-center pl-4 text-xl ">
+    <section className="flex h-[100vh] w-[80vw] flex-col  items-start justify-start gap-4 py-2 pt-5  max-sm:w-full max-sm:py-0">
+      <h1 className="flex self-center pl-4 text-xl max-sm:pl-2 max-sm:pt-5 ">
         Tabela de Equivalência de Disciplinas
       </h1>
-      <div className="flex flex-col items-center justify-center gap-4 pl-4">
-        <Table className="table-auto text-[1rem]">
+      <div className="flex w-full flex-col items-center justify-center gap-4 pl-4">
+        <Table className="text-[1rem] ">
           <TableHeader>
             <TableRow>
               <TableHead className="px-4 py-2">Disciplina em SI</TableHead>

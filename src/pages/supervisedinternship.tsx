@@ -5,12 +5,12 @@ import { Separator } from "../components/ui/separator";
 
 const SupervisedInternship: NextPageWithLayout = () => {
   return (
-    <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
+    <section className="flex h-[100vh] w-full  py-2">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">
           Estágio Supervisionado
         </h1>
-        <p className="text-white">
+        <p className="text-justify text-white">
           O Estágio Curricular Supervisionado no curso de Bacharelado em
           Sistemas de Informação, do Campus Universitário de Sinop é componente
           obrigatório para conclusão da vida acadêmica. As normas sobre o
@@ -21,7 +21,7 @@ const SupervisedInternship: NextPageWithLayout = () => {
           </a>{" "}
           de 03 de junho de 2012.
         </p>
-        <p className="text-white">
+        <p className="text-justify text-white">
           Para efeito de realização do Estágio Curricular Supervisionado, o
           acadêmico só poderá iniciar suas atividades, caso tenha concluído 50%
           de créditos no curso, assim estando apto em matricular-se na

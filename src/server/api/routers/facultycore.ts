@@ -1,6 +1,5 @@
 import {
   FacultyCoreCreateSchema,
-  FacultyCoreSchema,
   FacultyCoreUpdateSchema,
 } from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";

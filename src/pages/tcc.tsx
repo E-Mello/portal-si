@@ -22,9 +22,9 @@ const Tcc: NextPageWithLayout = () => {
 
   return (
     <section
-      className={`flex h-full w-full flex-col items-center justify-between pl-4 pt-10 text-white`}
+      className={`flex h-[100vh] w-full flex-col items-center justify-between pl-2 pr-2 pt-5 text-white`}
     >
-      <div className="flex h-full w-full justify-start ">
+      <div className="flex  w-full justify-start ">
         <div className="flex gap-5 pl-2">
           <h1 className="text-3xl font-bold">
             TCC{"'"}s (Trabalhos de conclusao de curso)
@@ -41,7 +41,7 @@ const Tcc: NextPageWithLayout = () => {
             target="_blank"
           >
             <span className={`text-xl `}>{data.title.toUpperCase()}</span>
-            <span className={`flex text-start  text-sm `}>{data.resume}</span>
+            <span className={`flex text-justify text-sm`}>{data.resume}</span>
             <span className={`text-start text-sm`}>
               Nome do aluno: {data.author}
             </span>

@@ -2,30 +2,11 @@ import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { type ReactElement } from "react";
 import { api } from "~/utils/api";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  SelectGroup,
-} from "~/components/ui/select";
 
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { Button } from "~/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import { Textarea } from "~/components/ui/textarea";
 
 const Projects: NextPageWithLayout = () => {
   const {
@@ -42,22 +23,31 @@ const Projects: NextPageWithLayout = () => {
   }
   return (
     <section
-      className={`flex h-full w-full flex-col items-center justify-between pl-4 pr-4 pt-4 text-white `}
+      className={`flex h-[100vh] w-full flex-col items-center justify-between pl-4 pr-4 pt-4 text-white max-sm:h-full `}
     >
-      <section className="flex h-full w-full justify-start ">
-        <div className="items-centergap-5 flex w-full justify-center pl-2">
-          <h1 className="flex  text-2xl font-bold">Projetos do Curso</h1>
-        </div>
-      </section>
+      <h1 className="flex text-2xl font-bold">Projetos do Curso</h1>
 
-      <section className="flex h-full w-full flex-col items-start pt-6"></section>
-      <Tabs defaultValue="teachingProject" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="teachingProject">Projetos de ensino</TabsTrigger>
-          <TabsTrigger value="extensionProject">
+      <Tabs
+        defaultValue="teachingProject"
+        className="flex h-full w-full flex-col gap-2 pt-5 max-sm:gap-10  max-sm:pt-10"
+      >
+        <TabsList className="grid w-full grid-cols-3 gap-2 max-sm:flex max-sm:flex-col max-sm:pb-5 max-sm:pt-5">
+          <TabsTrigger
+            value="teachingProject"
+            className="rounded-xl bg-cyan-800"
+          >
+            Projetos de ensino
+          </TabsTrigger>
+          <TabsTrigger
+            value="extensionProject"
+            className="rounded-xl bg-emerald-800"
+          >
             Projetos de extensao
           </TabsTrigger>
-          <TabsTrigger value="researchProject">
+          <TabsTrigger
+            value="researchProject"
+            className="rounded-xl bg-orange-900"
+          >
             Projetos de pesquisa
           </TabsTrigger>
         </TabsList>

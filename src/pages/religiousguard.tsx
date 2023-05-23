@@ -5,10 +5,10 @@ import { Separator } from "../components/ui/separator";
 
 const ReligiousGuard: NextPageWithLayout = () => {
   return (
-    <section className=" relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2 pl-4">
+    <section className="flex h-[100vh] w-full flex-col gap-4 py-2 pl-2 pr-4 max-sm:pl-0">
       <div className="flex flex-col gap-4 pl-4">
         <h1 className="text-3xl font-bold text-white">Guarda Religiosa</h1>
-        <p className="text-white">
+        <p className="text-justify text-white">
           A Instrução Normativa 01/2018 estabelece normas para a realização do
           regime de guarda religiosa e Regulamenta o art. 2o da{" "}
           <a href="http://www.al.mt.gov.br/storage/webdisco/leis/lei-9274-2009.pdf">

@@ -27,14 +27,14 @@ const Colegiado: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
   return (
-    <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
-      <h1 className="pl-4 text-xl">Colegiado de Curso</h1>
-      <span className="pl-4">
+    <section className="flex h-[100vh] w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
+      <h1 className="pl-4 text-2xl">Colegiado de Curso</h1>
+      <span className="pl-4 text-justify max-sm:pl-0 max-sm:text-sm">
         O quadro a seguir apresenta a relação de membros do colegiado do curso
         de Bacharelado em Sistemas de Informação.
       </span>
-      <div className="h-[60vh] w-full justify-start pl-4 pr-10">
-        <Table className="w-full table-auto">
+      <div className="h-[60vh] w-full justify-start pl-4 pr-10 max-sm:pl-0 max-sm:pr-0 ">
+        <Table className="w-full table-auto max-sm:text-[0.5rem]">
           <TableHeader>
             <TableRow>
               <TableHead className="border text-center">Nome</TableHead>
