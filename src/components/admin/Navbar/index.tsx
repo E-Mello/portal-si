@@ -143,23 +143,14 @@ export default function Navbar() {
         text-gray-100 transition-all ease-in-out`}
     >
       <div
-        className={` flex justify-between py-3 transition-all duration-500 ${
-          isActiveNav ? "" : "flex-initial flex-col-reverse items-center gap-4"
+        className={` flex justify-between py-3 pl-2 transition-all duration-500 ${
+          isActiveNav ? "" : "flex-initial flex-col-reverse items-center gap-4 "
         }`}
       >
         <UserButton
           afterSignOutUrl="/login"
           appearance={{
-            baseTheme: unstable_createTheme({
-              layout: {},
-              variables: {
-                colorBackground: "#4D455D",
-                colorText: "#fff",
-                colorDanger: "#ff0000",
-                colorSuccess: "#00ff00",
-                fontWeight: { bold: 900 },
-              },
-            }),
+            baseTheme: dark,
             userProfile: {
               baseTheme: dark,
             },

@@ -50,7 +50,6 @@ import SyncLoader from "react-spinners/SyncLoader";
 import {
   SchoolYearCreateSchema,
   TeachersCreateSchema,
-  TeachersSchema,
   TeachersUpdateSchema,
 } from "~/server/common/PageSchema";
 import { cn } from "~/utils/cn";
@@ -338,7 +337,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                     <Input
                       id="teacher-name"
                       className=""
-                      {...updateForm("name")}
+                      {...registerForm("name")}
                     />
                   </div>
                   <div className="flex flex-col items-start justify-start gap-3">
@@ -348,7 +347,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                     <Input
                       id="teacher-qualification"
                       className=""
-                      {...updateForm("qualification")}
+                      {...registerForm("qualification")}
                     />
                   </div>
                   <div className="flex flex-col items-start justify-start gap-3">
@@ -358,7 +357,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                     <Input
                       id="teacher-area"
                       className=""
-                      {...updateForm("area")}
+                      {...registerForm("area")}
                     />
                   </div>
                   <div className="flex flex-col items-start justify-start gap-3">
@@ -368,7 +367,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                     <Input
                       id="teacher-email"
                       className=""
-                      {...updateForm("email")}
+                      {...registerForm("email")}
                     />
                   </div>
                   <div className="flex flex-col items-start justify-start gap-3">
@@ -378,7 +377,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                     <Input
                       id="teacher-lattes"
                       className=""
-                      {...updateForm("lattes")}
+                      {...registerForm("lattes")}
                     />
                   </div>
                   <div className="flex items-center justify-start pt-6">
@@ -424,6 +423,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                                   setValue(String(schoolYear.id)); //convert to string
                                   setOpen(false);
                                 }}
+                                {...registerForm("schoolYears")}
                               >
                                 <Check
                                   className={cn(

@@ -57,19 +57,17 @@ export const dashboardRouter = createTRPCRouter({
       try {
         const data = input;
         // Save the card to the database
-        const card = await ctx.prisma.card.update({
-          where: {
-            id: input.id,
-          },
+        const card = await ctx.prisma.cardGroup.update({
+          where: { id: data.id },
           data: {
             name: data.name,
-            info: data.info,
-            group: {
-              connect: {
-                id: data.group.id,
-              },
+            cards: {
               update: {
-                name: data.group.name,
+                where: { id: data.id },
+                data: {
+                  name: data.name,
+                  info: data.info,
+                },
               },
             },
           },

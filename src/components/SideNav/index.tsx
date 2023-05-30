@@ -165,9 +165,9 @@ export function SideNav() {
         text-gray-100 transition-all ease-in-out`}
     >
       <div
-        className={`flex justify-between py-3 pl-4 transition-all duration-500 ${
+        className={`flex justify-between py-3 pl-0 transition-all duration-500 ${
           isActiveNav
-            ? ""
+            ? "pl-4"
             : "flex-initial flex-col-reverse items-center gap-4 pl-0"
         }`}
       >

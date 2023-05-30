@@ -193,7 +193,7 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                   </Label>
                   <Input
                     id="titlePage"
-                    placeholder={pageData?.title}
+                    defaultValue={pageData?.title}
                     className="col-span-3"
                     {...register("title")}
                   />
@@ -210,7 +210,7 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                   </Label>
                   <Input
                     id="linkPage"
-                    placeholder={pageData?.link || ""}
+                    defaultValue={pageData?.link || ""}
                     className="col-span-3"
                     {...register("link")}
                   />
@@ -220,7 +220,7 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                   </Label>
                   <Input
                     id="nameLink"
-                    placeholder={pageData?.nameLink || ""}
+                    defaultValue={pageData?.nameLink || ""}
                     className="col-span-3"
                     {...register("nameLink")}
                   />

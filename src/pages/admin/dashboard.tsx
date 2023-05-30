@@ -75,52 +75,68 @@ const DashboardAdmin: NextPageWithLayout = () => {
     resolver: zodResolver(CardUpdateSchema),
   });
 
+  // const updateCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
+  //   data
+  // ) => {
+  //   const changedFields: {
+  //     [key: number]:
+  //       | string
+  //       | number
+  //       | { id?: number | undefined; name?: string | undefined }
+  //       | undefined;
+  //   } = {};
+
+  //   // Iterate over the submitted data and check for changes
+  //   for (const key in data) {
+  //     if (
+  //       data.hasOwnProperty(key) &&
+  //       data[key as keyof typeof data] !== "" &&
+  //       data[key as keyof typeof data] !== undefined
+  //     ) {
+  //       const value = data[key as keyof typeof data];
+
+  //       if (typeof value === "string" || typeof value === "number") {
+  //         changedFields[key as unknown as keyof typeof changedFields] = value;
+  //       } else if (typeof value === "object" && value !== null) {
+  //         // Ensure the value is not null before assigning
+  //         changedFields[key as unknown as keyof typeof changedFields] =
+  //           value as {
+  //             id?: number | undefined;
+  //             name?: string | undefined;
+  //           };
+  //       }
+  //     }
+  //   }
+
+  //   if (Object.keys(changedFields).length === 0) {
+  //     // No changes detected, show a message or handle it as per your requirement
+  //     toast.info("No changes made.", {
+  //       autoClose: 2000,
+  //     });
+  //     return;
+  //   }
+
+  //   console.log("Changed fields:", changedFields);
+
+  //   try {
+  //     const updatedData = { ...pageData, group: data.group, ...changedFields };
+  //     const res = await update(updatedData);
+  //     console.log("res", res);
+  //     reset();
+  //   } catch (error) {
+  //     // Handle error
+  //     console.error(error);
+  //     toast.error("Failed to update page.", {
+  //       autoClose: 2000,
+  //     });
+  //   }
+  // };
+
   const updateCard: SubmitHandler<z.infer<typeof CardUpdateSchema>> = async (
     data
   ) => {
-    const changedFields: {
-      [key: number]:
-        | string
-        | number
-        | { id?: number | undefined; name?: string | undefined }
-        | undefined;
-    } = {};
-
-    // Iterate over the submitted data and check for changes
-    for (const key in data) {
-      if (
-        data.hasOwnProperty(key) &&
-        data[key as keyof typeof data] !== "" &&
-        data[key as keyof typeof data] !== undefined
-      ) {
-        const value = data[key as keyof typeof data];
-
-        if (typeof value === "string" || typeof value === "number") {
-          changedFields[key as unknown as keyof typeof changedFields] = value;
-        } else if (typeof value === "object" && value !== null) {
-          // Ensure the value is not null before assigning
-          changedFields[key as unknown as keyof typeof changedFields] =
-            value as {
-              id?: number | undefined;
-              name?: string | undefined;
-            };
-        }
-      }
-    }
-
-    if (Object.keys(changedFields).length === 0) {
-      // No changes detected, show a message or handle it as per your requirement
-      toast.info("No changes made.", {
-        autoClose: 2000,
-      });
-      return;
-    }
-
-    console.log("Changed fields:", changedFields);
-
     try {
-      const updatedData = { ...pageData, group: data.group, ...changedFields };
-      const res = await update(updatedData);
+      const res = await update(data);
       console.log("res", res);
       reset();
     } catch (error) {
