@@ -27,6 +27,44 @@ export function SideNav() {
     setIsMounted(true);
   }, []);
 
+  /**
+   *
+   *
+   */
+
+  function useMediaQuery(query: string) {
+    const [matches, setMatches] = useState(false);
+
+    useEffect(() => {
+      const mediaQuery = window.matchMedia(query);
+
+      const handleChange = (event: {
+        matches: boolean | ((prevState: boolean) => boolean);
+      }) => {
+        setMatches(event.matches);
+      };
+
+      mediaQuery.addEventListener("change", handleChange);
+
+      // Initial check
+      setMatches(mediaQuery.matches);
+
+      return () => {
+        mediaQuery.removeEventListener("change", handleChange);
+      };
+    }, [query]);
+
+    return matches;
+  }
+
+  const isMobileScreen = useMediaQuery("(max-width: 640px)"); // Add this line
+
+  useEffect(() => {
+    if (isMobileScreen) {
+      setIsActiveNav(false); // Set isActiveNav to false for mobile screens
+    }
+  }, [isMobileScreen, setIsActiveNav]);
+
   const menus = [
     {
       name: "Home",
@@ -127,23 +165,16 @@ export function SideNav() {
         text-gray-100 transition-all ease-in-out`}
     >
       <div
-        className={` flex justify-between py-3 transition-all duration-500 ${
-          isActiveNav ? "" : "flex-initial flex-col-reverse items-center gap-4"
+        className={`flex justify-between py-3 pl-4 transition-all duration-500 ${
+          isActiveNav
+            ? ""
+            : "flex-initial flex-col-reverse items-center gap-4 pl-0"
         }`}
       >
         <UserButton
           afterSignOutUrl="/login"
           appearance={{
-            baseTheme: unstable_createTheme({
-              layout: {},
-              variables: {
-                colorBackground: "#4D455D",
-                colorText: "#fff",
-                colorDanger: "#ff0000",
-                colorSuccess: "#00ff00",
-                fontWeight: { bold: 900 },
-              },
-            }),
+            baseTheme: dark,
             userProfile: {
               baseTheme: dark,
             },
@@ -182,7 +213,7 @@ export function SideNav() {
             <Link
               href={typeof menu.Link === "string" ? menu.Link : "/"}
               key={i}
-              className={`group flex  gap-4 rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center ${
+              className={`group flex gap-4  rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center max-sm:hover:bg-zinc-900 ${
                 isActiveNav
                   ? "w-ful"
                   : "ml-3  w-9 max-sm:ml-1 max-sm:w-8 max-sm:pl-[0.38rem]"
@@ -206,7 +237,7 @@ export function SideNav() {
                   className={`${
                     isActiveNav ? "hidden" : ""
                   } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-        duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+        duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200 max-sm:hidden`}
                 >
                   {menu?.name}
                 </p>
@@ -224,7 +255,7 @@ export function SideNav() {
             href={menu?.Link}
             target="_blank"
             key={i}
-            className={`group flex  gap-4 rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center ${
+            className={`group flex gap-4  rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center max-sm:hover:bg-none ${
               isActiveNav
                 ? "w-ful"
                 : "ml-3  w-9 max-sm:ml-1 max-sm:w-8 max-sm:pl-[0.38rem]"
@@ -247,7 +278,7 @@ export function SideNav() {
               className={`${
                 isActiveNav ? "hidden" : ""
               } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200 max-sm:hidden`}
             >
               {menu?.name}
             </p>
@@ -264,7 +295,7 @@ export function SideNav() {
             href={menu?.Link}
             target="_blank"
             key={i}
-            className={`group flex  gap-4 rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center ${
+            className={`group flex  gap-4 rounded-md p-2 text-center text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 max-sm:w-full max-sm:items-center max-sm:hover:bg-none ${
               isActiveNav
                 ? "w-ful ml-2"
                 : "ml-3  w-9 max-sm:ml-1 max-sm:w-8 max-sm:pl-[0.38rem]"
@@ -287,7 +318,7 @@ export function SideNav() {
               className={`${
                 isActiveNav ? "hidden" : ""
               } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200 max-sm:hidden`}
             >
               {menu?.name}
             </p>
