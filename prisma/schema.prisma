@@ -33,37 +33,16 @@ model ApliedGroupContent {
   description String @db.LongText
 }
 
-model ElectiveSubjects {
-  id            Int      @id @default(autoincrement())
-  name          String
-  ch            Int
-  credits       Int
-  prerequisites String
-  updatedAt     DateTime
-}
-
-model Equivalence {
-  id            Int       @id @default(autoincrement())
-  name          String
-  ch            Int
-  equivalence   String    @db.Text
-  chequivalence Int
-  updatedAt     DateTime
-  subjects      Subject[] @relation("SubjectEquivalence")
-
-  @@index([name])
-}
-
 model Subject {
-  id            Int           @id @default(autoincrement())
-  phaseId       Int
-  name          String
-  ch            Int
-  credits       Int
-  prerequisites String
-  isElective    Boolean       @default(false)
-  phase         Phase         @relation(fields: [phaseId], references: [id])
-  equivalences  Equivalence[] @relation("SubjectEquivalence")
+  id                  Int     @id @default(autoincrement())
+  phaseId             Int
+  name                String
+  ch                  Int
+  credits             Int
+  prerequisites       String
+  isElective          Boolean @default(false)
+  equivalenceSubjects String  @db.Text
+  phase               Phase   @relation(fields: [phaseId], references: [id])
 
   @@index([phaseId])
 }
@@ -95,26 +74,15 @@ model StudentPublications {
   @@index([typeOfPublicationId])
 }
 
-model SchoolYear {
-  id       Int        @id @default(autoincrement())
-  year     String
-  semester String
-  teachers Teachers[]
-
-  @@unique([year, semester])
-}
-
 model Teachers {
-  id            Int          @id @default(autoincrement())
-  name          String       @unique
-  qualification String
-  area          String
-  email         String
-  lattes        String
-  updatedAt     DateTime
-  schoolYears   SchoolYear[]
-
-  @@index([name])
+  id              Int      @id @default(autoincrement())
+  name            String
+  qualification   String
+  area            String
+  email           String
+  lattes          String
+  periodOfService String
+  updatedAt       DateTime
 }
 
 model Card {
@@ -200,13 +168,4 @@ model FacultyCore {
   email     String
   validity  String
   updatedAt DateTime
-}
-
-model SchoolYearToTeachers {
-  A Int
-  B Int
-
-  @@unique([A, B], map: "_SchoolYearToTeachers_AB_unique")
-  @@index([B], map: "_SchoolYearToTeachers_B_index")
-  @@map("_SchoolYearToTeachers")
 }

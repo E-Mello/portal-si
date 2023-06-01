@@ -14,6 +14,7 @@ import { gcaRouter } from "./routers/gca";
 import { jobProfileRouter } from "./routers/jobprofile";
 import { projectsRouter } from "./routers/projects";
 import { scheduleRouter } from "./routers/schedule";
+import { subjectRouter } from "./routers/subjects";
 import { syllabusesAndBibliographiesRouter } from "~/server/api/routers/syllabuses_and_bibliographies";
 import { tccRouter } from "./routers/tcc";
 import { teachersRouter } from "./routers/teachers";
@@ -42,6 +43,7 @@ export const appRouter = createTRPCRouter({
   jobProfile: jobProfileRouter,
   events: eventsRouter,
   projects: projectsRouter,
+  subjects: subjectRouter,
 });
 
 // export type definition of API

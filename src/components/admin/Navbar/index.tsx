@@ -143,8 +143,10 @@ export default function Navbar() {
         text-gray-100 transition-all ease-in-out`}
     >
       <div
-        className={` flex justify-between py-3 pl-2 transition-all duration-500 ${
-          isActiveNav ? "" : "flex-initial flex-col-reverse items-center gap-4 "
+        className={` flex justify-between py-3 transition-all duration-500 ${
+          isActiveNav
+            ? "pl-1"
+            : "flex-initial flex-col-reverse items-center gap-4 pl-0"
         }`}
       >
         <UserButton
@@ -183,7 +185,9 @@ export default function Navbar() {
                 transitionDelay: `${0.05}s`,
               }}
               className={`whitespace-pre duration-500 ${
-                isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
+                isActiveNav
+                  ? ""
+                  : "translate-x-[7vw] overflow-hidden  opacity-0"
               }`}
             >
               Home

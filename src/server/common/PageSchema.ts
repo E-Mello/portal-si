@@ -97,7 +97,7 @@ export const TeachersUpdateSchema = z.object({
   area: z.string().optional(),
   email: z.string().optional(),
   lattes: z.string().optional(),
-  schoolYearId: z.number().optional(),
+  periodOfService: z.string().optional(),
 });
 
 export const TeachersCreateSchema = z.object({
@@ -106,22 +106,9 @@ export const TeachersCreateSchema = z.object({
   area: z.string(),
   email: z.string(),
   lattes: z.string(),
-  updateAt: z.string(),
-  schoolYears: z
-    .array(
-      z.object({
-        id: z.number(),
-        year: z.string(),
-        semester: z.string(),
-      })
-    )
-    .nonempty(),
+  periodOfService: z.string(),
 });
 
-export const SchoolYearCreateSchema = z.object({
-  year: z.string(),
-  semester: z.string(),
-});
 // ========================================================================================================
 
 // ========================================================================================================
@@ -138,7 +125,6 @@ export const CollegiateCreateSchema = z.object({
   segment: z.string(),
   email: z.string(),
   validity: z.string(),
-  updatedAt: z.string(),
 });
 // ========================================================================================================
 
@@ -229,6 +215,40 @@ export const ElectiveSubjectsSchema = z.object({
   credits: z.number(),
   prerequisites: z.string(),
   updateAt: z.string(),
+});
+// ========================================================================================================
+
+// ========================================================================================================
+export const SubjectsSchema = z.object({
+  id: z.number(),
+  phase: z.string(),
+  name: z.string(),
+  ch: z.number(),
+  credits: z.number(),
+  prerequisites: z.string(),
+  isElective: z.boolean(),
+  equivalenceSubjects: z.string(),
+});
+
+export const SubjectsCreateSchema = z.object({
+  phaseId: z.number(),
+  name: z.string(),
+  ch: z.number(),
+  credits: z.number(),
+  prerequisites: z.string(),
+  isElective: z.boolean(),
+  equivalenceSubjects: z.string(),
+});
+
+export const SubjectsUpdateSchema = z.object({
+  id: z.number(),
+  phaseId: z.number().optional(),
+  name: z.string().optional(),
+  ch: z.number().optional(),
+  credits: z.number().optional(),
+  prerequisites: z.string().optional(),
+  isElective: z.boolean().optional(),
+  equivalenceSubjects: z.string().optional(),
 });
 // ========================================================================================================
 

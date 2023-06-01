@@ -9,18 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "~/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 
@@ -48,11 +36,9 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 import SyncLoader from "react-spinners/SyncLoader";
 import {
-  SchoolYearCreateSchema,
   TeachersCreateSchema,
   TeachersUpdateSchema,
 } from "~/server/common/PageSchema";
-import { cn } from "~/utils/cn";
 
 const DocentsAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
@@ -109,24 +95,6 @@ const DocentsAdmin: NextPageWithLayout = () => {
     }
   );
 
-  const { mutateAsync: createSchoolYear } =
-    api.teachers.createSchoolYear.useMutation({
-      onSuccess: () => {
-        void utils.teachers.getAll.invalidate();
-        resetSchoolYear();
-        setOpen(false);
-        toast.success("SchoolYear created successfully", { autoClose: 2000 });
-      },
-      onError: () => {
-        resetSchoolYear();
-        setOpen(false);
-        toast.error(
-          "Something is wrong in create data, please validate the data ",
-          { autoClose: 2000 }
-        );
-      },
-    });
-
   /**
    * Form to update a teacher data in the database
    */
@@ -158,21 +126,6 @@ const DocentsAdmin: NextPageWithLayout = () => {
   });
 
   /**
-   * Form to submit a new school year to the database
-   */
-  const {
-    register: registerSchoolYear,
-    handleSubmit: handleSubmitSchoolYear,
-    formState: {
-      errors: errorsSchoolYear,
-      isSubmitting: isSubmittingSchoolYear,
-    },
-    reset: resetSchoolYear,
-  } = useForm<z.infer<typeof SchoolYearCreateSchema>>({
-    resolver: zodResolver(SchoolYearCreateSchema),
-  });
-
-  /**
    * Function to update a teacher data in the database
    */
   const updateFormTeacher: SubmitHandler<
@@ -200,49 +153,11 @@ const DocentsAdmin: NextPageWithLayout = () => {
     }
   };
 
-  /**
-   * Function to submit a new school year to the database
-   */
-  const submitSchoolYear: SubmitHandler<
-    z.infer<typeof SchoolYearCreateSchema>
-  > = async (data) => {
-    const res = await createSchoolYear(data);
-    if (res) {
-      console.log("res", res);
-      resetUpdateTeacherForm();
-      setOpen(false);
-    }
-  };
-
   async function deleteTeacherData(id: number) {
     try {
       await deleteTeacher({ id: id });
       setOpen(false);
     } catch (error) {}
-  }
-
-  // Group teachers by school year and semester
-  const teachersByClass: {
-    [key: string]: Array<{
-      id: number;
-      email: string;
-      name: string;
-      qualification: string;
-      area: string;
-      lattes: string;
-    }>;
-  } = {};
-  if (!teachersLoading && !teachersError) {
-    teachersData.forEach((schoolYear) => {
-      const { year, semester } = schoolYear;
-      const classKey = `${year}/${semester}`;
-      if (!teachersByClass[classKey]) {
-        teachersByClass[classKey] = [];
-      }
-      schoolYear.teachers.forEach((teacher) => {
-        teachersByClass[classKey]?.push(teacher);
-      });
-    });
   }
 
   if (teachersLoading) {
@@ -260,54 +175,6 @@ const DocentsAdmin: NextPageWithLayout = () => {
       </h1>
       <section className="flex flex-col justify-start gap-2 pl-4">
         <div className="flex justify-between gap-10">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="group flex w-full cursor-default items-center  justify-center gap-2 rounded-xl border p-2 hover:outline-double ">
-                <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-                Cadastro de ano letivo
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
-              <DialogHeader className="flex items-center justify-center">
-                <DialogTitle> Cadastrar novo semestre</DialogTitle>
-                <DialogDescription className="">
-                  Preencher todos os campos{" "}
-                  {"(Os campos são em formato string)"}
-                </DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleSubmitSchoolYear(submitSchoolYear)}>
-                <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                  <div className="flex columns-1 flex-col items-start gap-3">
-                    <Label htmlFor="name" className="text-right">
-                      Ano
-                    </Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      {...registerSchoolYear("year")}
-                    />
-                  </div>
-                  <div className="flex columns-1 flex-col items-start gap-3">
-                    <Label htmlFor="type">Semestre</Label>
-                    <Input
-                      id="type"
-                      type="text"
-                      {...registerSchoolYear("semester")}
-                    />
-                  </div>
-                  <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                    <Button
-                      type="submit"
-                      className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                      onClick={() => setOpen(false)}
-                    >
-                      Cadastrar
-                    </Button>
-                  </DialogFooter>
-                </section>
-              </form>
-            </DialogContent>
-          </Dialog>
           <Dialog>
             <DialogTrigger asChild>
               <Button
@@ -380,67 +247,17 @@ const DocentsAdmin: NextPageWithLayout = () => {
                       {...registerForm("lattes")}
                     />
                   </div>
-                  <div className="flex items-center justify-start pt-6">
-                    <Popover open={open} onOpenChange={setOpen}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={open}
-                          className="w-60 justify-between"
-                        >
-                          {value
-                            ? teachersData?.find(
-                                (schoolYear) => schoolYear.id === Number(value)
-                              )?.year
-                              ? `${
-                                  teachersData?.find(
-                                    (schoolYear) =>
-                                      schoolYear.id === Number(value)
-                                  )?.year ?? "Ano"
-                                } - ${
-                                  teachersData?.find(
-                                    (schoolYear) =>
-                                      schoolYear.id === Number(value)
-                                  )?.semester ?? "Semestre"
-                                }`
-                              : "Selecione o periodo letivo"
-                            : "Selecione o periodo letivo"}
-
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] bg-zinc-800 p-0 text-white">
-                        <Command>
-                          <CommandInput placeholder="School term..." />
-                          <CommandEmpty>No school year found.</CommandEmpty>
-                          <CommandGroup>
-                            {teachersData.map((schoolYear) => (
-                              <CommandItem
-                                className="hover:bg-zinc-700"
-                                key={schoolYear.id}
-                                onSelect={() => {
-                                  setValue(String(schoolYear.id)); //convert to string
-                                  setOpen(false);
-                                }}
-                                {...registerForm("schoolYears")}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    Number(value) === schoolYear.id
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {`${schoolYear.year} - ${schoolYear.semester} Semestre`}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
+                  <div className="flex flex-col items-start justify-start gap-3">
+                    <Label htmlFor="lattes" className="text-right">
+                      Período de atuação do professor
+                    </Label>
+                    <Input
+                      id="teacher-lattes"
+                      className=""
+                      {...registerForm("periodOfService" || "")}
+                    />
                   </div>
+                  <div className="flex items-center justify-start pt-6"></div>
                 </section>
 
                 <DialogFooter className="flex ">
@@ -448,10 +265,10 @@ const DocentsAdmin: NextPageWithLayout = () => {
                     type="submit"
                     className="flex border border-zinc-700 bg-zinc-700 text-white hover:border-zinc-600 hover:bg-zinc-600"
                   >
-                    {isUpdatingTeacherForm ? (
+                    {isSubmittingTeacherForm ? (
                       <SyncLoader color="white" />
                     ) : (
-                      "Salvar Alterações"
+                      "Cadastrar"
                     )}
                   </Button>
                 </DialogFooter>
@@ -459,288 +276,169 @@ const DocentsAdmin: NextPageWithLayout = () => {
             </DialogContent>
           </Dialog>
         </div>
-        <Accordion type="single" className="flex flex-col" collapsible>
-          {Object.keys(teachersByClass).map((classKey) => {
-            const [year, semester] = classKey.split("/");
-            return (
-              <AccordionItem key={classKey} value={classKey} className="">
-                <AccordionTrigger className="h-10">
-                  {year} - Semester {semester}
-                </AccordionTrigger>
-                <AccordionContent className="">
-                  {teachersByClass[classKey]?.length ?? 0 > 0 ? (
-                    <table className="w-full">
-                      <thead>
-                        <tr>
-                          <th className="border">Name</th>
-                          <th className="border">Qualification</th>
-                          <th className="border">Area</th>
-                          <th className="border">Email</th>
-                          <th className="border ">Lattes</th>
-                          <th className="w-40 border ">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {teachersByClass[classKey]?.map((teacher) => (
-                          <tr key={teacher.id} className="">
-                            <td className="border pl-2">{teacher.name}</td>
-                            <td className="border pl-2">
-                              {teacher.qualification}
-                            </td>
-                            <td className="border pl-2">{teacher.area}</td>
-                            <td className="border pl-2">{teacher.email}</td>
-                            <td className="items-center justify-center border pl-2">
-                              <Link
-                                className="flex "
-                                target="_blank"
-                                href={`${teacher.lattes}`}
-                              >
-                                <HiOutlineCursorClick className="flex w-full" />
-                              </Link>
-                            </td>
-                            <td className="flex w-40 justify-around gap-1 border px-4 py-2">
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button
-                                    variant="outline"
-                                    className="hover:bg-cyan-800"
-                                    onClick={() => {
-                                      resetUpdateTeacherForm();
-                                    }}
-                                  >
-                                    Editar
-                                  </Button>
-                                </DialogTrigger>
-                                <ScrollArea className="h-full w-full">
-                                  <DialogContent className="top-20 flex flex-col rounded-md bg-zinc-800 text-white shadow-2xl shadow-zinc-700  sm:max-w-[50vw]">
-                                    <DialogHeader>
-                                      <DialogTitle>
-                                        Editar as informações dos docentes
-                                      </DialogTitle>
-                                      <DialogDescription>
-                                        Será mostrado no placeholder as
-                                        informações atuais e ao salvar, as
-                                        informações serão substituidas.
-                                      </DialogDescription>
-                                    </DialogHeader>
-                                    {/* <form onSubmit={handleSubmit(updateTeacher)}> */}
-                                    <form
-                                      onSubmit={handleUpdateTeacherForm(
-                                        updateFormTeacher
-                                      )}
-                                    >
-                                      <section className="grid h-full grid-cols-2 gap-2">
-                                        <div className="flex columns-1 flex-col items-start gap-3">
-                                          <Label
-                                            htmlFor="name"
-                                            className="text-right"
-                                          >
-                                            Nome do professor
-                                          </Label>
-                                          <Input
-                                            id="teacher-name"
-                                            className=""
-                                            {...updateForm("name")}
-                                            defaultValue={teacher.name}
-                                          />
-                                        </div>
-                                        <div className="flex flex-col items-start justify-start gap-3">
-                                          <Label
-                                            htmlFor="qualification"
-                                            className="text-right"
-                                          >
-                                            Qualificação do professor
-                                          </Label>
-                                          <Input
-                                            id="teacher-qualification"
-                                            className=""
-                                            defaultValue={teacher.qualification}
-                                            {...updateForm("qualification")}
-                                          />
-                                        </div>
-                                        <div className="flex flex-col items-start justify-start gap-3">
-                                          <Label
-                                            htmlFor="area"
-                                            className="text-right"
-                                          >
-                                            Area de atuação do professor
-                                          </Label>
-                                          <Input
-                                            id="teacher-area"
-                                            className=""
-                                            defaultValue={teacher.area}
-                                            {...updateForm("area")}
-                                          />
-                                        </div>
-                                        <div className="flex flex-col items-start justify-start gap-3">
-                                          <Label
-                                            htmlFor="email"
-                                            className="text-right"
-                                          >
-                                            Email do professor
-                                          </Label>
-                                          <Input
-                                            id="teacher-email"
-                                            className=""
-                                            defaultValue={teacher.email}
-                                            {...updateForm("email")}
-                                          />
-                                        </div>
-                                        <div className="flex flex-col items-start justify-start gap-3">
-                                          <Label
-                                            htmlFor="lattes"
-                                            className="text-right"
-                                          >
-                                            Lattes do professor
-                                          </Label>
-                                          <Input
-                                            id="teacher-lattes"
-                                            className=""
-                                            defaultValue={teacher.lattes}
-                                            {...updateForm("lattes")}
-                                          />
-                                        </div>
-                                      </section>
-
-                                      <DialogFooter className="flex ">
-                                        <Button
-                                          type="submit"
-                                          className="flex border border-zinc-700 bg-zinc-700 text-white hover:border-zinc-600 hover:bg-zinc-600"
-                                        >
-                                          {isUpdatingTeacherForm ? (
-                                            <SyncLoader color="white" />
-                                          ) : (
-                                            "Salvar Alterações"
-                                          )}
-                                        </Button>
-                                      </DialogFooter>
-                                    </form>
-                                  </DialogContent>
-                                </ScrollArea>
-                              </Dialog>
-                              <Button
-                                variant={"outline"}
-                                className="hover:bg-red-500"
-                                type="button"
-                                // onClick={deleteTeacherData(teacher.id)}
-                              >
-                                Excluir
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <div className=" mt-4 flex  justify-center text-gray-500">
-                      No teachers registered for this semester.
-                    </div>
-                  )}
-                  <div className="flex pt-4">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button
-                          onClick={() => {
-                            setValue("");
-                          }}
-                          className="group flex w-full cursor-default  items-center justify-center gap-2 rounded-xl  border p-2 hover:outline-double "
-                        >
-                          <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-                          Vincular professor nesse periodo letivo
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="top-20 flex w-96 flex-col items-center rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
-                        <DialogHeader className="flex items-center justify-center">
-                          <DialogTitle>Vinculo de professor</DialogTitle>
-                          <DialogDescription className="">
-                            Selecione o professor para esse periodo letivo
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th className="border">Name</th>
+              <th className="border">Qualification</th>
+              <th className="border">Area</th>
+              <th className="border">Email</th>
+              <th className="border">Periodo de Serviço</th>
+              <th className="border ">Lattes</th>
+              <th className="w-40 border ">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {teachersData?.map((teacher) => (
+              <tr key={teacher.id} className="">
+                <td className="border pl-2">{teacher.name}</td>
+                <td className="border pl-2">{teacher.qualification}</td>
+                <td className="border pl-2">{teacher.area}</td>
+                <td className="border pl-2">{teacher.email}</td>
+                <td className=" border pl-2 text-center">
+                  {teacher.periodOfService}
+                </td>
+                <td className="items-center justify-center border pl-2">
+                  <Link
+                    className="flex "
+                    target="_blank"
+                    href={`${teacher.lattes}`}
+                  >
+                    <HiOutlineCursorClick className="flex w-full" />
+                  </Link>
+                </td>
+                <td className="flex w-40 justify-around gap-1 border px-4 py-2">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="hover:bg-cyan-800"
+                        onClick={() => {
+                          resetUpdateTeacherForm();
+                        }}
+                      >
+                        Editar
+                      </Button>
+                    </DialogTrigger>
+                    <ScrollArea className="h-full w-full">
+                      <DialogContent className="top-20 flex flex-col rounded-md bg-zinc-800 text-white shadow-2xl shadow-zinc-700  sm:max-w-[50vw]">
+                        <DialogHeader>
+                          <DialogTitle>
+                            Editar as informações dos docentes
+                          </DialogTitle>
+                          <DialogDescription>
+                            Será mostrado no placeholder as informações atuais e
+                            ao salvar, as informações serão substituidas.
                           </DialogDescription>
                         </DialogHeader>
+                        {/* <form onSubmit={handleSubmit(updateTeacher)}> */}
                         <form
-                          onSubmit={handleSubmitTeacherForm(submitTeacher)}
-                          className="flex w-full flex-col items-center justify-center gap-4"
+                          onSubmit={handleUpdateTeacherForm(updateFormTeacher)}
                         >
-                          <div className="flex flex-col  items-center gap-3">
-                            <Popover open={open} onOpenChange={setOpen}>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  role="combobox"
-                                  aria-expanded={open}
-                                  className="w-60 justify-between"
-                                >
-                                  {value
-                                    ? teachersData.find(
-                                        (schoolYear) =>
-                                          schoolYear.id === Number(value)
-                                      )
-                                      ? `${
-                                          teachersData.find(
-                                            (schoolYear) =>
-                                              schoolYear.id === Number(value)
-                                          )?.year ?? "Ano"
-                                        } - ${
-                                          teachersData.find(
-                                            (schoolYear) =>
-                                              schoolYear.id === Number(value)
-                                          )?.semester ?? "Semestre"
-                                        } Semestre`
-                                      : "Selecione o periodo letivo"
-                                    : "Selecione o periodo letivo"}
-                                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-[200px] bg-zinc-800 p-0 text-white">
-                                <Command>
-                                  <CommandInput placeholder="School term..." />
-                                  <CommandEmpty>
-                                    No school year found.
-                                  </CommandEmpty>
-                                  <CommandGroup>
-                                    {teachersData.map((schoolYear) => (
-                                      <CommandItem
-                                        className="hover:bg-zinc-700"
-                                        key={schoolYear.id}
-                                        onSelect={() => {
-                                          setValue(String(schoolYear.id));
-                                          setOpen(false);
-                                        }}
-                                      >
-                                        <Check
-                                          className={cn(
-                                            "mr-2 h-4 w-4",
-                                            Number(value) === schoolYear.id
-                                              ? "opacity-100"
-                                              : "opacity-0"
-                                          )}
-                                        />
-                                        {`${schoolYear.year} - ${schoolYear.semester} Semestre`}
-                                      </CommandItem>
-                                    ))}
-                                  </CommandGroup>
-                                </Command>
-                              </PopoverContent>
-                            </Popover>
-                          </div>
+                          <section className="grid h-full grid-cols-2 gap-2">
+                            <div className="flex columns-1 flex-col items-start gap-3">
+                              <Label htmlFor="name" className="text-right">
+                                Nome do professor
+                              </Label>
+                              <Input
+                                id="teacher-name"
+                                className=""
+                                {...updateForm("name")}
+                                defaultValue={teacher.name}
+                              />
+                            </div>
+                            <div className="flex flex-col items-start justify-start gap-3">
+                              <Label
+                                htmlFor="qualification"
+                                className="text-right"
+                              >
+                                Qualificação do professor
+                              </Label>
+                              <Input
+                                id="teacher-qualification"
+                                className=""
+                                defaultValue={teacher.qualification}
+                                {...updateForm("qualification")}
+                              />
+                            </div>
+                            <div className="flex flex-col items-start justify-start gap-3">
+                              <Label htmlFor="area" className="text-right">
+                                Area de atuação do professor
+                              </Label>
+                              <Input
+                                id="teacher-area"
+                                className=""
+                                defaultValue={teacher.area}
+                                {...updateForm("area")}
+                              />
+                            </div>
+                            <div className="flex flex-col items-start justify-start gap-3">
+                              <Label htmlFor="email" className="text-right">
+                                Email do professor
+                              </Label>
+                              <Input
+                                id="teacher-email"
+                                className=""
+                                defaultValue={teacher.email}
+                                {...updateForm("email")}
+                              />
+                            </div>
+                            <div className="flex flex-col items-start justify-start gap-3">
+                              <Label
+                                htmlFor="periodOfService"
+                                className="text-right"
+                              >
+                                Periodo de Serviço do professor
+                              </Label>
+                              <Input
+                                id="periodOfService"
+                                className=""
+                                defaultValue={teacher.periodOfService}
+                                {...updateForm("periodOfService")}
+                              />
+                            </div>
+                            <div className="flex flex-col items-start justify-start gap-3">
+                              <Label htmlFor="lattes" className="text-right">
+                                Lattes do professor
+                              </Label>
+                              <Input
+                                id="teacher-lattes"
+                                className=""
+                                defaultValue={teacher.lattes}
+                                {...updateForm("lattes")}
+                              />
+                            </div>
+                          </section>
 
-                          <DialogFooter className="flex flex-col items-center justify-center gap-4 pt-2">
+                          <DialogFooter className="flex pt-2">
                             <Button
                               type="submit"
-                              className="bg-cyan-800 text-black hover:bg-cyan-600 hover:text-white"
-                              onClick={() => setOpen(false)}
+                              className="flex border border-zinc-700 bg-zinc-700 text-white hover:border-zinc-600 hover:bg-zinc-600"
                             >
-                              Vincular
+                              {isUpdatingTeacherForm ? (
+                                <SyncLoader color="white" />
+                              ) : (
+                                "Salvar Alterações"
+                              )}
                             </Button>
                           </DialogFooter>
                         </form>
                       </DialogContent>
-                    </Dialog>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
+                    </ScrollArea>
+                  </Dialog>
+                  <Button
+                    variant={"outline"}
+                    className="hover:bg-red-500"
+                    type="button"
+                    // onClick={deleteTeacherData(teacher.id)}
+                  >
+                    Excluir
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </section>
     </section>
   );

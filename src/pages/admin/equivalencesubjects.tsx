@@ -1,14 +1,4 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "~/components/ui/sheet";
-
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -24,9 +14,18 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  EquivalenceCreateSchema,
-  EquivalenceSchema,
+  SubjectsCreateSchema,
+  SubjectsUpdateSchema,
 } from "~/server/common/PageSchema";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -47,80 +46,36 @@ import {
 } from "~/components/ui/table";
 
 const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
-  const [openDialogCreateEquivalence, setOpenDialogCreateEquivalence] =
-    useState(false);
-  const [openDialogEditEquivalence, setOpenDialogEditEquivalence] =
-    useState(false);
-  const [openDialogSubject, setOpenDialogSubject] = useState(false);
-  const [open, setOpen] = useState(false);
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.equivalence.getAll.useQuery();
+  } = api.subjects.getAll.useQuery();
 
-  /**
-   * Below is the code for the create equivalence
-   */
-  const { mutateAsync: createEquivalence } = api.equivalence.create.useMutation(
-    {
-      onSuccess: () => {
-        // show success toast
-        toast.success("Membro adicionado com sucesso!");
-      },
-    }
-  );
-
-  const {
-    register: registerCreateEquivalence,
-    handleSubmit: handleSubmitCreateEquivalence,
-    reset: resetCreateEquivalence,
-    formState: {
-      errors: errorsCreateEquivalence,
-      isSubmitting: isSubmittingCreateEquivalence,
-    },
-  } = useForm<z.infer<typeof EquivalenceCreateSchema>>({
-    resolver: zodResolver(EquivalenceCreateSchema),
-  });
-  const handleCreateEquivalence: SubmitHandler<
-    z.infer<typeof EquivalenceCreateSchema>
-  > = async (data) => {
-    const res = await createEquivalence({ ...data, id: 0 }); // Provide a default value for id
-    console.log("res", res);
-    resetCreateEquivalence();
+  const [openDialogSubject, setOpenDialogSubject] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const handleSubjectChange = (value: string) => {
+    setSelectedSubject(value);
   };
 
-  /**
-   * Below is the code for the update equivalence
-   */
-  const { mutateAsync: updateEquivalence } = api.equivalence.update.useMutation(
-    {
-      onSuccess: () => {
-        // show success toast
-        toast.success("Conteúdo da página atualizado com sucesso!");
-      },
-    }
+  const selectedSubjectData = pageData?.find(
+    (data) => data.name === selectedSubject
   );
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof EquivalenceSchema>>({
-    resolver: zodResolver(EquivalenceSchema),
-  });
-  const handleUpdateEquivalence: SubmitHandler<
-    z.infer<typeof EquivalenceSchema>
-  > = async (data) => {
-    const res = await updateEquivalence(data);
-    console.log("res", res);
-    reset();
+
+  const handleTextAreaChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    if (selectedSubjectData) {
+      selectedSubjectData.equivalenceSubjects = event.target.value;
+    }
   };
+
+  const [open, setOpen] = useState(false);
 
   /**
    * Below is the code for the create subject
    */
-  const { mutateAsync: createSubject } = api.equivalence.create.useMutation({
+  const { mutateAsync: create } = api.subjects.create.useMutation({
     onSuccess: () => {
       // show success toast
       toast.success("Membro adicionado com sucesso!");
@@ -128,25 +83,54 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
   });
 
   const {
-    register: registerCreateSubject,
-    handleSubmit: handleSubmitCreateSubject,
-    reset: resetCreateSubject,
+    register: registerSubject,
+    handleSubmit: handleSubmitSubject,
+    reset: resetSubject,
     formState: {
-      errors: errorsCreateSubject,
+      errors: errorsSubject,
       isSubmitting: isSubmittingCreateSubject,
     },
-  } = useForm<z.infer<typeof EquivalenceCreateSchema>>({
-    resolver: zodResolver(EquivalenceCreateSchema),
+  } = useForm<z.infer<typeof SubjectsCreateSchema>>({
+    resolver: zodResolver(SubjectsCreateSchema),
   });
   const handleCreateSubject: SubmitHandler<
-    z.infer<typeof EquivalenceCreateSchema> & { id: number }
+    z.infer<typeof SubjectsCreateSchema> & { id: number }
   > = async (data) => {
-    const res = await createSubject(data);
+    const res = await create(data);
     console.log("res", res);
-    resetCreateEquivalence();
+    resetSubject();
   };
 
-  const { mutate: deleteEquivalence } = api.equivalence.delete.useMutation({
+  /**
+   * Below is the code for the update subject (equivalence)
+   */
+  const { mutateAsync: update } = api.subjects.create.useMutation({
+    onSuccess: () => {
+      // show success toast
+      toast.success("Membro adicionado com sucesso!");
+    },
+  });
+
+  const {
+    register: registerUpdateSubject,
+    handleSubmit: handleUpdateSubject,
+    reset: resetUpdateSubject,
+    formState: {
+      errors: errorsUpdateSubject,
+      isSubmitting: isUpdatetingCreateSubject,
+    },
+  } = useForm<z.infer<typeof SubjectsCreateSchema>>({
+    resolver: zodResolver(SubjectsCreateSchema),
+  });
+  const handleupdateSubject: SubmitHandler<
+    z.infer<typeof SubjectsUpdateSchema> & { id: number }
+  > = async (data) => {
+    const res = await update(data);
+    console.log("res", res);
+    resetSubject();
+  };
+
+  const { mutate: deleteSubject } = api.subjects.delete.useMutation({
     onSuccess: () => {
       toast.success("Conteúdo da página atualizado com sucesso!");
     },
@@ -180,106 +164,64 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
             <Button
               onClick={() => {
                 setOpenDialogSubject(true);
-                resetCreateEquivalence();
+                resetSubject();
               }}
               className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
             >
               <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-              <span className="ml-2">Cadastrar Materia</span>
+              <span className="ml-2">Incluir nova Equivalência</span>
             </Button>
           </DialogTrigger>
-          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 shadow-2xl  shadow-zinc-700">
+          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white  shadow-2xl shadow-zinc-700">
             <DialogHeader className="flex items-center justify-center">
-              <DialogTitle>Cadastro de membro do colegiado</DialogTitle>
+              <DialogTitle>Inclusão de equivalência</DialogTitle>
               <DialogDescription className="">
-                Preencher todos os campos {"(Os campos são em formato string)"}
+                Selecione qual materia você deseja editar a equivalência
               </DialogDescription>
             </DialogHeader>
             <form>
               <section className="grid h-full grid-cols-1 items-center gap-2 ">
                 <div className="flex columns-1 flex-col items-start gap-3">
                   <Label htmlFor="name" className="text-right">
-                    Nome
+                    Matéria
                   </Label>
-                  <Input id="name" type="text" {...register("name")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="type">Segmento</Label>
-                  <Input id="type" type="text" {...register("ch")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="text" {...register("equivalence")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="validity">Vigência</Label>
-                  <Input
-                    id="validity"
-                    type="text"
-                    {...register("chequivalence")}
-                  />
-                </div>
-                <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                  <Button
-                    className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                    onClick={() => setOpen(false)}
+
+                  <Select
+                    value={selectedSubject}
+                    onValueChange={handleSubjectChange}
                   >
-                    Cadastrar
-                  </Button>
-                </DialogFooter>
-              </section>
-            </form>
-          </DialogContent>
-        </Dialog>
-        <Dialog
-          open={openDialogCreateEquivalence}
-          onOpenChange={setOpenDialogCreateEquivalence}
-        >
-          <DialogTrigger asChild>
-            <Button
-              onClick={() => {
-                setOpenDialogCreateEquivalence(true);
-                resetCreateEquivalence();
-              }}
-              className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
-            >
-              <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-              <span className="ml-2">Cadastrar Equivalencia</span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
-            <DialogHeader className="flex items-center justify-center">
-              <DialogTitle>Cadastro de membro do colegiado</DialogTitle>
-              <DialogDescription className="">
-                Preencher todos os campos {"(Os campos são em formato string)"}
-              </DialogDescription>
-            </DialogHeader>
-            <form
-              onSubmit={handleSubmitCreateEquivalence(handleCreateEquivalence)}
-            >
-              <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="name" className="text-right">
-                    Nome
-                  </Label>
-                  <Input id="name" type="text" {...register("name")} />
+                    <SelectTrigger>
+                      <SelectValue
+                        className="w-full text-left"
+                        placeholder="Selecione uma matéria"
+                      />
+                    </SelectTrigger>
+                    <SelectContent className="bg-zinc-800 text-white">
+                      {pageData?.map((subject) => (
+                        <SelectItem
+                          key={subject.id}
+                          value={subject.name}
+                          className="text-white hover:bg-neutral-600"
+                        >
+                          {subject.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="type">Segmento</Label>
-                  <Input id="type" type="text" {...register("ch")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="text" {...register("equivalence")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="validity">Vigência</Label>
-                  <Input
-                    id="validity"
-                    type="text"
-                    {...register("chequivalence")}
-                  />
-                </div>
+                {selectedSubjectData && (
+                  <div className="flex columns-1 flex-col items-start gap-3">
+                    <Label htmlFor="name" className="text-right">
+                      Editar equivalência(s)
+                    </Label>
+                    <Textarea
+                      id="name"
+                      defaultValue={selectedSubjectData.equivalenceSubjects}
+                      onChange={handleTextAreaChange}
+                      {...registerUpdateSubject("equivalenceSubjects")}
+                    />
+                  </div>
+                )}
                 <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
                   <Button
                     className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
@@ -300,117 +242,129 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
               <TableHead className="border border-gray-300 p-2">
                 Disciplina em SI
               </TableHead>
-              <TableHead className="border border-gray-300 p-2">
+              <TableHead className="border border-gray-300 p-2 text-center">
                 Carga Horária
+              </TableHead>
+              <TableHead className="border border-gray-300 p-2 text-center">
+                Créditos
+              </TableHead>
+              <TableHead className="border border-gray-300 p-2">
+                Pré-requisitos
+              </TableHead>
+              <TableHead className="border border-gray-300 p-2 text-center">
+                Eletiva
               </TableHead>
               <TableHead className="border border-gray-300 p-2">
                 Disciplina (Curso) - Equivalências no campus de Sinop
               </TableHead>
-              <TableHead className="border border-gray-300 p-2">
-                Carga Horária
-              </TableHead>
-              <TableHead className="w-40 border border-gray-300 p-2">
+              <TableHead className="w-44 border border-gray-300 p-2 text-center">
                 Ações
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pageData.map((data) => (
-              <TableRow key={data.id}>
-                <TableCell className="border border-gray-300 p-2">
-                  {data.name}
-                </TableCell>
-                <TableCell className="border border-gray-300 p-2">
-                  {data.ch}
-                </TableCell>
-                <TableCell className="border border-gray-300 p-2">
-                  {data.equivalence}
-                </TableCell>
-                <TableCell className="border border-gray-300 p-2">
-                  {data.chequivalence}
-                </TableCell>
-                <TableCell className="flex w-40 justify-center gap-1 border border-gray-300 p-2 px-4 py-2">
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="outline" className="hover:bg-cyan-800">
-                        Editar
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 shadow-2xl  shadow-zinc-700">
-                      <DialogHeader className="flex items-center ">
-                        <DialogTitle>Edição de professores</DialogTitle>
-                        <DialogDescription>
-                          Edição de professores
-                        </DialogDescription>
-                      </DialogHeader>
-                      <form
-                        // onSubmit={handleSubmit(updateEquivalence)}
-                        className=""
+            {pageData.map(
+              (data) =>
+                data.equivalenceSubjects !== "" && (
+                  <TableRow key={data.id}>
+                    <TableCell className="border border-gray-300 p-2">
+                      {data.name}
+                    </TableCell>
+                    <TableCell className="border border-gray-300 p-2 text-center">
+                      {data.ch}
+                    </TableCell>
+                    <TableCell className="border border-gray-300 p-2 text-center">
+                      {data.credits}
+                    </TableCell>
+                    <TableCell className="border border-gray-300 p-2">
+                      {data.prerequisites}
+                    </TableCell>
+                    <TableCell className="border border-gray-300 p-2 text-center">
+                      {data.isElective ? "Sim" : "Não"}
+                    </TableCell>
+                    <TableCell className="border border-gray-300 p-2">
+                      {data.equivalenceSubjects == ""
+                        ? "Não possui"
+                        : data.equivalenceSubjects}
+                    </TableCell>
+                    <TableCell className="flex w-44 gap-2 border border-gray-300 py-2 text-center ">
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className="hover:bg-cyan-800"
+                          >
+                            Editar
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
+                          <DialogHeader className="flex items-center ">
+                            <DialogTitle>Edição de professores</DialogTitle>
+                            <DialogDescription>
+                              Edição de professores
+                            </DialogDescription>
+                          </DialogHeader>
+                          <form
+                            // onSubmit={handleSubmit(updateEquivalence)}
+                            className=""
+                          >
+                            <section className="grid h-full grid-cols-1 items-center gap-2 ">
+                              <div className="flex columns-1 flex-col items-start gap-3">
+                                <Label htmlFor="name" className="text-right">
+                                  Nome
+                                </Label>
+                                <Input
+                                  id="name"
+                                  type="text"
+                                  placeholder={data.name}
+                                  {...registerUpdateSubject("name")}
+                                />
+                              </div>
+                              <div className="flex columns-1 flex-col items-start gap-3">
+                                <Label htmlFor="ch">CH</Label>
+                                <Input
+                                  id="ch"
+                                  type="text"
+                                  // placeholder={data.ch || "Erro ao carregar"}
+                                  {...registerUpdateSubject("ch")}
+                                />
+                              </div>
+                              <div className="flex columns-1 flex-col items-start gap-3">
+                                <Label htmlFor="equivalence">
+                                  Materia Equivalente
+                                </Label>
+                                <Input
+                                  id="equivalence"
+                                  type="text"
+                                  placeholder={data.equivalence}
+                                  {...registerUpdateSubject("equivalence")}
+                                />
+                              </div>
+                              <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
+                                <Button
+                                  className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
+                                  onClick={() => setOpen(false)}
+                                >
+                                  Salvar
+                                </Button>
+                              </DialogFooter>
+                            </section>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
+                      <Button
+                        variant={"outline"}
+                        className=" hover:bg-red-500"
+                        // onClick={handleDeleteData}
                       >
-                        <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                          <div className="flex columns-1 flex-col items-start gap-3">
-                            <Label htmlFor="name" className="text-right">
-                              Nome
-                            </Label>
-                            <Input
-                              id="name"
-                              type="text"
-                              placeholder={data.name}
-                              {...register("name")}
-                            />
-                          </div>
-                          <div className="flex columns-1 flex-col items-start gap-3">
-                            <Label htmlFor="ch">CH</Label>
-                            <Input
-                              id="ch"
-                              type="text"
-                              // placeholder={data.ch || "Erro ao carregar"}
-                              {...register("ch")}
-                            />
-                          </div>
-                          <div className="flex columns-1 flex-col items-start gap-3">
-                            <Label htmlFor="equivalence">
-                              Materia Equivalente
-                            </Label>
-                            <Input
-                              id="equivalence"
-                              type="text"
-                              placeholder={data.equivalence}
-                              {...register("equivalence")}
-                            />
-                            <div className="flex columns-1 flex-col items-start gap-3"></div>
-                            <Label htmlFor="chequivalence">
-                              CH/Equivalencia
-                            </Label>
-                            <Input
-                              id="chequivalence"
-                              type="text"
-                              // placeholder={data.chequivalence || "Erro ao carregar"}
-                              {...register("chequivalence")}
-                            />
-                          </div>
-                          <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                            <Button
-                              className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                              onClick={() => setOpen(false)}
-                            >
-                              Salvar
-                            </Button>
-                          </DialogFooter>
-                        </section>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-                  <Button
-                    variant={"outline"}
-                    className="hover:bg-red-500"
-                    // onClick={handleDeleteData}
-                  >
-                    {isSubmitting ? "Deletando..." : "Deletar"}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+                        {/*
+                         */}
+                        Excluir
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+            )}
           </TableBody>
         </Table>
       </div>
