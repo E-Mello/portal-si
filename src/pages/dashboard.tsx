@@ -46,8 +46,8 @@ const Dashboard: NextPageWithLayout = () => {
 
   if (isError) {
     return (
-      <section className="flex h-full w-full items-center justify-center">
-        <div className="flex h-full w-full flex-col items-center">
+      <section className="flex h-[100vh] w-full items-center justify-center">
+        <div className="flex w-full flex-col items-center">
           <svg
             className="mb-4 h-full w-2/5 text-red-500"
             xmlns="http://www.w3.org/2000/svg"
@@ -108,7 +108,7 @@ const Dashboard: NextPageWithLayout = () => {
                   {group.cards.map((card) => (
                     <Card
                       key={card.id}
-                      name={card.name}
+                      name={card.name || ""}
                       Link={card.locale}
                       Info={card.info}
                     />

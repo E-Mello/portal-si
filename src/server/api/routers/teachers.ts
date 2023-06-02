@@ -4,6 +4,8 @@ import {
 } from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
+import console from "console";
+
 export const teachersRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.teachers.findMany({
@@ -22,6 +24,7 @@ export const teachersRouter = createTRPCRouter({
     .input(TeachersUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       // Update the teacher
+      console.log(input.id);
       return await ctx.prisma.teachers.update({
         where: {
           id: input.id,
@@ -32,7 +35,7 @@ export const teachersRouter = createTRPCRouter({
           area: input.area,
           email: input.email,
           lattes: input.lattes,
-          periodOfService: input.periodOfService || "",
+          periodOfService: input.periodOfService,
         },
       });
     }),
@@ -48,7 +51,7 @@ export const teachersRouter = createTRPCRouter({
           area: input.area,
           email: input.email,
           lattes: input.lattes,
-          periodOfService: input.periodOfService || "",
+          periodOfService: input.periodOfService,
           updatedAt: new Date(),
         },
       });
@@ -57,6 +60,7 @@ export const teachersRouter = createTRPCRouter({
     .input(TeachersUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
+        console.log("O erro e", input.id);
         return await ctx.prisma.teachers.delete({
           where: {
             id: input.id,

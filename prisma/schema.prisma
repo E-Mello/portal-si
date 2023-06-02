@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Collegiate {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   teacher   String
   segment   String
   email     String
@@ -18,7 +18,7 @@ model Collegiate {
 }
 
 model ApliedGroup {
-  id                Int      @id @default(autoincrement())
+  id                String   @id @default(uuid())
   name              String
   notice            String
   link              String
@@ -28,14 +28,14 @@ model ApliedGroup {
 }
 
 model ApliedGroupContent {
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(uuid())
   title       String
   description String @db.LongText
 }
 
 model Subject {
-  id                  Int     @id @default(autoincrement())
-  phaseId             Int
+  id                  String  @id @default(uuid())
+  phaseId             String
   name                String
   ch                  Int
   credits             Int
@@ -48,21 +48,21 @@ model Subject {
 }
 
 model Phase {
-  id       Int       @id @default(autoincrement())
+  id       String    @id @default(uuid())
   name     String
   subjects Subject[]
 }
 
 model TypesOfPublications {
-  id                  Int                   @id @default(autoincrement())
+  id                  String                @id @default(uuid())
   name                String
   updatedAt           DateTime
   StudentPublications StudentPublications[]
 }
 
 model StudentPublications {
-  id                  Int                 @id @default(autoincrement())
-  typeOfPublicationId Int
+  id                  String              @id @default(uuid())
+  typeOfPublicationId String
   title               String
   resume              String              @db.Text
   author              String
@@ -75,7 +75,7 @@ model StudentPublications {
 }
 
 model Teachers {
-  id              Int      @id @default(autoincrement())
+  id              String   @id @default(uuid())
   name            String
   qualification   String
   area            String
@@ -86,24 +86,24 @@ model Teachers {
 }
 
 model Card {
-  id      Int       @id @default(autoincrement())
-  name    String
-  groupId Int
+  id      String    @id @default(uuid())
+  groupId String
   locale  String
   info    String
+  name    String?
   group   CardGroup @relation(fields: [groupId], references: [id])
 
   @@index([groupId])
 }
 
 model CardGroup {
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(uuid())
   name  String
   cards Card[]
 }
 
 model ViewsPage {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   title     String   @unique(map: "title")
   info      String?
   content   String?  @db.Text
@@ -120,7 +120,7 @@ model ViewsPage {
 }
 
 model Schedule {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   year      String
   semester  String
   updatedAt DateTime
@@ -128,7 +128,7 @@ model Schedule {
 }
 
 model Events {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(uuid())
   title          String
   info           String
   publicationDay DateTime
@@ -139,11 +139,11 @@ model Events {
 }
 
 model Projects {
-  id                Int              @id @default(autoincrement())
+  id                String           @id @default(uuid())
   title             String
   link              String?
   updatedAt         DateTime         @default(now())
-  typesOfProjectsId Int
+  typesOfProjectsId String
   projectArea       String
   resume            String           @db.Text
   teacherEmail      String
@@ -155,14 +155,14 @@ model Projects {
 }
 
 model TypesOfProjects {
-  id        Int        @id @default(autoincrement())
+  id        String     @id @default(uuid())
   name      String
   updatedAt DateTime   @default(now())
   projects  Projects[]
 }
 
 model FacultyCore {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   teachers  String
   type      String
   email     String

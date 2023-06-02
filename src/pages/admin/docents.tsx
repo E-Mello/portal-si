@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { Check, ChevronsUpDown } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +8,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import {
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 
@@ -16,19 +26,12 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { useState, type ReactElement } from "react";
+import { useState, type ReactElement, useEffect } from "react";
 
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
 
 import { HiOutlineCursorClick, HiOutlinePlus } from "react-icons/hi";
 import Link from "next/link";
@@ -37,6 +40,7 @@ import { api } from "~/utils/api";
 import SyncLoader from "react-spinners/SyncLoader";
 import {
   TeachersCreateSchema,
+  TeachersDeleteSchema,
   TeachersUpdateSchema,
 } from "~/server/common/PageSchema";
 
@@ -44,6 +48,8 @@ const DocentsAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [idTeacher, setIdTeacher] = useState("");
 
   const {
     data: teachersData,
@@ -110,6 +116,10 @@ const DocentsAdmin: NextPageWithLayout = () => {
     resolver: zodResolver(TeachersUpdateSchema),
   });
 
+  useEffect(() => {
+    console.log(errorsUpdateTeacherForm);
+  }, [errorsUpdateTeacherForm]);
+
   /**
    * Form to submit a new teacher data to the database
    */
@@ -131,6 +141,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
   const updateFormTeacher: SubmitHandler<
     z.infer<typeof TeachersUpdateSchema>
   > = async (data) => {
+    console.log(data);
     const res = await updateTeacher(data);
     if (res) {
       console.log("res", res);
@@ -153,11 +164,14 @@ const DocentsAdmin: NextPageWithLayout = () => {
     }
   };
 
-  async function deleteTeacherData(id: number) {
+  async function handleDeleteTeacher(idTeacher: string) {
     try {
-      await deleteTeacher({ id: id });
+      const res = await deleteTeacher({ id: idTeacher });
       setOpen(false);
-    } catch (error) {}
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   if (teachersLoading) {
@@ -307,12 +321,12 @@ const DocentsAdmin: NextPageWithLayout = () => {
                     <HiOutlineCursorClick className="flex w-full" />
                   </Link>
                 </td>
-                <td className="flex w-40 justify-around gap-1 border px-4 py-2">
+                <td className="w-52 border py-2 text-center">
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button
                         variant="outline"
-                        className="hover:bg-cyan-800"
+                        className="mr-2 hover:bg-cyan-800"
                         onClick={() => {
                           resetUpdateTeacherForm();
                         }}
@@ -320,120 +334,158 @@ const DocentsAdmin: NextPageWithLayout = () => {
                         Editar
                       </Button>
                     </DialogTrigger>
-                    <ScrollArea className="h-full w-full">
-                      <DialogContent className="top-20 flex flex-col rounded-md bg-zinc-800 text-white shadow-2xl shadow-zinc-700  sm:max-w-[50vw]">
-                        <DialogHeader>
-                          <DialogTitle>
-                            Editar as informações dos docentes
-                          </DialogTitle>
-                          <DialogDescription>
-                            Será mostrado no placeholder as informações atuais e
-                            ao salvar, as informações serão substituidas.
-                          </DialogDescription>
-                        </DialogHeader>
-                        {/* <form onSubmit={handleSubmit(updateTeacher)}> */}
-                        <form
-                          onSubmit={handleUpdateTeacherForm(updateFormTeacher)}
-                        >
-                          <section className="grid h-full grid-cols-2 gap-2">
-                            <div className="flex columns-1 flex-col items-start gap-3">
-                              <Label htmlFor="name" className="text-right">
-                                Nome do professor
-                              </Label>
-                              <Input
-                                id="teacher-name"
-                                className=""
-                                {...updateForm("name")}
-                                defaultValue={teacher.name}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label
-                                htmlFor="qualification"
-                                className="text-right"
-                              >
-                                Qualificação do professor
-                              </Label>
-                              <Input
-                                id="teacher-qualification"
-                                className=""
-                                defaultValue={teacher.qualification}
-                                {...updateForm("qualification")}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label htmlFor="area" className="text-right">
-                                Area de atuação do professor
-                              </Label>
-                              <Input
-                                id="teacher-area"
-                                className=""
-                                defaultValue={teacher.area}
-                                {...updateForm("area")}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label htmlFor="email" className="text-right">
-                                Email do professor
-                              </Label>
-                              <Input
-                                id="teacher-email"
-                                className=""
-                                defaultValue={teacher.email}
-                                {...updateForm("email")}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label
-                                htmlFor="periodOfService"
-                                className="text-right"
-                              >
-                                Periodo de Serviço do professor
-                              </Label>
-                              <Input
-                                id="periodOfService"
-                                className=""
-                                defaultValue={teacher.periodOfService}
-                                {...updateForm("periodOfService")}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label htmlFor="lattes" className="text-right">
-                                Lattes do professor
-                              </Label>
-                              <Input
-                                id="teacher-lattes"
-                                className=""
-                                defaultValue={teacher.lattes}
-                                {...updateForm("lattes")}
-                              />
-                            </div>
-                          </section>
-
-                          <DialogFooter className="flex pt-2">
-                            <Button
-                              type="submit"
-                              className="flex border border-zinc-700 bg-zinc-700 text-white hover:border-zinc-600 hover:bg-zinc-600"
+                    <DialogContent className="top-20 flex w-full flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700 sm:max-w-[50vw]">
+                      <DialogHeader>
+                        <DialogTitle>
+                          Editar as informações dos docentes
+                        </DialogTitle>
+                        <DialogDescription>
+                          Será mostrado no placeholder as informações atuais e
+                          ao salvar, as informações serão substituidas.
+                        </DialogDescription>
+                      </DialogHeader>
+                      {/* <form onSubmit={handleSubmit(updateTeacher)}> */}
+                      <form
+                        onSubmit={handleUpdateTeacherForm(updateFormTeacher)}
+                      >
+                        <section className="grid h-full grid-cols-2 gap-2">
+                          <input
+                            type="hidden"
+                            defaultValue={teacher.id}
+                            {...updateForm("id")}
+                          />
+                          <div className="flex columns-1 flex-col items-start gap-3">
+                            <Label htmlFor="name" className="text-right">
+                              Nome do professor
+                            </Label>
+                            <Input
+                              id="teacher-name"
+                              className=""
+                              {...updateForm("name")}
+                              defaultValue={teacher.name}
+                            />
+                          </div>
+                          <div className="flex flex-col items-start justify-start gap-3">
+                            <Label
+                              htmlFor="qualification"
+                              className="text-right"
                             >
-                              {isUpdatingTeacherForm ? (
-                                <SyncLoader color="white" />
-                              ) : (
-                                "Salvar Alterações"
-                              )}
-                            </Button>
-                          </DialogFooter>
-                        </form>
-                      </DialogContent>
-                    </ScrollArea>
+                              Qualificação do professor
+                            </Label>
+                            <Input
+                              id="teacher-qualification"
+                              className=""
+                              defaultValue={teacher.qualification}
+                              {...updateForm("qualification")}
+                            />
+                          </div>
+                          <div className="flex flex-col items-start justify-start gap-3">
+                            <Label htmlFor="area" className="text-right">
+                              Area de atuação do professor
+                            </Label>
+                            <Input
+                              id="teacher-area"
+                              className=""
+                              defaultValue={teacher.area}
+                              {...updateForm("area")}
+                            />
+                          </div>
+                          <div className="flex flex-col items-start justify-start gap-3">
+                            <Label htmlFor="email" className="text-right">
+                              Email do professor
+                            </Label>
+                            <Input
+                              id="teacher-email"
+                              className=""
+                              defaultValue={teacher.email}
+                              {...updateForm("email")}
+                            />
+                          </div>
+                          <div className="flex flex-col items-start justify-start gap-3">
+                            <Label
+                              htmlFor="periodOfService"
+                              className="text-right"
+                            >
+                              Periodo de Serviço do professor
+                            </Label>
+                            <Input
+                              id="periodOfService"
+                              className=""
+                              defaultValue={teacher.periodOfService}
+                              {...updateForm("periodOfService")}
+                            />
+                          </div>
+                          <div className="flex flex-col items-start justify-start gap-3">
+                            <Label htmlFor="lattes" className="text-right">
+                              Lattes do professor
+                            </Label>
+                            <Input
+                              id="teacher-lattes"
+                              className=""
+                              defaultValue={teacher.lattes}
+                              {...updateForm("lattes")}
+                            />
+                          </div>
+                        </section>
+
+                        <DialogFooter className="flex pt-2">
+                          <Button
+                            type="submit"
+                            className="flex border border-zinc-700 bg-zinc-700 text-white hover:border-zinc-600 hover:bg-zinc-600"
+                          >
+                            {isUpdatingTeacherForm ? (
+                              <SyncLoader color="white" />
+                            ) : (
+                              "Salvar Alterações"
+                            )}
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
                   </Dialog>
-                  <Button
-                    variant={"outline"}
-                    className="hover:bg-red-500"
-                    type="button"
-                    // onClick={deleteTeacherData(teacher.id)}
-                  >
-                    Excluir
-                  </Button>
+                  <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        onClick={() => {
+                          setOpenAlert(true);
+                          setIdTeacher(teacher.id);
+                        }}
+                        className=" hover:bg-red-500"
+                        variant="outline"
+                      >
+                        Deletar
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="w-1/2 bg-zinc-800 text-white ">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Voce tem certeza que deseja deletar essa informacao?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Lembre que, deletando essa informacao, nao sera
+                          possivel recupera-la.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel
+                          onClick={() => {
+                            setOpenAlert(false);
+                          }}
+                          className="hover:bg-red-600"
+                        >
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => {
+                            void handleDeleteTeacher(idTeacher);
+                          }}
+                          className="hover:bg-cyan-700"
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </td>
               </tr>
             ))}
