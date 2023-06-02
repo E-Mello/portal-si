@@ -19,22 +19,17 @@ export const facultyCoreRouter = createTRPCRouter({
   update: publicProcedure
     .input(FacultyCoreUpdateSchema)
     .mutation(async ({ input, ctx }) => {
-      try {
-        const member = await ctx.prisma.facultyCore.update({
-          data: {
-            teachers: input.teachers,
-            type: input.type,
-            email: input.email,
-            validity: input.validity,
-          },
-          where: {
-            id: input.id,
-          },
-        });
-        return member;
-      } catch (error) {
-        console.log("Erro ao atualizar um membro: ", error);
-      }
+      return await ctx.prisma.facultyCore.update({
+        data: {
+          teachers: input.teachers,
+          type: input.type,
+          email: input.email,
+          validity: input.validity,
+        },
+        where: {
+          id: input.id,
+        },
+      });
     }),
   delete: publicProcedure
     .input(FacultyCoreUpdateSchema)

@@ -25,7 +25,7 @@ export const AdditionalActivitiesSchema = z.object({
 });
 
 export const AdditionalActivitiesUpdateSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   title: z.string().optional(),
   content: z.string().optional(),
   link: z.string().optional(),

@@ -18,7 +18,7 @@ export const coursePurposeRouter = createTRPCRouter({
         content04: true,
       },
       where: {
-        id: 3,
+        id: "3",
       },
     });
   }),
@@ -27,7 +27,7 @@ export const coursePurposeRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.viewsPage.update({
         where: {
-          id: 3,
+          id: "3",
         },
         data: {
           title: input.title,

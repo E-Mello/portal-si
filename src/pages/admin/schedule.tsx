@@ -45,14 +45,15 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "~/components/ui/alert-dialog";
-import { set } from "lodash";
 import { LoadingSpinner } from "~/components/Loading";
 
 const ScheduleAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
   const [openDialogCreate, setOpenDialogCreate] = useState(false);
   const [openDialogUpdate, setOpenDialogUpdate] = useState(false);
+  const [idSchedule, setIdSchedule] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
+
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -117,10 +118,9 @@ const ScheduleAdmin: NextPageWithLayout = () => {
   > = async (data) => {
     const res = await create(data);
     console.log("res", res);
-    resetUpdateForm();
   };
 
-  const { mutate } = api.schedule.delete.useMutation({
+  const { mutate: deleteSchedule } = api.schedule.delete.useMutation({
     onSuccess: () => {
       void utils.schedule.getAll.invalidate();
       toast.success("Conteúdo da página atualizado com sucesso!", {
@@ -134,13 +134,14 @@ const ScheduleAdmin: NextPageWithLayout = () => {
     },
   });
 
-  // function handleDeleteSchedule() {
-  //   try {
-  //     mutate({ id: data.id });
-  //   } catch (error) {
-  //     console.log("Error deleting provider:", error);
-  //   }
-  // }
+  function handleDeleteSchedule(idSchedule: string) {
+    try {
+      const res = deleteSchedule({ id: idSchedule });
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -176,20 +177,20 @@ const ScheduleAdmin: NextPageWithLayout = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pageData?.map((data) => (
-              <TableRow key={data.id}>
+            {pageData?.map((schedule) => (
+              <TableRow key={schedule.id}>
                 <TableCell className="w-20 border border-gray-300 p-2 text-center">
-                  {data.year}
+                  {schedule.year}
                 </TableCell>
                 <TableCell className="w-32 border border-gray-300 p-2 text-center">
-                  {data.semester} Semestre
+                  {schedule.semester} Semestre
                 </TableCell>
                 <TableCell className="w-20 border border-gray-300 p-2 pl-3 text-center">
-                  <a href={data.link} target="_blank">
+                  <a href={schedule.link} target="_blank">
                     Acessar
                   </a>
                 </TableCell>
-                <TableCell className=" w-16 border border-gray-300 py-2">
+                <TableCell className=" border border-gray-300 py-2">
                   <Dialog
                     open={openDialogUpdate}
                     onOpenChange={setOpenDialogUpdate}
@@ -199,9 +200,10 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                         onClick={() => {
                           setOpenDialogUpdate(true);
                           resetUpdateForm();
+                          console.log("schedule", schedule);
                         }}
                         variant="outline"
-                        className="mr-2 hover:bg-cyan-800"
+                        className="mr-2  hover:bg-cyan-800"
                       >
                         Editar
                       </Button>
@@ -219,12 +221,16 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                         className=""
                       >
                         <section className="grid h-full grid-cols-1 items-center gap-2 ">
+                          <Input
+                            type="hidden"
+                            {...registerUpdateSchedule("id")}
+                          />
                           <div className="flex columns-1 flex-col items-start gap-3">
                             <Label htmlFor="type">Ano</Label>
                             <Input
                               id="year"
                               type="text"
-                              defaultValue={data.year}
+                              defaultValue={schedule.year}
                               {...registerUpdateSchedule("year")}
                             />
                           </div>
@@ -233,7 +239,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                             <Input
                               id="semester"
                               type="text"
-                              defaultValue={data.semester}
+                              defaultValue={schedule.semester}
                               {...registerUpdateSchedule("semester")}
                             />
                             <div className="flex columns-1 flex-col items-start gap-3"></div>
@@ -241,7 +247,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                             <Input
                               id="link"
                               type="text"
-                              defaultValue={data.link}
+                              defaultValue={schedule.link}
                               {...registerUpdateSchedule("link")}
                             />
                           </div>
@@ -263,8 +269,9 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                       <Button
                         onClick={() => {
                           setOpenAlert(true);
+                          setIdSchedule(schedule.id);
                         }}
-                        className=" hover:bg-red-500"
+                        className="-mr-5 ml-4 hover:bg-red-500"
                         variant="outline"
                       >
                         Deletar
@@ -290,7 +297,9 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          // onClick={handleDeleteSchedule}
+                          onClick={() => {
+                            void handleDeleteSchedule(idSchedule);
+                          }}
                           className="hover:bg-cyan-700"
                         >
                           Continue
@@ -353,7 +362,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                 </div>
                 <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
                   <Button className="bg-green-700 text-black hover:bg-green-600 hover:text-white">
-                    Cadastrar
+                    {isSubmittingCreate ? <SyncLoader /> : "Cadastrar"}
                   </Button>
                 </DialogFooter>
               </section>

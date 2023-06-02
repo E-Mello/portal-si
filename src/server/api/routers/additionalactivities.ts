@@ -1,8 +1,6 @@
-import {
-  AdditionalActivitiesSchema,
-  AdditionalActivitiesUpdateSchema,
-} from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+
+import { AdditionalActivitiesUpdateSchema } from "~/server/common/PageSchema";
 
 export const additionalActivitiesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -15,7 +13,7 @@ export const additionalActivitiesRouter = createTRPCRouter({
         nameLink: true,
       },
       where: {
-        id: 1,
+        id: "1",
       },
     });
   }),
@@ -32,7 +30,7 @@ export const additionalActivitiesRouter = createTRPCRouter({
             nameLink,
           },
           where: {
-            id: 1,
+            id: "1",
           },
         });
         return page;

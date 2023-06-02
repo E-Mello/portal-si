@@ -24,7 +24,6 @@ export const teachersRouter = createTRPCRouter({
     .input(TeachersUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       // Update the teacher
-      console.log(input.id);
       return await ctx.prisma.teachers.update({
         where: {
           id: input.id,
@@ -60,7 +59,6 @@ export const teachersRouter = createTRPCRouter({
     .input(TeachersUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
-        console.log("O erro e", input.id);
         return await ctx.prisma.teachers.delete({
           where: {
             id: input.id,

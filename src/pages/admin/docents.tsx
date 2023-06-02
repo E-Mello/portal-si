@@ -20,7 +20,6 @@ import {
   AlertDialogAction,
 } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
-import { ScrollArea } from "~/components/ui/scroll-area";
 
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -40,7 +39,6 @@ import { api } from "~/utils/api";
 import SyncLoader from "react-spinners/SyncLoader";
 import {
   TeachersCreateSchema,
-  TeachersDeleteSchema,
   TeachersUpdateSchema,
 } from "~/server/common/PageSchema";
 
@@ -86,20 +84,6 @@ const DocentsAdmin: NextPageWithLayout = () => {
       },
     }
   );
-  const { mutateAsync: deleteTeacher } = api.teachers.deleteTeacher.useMutation(
-    {
-      onSuccess: () => {
-        void utils.teachers.getAll.invalidate();
-        toast.success("Teacher deleted successfully", { autoClose: 2000 });
-      },
-      onError: () => {
-        toast.error(
-          "Something is wrong in delete data, please validate the data ",
-          { autoClose: 2000 }
-        );
-      },
-    }
-  );
 
   /**
    * Form to update a teacher data in the database
@@ -115,10 +99,6 @@ const DocentsAdmin: NextPageWithLayout = () => {
   } = useForm<z.infer<typeof TeachersUpdateSchema>>({
     resolver: zodResolver(TeachersUpdateSchema),
   });
-
-  useEffect(() => {
-    console.log(errorsUpdateTeacherForm);
-  }, [errorsUpdateTeacherForm]);
 
   /**
    * Form to submit a new teacher data to the database
@@ -163,6 +143,21 @@ const DocentsAdmin: NextPageWithLayout = () => {
       setOpen(false);
     }
   };
+
+  const { mutateAsync: deleteTeacher } = api.teachers.deleteTeacher.useMutation(
+    {
+      onSuccess: () => {
+        void utils.teachers.getAll.invalidate();
+        toast.success("Teacher deleted successfully", { autoClose: 2000 });
+      },
+      onError: () => {
+        toast.error(
+          "Something is wrong in delete data, please validate the data ",
+          { autoClose: 2000 }
+        );
+      },
+    }
+  );
 
   async function handleDeleteTeacher(idTeacher: string) {
     try {

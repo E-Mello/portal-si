@@ -91,7 +91,7 @@ const JobProfileAdmin: NextPageWithLayout = () => {
       const updatedData: {
         content: string;
         link: string;
-        id?: number | undefined;
+        id?: string | undefined;
         title?: string | undefined;
         nameLink?: string | undefined;
       } = {

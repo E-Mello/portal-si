@@ -49,7 +49,7 @@ import {
 const TeachingCenterAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
   const [open, setOpen] = useState(false);
-  const [idMember, setIdMember] = useState(0);
+  const [idMember, setIdMember] = useState("");
 
   const {
     data: pageData,
@@ -123,11 +123,11 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
       void utils.facultyCore.getAll.invalidate();
       resetCreate();
       setOpen(false);
-      toast.success("Membro adicionado com sucesso!");
+      toast.success("Membro adicionado com sucesso!", { autoClose: 2000 });
     },
     onError: () => {
       setOpen(false);
-      toast.error("Erro ao adicionar membro!");
+      toast.error("Erro ao adicionar membro!", { autoClose: 2000 });
     },
   });
 
@@ -147,17 +147,23 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
 
   const { mutate: deleteMember } = api.facultyCore.delete.useMutation({
     onSuccess: () => {
-      toast.success("Conteúdo da página atualizado com sucesso!");
+      void utils.facultyCore.getAll.invalidate();
+      toast.success("Membro deletado com sucesso!", { autoClose: 2000 });
+    },
+    onError: () => {
+      toast.error("Erro ao deletar membro!", { autoClose: 2000 });
     },
   });
 
-  // function handleDeleteMember() {
-  //   try {
-  //     deleteMember(idMember);
-  //   } catch (error) {
-  //     console.log("Error deleting provider:", error);
-  //   }
-  // }
+  function handleDeleteMember(idMember: string) {
+    try {
+      const res = deleteMember({ id: idMember });
+      setOpen(false);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -318,7 +324,9 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          // onClick={handleDeleteMember}
+                          onClick={() => {
+                            void handleDeleteMember(idMember);
+                          }}
                           className="hover:bg-cyan-700"
                         >
                           Continue

@@ -60,68 +60,11 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
   const updatePage: SubmitHandler<
     z.infer<typeof AdditionalActivitiesUpdateSchema>
   > = async (data) => {
-    const changedFields: { [key: string]: string | number | undefined } = {};
-
-    // Iterate over the submitted data and check for changes
-    for (const key in data) {
-      if (
-        data.hasOwnProperty(key) &&
-        data[key as keyof typeof data] !== "" &&
-        data[key as keyof typeof data] !== undefined
-      ) {
-        changedFields[key as keyof typeof changedFields] =
-          data[key as keyof typeof data];
-      }
-    }
-
-    if (Object.keys(changedFields).length === 0) {
-      // No changes detected, show a message or handle it as per your requirement
-      toast.info("No changes made.", {
-        autoClose: 2000,
-      });
-      return;
-    }
-
-    console.log("Changed fields:", changedFields);
-
-    try {
-      const updatedData: {
-        content: string;
-        link: string;
-        id?: number | undefined;
-        title?: string | undefined;
-        nameLink?: string | undefined;
-      } = {
-        ...pageData,
-        ...changedFields,
-        content:
-          typeof changedFields.content === "string"
-            ? changedFields.content
-            : changedFields.content !== null &&
-              changedFields.content !== undefined
-            ? changedFields.content.toString()
-            : "",
-        link:
-          changedFields.link !== null && changedFields.link !== undefined
-            ? changedFields.link.toString()
-            : "",
-        nameLink:
-          changedFields.nameLink !== null &&
-          changedFields.nameLink !== undefined
-            ? changedFields.nameLink.toString()
-            : undefined,
-      };
-
-      if (changedFields.content === null) {
-        updatedData.content = ""; // Set it to an empty string or handle it as per your requirement
-      }
-
-      const res = await update(updatedData);
-      console.log("res", res);
+    const res = await update(data);
+    console.log("res", res);
+    if (res) {
       reset();
-    } catch (error) {
-      // Handle error
-      console.error(error);
+    } else {
       toast.error("Failed to update page.", {
         autoClose: 2000,
       });
@@ -188,6 +131,11 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
                 </SheetHeader>
 
                 <div className="col-span-3 flex flex-col items-start gap-4">
+                  <Input
+                    type="hidden"
+                    {...register("id")}
+                    defaultValue={pageData?.id}
+                  />
                   <Label htmlFor="title" className="">
                     Alterar o titulo da página
                   </Label>

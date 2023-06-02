@@ -1,10 +1,10 @@
 import { HiHome, HiMenu, HiOutlineX, HiPencil } from "react-icons/hi";
-import { dark, unstable_createTheme } from "@clerk/themes";
 
 import Link from "next/link";
 import React from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { UserButton } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { isActiveNavAtom } from "~/atoms/activeNavAtom";
 import { useAtom } from "jotai";
 

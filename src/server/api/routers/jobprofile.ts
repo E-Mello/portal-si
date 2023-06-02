@@ -11,7 +11,7 @@ export const jobProfileRouter = createTRPCRouter({
         content: true,
       },
       where: {
-        id: 4,
+        id: "4",
       },
     });
   }),
@@ -20,7 +20,7 @@ export const jobProfileRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.viewsPage.update({
         where: {
-          id: 4,
+          id: "4",
         },
         data: {
           title: input.title,

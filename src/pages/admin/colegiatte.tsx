@@ -55,6 +55,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
+  const [idMember, setIdMember] = useState("");
 
   const {
     data: pageData,
@@ -126,19 +127,25 @@ const CollegiateAdmin: NextPageWithLayout = () => {
 
   const { mutate: deleteMember } = api.collegiate.delete.useMutation({
     onSuccess: () => {
+      void utils.collegiate.getAll.invalidate();
       toast.success("Membro deletado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao deletar membro !!!", {
         autoClose: 2000,
       });
     },
   });
 
-  // function handleDeleteMember() {
-  //   try {
-  //     deleteMember({ id: member.id });
-  //   } catch (error) {
-  //     console.log("Error deleting member:", error);
-  //   }
-  // }
+  function handleDeleteMember() {
+    try {
+      deleteMember({ id: idMember });
+    } catch (error) {
+      console.log("Error deleting member:", error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -198,6 +205,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                         onClick={() => {
                           setOpenEditDialog(true);
                           resetUpdate();
+                          console.log("member_id:", member.id);
                         }}
                         variant="outline"
                         className="hover:bg-cyan-800"
@@ -217,6 +225,11 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                         className=""
                       >
                         <section className="grid h-full grid-cols-1 items-center gap-2">
+                          <Input
+                            type="hidden"
+                            defaultValue={member.id}
+                            {...registerUpdate("id")}
+                          />
                           <div className="flex columns-1 flex-col items-start gap-3">
                             <Label htmlFor="name" className="text-right">
                               Nome
@@ -275,6 +288,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                       <Button
                         onClick={() => {
                           setOpenAlert(true);
+                          setIdMember(member.id);
                         }}
                         className=" hover:bg-red-500"
                         variant="outline"
@@ -302,7 +316,9 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          // onClick={handleDeleteMember}
+                          onClick={() => {
+                            handleDeleteMember();
+                          }}
                           className="hover:bg-cyan-700"
                         >
                           Continue

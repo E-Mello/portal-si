@@ -9,7 +9,6 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { type SubmitHandler, useForm } from "react-hook-form";
-import { merge } from "lodash";
 
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
@@ -90,7 +89,7 @@ const CoursePurposeAdmin: NextPageWithLayout = () => {
       const updatedData: {
         content: string;
         link: string;
-        id?: number | undefined;
+        id?: string | undefined;
         title?: string | undefined;
         nameLink?: string | undefined;
       } = {

@@ -1,6 +1,6 @@
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { useState, type ReactElement } from "react";
+import { useState, type ReactElement, useEffect } from "react";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import {
@@ -13,6 +13,16 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "~/components/ui/command";
+
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
@@ -22,7 +32,6 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { Separator } from "~/components/ui/separator";
 import { CurriculumSubjectsSchema } from "~/server/common/PageSchema";
 import { HiOutlinePlus } from "react-icons/hi";
 import {
@@ -44,6 +53,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
+import { Textarea } from "~/components/ui/textarea";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
@@ -66,6 +77,30 @@ type Phase = {
 const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const [open, setOpen] = useState(false);
+  const [commandListHeight, setCommandListHeight] = useState(0);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!(event.target as HTMLElement).closest(".command-input-container")) {
+        setCommandListHeight(0);
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const handleInputChange = () => {
+    setCommandListHeight(72);
+  };
+
+  const handleDialogClick = () => {
+    setCommandListHeight(0);
+  };
+
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -118,20 +153,20 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
 
   const phaseIds = [
     ...new Set(
-      pageData?.map((subject: { phaseId: any }) => subject.phaseId as number)
+      pageData?.map((subject: { phaseId: string }) => subject.phaseId)
     ),
   ];
 
   return (
     <section className="flex w-full flex-col items-center gap-4 bg-zinc-800 p-4 text-white">
-      <h1 className="pl-4 text-xl">Grade Curricular</h1>
+      <h1 className=" text-xl">Grade Curricular</h1>
       <Image width={500} height={500} alt="test" src={allSubjects} />
       <span>
         Os quadro a seguir apresenta a sequência curricular do curso de
         Bacharelado em Sistemas de Informação, compreendendo oito fases
         (semestres) letivas.
       </span>
-      <section className="flex flex-col items-center justify-center gap-4 pl-4">
+      <section className="flex flex-col items-center justify-center gap-4 ">
         <h1>Resumo</h1>
         <Table className="table-auto">
           <TableBody>
@@ -161,6 +196,61 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
             </TableRow>
           </TableBody>
         </Table>
+      </section>
+      <section className="flex w-2/5 flex-col items-center justify-center pt-4">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double ">
+              <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
+              <p className="ml-2">Cadastrar nova matéria</p>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
+            <DialogHeader className="flex items-center justify-center">
+              <DialogTitle>
+                Cadastrar uma nova matéria para esse semestre
+              </DialogTitle>
+              <DialogDescription className="">
+                Preencher todos os campos {"(Os campos são em formato string)"}
+              </DialogDescription>
+            </DialogHeader>
+            <form>
+              <section className="grid h-full grid-cols-1 items-center gap-2 ">
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="name" className="text-right">
+                    Nome da Matéria
+                  </Label>
+                  <Input id="name" type="text" {...register("name")} />
+                </div>
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="ch">Carga Horária da Matéria</Label>
+                  <Input id="ch" type="text" {...register("ch")} />
+                </div>
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="credits">Créditos da Matéria</Label>
+                  <Input id="credits" type="text" {...register("credits")} />
+                  <div className="flex columns-1 flex-col items-start gap-3"></div>
+                  <Label htmlFor="prerequisites">
+                    Pré-requisitos da Matéria
+                  </Label>
+                  <Input
+                    id="prerequisites"
+                    type="text"
+                    {...register("prerequisites")}
+                  />
+                </div>
+                <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
+                  <Button
+                    className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
+                    onClick={() => setOpen(false)}
+                  >
+                    Cadastrar
+                  </Button>
+                </DialogFooter>
+              </section>
+            </form>
+          </DialogContent>
+        </Dialog>
       </section>
       <br />
       <section className="grid w-full grid-cols-2 gap-4 pl-4 pr-10">
@@ -216,7 +306,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                               variant="outline"
                               className="hover:bg-cyan-800"
                             >
-                              Editar vinculo
+                              Editar matéria
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
@@ -332,49 +422,69 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
             </Table>
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double ">
+                <Button
+                  onClick={() => {
+                    reset();
+                  }}
+                  className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
+                >
                   <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-                  <p className="ml-2">Adicionar nova matéria</p>
+                  <span className="ml-2">
+                    Incluir nova Matéria nesse semestre
+                  </span>
                 </Button>
               </DialogTrigger>
-              <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
+              <DialogContent
+                onClick={handleDialogClick}
+                className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white  shadow-2xl shadow-zinc-700"
+              >
                 <DialogHeader className="flex items-center justify-center">
-                  <DialogTitle>
-                    Cadastrar uma nova matéria para esse semestre
-                  </DialogTitle>
+                  <DialogTitle>Inclusão de equivalência</DialogTitle>
                   <DialogDescription className="">
-                    Preencher todos os campos{" "}
-                    {"(Os campos são em formato string)"}
+                    Selecione qual materia você deseja editar a equivalência
                   </DialogDescription>
                 </DialogHeader>
                 <form>
                   <section className="grid h-full grid-cols-1 items-center gap-2 ">
                     <div className="flex columns-1 flex-col items-start gap-3">
                       <Label htmlFor="name" className="text-right">
-                        Nome da Matéria
+                        Matéria
                       </Label>
-                      <Input id="name" type="text" {...register("name")} />
-                    </div>
-                    <div className="flex columns-1 flex-col items-start gap-3">
-                      <Label htmlFor="ch">Carga Horária da Matéria</Label>
-                      <Input id="ch" type="text" {...register("ch")} />
-                    </div>
-                    <div className="flex columns-1 flex-col items-start gap-3">
-                      <Label htmlFor="credits">Créditos da Matéria</Label>
-                      <Input
-                        id="credits"
-                        type="text"
-                        {...register("credits")}
-                      />
-                      <div className="flex columns-1 flex-col items-start gap-3"></div>
-                      <Label htmlFor="prerequisites">
-                        Pré-requisitos da Matéria
-                      </Label>
-                      <Input
-                        id="prerequisites"
-                        type="text"
-                        {...register("prerequisites")}
-                      />
+
+                      <Command className="rounded-lg border shadow-md">
+                        <CommandInput
+                          placeholder="Type a command or search..."
+                          onClick={handleInputChange}
+                        />
+                        <CommandList className={`h-${commandListHeight}`}>
+                          <ScrollArea className="scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-full">
+                            <CommandEmpty>No results found.</CommandEmpty>
+                            {phaseIds.map((phaseId) => (
+                              <div key={phaseId}>
+                                <CommandGroup
+                                  //heading={`${phaseId} Semestre`}
+                                  className=""
+                                >
+                                  {`${phaseId} Semestre`}
+                                  {pageData
+                                    ?.filter(
+                                      (subject) => subject.phaseId === phaseId
+                                    )
+                                    .map((subject) => (
+                                      <CommandItem
+                                        key={subject.id}
+                                        className="mt-2 hover:bg-slate-700"
+                                      >
+                                        <span>{subject.name}</span>
+                                      </CommandItem>
+                                    ))}
+                                </CommandGroup>
+                                <CommandSeparator className="h-[0.25vh] rounded-xl bg-slate-700" />
+                              </div>
+                            ))}
+                          </ScrollArea>
+                        </CommandList>
+                      </Command>
                     </div>
                     <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
                       <Button

@@ -20,7 +20,7 @@
     "@mantine/core": "^6.0.10",
     "@mantine/hooks": "^6.0.10",
     "@mantine/next": "^6.0.10",
-    "@prisma/client": "^4.14.0",
+    "@prisma/client": "^4.15.0",
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-alert-dialog": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.3",
@@ -35,6 +35,7 @@
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/supabase-js": "^2.21.0",
     "@t3-oss/env-nextjs": "^0.2.2",
+    "@tailwindcss/forms": "^0.5.3",
     "@tanstack/react-query": "^4.29.5",
     "@trpc/client": "^10.21.2",
     "@trpc/next": "^10.21.2",
@@ -63,6 +64,7 @@
     "remark-breaks": "^3.0.3",
     "superjson": "1.12.2",
     "tailwind-merge": "^1.12.0",
+    "tailwind-scrollbar": "^3.0.4",
     "twin.macro": "^3.3.1",
     "zod": "^3.21.4"
   },
@@ -81,7 +83,7 @@
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.2.7",
-    "prisma": "^4.14.0",
+    "prisma": "^4.15.0",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4"
   },

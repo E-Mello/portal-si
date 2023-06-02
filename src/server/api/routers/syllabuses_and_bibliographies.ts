@@ -1,8 +1,6 @@
-import {
-  PageViewSchema,
-  SyllabusesAndBibliographiesUpdateSchema,
-} from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+
+import { SyllabusesAndBibliographiesUpdateSchema } from "~/server/common/PageSchema";
 
 export const syllabusesAndBibliographiesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -17,7 +15,7 @@ export const syllabusesAndBibliographiesRouter = createTRPCRouter({
         content03: true,
       },
       where: {
-        id: 5,
+        id: "5",
       },
     });
   }),
@@ -26,7 +24,7 @@ export const syllabusesAndBibliographiesRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.viewsPage.update({
         where: {
-          id: 5,
+          id: "5",
         },
         data: {
           title: input.title,

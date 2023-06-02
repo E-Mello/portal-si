@@ -11,7 +11,7 @@ export const aboutCourseRouter = createTRPCRouter({
         content: true,
       },
       where: {
-        id: 2,
+        id: "2",
       },
     });
   }),
@@ -26,7 +26,7 @@ export const aboutCourseRouter = createTRPCRouter({
             content,
           },
           where: {
-            id: 2,
+            id: "2",
           },
         });
         return page;
