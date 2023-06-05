@@ -22,18 +22,6 @@ import {
   TableRow,
 } from "~/components/ui/table";
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "~/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
@@ -162,37 +150,39 @@ const GcaAdmin: NextPageWithLayout = () => {
                     <DialogTrigger asChild>
                       <Button variant="outline">Editar</Button>
                     </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className="bg-zinc-800  text-white">
                       <DialogHeader>
-                        <DialogTitle>Edicao de professores</DialogTitle>
-                        <DialogDescription>
+                        <DialogTitle className="text-center">
+                          Edicao de professores
+                        </DialogTitle>
+                        <DialogDescription className="text-center">
                           Edicao de professores
                         </DialogDescription>
                       </DialogHeader>
-                      <section className="flex justify-between">
-                        <div className="flex flex-col items-start justify-start gap-3">
-                          <Label htmlFor="name">Nome</Label>
+                      <section className="flex  justify-between">
+                        <div className="flex w-full flex-col items-start justify-start gap-3">
+                          <Label htmlFor="name">Docente</Label>
                           <Input
                             id="name"
                             type="text"
                             placeholder="Nome"
                             // {...register("name")}
                           />
-                          <Label htmlFor="type">Tipo</Label>
+                          <Label htmlFor="type">Edital</Label>
                           <Input
                             id="type"
                             type="text"
                             placeholder="Tipo"
                             // {...register("type")}
                           />
-                          <Label htmlFor="email">Email</Label>
+                          <Label htmlFor="email">Agencia de Fomento</Label>
                           <Input
                             id="email"
                             type="text"
                             placeholder="Email"
                             // {...register("email")}
                           />
-                          <Label htmlFor="validity">Vigência</Label>
+                          <Label htmlFor="validity">Valor</Label>
                           <Input
                             id="validity"
                             type="text"
@@ -202,12 +192,6 @@ const GcaAdmin: NextPageWithLayout = () => {
                         </div>
                       </section>
                       <DialogFooter>
-                        <Button
-                          className="bg-red-500 hover:bg-red-600"
-                          onClick={() => setOpen(false)}
-                        >
-                          Cancelar
-                        </Button>
                         <Button
                           className="bg-green-500 hover:bg-green-600"
                           onClick={() => setOpen(false)}

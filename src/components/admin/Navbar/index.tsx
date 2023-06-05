@@ -168,66 +168,66 @@ export default function Navbar() {
           />
         )}
       </div>
-      <ScrollArea className={`h-full`}>
-        <div className="mt-[3vh] flex h-full flex-col gap-4 overscroll-none">
-          <Link
-            href={"/"}
-            className={`group flex items-center gap-2 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+      <div className="flex h-full flex-col gap-4 overscroll-none">
+        <Link
+          href={"/"}
+          className={`group flex items-center gap-2 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+        >
+          <div>{React.createElement(HiHome, { size: "20" })}</div>
+          <h2
+            style={{
+              transitionDelay: `${0.05}s`,
+            }}
+            className={`whitespace-pre duration-500 ${
+              isActiveNav ? "" : "translate-x-[7vw] overflow-hidden  opacity-0"
+            }`}
           >
-            <div>{React.createElement(HiHome, { size: "20" })}</div>
-            <h2
-              style={{
-                transitionDelay: `${0.05}s`,
-              }}
-              className={`whitespace-pre duration-500 ${
-                isActiveNav
-                  ? ""
-                  : "translate-x-[7vw] overflow-hidden  opacity-0"
-              }`}
-            >
-              Home
-            </h2>
-            <span
-              className={`${
-                isActiveNav ? "hidden" : ""
-              } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+            Home
+          </h2>
+          <span
+            className={`${
+              isActiveNav ? "hidden" : ""
+            } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
               duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
-            >
-              Home
-            </span>
-          </Link>
-          <hr />
-          {menuEdit?.map((menu, i) => (
-            <Link
-              href={`/admin${menu?.link}`}
-              key={i}
-              className={`group flex items-center gap-2  rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
-            >
-              <div>{React.createElement(menu.icon, { size: "20" })}</div>
-              <h2
-                style={{
-                  transitionDelay: `${i * 0.05}s`,
-                }}
-                className={`whitespace-pre duration-500 ${
-                  isActiveNav
-                    ? ""
-                    : "translate-x-[7vw] overflow-hidden opacity-0"
-                }`}
+          >
+            Home
+          </span>
+        </Link>
+        <hr />
+        <ScrollArea className={`h-full`}>
+          <div className="h-[100vh]">
+            {menuEdit?.map((menu, i) => (
+              <Link
+                href={`/admin${menu?.link}`}
+                key={i}
+                className={`group flex items-center gap-3 rounded-md  p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
               >
-                {menu?.name}
-              </h2>
-              <span
-                className={`${
-                  isActiveNav ? "hidden" : ""
-                } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
+                <div>{React.createElement(menu.icon, { size: "20" })}</div>
+                <h2
+                  style={{
+                    transitionDelay: `${i * 0.05}s`,
+                  }}
+                  className={`whitespace-pre duration-500 ${
+                    isActiveNav
+                      ? ""
+                      : "translate-x-[7vw] overflow-hidden opacity-0"
+                  }`}
+                >
+                  {menu?.name}
+                </h2>
+                <span
+                  className={`${
+                    isActiveNav ? "hidden" : ""
+                  } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
 duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
-              >
-                {menu?.name}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </ScrollArea>
+                >
+                  {menu?.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </ScrollArea>
+      </div>
     </aside>
   );
 }

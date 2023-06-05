@@ -51,6 +51,12 @@ const ScheduleAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
   const [openDialogCreate, setOpenDialogCreate] = useState(false);
   const [openDialogUpdate, setOpenDialogUpdate] = useState(false);
+  const [scheduleObject, setScheduleObject] = useState({
+    id: "",
+    link: "",
+    year: "",
+    semester: "",
+  });
   const [idSchedule, setIdSchedule] = useState("");
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -200,7 +206,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                         onClick={() => {
                           setOpenDialogUpdate(true);
                           resetUpdateForm();
-                          console.log("schedule", schedule);
+                          setScheduleObject(schedule);
                         }}
                         variant="outline"
                         className="mr-2  hover:bg-cyan-800"
@@ -223,6 +229,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                         <section className="grid h-full grid-cols-1 items-center gap-2 ">
                           <Input
                             type="hidden"
+                            defaultValue={scheduleObject.id}
                             {...registerUpdateSchedule("id")}
                           />
                           <div className="flex columns-1 flex-col items-start gap-3">
@@ -230,7 +237,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                             <Input
                               id="year"
                               type="text"
-                              defaultValue={schedule.year}
+                              defaultValue={scheduleObject.year}
                               {...registerUpdateSchedule("year")}
                             />
                           </div>
@@ -239,7 +246,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                             <Input
                               id="semester"
                               type="text"
-                              defaultValue={schedule.semester}
+                              defaultValue={scheduleObject.semester}
                               {...registerUpdateSchedule("semester")}
                             />
                             <div className="flex columns-1 flex-col items-start gap-3"></div>
@@ -247,7 +254,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
                             <Input
                               id="link"
                               type="text"
-                              defaultValue={schedule.link}
+                              defaultValue={scheduleObject.link}
                               {...registerUpdateSchedule("link")}
                             />
                           </div>

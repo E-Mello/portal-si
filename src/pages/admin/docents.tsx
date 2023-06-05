@@ -186,15 +186,17 @@ const DocentsAdmin: NextPageWithLayout = () => {
         <div className="flex justify-between gap-10">
           <Dialog>
             <DialogTrigger asChild>
-              <Button
-                onClick={() => {
-                  setValue("");
-                }}
-                className="group flex w-full cursor-default items-center  justify-center gap-2 rounded-xl border p-2 hover:outline-double "
-              >
-                <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-                Cadastrar professor
-              </Button>
+              <div className="flex w-full items-center justify-center">
+                <Button
+                  onClick={() => {
+                    setValue("");
+                  }}
+                  className="group flex w-1/2 cursor-default items-center justify-center  gap-2 rounded-xl border p-2 text-center hover:outline-double "
+                >
+                  <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
+                  Cadastrar professor
+                </Button>
+              </div>
             </DialogTrigger>
             <DialogContent className="top-20 flex flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700 sm:max-w-[50vw]">
               <DialogHeader className="flex items-center justify-center">

@@ -56,6 +56,13 @@ const ArticlesAdmin: NextPageWithLayout = () => {
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [idArticle, setIdArticle] = useState("");
+  const [objectArticle, setObjectArticle] = useState({
+    id: "",
+    link: "",
+    title: "",
+    resume: "",
+    author: "",
+  });
 
   const {
     data: pageData,
@@ -268,6 +275,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                   onClick={() => {
                     resetUpdate();
                     setOpenUpdateDialog(true);
+                    setObjectArticle(data);
                   }}
                 >
                   Editar Publicação
@@ -293,7 +301,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                     <div className="flex w-full flex-col gap-4 py-4">
                       <div className="col-span-3 flex flex-col items-start gap-4">
                         <Input
-                          defaultValue={data.id}
+                          defaultValue={objectArticle.id}
                           type="hidden"
                           {...registerUpdate("id")}
                         />
@@ -302,7 +310,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                         </Label>
                         <Input
                           id="titlePage"
-                          defaultValue={data.title}
+                          defaultValue={objectArticle.title}
                           className="col-span-3"
                           {...registerUpdate("title")}
                         />
@@ -311,7 +319,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                         </Label>
                         <Input
                           id="titlePage"
-                          defaultValue={data.author}
+                          defaultValue={objectArticle.author}
                           className="col-span-3"
                           {...registerUpdate("author")}
                         />
@@ -320,7 +328,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                           página
                         </Label>
                         <Textarea
-                          defaultValue={data.resume}
+                          defaultValue={objectArticle.resume}
                           {...registerUpdate("resume")}
                         ></Textarea>
                         <Label htmlFor="title" className="">
@@ -328,7 +336,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                         </Label>
                         <Input
                           id="titlePage"
-                          defaultValue={data.link}
+                          defaultValue={objectArticle.link}
                           className="col-span-3"
                           {...registerUpdate("link")}
                         />
@@ -385,6 +393,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
                   <AlertDialogAction
                     onClick={() => {
                       handleDeleteArticle();
+                      console.log("confirmar exclusão, id: ", idArticle);
                     }}
                     className="hover:bg-cyan-700"
                   >

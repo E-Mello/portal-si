@@ -269,12 +269,21 @@ export const SubjectsUpdateSchema = z.object({
 // ========================================================================================================
 
 // ========================================================================================================
-export const EventsSchema = z.object({
-  id: z.string(),
+export const EventsCreateSchema = z.object({
   title: z.string(),
   info: z.string(),
   content: z.string(),
-  publicationDay: z.string(),
+  publicationDay: z.date(),
+  image: z.string(),
+  link: z.string(),
+});
+
+export const EventsUpdateSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  info: z.string().optional(),
+  content: z.string().optional(),
+  publicationDay: z.string().optional(),
   image: z.string().optional(),
   link: z.string().optional(),
 });

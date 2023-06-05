@@ -56,6 +56,13 @@ const TccAdmin: NextPageWithLayout = () => {
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [idTcc, setIdTcc] = useState("");
+  const [tccObject, setTccObject] = useState({
+    id: "",
+    link: "",
+    title: "",
+    resume: "",
+    author: "",
+  });
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -268,6 +275,7 @@ const TccAdmin: NextPageWithLayout = () => {
                     onClick={() => {
                       resetUpdate();
                       setOpenUpdateDialog(true);
+                      setTccObject(data);
                     }}
                   >
                     Editar Publicação
@@ -288,57 +296,63 @@ const TccAdmin: NextPageWithLayout = () => {
                     onSubmit={handleSubmitUpdate(updateTcc)}
                     className="flex flex-col gap-4 p-4"
                   >
-                    <div className="flex flex-col gap-4">
-                      <Input type="hidden" defaultValue={data.id} />
-                      <Label htmlFor="title" className="">
-                        Alterar o titulo da publicação
-                      </Label>
-                      <Input
-                        id="titlePage"
-                        defaultValue={data.title}
-                        className="col-span-3"
-                        {...registerUpdate("title")}
-                      />
-                      <Label htmlFor="title" className="">
-                        Alterar o nome do author da publicação
-                      </Label>
-                      <Input
-                        id="titlePage"
-                        defaultValue={data.author}
-                        className="col-span-3"
-                        {...registerUpdate("author")}
-                      />
-                      <Label htmlFor="newValue" className="">
-                        Digite o novo conteúdo a ser apresentado no corpo da
-                        página
-                      </Label>
-                      <Textarea
-                        defaultValue={data.resume}
-                        {...registerUpdate("resume")}
-                      ></Textarea>
+                    <div className="flex w-full flex-col gap-4 py-4">
+                      <div className="col-span-3 flex flex-col items-start gap-4">
+                        <Input
+                          type="hidden"
+                          defaultValue={tccObject.id}
+                          {...registerUpdate("id")}
+                        />
+                        <Label htmlFor="title" className="">
+                          Alterar o titulo da publicação
+                        </Label>
+                        <Input
+                          id="titlePage"
+                          defaultValue={tccObject.title}
+                          className="col-span-3"
+                          {...registerUpdate("title")}
+                        />
+                        <Label htmlFor="title" className="">
+                          Alterar o nome do author da publicação
+                        </Label>
+                        <Input
+                          id="titlePage"
+                          defaultValue={tccObject.author}
+                          className="col-span-3"
+                          {...registerUpdate("author")}
+                        />
+                        <Label htmlFor="newValue" className="">
+                          Digite o novo conteúdo a ser apresentado no corpo da
+                          página
+                        </Label>
+                        <Textarea
+                          defaultValue={tccObject.resume}
+                          {...registerUpdate("resume")}
+                        ></Textarea>
 
-                      <Label htmlFor="title" className="">
-                        Alterar o link dos dados
-                      </Label>
-                      <Input
-                        id="titlePage"
-                        defaultValue={data.link}
-                        className="col-span-3"
-                        {...registerUpdate("link")}
-                      />
+                        <Label htmlFor="title" className="">
+                          Alterar o link dos dados
+                        </Label>
+                        <Input
+                          id="titlePage"
+                          defaultValue={tccObject.link}
+                          className="col-span-3"
+                          {...registerUpdate("link")}
+                        />
+                      </div>
+                      <SheetFooter>
+                        <Button
+                          type="submit"
+                          className=" rounded-md bg-slate-200 px-4 py-2 text-zinc-900"
+                        >
+                          {isSubmittingUpdate ? (
+                            <SyncLoader />
+                          ) : (
+                            "Salvar Alterações"
+                          )}
+                        </Button>
+                      </SheetFooter>
                     </div>
-                    <SheetFooter>
-                      <Button
-                        type="submit"
-                        className=" rounded-md bg-slate-200 px-4 py-2 text-zinc-900"
-                      >
-                        {isSubmittingUpdate ? (
-                          <SyncLoader />
-                        ) : (
-                          "Salvar Alterações"
-                        )}
-                      </Button>
-                    </SheetFooter>
                   </form>
                 </SheetContent>
               </Sheet>

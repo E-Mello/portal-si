@@ -131,8 +131,8 @@ model Events {
   title          String
   info           String
   publicationDay DateTime
-  image          String?
-  link           String?
+  image          String
+  link           String
   updatedAt      DateTime @default(now())
   content        String   @db.Text
 }
@@ -183,6 +183,6 @@ model Informatives {
   title     String
   info      String
   content   String   @db.Text
-  linkImg   String
+  linkImg   String?
   updatedAt DateTime
 }
