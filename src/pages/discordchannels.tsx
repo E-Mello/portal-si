@@ -4,9 +4,15 @@ import Image from "next/image";
 import Layout from "../components/Layout";
 import { type NextPageWithLayout } from "../types/layout";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 const DiscordChannels: NextPageWithLayout = () => {
   const router = useRouter();
+  const {
+    data: pageData,
+    isLoading: pageIsLoading,
+    isError,
+  } = api.discordChannels.getAll.useQuery();
 
   const handleButtonClick = (url: string) => {
     void router.push(url);
@@ -90,9 +96,17 @@ const DiscordChannels: NextPageWithLayout = () => {
     },
   ];
 
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
   return (
     <section
-      className={`flex h-full w-full flex-col items-center justify-evenly bg-zinc-800 p-2 text-white`}
+      className={`flex h-[100vh] w-full flex-col items-center justify-evenly bg-zinc-800 p-2 text-white`}
     >
       <Image width={500} height={500} alt="Discord Banner" src={discordImage} />
       <header className="flex flex-col gap-2 pb-2">
@@ -108,24 +122,23 @@ const DiscordChannels: NextPageWithLayout = () => {
         </h3>
       </header>
       <div className="col-span-2 flex h-full w-full flex-wrap gap-6 pl-2">
-        {discGroups.map((group, index) => (
-          <div key={index} className=" flex flex-col items-center p-4">
+        {pageData.map((data) => (
+          <div key={data.id} className=" flex flex-col items-center p-4">
             <div className="flex justify-center">
               <Image
-                src={group.avatarUrl}
-                alt={group.name}
+                src={data.avatarUrl}
+                alt={data.name}
                 width={500}
                 height={500}
                 className="flex h-[8vh] w-[4vw] rounded-full max-sm:w-16"
               />
             </div>
             <div className="mt-2 text-center">
-              <h2 className="text-lg font-medium">{group.name}</h2>
-              <p className="text-sm font-medium">{group.Professor}</p>
-              <p className="text-sm">{group.notices}</p>
+              <h2 className="text-lg font-medium">{data.name}</h2>
+              <p className="text-sm">{data.info}</p>
               <button
                 className="mt-2 rounded-md bg-blue-500 px-4 py-2 font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50"
-                onClick={() => handleButtonClick(group.link)}
+                onClick={() => handleButtonClick(data.link)}
               >
                 Join Channel
               </button>

@@ -67,7 +67,6 @@ model StudentPublications {
   resume              String              @db.Text
   author              String
   link                String
-  linkName            String
   updatedAt           DateTime
   typeOfPublication   TypesOfPublications @relation(fields: [typeOfPublicationId], references: [id])
 
@@ -167,5 +166,23 @@ model FacultyCore {
   type      String
   email     String
   validity  String
+  updatedAt DateTime
+}
+
+model DiscordChannels {
+  id        String   @id @default(uuid())
+  name      String
+  link      String
+  avatarUrl String
+  info      String
+  updatedAt DateTime
+}
+
+model Informatives {
+  id        String   @id @default(uuid())
+  title     String
+  info      String
+  content   String   @db.Text
+  linkImg   String
   updatedAt DateTime
 }

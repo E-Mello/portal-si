@@ -1,12 +1,14 @@
+import {
+  CreatePublicationsSchema,
+  UpdatePublicationsSchema,
+} from "~/server/common/PageSchema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-import { PublicationsSchema } from "~/server/common/PageSchema";
 
 export const tccRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.studentPublications.findMany({
       where: {
-        typeOfPublicationId: 1,
+        typeOfPublicationId: "1",
       },
       select: {
         id: true,
@@ -14,23 +16,55 @@ export const tccRouter = createTRPCRouter({
         resume: true,
         author: true,
         link: true,
-        linkName: true,
       },
     });
   }),
   update: publicProcedure
-    .input(PublicationsSchema)
+    .input(UpdatePublicationsSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         const publication = await ctx.prisma.studentPublications.update({
-          data: input,
           where: {
             id: input.id,
+          },
+          data: {
+            title: input.title,
+            resume: input.resume,
+            author: input.author,
+            link: input.link,
           },
         });
         return publication;
       } catch (error) {
         console.log("Error update publication:", error);
       }
+    }),
+  create: publicProcedure
+    .input(CreatePublicationsSchema)
+    .mutation(async ({ input, ctx }) => {
+      try {
+        const publication = await ctx.prisma.studentPublications.create({
+          data: {
+            typeOfPublicationId: "1",
+            title: input.title,
+            resume: input.resume,
+            author: input.author,
+            link: input.link,
+            updatedAt: new Date(),
+          },
+        });
+        return publication;
+      } catch (error) {
+        console.log("Error create publication:", error);
+      }
+    }),
+  delete: publicProcedure
+    .input(UpdatePublicationsSchema)
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.prisma.studentPublications.delete({
+        where: {
+          id: input.id,
+        },
+      });
     }),
 });

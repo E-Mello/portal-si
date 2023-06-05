@@ -6,11 +6,13 @@ import { coursePurposeRouter } from "./routers/coursepurpose";
 import { createTRPCRouter } from "~/server/api/trpc";
 import { curriculumSubjectsRouter } from "~/server/api/routers/curriculumsubjects";
 import { dashboardRouter } from "./routers/dashboard";
+import { discordChannelsRouter } from "./routers/discordchannels";
 import { electiveSubjectRouter } from "./routers/electivesubject";
 import { equivalenceRouter } from "./routers/equivalence";
 import { eventsRouter } from "./routers/events";
 import { facultyCoreRouter } from "~/server/api/routers/facultycore";
 import { gcaRouter } from "./routers/gca";
+import { informativesRouter } from "./routers/informatives";
 import { jobProfileRouter } from "./routers/jobprofile";
 import { projectsRouter } from "./routers/projects";
 import { scheduleRouter } from "./routers/schedule";
@@ -44,6 +46,8 @@ export const appRouter = createTRPCRouter({
   events: eventsRouter,
   projects: projectsRouter,
   subjects: subjectRouter,
+  discordChannels: discordChannelsRouter,
+  informatives: informativesRouter,
 });
 
 // export type definition of API

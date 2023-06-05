@@ -77,6 +77,19 @@ export const PublicationsSchema = z.object({
   link: z.string(),
   linkName: z.string(),
 });
+export const CreatePublicationsSchema = z.object({
+  title: z.string(),
+  resume: z.string(),
+  author: z.string(),
+  link: z.string(),
+});
+export const UpdatePublicationsSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  resume: z.string().optional(),
+  author: z.string().optional(),
+  link: z.string().optional(),
+});
 // ========================================================================================================
 
 // ========================================================================================================
@@ -289,5 +302,38 @@ export const ProjectsSchema = z.object({
   teacherTel: z.string(),
   link: z.string().optional(),
   typesOfProjectsid: z.string(),
+});
+
+// ========================================================================================================
+
+export const UpdateDiscordChannelsSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  link: z.string().optional(),
+  avatarUrl: z.string().optional(),
+  info: z.string().optional(),
+});
+
+export const CreateDiscordChannelsSchema = z.object({
+  name: z.string(),
+  link: z.string(),
+  avatarUrl: z.string(),
+  info: z.string(),
+});
+// ========================================================================================================
+
+export const InformativesUpdateSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  info: z.string().optional(),
+  content: z.string().optional(),
+  linkImg: z.string().optional(),
+});
+
+export const InformativesCreateSchema = z.object({
+  title: z.string(),
+  info: z.string(),
+  content: z.string(),
+  linkImg: z.string(),
 });
 // ========================================================================================================

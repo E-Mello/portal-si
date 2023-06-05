@@ -8,13 +8,12 @@ import {
   HiNewspaper,
   HiOutlineBookmark,
   HiOutlineX,
-  HiPhotograph,
 } from "react-icons/hi";
 import React, { useEffect, useState } from "react";
 import { UserButton, useUser } from "@clerk/nextjs";
-import { dark, unstable_createTheme } from "@clerk/themes";
 
 import Link from "next/link";
+import { dark } from "@clerk/themes";
 import { isActiveNavAtom } from "../../atoms/activeNavAtom";
 import { useAtom } from "jotai";
 
@@ -92,13 +91,6 @@ export function SideNav() {
       Link: "/discordchannels",
       icon: HiChatAlt2,
       haveOptions: false,
-      auth: false,
-    },
-    {
-      name: "Midias",
-      Link: "/media",
-      icon: HiPhotograph,
-      haveOptions: true,
       auth: false,
     },
     ...(user && user.isSignedIn

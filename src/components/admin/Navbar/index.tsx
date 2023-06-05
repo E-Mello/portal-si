@@ -113,11 +113,6 @@ export default function Navbar() {
       icon: HiPencil,
     },
     {
-      name: "Midias",
-      link: "/media",
-      icon: HiPencil,
-    },
-    {
       name: "Guarda religiosa",
       link: "/religiousguard",
       icon: HiPencil,
