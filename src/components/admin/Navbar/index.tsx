@@ -200,9 +200,11 @@ export default function Navbar() {
               <Link
                 href={`/admin${menu?.link}`}
                 key={i}
-                className={`group flex items-center gap-3 rounded-md  p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700`}
+                className="group flex items-center gap-3 rounded-md p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700"
               >
-                <div>{React.createElement(menu.icon, { size: "20" })}</div>
+                <div className="flex">
+                  {React.createElement(menu.icon, { size: "20" })}
+                </div>
                 <h2
                   style={{
                     transitionDelay: `${i * 0.05}s`,
@@ -216,10 +218,11 @@ export default function Navbar() {
                   {menu?.name}
                 </h2>
                 <span
-                  className={`${
-                    isActiveNav ? "hidden" : ""
-                  } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+                  className={`left-16 flex whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
+                    isActiveNav
+                      ? ""
+                      : "group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
+                  }`}
                 >
                   {menu?.name}
                 </span>
