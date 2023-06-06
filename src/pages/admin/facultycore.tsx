@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   FacultyCoreCreateSchema,
   FacultyCoreUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { HiOutlinePlus } from "react-icons/hi";
 import { LoadingSpinner } from "~/components/Loading";
 import {

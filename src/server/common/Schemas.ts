@@ -1,5 +1,21 @@
 import { z } from "zod";
 
+// ========================================================================================================
+
+export const CardUpdateSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  info: z.string().optional(),
+  locale: z.string().optional(),
+});
+
+export const GroupCardUpdateSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+});
+
+// ========================================================================================================
+
 export const PageViewSchema = z.object({
   title: z.string(),
   info: z.string().optional(),

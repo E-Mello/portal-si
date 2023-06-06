@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   InformativesCreateSchema,
   InformativesUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 
 const testIMG =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";

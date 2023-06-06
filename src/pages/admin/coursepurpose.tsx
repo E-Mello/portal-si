@@ -14,7 +14,7 @@ import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { CoursePurposeUpdateSchema } from "~/server/common/PageSchema";
+import { CoursePurposeUpdateSchema } from "~/server/common/Schemas";
 import { useState, type ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";

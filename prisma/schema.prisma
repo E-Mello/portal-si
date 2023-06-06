@@ -89,7 +89,7 @@ model Card {
   groupId String
   locale  String
   info    String
-  name    String?
+  name    String
   group   CardGroup @relation(fields: [groupId], references: [id])
 
   @@index([groupId])

@@ -21,7 +21,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { ElectiveSubjectsSchema } from "~/server/common/PageSchema";
+import { ElectiveSubjectsSchema } from "~/server/common/Schemas";
 import {
   Table,
   TableBody,

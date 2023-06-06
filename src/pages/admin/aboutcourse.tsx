@@ -21,7 +21,7 @@ import { api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { AboutCourseUpdateSchema } from "~/server/common/PageSchema";
+import { AboutCourseUpdateSchema } from "~/server/common/Schemas";
 import { type z } from "zod";
 import { LoadingSpinner } from "~/components/Loading";
 

@@ -36,7 +36,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import {
   CreateDiscordChannelsSchema,
   UpdateDiscordChannelsSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { type z } from "zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Label } from "~/components/ui/label";

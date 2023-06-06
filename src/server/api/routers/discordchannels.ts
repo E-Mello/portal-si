@@ -1,7 +1,7 @@
 import {
   CreateDiscordChannelsSchema,
   UpdateDiscordChannelsSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const discordChannelsRouter = createTRPCRouter({

@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { CurriculumSubjectsSchema } from "~/server/common/PageSchema";
+import { CurriculumSubjectsSchema } from "~/server/common/Schemas";
 
 export const curriculumSubjectsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

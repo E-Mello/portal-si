@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { type z } from "zod";
 
 import { Textarea } from "~/components/ui/textarea";
-import { PageViewSchema } from "~/server/common/PageSchema";
+import { PageViewSchema } from "~/server/common/Schemas";
 import { api } from "~/utils/api";
 import Layout from "../components/Layout";
 import type { NextPageWithLayout } from "../types/layout";

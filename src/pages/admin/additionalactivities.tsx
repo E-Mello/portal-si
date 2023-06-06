@@ -21,7 +21,7 @@ import { useState, type ReactElement } from "react";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import Link from "next/link";
-import { AdditionalActivitiesUpdateSchema } from "~/server/common/PageSchema";
+import { AdditionalActivitiesUpdateSchema } from "~/server/common/Schemas";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";

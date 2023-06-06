@@ -16,7 +16,7 @@ import Link from "next/link";
 import {
   CreatePublicationsSchema,
   UpdatePublicationsSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { HiOutlinePlus } from "react-icons/hi";
 import {
   Dialog,

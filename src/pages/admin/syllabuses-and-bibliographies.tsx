@@ -18,7 +18,7 @@ import type { NextPageWithLayout } from "~/types/layout";
 import {
   PageViewSchema,
   SyllabusesAndBibliographiesUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { useState, type ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";

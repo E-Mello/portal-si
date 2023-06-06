@@ -41,7 +41,7 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { ProjectsSchema } from "~/server/common/PageSchema";
+import { ProjectsSchema } from "~/server/common/Schemas";
 
 const ProjectsAdmin: NextPageWithLayout = () => {
   const [open, setOpen] = useState(false);

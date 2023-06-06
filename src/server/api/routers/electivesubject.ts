@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { ElectiveSubjectsSchema } from "~/server/common/PageSchema";
+import { ElectiveSubjectsSchema } from "~/server/common/Schemas";
 
 export const electiveSubjectRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

@@ -20,7 +20,7 @@ import {
   SheetFooter,
 } from "~/components/ui/sheet";
 import { Textarea } from "~/components/ui/textarea";
-import { EventsSchema } from "~/server/common/PageSchema";
+import { EventsSchema } from "~/server/common/Schemas";
 import { api } from "~/utils/api";
 import Image from "next/image";
 

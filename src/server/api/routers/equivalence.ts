@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { EquivalenceSchema } from "~/server/common/PageSchema";
+import { EquivalenceSchema } from "~/server/common/Schemas";
 
 export const equivalenceRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

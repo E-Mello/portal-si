@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { AdditionalActivitiesUpdateSchema } from "~/server/common/PageSchema";
+import { AdditionalActivitiesUpdateSchema } from "~/server/common/Schemas";
 
 export const additionalActivitiesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

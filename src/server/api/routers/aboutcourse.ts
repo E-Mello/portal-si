@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { AboutCourseUpdateSchema } from "~/server/common/PageSchema";
+import { AboutCourseUpdateSchema } from "~/server/common/Schemas";
 
 export const aboutCourseRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

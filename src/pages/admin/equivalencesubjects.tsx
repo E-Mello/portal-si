@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   SubjectsCreateSchema,
   SubjectsUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import {
   Select,
   SelectContent,

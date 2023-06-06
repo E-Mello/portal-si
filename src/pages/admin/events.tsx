@@ -2,7 +2,7 @@
 import {
   EventsCreateSchema,
   EventsUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { HiOutlineCursorClick, HiOutlinePlus } from "react-icons/hi";
 import {
   Sheet,

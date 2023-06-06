@@ -32,7 +32,7 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { CurriculumSubjectsSchema } from "~/server/common/PageSchema";
+import { CurriculumSubjectsSchema } from "~/server/common/Schemas";
 import { HiOutlinePlus } from "react-icons/hi";
 import {
   Table,

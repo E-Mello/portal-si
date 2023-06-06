@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { JobProfileSchema } from "~/server/common/PageSchema";
+import { JobProfileSchema } from "~/server/common/Schemas";
 
 export const jobProfileRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { JobProfileSchema } from "~/server/common/PageSchema";
+import { JobProfileSchema } from "~/server/common/Schemas";
 import { useState, type ReactElement } from "react";
 import {
   Sheet,

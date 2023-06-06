@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { SyllabusesAndBibliographiesUpdateSchema } from "~/server/common/PageSchema";
+import { SyllabusesAndBibliographiesUpdateSchema } from "~/server/common/Schemas";
 
 export const syllabusesAndBibliographiesRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

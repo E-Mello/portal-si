@@ -24,7 +24,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import {
   ScheduleCreateSchema,
   ScheduleUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { HiOutlinePlus } from "react-icons/hi";
 import {
   Table,

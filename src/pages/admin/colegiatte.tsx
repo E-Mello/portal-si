@@ -29,7 +29,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import {
   CollegiateCreateSchema,
   CollegiateUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import {
   Table,
   TableBody,

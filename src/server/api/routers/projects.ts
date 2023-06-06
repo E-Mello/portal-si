@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { ProjectsSchema } from "~/server/common/PageSchema";
+import { ProjectsSchema } from "~/server/common/Schemas";
 
 export const projectsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

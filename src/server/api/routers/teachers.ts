@@ -1,7 +1,7 @@
 import {
   TeachersCreateSchema,
   TeachersUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 import console from "console";

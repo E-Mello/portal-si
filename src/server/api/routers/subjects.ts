@@ -1,7 +1,7 @@
 import {
   SubjectsCreateSchema,
   SubjectsUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const subjectRouter = createTRPCRouter({

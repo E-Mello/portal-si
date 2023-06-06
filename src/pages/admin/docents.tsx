@@ -40,7 +40,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import {
   TeachersCreateSchema,
   TeachersUpdateSchema,
-} from "~/server/common/PageSchema";
+} from "~/server/common/Schemas";
 
 const DocentsAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();

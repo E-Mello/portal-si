@@ -1,6 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { ApliedGroup } from "~/server/common/PageSchema";
+import { ApliedGroup } from "~/server/common/Schemas";
 
 export const gcaRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

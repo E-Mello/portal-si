@@ -1,7 +1,7 @@
 import { HiHome, HiMenu, HiOutlineX, HiPencil } from "react-icons/hi";
+import React, { useState } from "react";
 
 import Link from "next/link";
-import React from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { UserButton } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
@@ -10,6 +10,7 @@ import { useAtom } from "jotai";
 
 export default function Navbar() {
   const [isActiveNav, setIsActiveNav] = useAtom(isActiveNavAtom);
+  const [hoverItem, setHoverItem] = useState(false);
 
   const menuEdit = [
     {
@@ -168,10 +169,16 @@ export default function Navbar() {
           />
         )}
       </div>
-      <div className="flex h-full flex-col gap-4 overscroll-none">
+      <div className="h-full">
         <Link
           href={"/"}
-          className={`group flex items-center gap-2 rounded-md p-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+          className={`group relative mb-3 flex items-center gap-3 rounded-md p-2  text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700 `}
+          onMouseEnter={() => {
+            setHoverItem(true);
+          }}
+          onMouseLeave={() => {
+            setHoverItem(false);
+          }}
         >
           <div>{React.createElement(HiHome, { size: "20" })}</div>
           <h2
@@ -179,30 +186,37 @@ export default function Navbar() {
               transitionDelay: `${0.05}s`,
             }}
             className={`whitespace-pre duration-500 ${
-              isActiveNav ? "" : "translate-x-[7vw] overflow-hidden  opacity-0"
+              isActiveNav ? "" : "translate-x-[7vw] overflow-hidden opacity-0"
             }`}
           >
             Home
           </h2>
           <span
-            className={`${
-              isActiveNav ? "hidden" : ""
-            } fixed left-16 whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all
-              duration-500 ease-out group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200`}
+            className={`left-16 whitespace-pre rounded-md font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
+              !isActiveNav && hoverItem === true
+                ? "fixed group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
+                : "hidden"
+            } `}
           >
             Home
           </span>
         </Link>
         <hr />
-        <ScrollArea className={`h-full`}>
-          <div className="h-[100vh]">
+        <ScrollArea className={`mt-2 h-full`}>
+          <div className="h-[105vh]">
             {menuEdit?.map((menu, i) => (
               <Link
                 href={`/admin${menu?.link}`}
                 key={i}
-                className="group flex items-center gap-3 rounded-md p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700"
+                className="group relative flex items-center gap-3 rounded-md p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700"
+                onMouseEnter={() => {
+                  setHoverItem(true);
+                }}
+                onMouseLeave={() => {
+                  setHoverItem(false);
+                }}
               >
-                <div className="flex">
+                <div className={``}>
                   {React.createElement(menu.icon, { size: "20" })}
                 </div>
                 <h2
@@ -218,10 +232,10 @@ export default function Navbar() {
                   {menu?.name}
                 </h2>
                 <span
-                  className={`left-16 flex whitespace-pre rounded-md px-0 py-0 font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
-                    isActiveNav
-                      ? ""
-                      : "group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
+                  className={`left-16 whitespace-pre rounded-md font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
+                    !isActiveNav && hoverItem === true
+                      ? "fixed group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
+                      : "hidden"
                   }`}
                 >
                   {menu?.name}
