@@ -1,48 +1,64 @@
 import Layout from "../components/Layout";
+import Link from "next/link";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
 import { Separator } from "../components/ui/separator";
+import { api } from "~/utils/api";
 
 const ReligiousGuard: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isError,
+    isLoading: pageIsLoading,
+  } = api.religiousGuard.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="flex h-[100vh] w-full flex-col gap-4 py-2 pl-2 pr-4 max-sm:pl-0">
       <div className="flex flex-col gap-4 pl-4">
-        <h1 className="text-3xl font-bold text-white">Guarda Religiosa</h1>
-        <p className="text-justify text-white">
-          A Instrução Normativa 01/2018 estabelece normas para a realização do
-          regime de guarda religiosa e Regulamenta o art. 2o da{" "}
-          <a href="http://www.al.mt.gov.br/storage/webdisco/leis/lei-9274-2009.pdf">
-            <b className="text-blue-900">Lei Estadual n. 9.274</b>
-          </a>
-          , de 16 de dezembro de 2009, no âmbito do curso de Bacharelado em
-          Sistemas de Informação do Campus Universitário de Sinop, da
-          Universidade do Estado de Mato Grosso.
-        </p>
+        {pageData && (
+          <div>
+            <h1 className="pb-4 text-3xl font-bold text-white">
+              {pageData.title}
+            </h1>
+            {pageData.content?.split("+").map((item, index) => (
+              <p key={index}>{item.trim()}</p>
+            ))}
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-4 pl-4">
-        <li className="text-white">
-          <a href="https://drive.google.com/file/d/1LrTihI7WYStTvcEpVUhQKUuqQlMs3Jb8/view?usp=sharing">
-            <b className="text-blue-900"> Instrução Normativa 01/2018 </b>
-          </a>
-        </li>
-        <li className="text-white">
-          <a href="https://drive.google.com/file/d/1LsQ6Fds0vRHt9EEbIOHlJ_ebcfqFVyGN/view?usp=sharing">
-            <b className="text-blue-900">
-              {" "}
-              Instrução Normativa 01/2018 - Anexo I
-            </b>
-          </a>
-        </li>
-        <li className="text-white">
-          <a href="https://drive.google.com/file/d/1Lu4VhS68y80V09rsgLTpj7yrxEFB-KLc/view?usp=sharing">
-            <b className="text-blue-900">
-              {" "}
-              Instrução Normativa 01/2018 - Anexo II{" "}
-            </b>
-          </a>
-        </li>
+        {pageData && (
+          <div>
+            <li className="text-white">
+              <Link target="_blank" href={pageData.link || ""}>
+                <b className="text-blue-900">{pageData.nameLink}</b>
+              </Link>
+            </li>
+            <li className="text-white">
+              <Link target="_blank" href={pageData.info02 || ""}>
+                <b className="text-blue-900">{pageData.content02}</b>
+              </Link>
+            </li>
+            <li className="text-white">
+              <Link target="_blank" href={pageData.info03 || ""}>
+                <b className="text-blue-900">{pageData.content03}</b>
+              </Link>
+            </li>
+            <li className="text-white">
+              <Link target="_blank" href={pageData.info04 || ""}>
+                <b className="text-blue-900">{pageData.content04}</b>
+              </Link>
+            </li>
+          </div>
+        )}
       </div>
-      <Separator />
     </section>
   );
 };

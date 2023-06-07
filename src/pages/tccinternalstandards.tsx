@@ -1,38 +1,47 @@
 import Layout from "../components/Layout";
+import Link from "next/link";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
 import { Separator } from "../components/ui/separator";
+import { api } from "~/utils/api";
 
 const TCCInternalStandards: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isError,
+    isLoading: pageIsLoading,
+  } = api.tccInternalStandards.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="flex h-[100vh] w-full  items-start justify-center gap-4 py-2">
       <div className="flex flex-col gap-4 pl-4">
-        <h1 className="text-3xl font-bold text-white">TCC</h1>
-        <p className="text-justify text-white">
-          O Trabalho de Conclusão de Curso - TCC no Curso de Bacharelado em
-          Sistemas de Informação do Campus Universitário de Sinop, está
-          regulamentado pela{" "}
-          <a href="http://portal.unemat.br/media/oldfiles/proeg/docs/resolucoes/resolucao_030_2012_conepe_tcc.pdf">
-            <b className="text-blue-900">RESOLUÇÃO Nº 030/2012 - CONEPE</b>
-          </a>{" "}
-          de 03 de junho de 2012.
-        </p>
-        <p className="text-justify text-white">
-          Os alunos do curso de Bacharelado em Sistemas de Informação podem se
-          matricular na disciplina de Trabalho de Conclusão de Curso I quando
-          integralizarem no mínimo 50% (cinquenta por cento) dos créditos
-          previstos no curso.
-        </p>
-        <p className="text-justify text-white">
-          Os critérios para se ministrar as disciplinas de Trabalho de Conclusão
-          de Curso I e II, bem como a vinculação dos TCCs às linhas de pesquisa
-          do curso de Sistemas de Informação, e demais questões inerentes ao
-          processo de orientação e desenvolvimento do TCC, serão normatizadas
-          por meio de resolução específica a ser proposta pelo corpo docente e
-          aprovadas pelo colegiado de curso e demais instâncias competentes.
-        </p>
+        {pageData && (
+          <div>
+            <h1 className="pb-4 text-3xl font-bold text-white">
+              {pageData.title}
+            </h1>
+            {pageData.content?.split("+").map((item, index) => (
+              <p key={index}>{item.trim()}</p>
+            ))}
+            <br></br>
+            <span className="text-white">{pageData.info} </span>
+            <Link
+              className="text-blue-900"
+              target="_blank"
+              href={pageData.link || "/"}
+            >
+              <b>{pageData.nameLink}</b>
+            </Link>
+          </div>
+        )}
       </div>
-      <Separator />
     </section>
   );
 };

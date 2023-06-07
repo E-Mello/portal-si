@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
@@ -21,6 +22,17 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -30,20 +42,121 @@ import "react-toastify/dist/ReactToastify.css";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
-import { CardUpdateSchema } from "~/server/common/CardSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
 import { Separator } from "~/components/ui/separator";
+import {
+  ApliedGroupCreateSchema,
+  ApliedGroupUpdateSchema,
+} from "~/server/common/Schemas";
+import { HiOutlinePlus } from "react-icons/hi";
+import Link from "next/link";
 
 const GcaAdmin: NextPageWithLayout = () => {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const utils = api.useContext();
+  const [openCreateDialog, setOpenCreateDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [idReq, setIdReq] = useState("");
+  const [reqObject, setReqObject] = useState({
+    id: "",
+    name: "",
+    notice: "",
+    developmentagency: "",
+    value: "",
+    link: "",
+  });
+  const [openAlert, setOpenAlert] = useState(false);
 
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
   } = api.gca.getAll.useQuery();
+
+  const { mutateAsync: create } = api.gca.create.useMutation({
+    onSuccess: () => {
+      // show success toast
+      void utils.gca.getAll.invalidate();
+      setOpenCreateDialog(false);
+      toast.success("Membro criado com sucesso!!!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao criar membro !!!", {
+        autoClose: 2000,
+      });
+    },
+  });
+  const {
+    register: registerCreate,
+    handleSubmit: handleSubmitCreate,
+    reset: resetCreate,
+    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+  } = useForm<z.infer<typeof ApliedGroupCreateSchema>>({
+    resolver: zodResolver(ApliedGroupCreateSchema),
+  });
+  const createRequisition: SubmitHandler<
+    z.infer<typeof ApliedGroupCreateSchema>
+  > = async (data) => {
+    const res = await create(data);
+    console.log("res", res);
+  };
+
+  const { mutateAsync: update } = api.gca.update.useMutation({
+    onSuccess: () => {
+      // show success toast
+      void utils.gca.getAll.invalidate();
+      resetUpdate();
+      toast.success("Conteúdo da página atualizado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao atualizar conteúdo da página !!!", {
+        autoClose: 2000,
+      });
+    },
+  });
+
+  const {
+    register: registerUpdate,
+    handleSubmit: handleSubmitUpdate,
+    reset: resetUpdate,
+    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+  } = useForm<z.infer<typeof ApliedGroupUpdateSchema>>({
+    resolver: zodResolver(ApliedGroupUpdateSchema),
+  });
+  const updateRequisition: SubmitHandler<
+    z.infer<typeof ApliedGroupUpdateSchema>
+  > = async (data) => {
+    const res = await update(data);
+    console.log("res", res);
+    resetUpdate();
+    setOpenEditDialog(false);
+  };
+
+  const { mutate: deleteMember } = api.gca.delete.useMutation({
+    onSuccess: () => {
+      void utils.gca.getAll.invalidate();
+      toast.success("Requisição deletada com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao deletar requisição !!!", {
+        autoClose: 2000,
+      });
+    },
+  });
+
+  function handleDeleteMember() {
+    try {
+      deleteMember({ id: idReq });
+    } catch (error) {
+      console.log("Error deleting requisition:", error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -123,6 +236,71 @@ const GcaAdmin: NextPageWithLayout = () => {
           destaca-se a evolução da aquisição de recursos por meio dos projetos.
         </p>
         <br />
+        <Dialog open={openCreateDialog} onOpenChange={setOpenCreateDialog}>
+          <DialogTrigger asChild>
+            <Button
+              onClick={() => {
+                resetCreate();
+                setOpenCreateDialog(true);
+              }}
+              className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
+            >
+              <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
+              <span className="ml-2">Adicionar Requisição</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
+            <DialogHeader className="flex items-center justify-center">
+              <DialogTitle>Cadastro de membro do colegiado</DialogTitle>
+              <DialogDescription className="">
+                Preencher todos os campos {"(Os campos são em formato string)"}
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleSubmitCreate(createRequisition)}>
+              <section className="grid h-full grid-cols-1 items-center gap-2 ">
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="name" className="text-right">
+                    Nome do requisitante
+                  </Label>
+                  <Input id="name" type="text" {...registerCreate("name")} />
+                </div>
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="notice">Edital de solicitação</Label>
+                  <Input
+                    id="notice"
+                    type="text"
+                    {...registerCreate("notice")}
+                  />
+                </div>
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="developmentagency">Agência de fomento</Label>
+                  <Input
+                    id="developmentagency"
+                    type="text"
+                    {...registerCreate("developmentagency")}
+                  />
+                </div>
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="validity">Valor de aquisição</Label>
+                  <Input
+                    id="validity"
+                    type="text"
+                    {...registerCreate("value")}
+                  />
+                </div>
+                <div className="flex columns-1 flex-col items-start gap-3">
+                  <Label htmlFor="link">Link de acesso</Label>
+                  <Input id="link" type="text" {...registerCreate("link")} />
+                </div>
+                <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
+                  <Button className="bg-green-700 text-black hover:bg-green-600 hover:text-white">
+                    {isSubmittingCreate ? <SyncLoader /> : "Criar Membro"}
+                  </Button>
+                </DialogFooter>
+              </section>
+            </form>
+          </DialogContent>
+        </Dialog>
         <Table className="">
           <TableCaption>A list of your recent invoices</TableCaption>
           <TableHeader>
@@ -131,6 +309,7 @@ const GcaAdmin: NextPageWithLayout = () => {
               <TableHead className="">Edital</TableHead>
               <TableHead className="">Agência de Fomento</TableHead>
               <TableHead className="">Valor</TableHead>
+              <TableHead className="">Link de Acesso</TableHead>
               <TableHead className="">Ações</TableHead>
             </TableRow>
           </TableHeader>
@@ -145,10 +324,28 @@ const GcaAdmin: NextPageWithLayout = () => {
                     minimumFractionDigits: 2,
                   })}
                 </TableCell>
-                <TableCell className="w-16 ">
-                  <Dialog>
+                <TableCell className="">
+                  <Link href={data.link} target="_blank">
+                    Link
+                  </Link>
+                </TableCell>
+                <TableCell className="w-48 ">
+                  <Dialog
+                    open={openEditDialog}
+                    onOpenChange={setOpenEditDialog}
+                  >
                     <DialogTrigger asChild>
-                      <Button variant="outline">Editar</Button>
+                      <Button
+                        variant="outline"
+                        className="mr-2 hover:bg-blue-500"
+                        onClick={() => {
+                          setOpenEditDialog(true);
+                          setReqObject(data);
+                          resetUpdate();
+                        }}
+                      >
+                        Editar
+                      </Button>
                     </DialogTrigger>
                     <DialogContent className="bg-zinc-800  text-white">
                       <DialogHeader>
@@ -159,48 +356,108 @@ const GcaAdmin: NextPageWithLayout = () => {
                           Edicao de professores
                         </DialogDescription>
                       </DialogHeader>
-                      <section className="flex  justify-between">
-                        <div className="flex w-full flex-col items-start justify-start gap-3">
-                          <Label htmlFor="name">Docente</Label>
-                          <Input
-                            id="name"
-                            type="text"
-                            placeholder="Nome"
-                            // {...register("name")}
-                          />
-                          <Label htmlFor="type">Edital</Label>
-                          <Input
-                            id="type"
-                            type="text"
-                            placeholder="Tipo"
-                            // {...register("type")}
-                          />
-                          <Label htmlFor="email">Agencia de Fomento</Label>
-                          <Input
-                            id="email"
-                            type="text"
-                            placeholder="Email"
-                            // {...register("email")}
-                          />
-                          <Label htmlFor="validity">Valor</Label>
-                          <Input
-                            id="validity"
-                            type="text"
-                            placeholder="Vigência"
-                            // {...register("validity")}
-                          />
-                        </div>
-                      </section>
-                      <DialogFooter>
-                        <Button
-                          className="bg-green-500 hover:bg-green-600"
-                          onClick={() => setOpen(false)}
-                        >
-                          Salvar
-                        </Button>
-                      </DialogFooter>
+                      <form onSubmit={handleSubmitUpdate(updateRequisition)}>
+                        <section className="flex  justify-between pb-2">
+                          <div className="flex w-full flex-col items-start justify-start gap-3">
+                            <Input
+                              type="hidden"
+                              defaultValue={reqObject.id}
+                              {...registerUpdate("id")}
+                            />
+                            <Label htmlFor="name">Docente</Label>
+                            <Input
+                              id="name"
+                              type="text"
+                              defaultValue={reqObject.name}
+                              {...registerUpdate("name")}
+                            />
+                            <Label htmlFor="notice">Edital</Label>
+                            <Input
+                              id="notice"
+                              type="text"
+                              defaultValue={reqObject.notice}
+                              {...registerUpdate("notice")}
+                            />
+                            <Label htmlFor="developmentagency">
+                              Agencia de Fomento
+                            </Label>
+                            <Input
+                              id="developmentagency"
+                              type="text"
+                              defaultValue={reqObject.developmentagency}
+                              {...registerUpdate("developmentagency")}
+                            />
+                            <Label htmlFor="value">Valor</Label>
+                            <Input
+                              id="value"
+                              type="text"
+                              defaultValue={reqObject.value}
+                              {...registerUpdate("value")}
+                            />
+                            <Label htmlFor="link">Link de acesso</Label>
+                            <Input
+                              id="link"
+                              type="text"
+                              defaultValue={reqObject.link}
+                              {...registerUpdate("link")}
+                            />
+                          </div>
+                        </section>
+                        <DialogFooter>
+                          <Button className="bg-green-500 hover:bg-green-600">
+                            {isSubmittingUpdate ? (
+                              <SyncLoader />
+                            ) : (
+                              "Salvar edição"
+                            )}
+                          </Button>
+                        </DialogFooter>
+                      </form>
                     </DialogContent>
                   </Dialog>
+                  <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        onClick={() => {
+                          setOpenAlert(true);
+                          setIdReq(data.id);
+                        }}
+                        className=" hover:bg-red-500"
+                        variant="outline"
+                      >
+                        Deletar
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-zinc-800 text-white">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Voce tem certeza que deseja deletar essa informacao?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Lembre que, deletando essa informacao, nao sera
+                          possivel recupera-la.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel
+                          onClick={() => {
+                            setOpenAlert(false);
+                          }}
+                          className="hover:bg-red-600"
+                        >
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => {
+                            handleDeleteMember();
+                          }}
+                          className="hover:bg-cyan-700"
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </TableCell>
               </TableRow>
             ))}
@@ -223,7 +480,6 @@ const GcaAdmin: NextPageWithLayout = () => {
           </TableBody>
         </Table>
       </div>
-      <Separator />
     </section>
   );
 };

@@ -1,34 +1,47 @@
 import Layout from "../components/Layout";
+import Link from "next/link";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
 import { Separator } from "../components/ui/separator";
+import { api } from "~/utils/api";
 
 const SupervisedInternship: NextPageWithLayout = () => {
+  const {
+    data: pageData,
+    isError,
+    isLoading: pageIsLoading,
+  } = api.supervisedInternship.getAll.useQuery();
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="flex h-[100vh] w-full  py-2">
       <div className="flex flex-col gap-4 pl-4">
-        <h1 className="text-3xl font-bold text-white">
-          Estágio Supervisionado
-        </h1>
-        <p className="text-justify text-white">
-          O Estágio Curricular Supervisionado no curso de Bacharelado em
-          Sistemas de Informação, do Campus Universitário de Sinop é componente
-          obrigatório para conclusão da vida acadêmica. As normas sobre o
-          Estágio Curricular Supervisionado para os cursos de Bacharelado na
-          UNEMAT, estão Regulamentadas pela{" "}
-          <a href="http://portal.unemat.br/media/oldfiles/proeg/docs/resolucoes/resolucao_028-2012-conepe_estagio_curricular_bacharelado.pdf">
-            <b className="text-blue-900">RESOLUÇÃO Nº 028/2012 - CONEPE</b>
-          </a>{" "}
-          de 03 de junho de 2012.
-        </p>
-        <p className="text-justify text-white">
-          Para efeito de realização do Estágio Curricular Supervisionado, o
-          acadêmico só poderá iniciar suas atividades, caso tenha concluído 50%
-          de créditos no curso, assim estando apto em matricular-se na
-          disciplina de estágio supervisionado.
-        </p>
+        {pageData && (
+          <div>
+            <h1 className="pb-4 text-3xl font-bold text-white">
+              {pageData.title}
+            </h1>
+            {pageData.content?.split("+").map((item, index) => (
+              <p key={index}>{item.trim()}</p>
+            ))}
+            <br></br>
+            <span className="text-white">{pageData.info} </span>
+            <Link
+              className="text-blue-900"
+              target="_blank"
+              href={pageData.link || "/"}
+            >
+              <b>{pageData.nameLink}</b>
+            </Link>
+          </div>
+        )}
       </div>
-      <Separator />
     </section>
   );
 };

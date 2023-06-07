@@ -50,6 +50,47 @@ export const AdditionalActivitiesUpdateSchema = z.object({
 // ========================================================================================================
 
 // ========================================================================================================
+
+export const TccInternalStandardsUpdateSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  info: z.string().optional(),
+  content: z.string().optional(),
+  link: z.string().optional(),
+  nameLink: z.string().optional(),
+});
+// ========================================================================================================
+
+// ========================================================================================================
+
+export const supervisedInternshipUpdateSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  info: z.string().optional(),
+  content: z.string().optional(),
+  link: z.string().optional(),
+  nameLink: z.string().optional(),
+});
+// ========================================================================================================
+
+// ========================================================================================================
+
+export const religiousGuardUpdateSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  content: z.string().optional(),
+  info02: z.string().optional(),
+  content02: z.string().optional(),
+  info03: z.string().optional(),
+  content03: z.string().optional(),
+  info04: z.string().optional(),
+  content04: z.string().optional(),
+  link: z.string().optional(),
+  nameLink: z.string().optional(),
+});
+// ========================================================================================================
+
+// ========================================================================================================
 export const AboutCourseSchema = z.object({
   id: z.string(),
   title: z.string(),
@@ -306,13 +347,22 @@ export const EventsUpdateSchema = z.object({
 // ========================================================================================================
 
 // ========================================================================================================
-export const ApliedGroup = z.object({
-  id: z.string(),
+
+export const ApliedGroupCreateSchema = z.object({
   name: z.string(),
   notice: z.string(),
   link: z.string(),
   developmentagency: z.string(),
   value: z.string(),
+});
+
+export const ApliedGroupUpdateSchema = z.object({
+  id: z.string(),
+  name: z.string().optional(),
+  notice: z.string().optional(),
+  link: z.string().optional(),
+  developmentagency: z.string().optional(),
+  value: z.string().optional(),
 });
 // ========================================================================================================
 

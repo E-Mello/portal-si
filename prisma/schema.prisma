@@ -183,6 +183,6 @@ model Informatives {
   title     String
   info      String
   content   String   @db.Text
-  linkImg   String?
+  linkImg   String
   updatedAt DateTime
 }

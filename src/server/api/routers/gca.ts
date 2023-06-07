@@ -1,6 +1,8 @@
+import {
+  ApliedGroupCreateSchema,
+  ApliedGroupUpdateSchema,
+} from "~/server/common/Schemas";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-import { ApliedGroup } from "~/server/common/Schemas";
 
 export const gcaRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -11,11 +13,12 @@ export const gcaRouter = createTRPCRouter({
         notice: true,
         developmentagency: true,
         value: true,
+        link: true,
       },
     });
   }),
   update: publicProcedure
-    .input(ApliedGroup)
+    .input(ApliedGroupUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.apliedGroup.update({
         where: {
@@ -26,11 +29,12 @@ export const gcaRouter = createTRPCRouter({
           notice: input.notice,
           developmentagency: input.developmentagency,
           value: input.value,
+          link: input.link,
         },
       });
     }),
   delete: publicProcedure
-    .input(ApliedGroup)
+    .input(ApliedGroupUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         return await ctx.prisma.apliedGroup.delete({
@@ -43,7 +47,7 @@ export const gcaRouter = createTRPCRouter({
       }
     }),
   create: publicProcedure
-    .input(ApliedGroup)
+    .input(ApliedGroupCreateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         const collegiate = await ctx.prisma.apliedGroup.create({

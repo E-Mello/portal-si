@@ -137,7 +137,6 @@ const AppliedComputingGroup: NextPageWithLayout = () => {
           </TableBody>
         </Table>
       </div>
-      <Separator />
     </section>
   );
 };

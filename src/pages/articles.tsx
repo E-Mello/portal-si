@@ -21,8 +21,8 @@ const Articles: NextPageWithLayout = () => {
   }
 
   return (
-    <section className={`flex h-[100vh] w-full pl-4 pr-2 pt-10 text-white`}>
-      <section className="flex h-full flex-col">
+    <section className={`flex h-[100vh] w-full pl-4 pr-2 pt-4 text-white`}>
+      <section className="flex h-full w-full flex-col">
         <div className="flex w-full justify-start pb-5 ">
           <div className="flex pl-2">
             <h1 className="text-3xl font-bold">Artigos Publicados</h1>
@@ -31,20 +31,29 @@ const Articles: NextPageWithLayout = () => {
 
         <div className="flex h-full w-full flex-col items-start ">
           {pageData.map((data) => (
-            <Link
+            <div
               key={data.id}
-              className={`group flex cursor-pointer flex-col items-start justify-center gap-1 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-800`}
-              href={data.link}
-              target="_blank"
+              className="group flex w-full  flex-col items-start justify-center gap-1 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-800"
             >
-              <span className={`text-xl `}>{data.title.toUpperCase()}</span>
-              <span className={`flex text-justify text-sm `}>
-                {data.resume}
+              <span className={`text-xl `}>
+                Titulo do trabalho: {data.title.toUpperCase()}
+              </span>
+              <span className={`flex text-start  text-sm `}>
+                Resumo do trabalho: {data.resume}
               </span>
               <span className={`text-start text-sm`}>
-                Nome do aluno: {data.author}
+                Nome do estudante: {data.author}
               </span>
-            </Link>
+              <span className={`text-start text-sm`}>
+                <Link
+                  className="cursor-pointer hover:text-red-500"
+                  href={data.link}
+                  target="_blank"
+                >
+                  Clique aqui para acessar o trabalho
+                </Link>
+              </span>
+            </div>
           ))}
         </div>
       </section>

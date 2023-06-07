@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Sheet,
   SheetContent,
@@ -14,37 +15,185 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { type ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { Textarea } from "~/components/ui/textarea";
+import { api } from "~/utils/api";
+import { toast } from "react-toastify";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { type z } from "zod";
+import { TccInternalStandardsUpdateSchema } from "~/server/common/Schemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { LoadingSpinner } from "~/components/Loading";
 
 const TCCInternalStandardsAdmin: NextPageWithLayout = () => {
+  const utils = api.useContext();
+  const [open, setOpen] = useState(false);
+  const {
+    data: pageData,
+    isError,
+    isLoading: pageIsLoading,
+  } = api.tccInternalStandards.getAll.useQuery();
+  const { mutateAsync: update } = api.additionalActivities.update.useMutation({
+    onSuccess: () => {
+      // show success toast
+      void utils.additionalActivities.getAll.invalidate();
+      toast.success("Conteúdo da página atualizado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<z.infer<typeof TccInternalStandardsUpdateSchema>>({
+    resolver: zodResolver(TccInternalStandardsUpdateSchema),
+  });
+
+  const updatePage: SubmitHandler<
+    z.infer<typeof TccInternalStandardsUpdateSchema>
+  > = async (data) => {
+    const res = await update(data);
+    console.log("res", res);
+    if (res) {
+      reset();
+    } else {
+      toast.error("Failed to update page.", {
+        autoClose: 2000,
+      });
+    }
+  };
+
+  if (pageIsLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
   return (
     <section className="relative flex h-full w-[80vw] flex-col items-start justify-center gap-4 py-2">
       <div className="flex flex-col gap-4 pl-4">
-        <h1 className="text-3xl font-bold text-white">TCC</h1>
-        <p className="text-white">
-          O Trabalho de Conclusão de Curso - TCC no Curso de Bacharelado em
-          Sistemas de Informação do Campus Universitário de Sinop, está
-          regulamentado pela{" "}
-          <a href="http://portal.unemat.br/media/oldfiles/proeg/docs/resolucoes/resolucao_030_2012_conepe_tcc.pdf">
-            <b className="text-blue-900">RESOLUÇÃO Nº 030/2012 - CONEPE</b>
-          </a>{" "}
-          de 03 de junho de 2012.
-        </p>
-        <p className="text-white">
-          Os alunos do curso de Bacharelado em Sistemas de Informação podem se
-          matricular na disciplina de Trabalho de Conclusão de Curso I quando
-          integralizarem no mínimo 50% (cinquenta por cento) dos créditos
-          previstos no curso.
-        </p>
-        <p className="text-white">
-          Os critérios para se ministrar as disciplinas de Trabalho de Conclusão
-          de Curso I e II, bem como a vinculação dos TCCs às linhas de pesquisa
-          do curso de Sistemas de Informação, e demais questões inerentes ao
-          processo de orientação e desenvolvimento do TCC, serão normatizadas
-          por meio de resolução específica a ser proposta pelo corpo docente e
-          aprovadas pelo colegiado de curso e demais instâncias competentes.
-        </p>
+        {pageData && (
+          <div>
+            <h1 className="pb-4 text-3xl font-bold text-white">
+              {pageData.title}
+            </h1>
+            {pageData.content?.split("+").map((item, index) => (
+              <p key={index}>{item.trim()}</p>
+            ))}
+            <br></br>
+            <span className="text-white">{pageData.info} </span>
+            <Link
+              className="text-blue-900"
+              target="_blank"
+              href={pageData.link || "/"}
+            >
+              <b>{pageData.nameLink}</b>
+            </Link>
+          </div>
+        )}
+      </div>
+      <div className="flex pl-4">
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button
+              className="bg-slate-200 text-zinc-900"
+              onClick={() => {
+                reset();
+              }}
+            >
+              Editar Conteudo da página
+            </Button>
+          </SheetTrigger>
+
+          <ScrollArea className="h-full ">
+            <SheetContent
+              position="right"
+              size={"default"}
+              className="flex h-full flex-col gap-4 bg-zinc-800 text-white"
+            >
+              <form
+                className="flex flex-col gap-4 py-4"
+                onSubmit={handleSubmit(updatePage)}
+              >
+                <SheetHeader>
+                  <SheetTitle>Editar Conteudo</SheetTitle>
+                  <SheetDescription>
+                    Nessa folha lateral é possível estar editando o conteúdo
+                    desta página, lembrando que o caractere `+` serve para
+                    quebrar linha, quando o codigo ler, ira substituir por uma
+                    quebra de linha
+                  </SheetDescription>
+                </SheetHeader>
+
+                <div className="col-span-3 flex flex-col items-start gap-4">
+                  <Input
+                    type="hidden"
+                    {...register("id")}
+                    defaultValue={pageData?.id}
+                  />
+                  <Label htmlFor="title" className="">
+                    Alterar o titulo da página
+                  </Label>
+                  <Input
+                    id="titlePage"
+                    defaultValue={pageData?.title}
+                    className="col-span-3"
+                    {...register("title")}
+                  />
+                  <Label htmlFor="newValue" className="">
+                    Editar conteúdo a ser apresentado no corpo da página
+                  </Label>
+                  <Textarea
+                    className="col-span-3 h-64"
+                    {...register("content")}
+                    defaultValue={pageData?.content || ""}
+                  ></Textarea>
+                  <Label htmlFor="link" className="">
+                    Alterar a informação do link
+                  </Label>
+                  <Textarea
+                    id="info"
+                    defaultValue={pageData?.info || ""}
+                    className="col-span-3"
+                    {...register("info")}
+                  />
+                  <Label htmlFor="link" className="">
+                    Alterar o nome do link
+                  </Label>
+                  <Input
+                    id="nameLink"
+                    defaultValue={pageData?.nameLink || ""}
+                    className="col-span-3"
+                    {...register("nameLink")}
+                  />
+                  <Label htmlFor="link" className="">
+                    Alterar o link de acesso a documentação
+                  </Label>
+                  <Input
+                    id="linkPage"
+                    defaultValue={pageData?.link || ""}
+                    className="col-span-3"
+                    {...register("link")}
+                  />
+                </div>
+
+                <SheetFooter className="">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-slate-200 text-zinc-900"
+                  >
+                    {isSubmitting ? <LoadingSpinner /> : "Salvar Alterações"}
+                  </Button>
+                </SheetFooter>
+              </form>
+            </SheetContent>
+          </ScrollArea>
+        </Sheet>
       </div>
     </section>
   );

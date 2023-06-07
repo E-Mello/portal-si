@@ -15,9 +15,12 @@ import { gcaRouter } from "./routers/gca";
 import { informativesRouter } from "./routers/informatives";
 import { jobProfileRouter } from "./routers/jobprofile";
 import { projectsRouter } from "./routers/projects";
+import { religiousGuardRouter } from "./routers/religiousguard";
 import { scheduleRouter } from "./routers/schedule";
 import { subjectRouter } from "./routers/subjects";
+import { supervisedInternshipRouter } from "./routers/supervisedinternship";
 import { syllabusesAndBibliographiesRouter } from "~/server/api/routers/syllabuses_and_bibliographies";
+import { tccInternalStandardsRouter } from "./routers/tccinternalstandards";
 import { tccRouter } from "./routers/tcc";
 import { teachersRouter } from "./routers/teachers";
 
@@ -48,6 +51,9 @@ export const appRouter = createTRPCRouter({
   subjects: subjectRouter,
   discordChannels: discordChannelsRouter,
   informatives: informativesRouter,
+  tccInternalStandards: tccInternalStandardsRouter,
+  supervisedInternship: supervisedInternshipRouter,
+  religiousGuard: religiousGuardRouter,
 });
 
 // export type definition of API

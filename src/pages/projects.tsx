@@ -54,7 +54,7 @@ const Projects: NextPageWithLayout = () => {
         <TabsContent value="teachingProject">
           <div className=" group flex cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
             {pageData.map((project) => {
-              if (project.typesOfProjectsId === 1) {
+              if (project.typesOfProjectsId === "1") {
                 return (
                   <div key={project.id} className="grid gap-2">
                     <Link
@@ -95,7 +95,7 @@ const Projects: NextPageWithLayout = () => {
         <TabsContent value="extensionProject">
           <div className=" group flex cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
             {pageData.map((project) => {
-              if (project.typesOfProjectsId === 2) {
+              if (project.typesOfProjectsId === "2") {
                 return (
                   <div key={project.id} className="grid gap-2">
                     <Link
@@ -136,7 +136,7 @@ const Projects: NextPageWithLayout = () => {
         <TabsContent value="researchProject">
           <div className=" group flex cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
             {pageData.map((project) => {
-              if (project.typesOfProjectsId === 3) {
+              if (project.typesOfProjectsId === "3") {
                 return (
                   <div key={project.id} className="grid gap-2">
                     <Link

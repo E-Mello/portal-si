@@ -55,11 +55,6 @@ import { Calendar as CalendarIcon } from "lucide-react";
 
 import { cn } from "~/utils/cn";
 import { Calendar } from "~/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
 
 const testIMG =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";
@@ -143,10 +138,9 @@ const EventsAdmin: NextPageWithLayout = () => {
       toast.success("Evento delatado com sucesso", { autoClose: 2000 });
     },
     onError: () => {
-      toast.error(
-        "Alguma coisa esta errado com os dados do professor",
-        { autoClose: 2000 }
-      );
+      toast.error("Alguma coisa esta errado com os dados do professor", {
+        autoClose: 2000,
+      });
     },
   });
 
