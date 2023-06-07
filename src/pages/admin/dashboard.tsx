@@ -12,36 +12,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "~/components/ui/command";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "~/components/ui/sheet";
-import { Edit } from "lucide-react";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import Card from "~/components/Card";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "~/utils/cn";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import {
@@ -50,7 +26,7 @@ import {
 } from "~/server/common/Schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { Textarea } from "~/components/ui/textarea";
+import { Edit } from "lucide-react";
 
 const DashboardAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
@@ -59,9 +35,9 @@ const DashboardAdmin: NextPageWithLayout = () => {
   const [cardIdSelected, setCardIdSelected] = useState("");
   const [groupCardId, setGroupCardId] = useState("");
   const [groupCardName, setGroupCardName] = useState("");
-  const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
-
-  const [value, setValue] = useState("");
+  const [openUpdateCardDialog, setOpenUpdateCardDialog] = useState(false);
+  const [openUpdateGroupCardDialog, setOpenUpdateGroupCardDialog] =
+    useState(false);
 
   const {
     data: pageData,
@@ -103,6 +79,7 @@ const DashboardAdmin: NextPageWithLayout = () => {
     try {
       const res = await updateGroupCard(data);
       console.log("card alterado", res);
+      setOpenUpdateGroupCardDialog(false);
       resetGroupCard();
     } catch (error) {
       // Handle error
@@ -145,7 +122,8 @@ const DashboardAdmin: NextPageWithLayout = () => {
   > = async (data) => {
     try {
       const res = await updateCard(data);
-      console.log("card alterado", res);
+      console.log("Grupo de card alterado", res);
+      setOpenUpdateCardDialog(false);
       resetCard();
     } catch (error) {
       // Handle error
@@ -169,10 +147,78 @@ const DashboardAdmin: NextPageWithLayout = () => {
             key={group.id}
             className=" flex flex-col justify-start border-t pb-2 pl-4 "
           >
-            <legend className="">
-              <h1 className=" w-full items-center justify-center pb-2 pl-4 pr-4 text-lg font-bold">
+            <legend className="mb-4 flex">
+              <h1 className="flex w-full items-center justify-center pb-2 pl-4 pr-4 text-lg font-bold">
                 {group.name}
               </h1>
+              <div className="flex pr-2">
+                <Dialog
+                  open={openUpdateGroupCardDialog}
+                  onOpenChange={setOpenUpdateGroupCardDialog}
+                >
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className=" flex w-10  justify-center rounded-full p-0 hover:bg-slate-500 "
+                      onClick={() => {
+                        resetGroupCard();
+                        setOpenUpdateGroupCardDialog(true);
+                        setGroupCardId(group.id);
+                        setGroupCardName(group.name);
+                      }}
+                    >
+                      <Edit className="h-4 w-4" />
+                      <span className="sr-only">Edit</span>
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-zinc-800 text-white">
+                    <DialogHeader>
+                      <DialogTitle>Editar Conteudo</DialogTitle>
+                      <DialogDescription>
+                        Nessa folha lateral é possível estar editando o conteúdo
+                        desta página
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form
+                      onSubmit={handleSubmitGroupCard(handleUpdateGroupCard)}
+                      className="flex gap-2"
+                    >
+                      <div className="flex w-full flex-col gap-4 py-4">
+                        <div className="col-span-3 flex flex-col items-start gap-4">
+                          <Input
+                            type="hidden"
+                            defaultValue={groupCardId}
+                            {...registerGroupCard("id")}
+                          />
+                          <div>
+                            <Label htmlFor="link" className="">
+                              Alterar o nome do card
+                            </Label>
+                            <Input
+                              id="link"
+                              defaultValue={groupCardName}
+                              className="col-span-3"
+                              {...registerGroupCard("name")}
+                            />
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button
+                            type="submit"
+                            className="flex rounded-md bg-slate-300 px-4 py-2 text-zinc-900 hover:bg-slate-200"
+                          >
+                            {isSubmittingGroupCard ? (
+                              <SyncLoader />
+                            ) : (
+                              "Salvar Alterações"
+                            )}
+                          </Button>
+                        </DialogFooter>
+                      </div>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </div>
             </legend>
             <div className="flex h-full w-full flex-col gap-5">
               <div className="grid  grid-cols-6 flex-row gap-10 whitespace-pre-line">
@@ -185,56 +231,54 @@ const DashboardAdmin: NextPageWithLayout = () => {
                       Info={card.info}
                     />
                     <div className="flex">
-                      <Sheet
-                        open={openUpdateDialog}
-                        onOpenChange={setOpenUpdateDialog}
+                      <Dialog
+                        open={openUpdateCardDialog}
+                        onOpenChange={setOpenUpdateCardDialog}
                       >
-                        <SheetTrigger asChild>
+                        <DialogTrigger asChild>
                           <Button
                             variant="outline"
                             className=" flex w-10  justify-center rounded-full p-0 hover:bg-slate-500 "
                             onClick={() => {
-                              reset();
-                              setOpenUpdateDialog(true);
+                              resetCard();
+                              setOpenUpdateCardDialog(true);
                               setCardIdSelected(card.id);
                               setCardNameSelected(card.name);
                               setCardInfoSelected(card.info);
-                              setGroupCardId(group.id);
-                              setGroupCardName(group.name);
                             }}
                           >
                             <Edit className="h-4 w-4" />
                             <span className="sr-only">Edit</span>
                           </Button>
-                        </SheetTrigger>
-                        <SheetContent
-                          position="right"
-                          size={"default"}
-                          className="bg-zinc-800 text-white"
-                        >
-                          <SheetHeader>
-                            <SheetTitle>Editar Conteudo</SheetTitle>
-                            <SheetDescription>
+                        </DialogTrigger>
+                        <DialogContent className="bg-zinc-800 text-white">
+                          <DialogHeader>
+                            <DialogTitle>Editar Conteudo</DialogTitle>
+                            <DialogDescription>
                               Nessa folha lateral é possível estar editando o
                               conteúdo desta página
-                            </SheetDescription>
-                          </SheetHeader>
+                            </DialogDescription>
+                          </DialogHeader>
                           <form
-                            onSubmit={handleSubmit(updateCard)}
+                            onSubmit={handleSubmitCard(handleUpdateCard)}
                             className="flex gap-2"
                           >
                             <div className="flex w-full flex-col gap-4 py-4">
                               <div className="col-span-3 flex flex-col items-start gap-4">
-                                <Input type="hidden" {...register("id")} />
+                                <Input
+                                  type="hidden"
+                                  defaultValue={cardIdSelected}
+                                  {...registerCard("id")}
+                                />
                                 <div>
                                   <Label htmlFor="link" className="">
                                     Alterar o nome do card
                                   </Label>
                                   <Input
                                     id="link"
-                                    defaultValue={"teste"}
+                                    defaultValue={cardNameSelected}
                                     className="col-span-3"
-                                    {...register("name")}
+                                    {...registerCard("name")}
                                   />
                                 </div>
                                 <div>
@@ -243,28 +287,28 @@ const DashboardAdmin: NextPageWithLayout = () => {
                                   </Label>
                                   <Input
                                     id="avatarUrl"
-                                    defaultValue={"teste"}
+                                    defaultValue={cardInfoSelected}
                                     className="col-span-3"
-                                    {...register("name")}
+                                    {...registerCard("info")}
                                   />
                                 </div>
                               </div>
-                              <SheetFooter>
+                              <DialogFooter>
                                 <Button
                                   type="submit"
                                   className="flex rounded-md bg-slate-300 px-4 py-2 text-zinc-900 hover:bg-slate-200"
                                 >
-                                  {isSubmitting ? (
+                                  {isSubmittingCard ? (
                                     <SyncLoader />
                                   ) : (
                                     "Salvar Alterações"
                                   )}
                                 </Button>
-                              </SheetFooter>
+                              </DialogFooter>
                             </div>
                           </form>
-                        </SheetContent>
-                      </Sheet>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 ))}

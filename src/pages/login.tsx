@@ -1,10 +1,9 @@
-
 import { SignIn } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
 export default function Login() {
   return (
-    <div className="relative flex h-screen flex-col items-center justify-center">
+    <div className="relative flex h-screen flex-col items-center justify-center bg-zinc-800">
       <SignIn
         appearance={{
           elements: {
@@ -15,8 +14,7 @@ export default function Login() {
           layout: {},
         }}
         afterSignInUrl="/"
-        
-/>
+      />
     </div>
   );
 }
