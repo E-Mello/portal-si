@@ -1,23 +1,24 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { ElectiveSubjectsSchema } from "~/server/common/Schemas";
+import { ElectiveSubjectsUpdateSchema } from "~/server/common/Schemas";
 
 export const electiveSubjectRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.electiveSubjects.findMany({
+    return await ctx.prisma.subject.findMany({
       select: {
         id: true,
         name: true,
         ch: true,
         credits: true,
         prerequisites: true,
+        isElective: true,
       },
     });
   }),
   update: publicProcedure
-    .input(ElectiveSubjectsSchema)
+    .input(ElectiveSubjectsUpdateSchema)
     .mutation(async ({ input, ctx }) => {
-      return await ctx.prisma.electiveSubjects.update({
+      return await ctx.prisma.subject.update({
         where: {
           id: input.id,
         },
@@ -26,38 +27,8 @@ export const electiveSubjectRouter = createTRPCRouter({
           ch: input.ch,
           credits: input.credits,
           prerequisites: input.prerequisites,
+          isElective: input.isElective,
         },
       });
-    }),
-  delete: publicProcedure
-    .input(ElectiveSubjectsSchema)
-    .mutation(async ({ input, ctx }) => {
-      try {
-        return await ctx.prisma.electiveSubjects.delete({
-          where: {
-            id: input.id,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
-  create: publicProcedure
-    .input(ElectiveSubjectsSchema)
-    .mutation(async ({ input, ctx }) => {
-      try {
-        const electiveSubjects = await ctx.prisma.electiveSubjects.create({
-          data: {
-            name: input.name,
-            ch: input.ch,
-            credits: input.credits,
-            prerequisites: input.prerequisites,
-            updatedAt: new Date(),
-          },
-        });
-        return electiveSubjects;
-      } catch (error) {
-        console.log("Erro ao inserir uma nova matéria: ", error);
-      }
     }),
 });

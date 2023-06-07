@@ -6,23 +6,17 @@ import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { Separator } from "~/components/ui/separator";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import { toast } from "react-toastify";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  SubjectsCreateSchema,
-  SubjectsUpdateSchema,
-} from "~/server/common/Schemas";
+import { EquivalenceUpdateSchema } from "~/server/common/Schemas";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
@@ -35,6 +29,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+import {
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "~/components/ui/alert-dialog";
 import { HiOutlinePlus } from "react-icons/hi";
 import {
   Table,
@@ -52,22 +57,22 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
-  } = api.subjects.getAll.useQuery();
+  } = api.equivalence.getAll.useQuery();
 
   const [subjectObject, setSubjectSubject] = useState({
-    phase: {},
     id: "",
     name: "",
-    phaseId: "",
-    ch: 0,
-    credits: 0,
+    ch: "",
+    credits: "",
     prerequisites: "",
-    isElective: false,
     equivalenceSubjects: "",
   });
 
   const [openDialogSubject, setOpenDialogSubject] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const [openDialogEdit, setOpenDialogEdit] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState("");
+  const [idEquivalence, setIdEquivalence] = useState("");
   const handleSubjectChange = (value: string) => {
     setSelectedSubject(value);
   };
@@ -89,10 +94,10 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
   /**
    * Below is the code for the update subject (equivalence)
    */
-  const { mutateAsync: update } = api.subjects.update.useMutation({
+  const { mutateAsync: update } = api.equivalence.update.useMutation({
     onSuccess: () => {
       // show success toast
-      void utils.subjects.getAll.invalidate();
+      void utils.equivalence.getAll.invalidate();
       toast.success("Materia atualizada com sucesso!");
     },
     onError: () => {
@@ -104,20 +109,22 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
   const {
     register: registerUpdateSubject,
     handleSubmit: handleSubmitUpdateSubject,
-    reset: resetUpdateSubject,
+    reset: resetUpdateEquivalence,
     formState: {
       errors: errorsUpdateSubject,
       isSubmitting: isUpdatetingCreateSubject,
     },
-  } = useForm<z.infer<typeof SubjectsUpdateSchema>>({
-    resolver: zodResolver(SubjectsUpdateSchema),
+  } = useForm<z.infer<typeof EquivalenceUpdateSchema>>({
+    resolver: zodResolver(EquivalenceUpdateSchema),
   });
   const handleUpdateSubject: SubmitHandler<
-    z.infer<typeof SubjectsUpdateSchema>
+    z.infer<typeof EquivalenceUpdateSchema>
   > = async (data) => {
     const res = await update(data);
     console.log("res", res);
-    resetUpdateSubject();
+    setOpenDialogSubject(false);
+    setOpenDialogEdit(false);
+    resetUpdateEquivalence();
   };
 
   if (pageIsLoading) {
@@ -140,7 +147,7 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
             <Button
               onClick={() => {
                 setOpenDialogSubject(true);
-                resetUpdateSubject();
+                resetUpdateEquivalence();
               }}
               className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
             >
@@ -246,9 +253,6 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
               <TableHead className="border border-gray-300 p-2">
                 Pré-requisitos
               </TableHead>
-              <TableHead className="border border-gray-300 p-2 text-center">
-                Eletiva
-              </TableHead>
               <TableHead className="border border-gray-300 p-2">
                 Disciplina (Curso) - Equivalências no campus de Sinop
               </TableHead>
@@ -274,44 +278,58 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                     <TableCell className="border border-gray-300 p-2">
                       {data.prerequisites}
                     </TableCell>
-                    <TableCell className="border border-gray-300 p-2 text-center">
-                      {data.isElective ? "Sim" : "Não"}
-                    </TableCell>
                     <TableCell className="border border-gray-300 p-2">
                       {data.equivalenceSubjects == ""
                         ? "Não possui"
                         : data.equivalenceSubjects}
                     </TableCell>
                     <TableCell className="w-52 gap-2 border border-gray-300 py-2 text-center ">
-                      <Dialog>
+                      <Dialog
+                        open={openDialogEdit}
+                        onOpenChange={setOpenDialogEdit}
+                      >
                         <DialogTrigger asChild>
                           <Button
                             variant="outline"
                             className="hover:bg-cyan-800"
+                            onClick={() => {
+                              setOpenDialogEdit(true);
+                              setSubjectSubject(data);
+                              resetUpdateEquivalence();
+                            }}
                           >
                             Editar
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
                           <DialogHeader className="flex items-center ">
-                            <DialogTitle>Edição de professores</DialogTitle>
+                            <DialogTitle>
+                              Edição das matérias relacionadas a equivalência
+                            </DialogTitle>
                             <DialogDescription>
-                              Edição de professores
+                              Edição de matérias
                             </DialogDescription>
                           </DialogHeader>
                           <form
-                            // onSubmit={handleSubmit(updateEquivalence)}
+                            onSubmit={handleSubmitUpdateSubject(
+                              handleUpdateSubject
+                            )}
                             className=""
                           >
                             <section className="grid h-full grid-cols-1 items-center gap-2 ">
                               <div className="flex columns-1 flex-col items-start gap-3">
+                                <Input
+                                  type="hidden"
+                                  defaultValue={subjectObject.id}
+                                  {...registerUpdateSubject("id")}
+                                />
                                 <Label htmlFor="name" className="text-right">
                                   Nome
                                 </Label>
                                 <Input
                                   id="name"
                                   type="text"
-                                  placeholder={data.name}
+                                  defaultValue={subjectObject.name}
                                   {...registerUpdateSubject("name")}
                                 />
                               </div>
@@ -320,42 +338,120 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                                 <Input
                                   id="ch"
                                   type="text"
-                                  // placeholder={data.ch || "Erro ao carregar"}
+                                  defaultValue={subjectObject.ch}
                                   {...registerUpdateSubject("ch")}
                                 />
                               </div>
                               <div className="flex columns-1 flex-col items-start gap-3">
-                                <Label htmlFor="equivalence">
-                                  Materia Equivalente
+                                <Label htmlFor="credits">Créditos</Label>
+                                <Input
+                                  id="credits"
+                                  type="text"
+                                  defaultValue={subjectObject.credits}
+                                  {...registerUpdateSubject("credits")}
+                                />
+                              </div>
+                              <div className="flex columns-1 flex-col items-start gap-3">
+                                <Label htmlFor="prerequisites">
+                                  Pré-Requisitos
                                 </Label>
                                 <Input
-                                  id="equivalence"
+                                  id="prerequisites"
                                   type="text"
-                                  placeholder={data.equivalence}
-                                  {...registerUpdateSubject("equivalence")}
+                                  defaultValue={subjectObject.prerequisites}
+                                  {...registerUpdateSubject("prerequisites")}
+                                />
+                              </div>
+                              <div className="flex columns-1 flex-col items-start gap-3">
+                                <Label htmlFor="equivalenceSubjects">
+                                  Materia Equivalente
+                                </Label>
+                                <Textarea
+                                  id="equivalenceSubjects"
+                                  defaultValue={
+                                    subjectObject.equivalenceSubjects
+                                  }
+                                  {...registerUpdateSubject(
+                                    "equivalenceSubjects"
+                                  )}
                                 />
                               </div>
                               <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                                <Button
-                                  className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                                  onClick={() => setOpen(false)}
-                                >
-                                  Salvar
+                                <Button className="bg-green-700 text-black hover:bg-green-600 hover:text-white">
+                                  {isUpdatetingCreateSubject ? (
+                                    <SyncLoader />
+                                  ) : (
+                                    "Salvar edição"
+                                  )}
                                 </Button>
                               </DialogFooter>
                             </section>
                           </form>
                         </DialogContent>
                       </Dialog>
-                      <Button
-                        variant={"outline"}
-                        className=" ml-2 hover:bg-red-500"
-                        // onClick={handleDeleteData}
-                      >
-                        {/*
-                         */}
-                        Excluir
-                      </Button>
+                      <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            onClick={() => {
+                              setOpenAlert(true);
+                            }}
+                            className=" hover:bg-red-500"
+                            variant="outline"
+                          >
+                            Deletar
+                          </Button>
+                        </AlertDialogTrigger>
+                        <form
+                          onSubmit={handleSubmitUpdateSubject(
+                            handleUpdateSubject
+                          )}
+                        >
+                          <AlertDialogContent className="bg-zinc-800 text-white">
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Voce tem certeza que deseja deletar essa
+                                informacao?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Lembre que, deletando essa informacao, nao sera
+                                possivel recupera-la.
+                              </AlertDialogDescription>
+                              <Input
+                                type="hidden"
+                                defaultValue={subjectObject.id}
+                                {...registerUpdateSubject("id")}
+                              />
+                              <Input
+                                type="hidden"
+                                defaultValue={" "}
+                                {...registerUpdateSubject(
+                                  "equivalenceSubjects"
+                                )}
+                              />
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel
+                                onClick={() => {
+                                  setOpenAlert(false);
+                                }}
+                                className="hover:bg-red-600"
+                              >
+                                Cancel
+                              </AlertDialogCancel>
+                              <AlertDialogAction
+                                type="submit"
+                                className="hover:bg-cyan-700"
+                              >
+                                {isUpdatetingCreateSubject ? (
+                                  <SyncLoader />
+                                ) : (
+                                  "Deletar"
+                                )}
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </form>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 )

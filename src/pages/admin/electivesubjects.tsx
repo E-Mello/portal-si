@@ -3,6 +3,7 @@ import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
 import { api } from "~/utils/api";
 import { HiOutlinePlus } from "react-icons/hi";
+import { EditElectiveSubjectForm } from "~/components/Forms/ElectivesSubjects/EditElectiveSubjectForm";
 import {
   Dialog,
   DialogContent,
@@ -12,16 +13,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
+
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { ElectiveSubjectsSchema } from "~/server/common/Schemas";
 import {
   Table,
   TableBody,
@@ -48,55 +46,13 @@ const allSubjects =
 const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [currentElectiveSubject, setCurrentElectiveSubject] = useState("");
   const [open, setOpen] = useState(false);
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
   } = api.electivesubject.getAll.useQuery();
-
-  const { mutateAsync: update } = api.electivesubject.update.useMutation({
-    onSuccess: () => {
-      // show success toast
-      toast.success("Conteúdo da página atualizado com sucesso!");
-    },
-  });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof ElectiveSubjectsSchema>>({
-    resolver: zodResolver(ElectiveSubjectsSchema),
-  });
-  const updateSubject: SubmitHandler<
-    z.infer<typeof ElectiveSubjectsSchema>
-  > = async (data) => {
-    const res = await update(data);
-    console.log("res", res);
-    reset();
-  };
-
-  const { mutateAsync: create } = api.electivesubject.create.useMutation({
-    onSuccess: () => {
-      // show success toast
-      toast.success("Membro adicionado com sucesso!");
-    },
-  });
-
-  const { mutate } = api.electivesubject.delete.useMutation({
-    onSuccess: () => {
-      toast.success("Conteúdo da página atualizado com sucesso!");
-    },
-  });
-
-  // function handleDeleteData() {
-  //   try {
-  //     mutate({ id: data.id });
-  //   } catch (error) {
-  //     console.log("Error deleting provider:", error);
-  //   }
-  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -118,6 +74,7 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
         no rol de disciplinas, será definida em conjunto entre o Colegiado de
         Curso e o Núcleo Docente Estruturante (NDE).
       </p>
+      <section className="flex w-1/2 gap-10"></section>
       <section className="flex w-2/3 flex-col gap-4 pl-4 pr-10">
         <Table className="w-full">
           <TableHeader>
@@ -129,6 +86,9 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
               </TableHead>
               <TableHead className="border border-gray-300 p-2">
                 Pré-requisitos
+              </TableHead>
+              <TableHead className="border border-gray-300 p-2">
+                Eletiva ?
               </TableHead>
               <TableHead className="w-40 border border-gray-300 p-2 text-center">
                 Ações
@@ -150,6 +110,9 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                 <TableCell className="border border-gray-300 p-2">
                   {data.prerequisites}
                 </TableCell>
+                <TableCell className="border border-gray-300 p-2">
+                  {data.isElective ? "Sim" : "Não"}
+                </TableCell>
                 <TableCell className=" w-52 justify-center gap-1 space-x-2 border border-gray-300 px-4 py-2 text-center">
                   <Dialog
                     open={openEditDialog}
@@ -159,7 +122,7 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                       <Button
                         onClick={() => {
                           setOpenEditDialog(true);
-                          // reset(data);
+                          setCurrentElectiveSubject(data.id);
                         }}
                         variant="outline"
                         className="hover:bg-cyan-800"

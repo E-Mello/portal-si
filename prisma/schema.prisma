@@ -37,8 +37,8 @@ model Subject {
   id                  String  @id @default(uuid())
   phaseId             String
   name                String
-  ch                  Int
-  credits             Int
+  ch                  String
+  credits             String
   prerequisites       String
   isElective          Boolean @default(false)
   equivalenceSubjects String  @db.Text

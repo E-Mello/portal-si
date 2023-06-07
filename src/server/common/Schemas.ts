@@ -253,41 +253,36 @@ export const SyllabusesAndBibliographiesUpdateSchema = z.object({
 // ========================================================================================================
 
 // ========================================================================================================
-export const EquivalenceSchema = z.object({
+export const EquivalenceUpdateSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  ch: z.number(),
-  equivalence: z.string(),
-  chequivalence: z.number(),
+  name: z.string().optional(),
+  ch: z.string().optional(),
+  credits: z.string().optional(),
+  prerequisites: z.string().optional(),
+  equivalenceSubjects: z.string().optional(),
 });
 
-export const EquivalenceCreateSchema = z.object({
-  name: z.string(),
-  ch: z.number(),
-  equivalence: z.string(),
-  chequivalence: z.number(),
-});
 // ========================================================================================================
 
 // ========================================================================================================
 export const CurriculumSubjectsSchema = z.object({
   id: z.string(),
   name: z.string(),
-  ch: z.number(),
-  credits: z.number(),
+  ch: z.string(),
+  credits: z.string(),
   prerequisites: z.string(),
   phaseid: z.string(),
 });
 // ========================================================================================================
 
 // ========================================================================================================
-export const ElectiveSubjectsSchema = z.object({
+export const ElectiveSubjectsUpdateSchema = z.object({
   id: z.string(),
-  name: z.string(),
-  ch: z.number(),
-  credits: z.number(),
-  prerequisites: z.string(),
-  updateAt: z.string(),
+  name: z.string().optional(),
+  ch: z.string().optional(),
+  credits: z.string().optional(),
+  prerequisites: z.string().optional(),
+  isElective: z.boolean().optional(),
 });
 // ========================================================================================================
 
@@ -296,8 +291,8 @@ export const SubjectsSchema = z.object({
   id: z.string(),
   phase: z.string(),
   name: z.string(),
-  ch: z.number(),
-  credits: z.number(),
+  ch: z.string(),
+  credits: z.string(),
   prerequisites: z.string(),
   isElective: z.boolean(),
   equivalenceSubjects: z.string(),
@@ -306,8 +301,8 @@ export const SubjectsSchema = z.object({
 export const SubjectsCreateSchema = z.object({
   phaseid: z.string(),
   name: z.string(),
-  ch: z.number(),
-  credits: z.number(),
+  ch: z.string(),
+  credits: z.string(),
   prerequisites: z.string(),
   isElective: z.boolean(),
   equivalenceSubjects: z.string(),
@@ -317,8 +312,8 @@ export const SubjectsUpdateSchema = z.object({
   id: z.string(),
   phaseId: z.string().optional(),
   name: z.string().optional(),
-  ch: z.number().optional(),
-  credits: z.number().optional(),
+  ch: z.string().optional(),
+  credits: z.string().optional(),
   prerequisites: z.string().optional(),
   isElective: z.boolean().optional(),
   equivalenceSubjects: z.string().optional(),

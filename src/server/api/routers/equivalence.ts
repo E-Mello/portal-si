@@ -1,63 +1,34 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-import { EquivalenceSchema } from "~/server/common/Schemas";
+import { EquivalenceUpdateSchema } from "~/server/common/Schemas";
 
 export const equivalenceRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma.equivalence.findMany({
+    return await ctx.prisma.subject.findMany({
       select: {
         id: true,
         name: true,
         ch: true,
-        equivalence: true,
-        chequivalence: true,
+        credits: true,
+        prerequisites: true,
+        equivalenceSubjects: true,
       },
     });
   }),
   update: publicProcedure
-    .input(EquivalenceSchema)
+    .input(EquivalenceUpdateSchema)
     .mutation(async ({ input, ctx }) => {
-      return await ctx.prisma.equivalence.update({
+      return await ctx.prisma.subject.update({
         where: {
           id: input.id,
         },
         data: {
           name: input.name,
           ch: input.ch,
-          equivalence: input.equivalence,
-          chequivalence: input.chequivalence,
+          credits: input.credits,
+          prerequisites: input.prerequisites,
+          equivalenceSubjects: input.equivalenceSubjects,
         },
       });
-    }),
-  delete: publicProcedure
-    .input(EquivalenceSchema)
-    .mutation(async ({ input, ctx }) => {
-      try {
-        return await ctx.prisma.equivalence.delete({
-          where: {
-            id: input.id,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
-  create: publicProcedure
-    .input(EquivalenceSchema)
-    .mutation(async ({ input, ctx }) => {
-      try {
-        const equivalence = await ctx.prisma.equivalence.create({
-          data: {
-            name: input.name,
-            ch: input.ch,
-            equivalence: input.equivalence,
-            chequivalence: input.chequivalence,
-            updatedAt: new Date(),
-          },
-        });
-        return equivalence;
-      } catch (error) {
-        console.log("Erro ao inserir uma nova equivalência: ", error);
-      }
     }),
 });
