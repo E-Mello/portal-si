@@ -44,13 +44,27 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import SyncLoader from "react-spinners/SyncLoader";
 
 const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
+  const utils = api.useContext();
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
   } = api.subjects.getAll.useQuery();
+
+  const [subjectObject, setSubjectSubject] = useState({
+    phase: {},
+    id: "",
+    name: "",
+    phaseId: "",
+    ch: 0,
+    credits: 0,
+    prerequisites: "",
+    isElective: false,
+    equivalenceSubjects: "",
+  });
 
   const [openDialogSubject, setOpenDialogSubject] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState("");
@@ -73,76 +87,38 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
   const [open, setOpen] = useState(false);
 
   /**
-   * Below is the code for the create subject
-   */
-  const { mutateAsync: create } = api.subjects.create.useMutation({
-    onSuccess: () => {
-      // show success toast
-      toast.success("Membro adicionado com sucesso!");
-    },
-  });
-
-  const {
-    register: registerSubject,
-    handleSubmit: handleSubmitSubject,
-    reset: resetSubject,
-    formState: {
-      errors: errorsSubject,
-      isSubmitting: isSubmittingCreateSubject,
-    },
-  } = useForm<z.infer<typeof SubjectsCreateSchema>>({
-    resolver: zodResolver(SubjectsCreateSchema),
-  });
-  const handleCreateSubject: SubmitHandler<
-    z.infer<typeof SubjectsCreateSchema> & { id: number }
-  > = async (data) => {
-    const res = await create(data);
-    console.log("res", res);
-    resetSubject();
-  };
-
-  /**
    * Below is the code for the update subject (equivalence)
    */
-  const { mutateAsync: update } = api.subjects.create.useMutation({
+  const { mutateAsync: update } = api.subjects.update.useMutation({
     onSuccess: () => {
       // show success toast
-      toast.success("Membro adicionado com sucesso!");
+      void utils.subjects.getAll.invalidate();
+      toast.success("Materia atualizada com sucesso!");
+    },
+    onError: () => {
+      // show error toast
+      toast.error("Erro ao atualizar materia!");
     },
   });
 
   const {
     register: registerUpdateSubject,
-    handleSubmit: handleUpdateSubject,
+    handleSubmit: handleSubmitUpdateSubject,
     reset: resetUpdateSubject,
     formState: {
       errors: errorsUpdateSubject,
       isSubmitting: isUpdatetingCreateSubject,
     },
-  } = useForm<z.infer<typeof SubjectsCreateSchema>>({
-    resolver: zodResolver(SubjectsCreateSchema),
+  } = useForm<z.infer<typeof SubjectsUpdateSchema>>({
+    resolver: zodResolver(SubjectsUpdateSchema),
   });
-  const handleupdateSubject: SubmitHandler<
-    z.infer<typeof SubjectsUpdateSchema> & { id: number }
+  const handleUpdateSubject: SubmitHandler<
+    z.infer<typeof SubjectsUpdateSchema>
   > = async (data) => {
     const res = await update(data);
     console.log("res", res);
-    resetSubject();
+    resetUpdateSubject();
   };
-
-  const { mutate: deleteSubject } = api.subjects.delete.useMutation({
-    onSuccess: () => {
-      toast.success("Conteúdo da página atualizado com sucesso!");
-    },
-  });
-
-  // function handleDeleteData() {
-  //   try {
-  //     deleteEquivalence({ id: data.id });
-  //   } catch (error) {
-  //     console.log("Error deleting provider:", error);
-  //   }
-  // }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -164,7 +140,7 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
             <Button
               onClick={() => {
                 setOpenDialogSubject(true);
-                resetSubject();
+                resetUpdateSubject();
               }}
               className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
             >
@@ -179,13 +155,17 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                 Selecione qual materia você deseja editar a equivalência
               </DialogDescription>
             </DialogHeader>
-            <form>
+            <form onSubmit={handleSubmitUpdateSubject(handleUpdateSubject)}>
               <section className="grid h-full grid-cols-1 items-center gap-2 ">
                 <div className="flex columns-1 flex-col items-start gap-3">
+                  <Input
+                    type="hidden"
+                    defaultValue={subjectObject.id}
+                    {...registerUpdateSubject("id")}
+                  />
                   <Label htmlFor="name" className="text-right">
                     Matéria
                   </Label>
-
                   <Select
                     value={selectedSubject}
                     onValueChange={handleSubjectChange}
@@ -202,6 +182,9 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                           key={subject.id}
                           value={subject.name}
                           className="text-white hover:bg-neutral-600"
+                          onClick={() => {
+                            setSubjectSubject(subject);
+                          }}
                         >
                           {subject.name}
                         </SelectItem>
@@ -222,12 +205,24 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                     />
                   </div>
                 )}
+
                 <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
                   <Button
                     className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false);
+                      console.log("o id selecionado eh", subjectObject.id);
+                      console.log(
+                        "o data eh",
+                        selectedSubjectData?.equivalenceSubjects
+                      );
+                    }}
                   >
-                    Cadastrar
+                    {isUpdatetingCreateSubject ? (
+                      <SyncLoader />
+                    ) : (
+                      "Editar equivalencia"
+                    )}
                   </Button>
                 </DialogFooter>
               </section>
@@ -287,7 +282,7 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                         ? "Não possui"
                         : data.equivalenceSubjects}
                     </TableCell>
-                    <TableCell className="flex w-44 gap-2 border border-gray-300 py-2 text-center ">
+                    <TableCell className="w-52 gap-2 border border-gray-300 py-2 text-center ">
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button
@@ -354,7 +349,7 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                       </Dialog>
                       <Button
                         variant={"outline"}
-                        className=" hover:bg-red-500"
+                        className=" ml-2 hover:bg-red-500"
                         // onClick={handleDeleteData}
                       >
                         {/*

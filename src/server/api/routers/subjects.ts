@@ -38,37 +38,4 @@ export const subjectRouter = createTRPCRouter({
         },
       });
     }),
-  delete: publicProcedure
-    .input(SubjectsUpdateSchema)
-    .mutation(async ({ input, ctx }) => {
-      try {
-        return await ctx.prisma.subject.delete({
-          where: {
-            id: input.id,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
-  create: publicProcedure
-    .input(SubjectsCreateSchema)
-    .mutation(async ({ input, ctx }) => {
-      try {
-        const equivalence = await ctx.prisma.subject.create({
-          data: {
-            phaseId: input.phaseId,
-            name: input.name,
-            ch: input.ch,
-            credits: input.credits,
-            prerequisites: input.prerequisites,
-            isElective: input.isElective,
-            equivalenceSubjects: input.equivalenceSubjects,
-          },
-        });
-        return equivalence;
-      } catch (error) {
-        console.log("Erro ao inserir uma nova equivalência: ", error);
-      }
-    }),
 });

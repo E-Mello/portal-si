@@ -274,7 +274,7 @@ export const SubjectsCreateSchema = z.object({
 
 export const SubjectsUpdateSchema = z.object({
   id: z.string(),
-  phaseid: z.string().optional(),
+  phaseId: z.string().optional(),
   name: z.string().optional(),
   ch: z.number().optional(),
   credits: z.number().optional(),

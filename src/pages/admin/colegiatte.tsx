@@ -55,6 +55,13 @@ const CollegiateAdmin: NextPageWithLayout = () => {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
+  const [memberObject, setMemberObject] = useState({
+    id: "",
+    teacher: "",
+    segment: "",
+    email: "",
+    validity: "",
+  });
   const [idMember, setIdMember] = useState("");
 
   const {
@@ -123,6 +130,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
     const res = await update(data);
     console.log("res", res);
     resetUpdate();
+    setOpenEditDialog(false);
   };
 
   const { mutate: deleteMember } = api.collegiate.delete.useMutation({
@@ -204,8 +212,8 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                       <Button
                         onClick={() => {
                           setOpenEditDialog(true);
+                          setMemberObject(member);
                           resetUpdate();
-                          console.log("member_id:", member.id);
                         }}
                         variant="outline"
                         className="hover:bg-cyan-800"
@@ -227,7 +235,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                         <section className="grid h-full grid-cols-1 items-center gap-2">
                           <Input
                             type="hidden"
-                            defaultValue={member.id}
+                            defaultValue={memberObject.id}
                             {...registerUpdate("id")}
                           />
                           <div className="flex columns-1 flex-col items-start gap-3">
@@ -237,7 +245,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                             <Input
                               id="name"
                               type="text"
-                              defaultValue={member.teacher}
+                              defaultValue={memberObject.teacher}
                               {...registerUpdate("teacher")}
                             />
                           </div>
@@ -246,7 +254,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                             <Input
                               id="type"
                               type="text"
-                              defaultValue={member.segment}
+                              defaultValue={memberObject.segment}
                               {...registerUpdate("segment")}
                             />
                           </div>
@@ -255,7 +263,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                             <Input
                               id="email"
                               type="text"
-                              defaultValue={member.email}
+                              defaultValue={memberObject.email}
                               {...registerUpdate("email")}
                             />
                             <div className="flex columns-1 flex-col items-start gap-3"></div>
@@ -263,15 +271,12 @@ const CollegiateAdmin: NextPageWithLayout = () => {
                             <Input
                               id="validity"
                               type="text"
-                              defaultValue={member.validity}
+                              defaultValue={memberObject.validity}
                               {...registerUpdate("validity")}
                             />
                           </div>
                           <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                            <Button
-                              className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                              onClick={() => setOpenEditDialog(false)}
-                            >
+                            <Button className="bg-green-700 text-black hover:bg-green-600 hover:text-white">
                               {isSubmittingUpdate ? (
                                 <SyncLoader />
                               ) : (
