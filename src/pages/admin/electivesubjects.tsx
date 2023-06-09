@@ -137,54 +137,21 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                           Edicao de professores
                         </DialogDescription>
                       </DialogHeader>
-                      {/* <form onSubmit={handleSubmit(updateMember)} className=""> */}
-                      <form className="">
-                        <section className="grid h-full grid-cols-1 items-center gap-2">
-                          <div className="flex flex-col items-start justify-start gap-3">
-                            <Label htmlFor="name">Nome da matéria</Label>
-                            <Input
-                              id="name"
-                              type="text"
-                              placeholder={data.name}
-                              {...register("name")}
+                      {pageData
+                        ?.filter(
+                          (elective) => elective.id === currentElectiveSubject
+                        )
+                        .map((elective) => (
+                          <section
+                            className="grid h-full grid-cols-1 items-center gap-2"
+                            key={currentElectiveSubject}
+                          >
+                            <EditElectiveSubjectForm
+                              electivesSubjects={elective}
+                              key={elective.id}
                             />
-                          </div>
-                          <div>
-                            <Label htmlFor="ch">Carga horária da matéria</Label>
-                            <Input
-                              id="ch"
-                              type="text"
-                              // placeholder={data.ch}
-                              {...register("ch")}
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="credits">Créditos da matéria</Label>
-                            <Input
-                              id="credits"
-                              type="text"
-                              // placeholder={data.credits}
-                              {...register("credits")}
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="prerequisites">
-                              Pré-requisitos da matéria
-                            </Label>
-                            <Input
-                              id="prerequisites"
-                              type="text"
-                              placeholder={data.prerequisites}
-                              {...register("prerequisites")}
-                            />
-                          </div>
-                          <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                            <Button className="bg-green-700 text-black hover:bg-green-600 hover:text-white">
-                              {isSubmitting ? <SyncLoader /> : "Salvar"}
-                            </Button>
-                          </DialogFooter>
-                        </section>
-                      </form>
+                          </section>
+                        ))}
                     </DialogContent>
                   </Dialog>
                   <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
@@ -233,7 +200,7 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
             ))}
           </TableBody>
         </Table>
-        <Dialog>
+        {/* <Dialog>
           <DialogTrigger asChild>
             <Button className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double ">
               <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
@@ -284,7 +251,7 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
               </section>
             </form>
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </section>
     </section>
   );

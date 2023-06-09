@@ -15,14 +15,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 type EditElectiveSubjectFormProps = {
   electivesSubjects: z.infer<typeof ElectiveSubjectsUpdateSchema>;
-  onCancel: () => void;
-  afterSubmit?: () => void;
 };
 
 export function EditElectiveSubjectForm({
   electivesSubjects,
-  onCancel,
-  afterSubmit,
 }: EditElectiveSubjectFormProps) {
   const utils = api.useContext();
 
@@ -47,7 +43,6 @@ export function EditElectiveSubjectForm({
     z.infer<typeof ElectiveSubjectsUpdateSchema>
   > = async (data) => {
     const res = await update(data);
-    afterSubmit && afterSubmit();
     console.log("res", res);
     reset();
   };
