@@ -5,7 +5,6 @@ import { ElectiveSubjectsUpdateSchema } from "~/server/common/Schemas";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import type { SubmitHandler } from "react-hook-form";
-import { Switch } from "@mui/material";
 import SwitchComponent from "~/components/myComponents/Switch";
 import { SyncLoader } from "react-spinners";
 import { api } from "~/utils/api";
@@ -16,10 +15,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 type EditElectiveSubjectFormProps = {
   electivesSubjects: z.infer<typeof ElectiveSubjectsUpdateSchema>;
+  afterSubmit?: () => void;
 };
 
 export function EditElectiveSubjectForm({
   electivesSubjects,
+  afterSubmit,
 }: EditElectiveSubjectFormProps) {
   const utils = api.useContext();
 
@@ -27,7 +28,15 @@ export function EditElectiveSubjectForm({
     onSuccess: () => {
       // show success toast
       void utils.electivesubject.getAll.invalidate();
-      toast.success("Conteúdo da página atualizado com sucesso!");
+      toast.success("Conteúdo da página atualizado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      // show error toast
+      toast.error("Erro ao atualizar o conteúdo da página!", {
+        autoClose: 2000,
+      });
     },
   });
   const {
@@ -35,6 +44,7 @@ export function EditElectiveSubjectForm({
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setValue,
   } = useForm<z.infer<typeof ElectiveSubjectsUpdateSchema>>({
     resolver: zodResolver(ElectiveSubjectsUpdateSchema),
     defaultValues: electivesSubjects,
@@ -44,6 +54,7 @@ export function EditElectiveSubjectForm({
     z.infer<typeof ElectiveSubjectsUpdateSchema>
   > = async (data) => {
     const res = await update(data);
+    afterSubmit && afterSubmit();
     console.log("res", res);
     reset();
   };
@@ -87,8 +98,18 @@ export function EditElectiveSubjectForm({
             key={electivesSubjects.id}
           />
         </div>
-        <div>
-          <SwitchComponent />
+        <div className="flex flex-col">
+          <Label htmlFor="isElective" className="pb-2">
+            É eletiva?
+          </Label>
+          <SwitchComponent
+            defaultValue={electivesSubjects.isElective}
+            onChange={(value) => {
+              // Update the form value whenever the switch value changes
+              setValue("isElective", value);
+              console.log("value", value);
+            }}
+          />
         </div>
         <div className="flex columns-1 flex-col items-start gap-4 pt-2">
           <Button

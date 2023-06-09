@@ -202,46 +202,48 @@ export default function Navbar() {
           </span>
         </Link>
         <hr />
-        <div className={` h-full ${isActiveNavAtom ? "mb-2" : ""}`}>
-          {menuEdit?.map((menu, i) => (
-            <Link
-              href={`/admin${menu?.link}`}
-              key={i}
-              className="group relative mb-[0.12rem] flex items-center gap-3 rounded-md p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700"
-              onMouseEnter={() => {
-                setHoverItem(true);
-              }}
-              onMouseLeave={() => {
-                setHoverItem(false);
-              }}
-            >
-              <div className={``}>
-                {React.createElement(menu.icon, { size: "20" })}
-              </div>
-              <h2
-                style={{
-                  transitionDelay: `${i * 0.05}s`,
+        <ScrollArea className="flex h-full">
+          <div className={`  ${isActiveNav ? "mb-2 h-[105vh]" : "h-full"}`}>
+            {menuEdit?.map((menu, i) => (
+              <Link
+                href={`/admin${menu?.link}`}
+                key={i}
+                className="group relative mb-[0.12rem] flex items-center gap-3 rounded-md p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700"
+                onMouseEnter={() => {
+                  setHoverItem(true);
                 }}
-                className={`whitespace-pre duration-500 ${
-                  isActiveNav
-                    ? ""
-                    : "translate-x-[7vw] overflow-hidden opacity-0"
-                }`}
+                onMouseLeave={() => {
+                  setHoverItem(false);
+                }}
               >
-                {menu?.name}
-              </h2>
-              <span
-                className={`left-16 whitespace-pre rounded-md font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
-                  !isActiveNav && hoverItem === true
-                    ? "fixed group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
-                    : "hidden"
-                }`}
-              >
-                {menu?.name}
-              </span>
-            </Link>
-          ))}
-        </div>
+                <div className={``}>
+                  {React.createElement(menu.icon, { size: "20" })}
+                </div>
+                <h2
+                  style={{
+                    transitionDelay: `${i * 0.05}s`,
+                  }}
+                  className={`whitespace-pre duration-500 ${
+                    isActiveNav
+                      ? ""
+                      : "translate-x-[7vw] overflow-hidden opacity-0"
+                  }`}
+                >
+                  {menu?.name}
+                </h2>
+                <span
+                  className={`left-16 whitespace-pre rounded-md font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
+                    !isActiveNav && hoverItem === true
+                      ? "fixed group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
+                      : "hidden"
+                  }`}
+                >
+                  {menu?.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     </aside>
   );

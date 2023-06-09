@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { useState, type ReactElement } from "react";
+import { useState, type ReactElement, useEffect } from "react";
 import { api } from "~/utils/api";
 import { HiOutlinePlus } from "react-icons/hi";
 import { EditElectiveSubjectForm } from "~/components/Forms/ElectivesSubjects/EditElectiveSubjectForm";
@@ -8,18 +9,13 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import "react-toastify/dist/ReactToastify.css";
-import type z from "zod";
-import SyncLoader from "react-spinners/SyncLoader";
 import {
   Table,
   TableBody,
@@ -28,26 +24,13 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
-
-const allSubjects =
-  "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
+import { MarkNewElectiveForm } from "~/components/Forms/ElectivesSubjects/MarkNewElectiveForm";
 
 const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
-  const [openAlert, setOpenAlert] = useState(false);
   const [openEditDialog, setOpenEditDialog] = useState(false);
+  const [openInsertSubject, setOpenInsertSubject] = useState(false);
   const [currentElectiveSubject, setCurrentElectiveSubject] = useState("");
-  const [open, setOpen] = useState(false);
+
   const {
     data: pageData,
     isLoading: pageIsLoading,
@@ -62,6 +45,9 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
 
+  // Filter the pageData to show only subjects where isElective is true
+  const filteredPageData = pageData.filter((data) => data.isElective);
+
   return (
     <section className="flex w-full flex-col items-start gap-4 bg-zinc-800 p-4 text-white">
       <h1 className="items-start text-3xl font-bold text-white">
@@ -74,7 +60,34 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
         no rol de disciplinas, será definida em conjunto entre o Colegiado de
         Curso e o Núcleo Docente Estruturante (NDE).
       </p>
-      <section className="flex w-1/2 gap-10"></section>
+      <section className="flex w-2/3 justify-center gap-10">
+        <Dialog open={openInsertSubject} onOpenChange={setOpenInsertSubject}>
+          <DialogTrigger asChild>
+            <Button
+              onClick={() => {
+                setOpenInsertSubject(true);
+              }}
+              className="group flex w-1/2 cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
+            >
+              <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
+              <span className="ml-2">Incluir nova matéria eletiva</span>
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white  shadow-2xl shadow-zinc-700">
+            <DialogHeader className="flex items-center justify-center">
+              <DialogTitle>Inclusão de matéria eletiva</DialogTitle>
+              <DialogDescription className="">
+                Selecione qual materia você deseja incluir como eletiva
+              </DialogDescription>
+            </DialogHeader>
+            <section>
+              <MarkNewElectiveForm pageData={pageData} afterSubmit={()=> {
+                setOpenInsertSubject(false);
+              }}/>
+            </section>
+          </DialogContent>
+        </Dialog>
+      </section>
       <section className="flex w-2/3 flex-col gap-4 pl-4 pr-10">
         <Table className="w-full">
           <TableHeader>
@@ -90,13 +103,13 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
               <TableHead className="border border-gray-300 p-2">
                 Eletiva ?
               </TableHead>
-              <TableHead className="w-40 border border-gray-300 p-2 text-center">
+              <TableHead className=" border border-gray-300 p-2 text-center">
                 Ações
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pageData.map((data) => (
+            {filteredPageData.map((data) => (
               <TableRow key={data.id}>
                 <TableCell className="border border-gray-300 p-2">
                   {data.name}
@@ -113,7 +126,7 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                 <TableCell className="border border-gray-300 p-2">
                   {data.isElective ? "Sim" : "Não"}
                 </TableCell>
-                <TableCell className=" w-52 justify-center gap-1 space-x-2 border border-gray-300 px-4 py-2 text-center">
+                <TableCell className=" justify-center gap-1 space-x-2 border border-gray-300 px-4 py-2 text-center">
                   <Dialog
                     open={openEditDialog}
                     onOpenChange={setOpenEditDialog}
@@ -149,109 +162,19 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
                             <EditElectiveSubjectForm
                               electivesSubjects={elective}
                               key={elective.id}
+                              afterSubmit={() => {
+                                setOpenEditDialog(false);
+                              }}
                             />
                           </section>
                         ))}
                     </DialogContent>
                   </Dialog>
-                  <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
-                    <AlertDialogTrigger asChild>
-                      <Button
-                        onClick={() => {
-                          setOpenAlert(true);
-                        }}
-                        className=" hover:bg-red-500"
-                        variant="outline"
-                      >
-                        Deletar
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent className="bg-zinc-800 text-white">
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>
-                          Voce tem certeza que deseja desvincular essa materia
-                          desse semestre?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Lembre que, para a materia aparecer novamente nesse
-                          semestre e necessario vincular de novo.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel
-                          onClick={() => {
-                            setOpenAlert(false);
-                          }}
-                          className="hover:bg-red-600"
-                        >
-                          Cancel
-                        </AlertDialogCancel>
-                        <AlertDialogAction
-                          // onClick={handleDeleteData}
-                          className="hover:bg-cyan-700"
-                        >
-                          Continue
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        {/* <Dialog>
-          <DialogTrigger asChild>
-            <Button className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double ">
-              <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-              <span className="ml-2">Adicionar matéria eletiva</span>
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white shadow-2xl  shadow-zinc-700">
-            <DialogHeader className="flex items-center justify-center">
-              <DialogTitle>Cadastro de membro do colegiado</DialogTitle>
-              <DialogDescription className="">
-                Preencher todos os campos {"(Os campos são em formato string)"}
-              </DialogDescription>
-            </DialogHeader>
-            <form>
-              <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="name" className="text-right">
-                    Nome
-                  </Label>
-                  <Input id="name" type="text" {...register("name")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="ch">Carga horária da matéria</Label>
-                  <Input id="ch" type="text" {...register("ch")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="credits">Créditos da matéria</Label>
-                  <Input id="credits" type="text" {...register("credits")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="prerequisites">
-                    Pré-requisitos da matéria
-                  </Label>
-                  <Input
-                    id="prerequisites"
-                    type="text"
-                    {...register("prerequisites")}
-                  />
-                </div>
-                <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                  <Button
-                    className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                    onClick={() => setOpen(false)}
-                  >
-                    Cadastrar
-                  </Button>
-                </DialogFooter>
-              </section>
-            </form>
-          </DialogContent>
-        </Dialog> */}
       </section>
     </section>
   );

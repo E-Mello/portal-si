@@ -199,20 +199,6 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                {selectedSubjectData && (
-                  <div className="flex columns-1 flex-col items-start gap-3">
-                    <Label htmlFor="name" className="text-right">
-                      Editar equivalência(s)
-                    </Label>
-                    <Textarea
-                      id="name"
-                      defaultValue={selectedSubjectData.equivalenceSubjects}
-                      onChange={handleTextAreaChange}
-                      {...registerUpdateSubject("equivalenceSubjects")}
-                    />
-                  </div>
-                )}
-
                 <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
                   <Button
                     className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
