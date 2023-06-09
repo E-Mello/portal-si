@@ -1,6 +1,8 @@
+import {
+  CurriculumSubjectCreateSchema,
+  CurriculumSubjectUpdateSchema,
+} from "~/server/common/Schemas";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-import { CurriculumSubjectsSchema } from "~/server/common/Schemas";
 
 export const curriculumSubjectsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -19,7 +21,7 @@ export const curriculumSubjectsRouter = createTRPCRouter({
     });
   }),
   update: publicProcedure
-    .input(CurriculumSubjectsSchema)
+    .input(CurriculumSubjectUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.subject.update({
         where: {
@@ -30,12 +32,14 @@ export const curriculumSubjectsRouter = createTRPCRouter({
           ch: input.ch,
           credits: input.credits,
           prerequisites: input.prerequisites,
+          isElective: input.isElective,
+          equivalenceSubjects: input.equivalenceSubjects,
           phaseId: input.phaseId,
         },
       });
     }),
   delete: publicProcedure
-    .input(CurriculumSubjectsSchema)
+    .input(CurriculumSubjectUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         return await ctx.prisma.subject.delete({
@@ -48,7 +52,7 @@ export const curriculumSubjectsRouter = createTRPCRouter({
       }
     }),
   create: publicProcedure
-    .input(CurriculumSubjectsSchema)
+    .input(CurriculumSubjectCreateSchema)
     .mutation(async ({ input, ctx }) => {
       try {
         const collegiate = await ctx.prisma.subject.create({
@@ -57,6 +61,8 @@ export const curriculumSubjectsRouter = createTRPCRouter({
             ch: input.ch,
             credits: input.credits,
             prerequisites: input.prerequisites,
+            isElective: input.isElective,
+            equivalenceSubjects: input.equivalenceSubjects,
             phaseId: input.phaseId,
           },
         });

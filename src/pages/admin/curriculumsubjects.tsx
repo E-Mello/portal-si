@@ -13,16 +13,6 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "~/components/ui/command";
-
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
@@ -31,8 +21,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SyncLoader from "react-spinners/SyncLoader";
-import { CurriculumSubjectsSchema } from "~/server/common/Schemas";
 import { HiOutlinePlus } from "react-icons/hi";
 import {
   Table,
@@ -53,8 +41,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "~/components/ui/alert-dialog";
-import { Textarea } from "~/components/ui/textarea";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
+import NewSubject from "~/components/Forms/CurriculumSubjects/NewSubject";
+import EditSubject from "~/components/Forms/CurriculumSubjects/EditSubject";
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
@@ -106,34 +94,6 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
     isLoading: pageIsLoading,
     isError,
   } = api.curriculumSubjects.getAll.useQuery();
-
-  const { mutateAsync: update } = api.curriculumSubjects.update.useMutation({
-    onSuccess: () => {
-      // show success toast
-      toast.success("Conteúdo da página atualizado com sucesso!");
-    },
-  });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof CurriculumSubjectsSchema>>({
-    resolver: zodResolver(CurriculumSubjectsSchema),
-  });
-  const updateData: SubmitHandler<
-    z.infer<typeof CurriculumSubjectsSchema>
-  > = async (data) => {
-    const res = await update(data);
-    console.log("res", res);
-    reset();
-  };
-
-  const { mutate } = api.collegiate.delete.useMutation({
-    onSuccess: () => {
-      toast.success("Conteúdo da página atualizado com sucesso!");
-    },
-  });
 
   // function handleDeleteData() {
   //   try {
@@ -214,41 +174,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                 Preencher todos os campos {"(Os campos são em formato string)"}
               </DialogDescription>
             </DialogHeader>
-            <form>
-              <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="name" className="text-right">
-                    Nome da Matéria
-                  </Label>
-                  <Input id="name" type="text" {...register("name")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="ch">Carga Horária da Matéria</Label>
-                  <Input id="ch" type="text" {...register("ch")} />
-                </div>
-                <div className="flex columns-1 flex-col items-start gap-3">
-                  <Label htmlFor="credits">Créditos da Matéria</Label>
-                  <Input id="credits" type="text" {...register("credits")} />
-                  <div className="flex columns-1 flex-col items-start gap-3"></div>
-                  <Label htmlFor="prerequisites">
-                    Pré-requisitos da Matéria
-                  </Label>
-                  <Input
-                    id="prerequisites"
-                    type="text"
-                    {...register("prerequisites")}
-                  />
-                </div>
-                <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                  <Button
-                    className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                    onClick={() => setOpen(false)}
-                  >
-                    Cadastrar
-                  </Button>
-                </DialogFooter>
-              </section>
-            </form>
+            <NewSubject />
           </DialogContent>
         </Dialog>
       </section>
@@ -316,59 +242,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                                 Edicao de professores
                               </DialogDescription>
                             </DialogHeader>
-                            <form
-                              // onSubmit={handleSubmit(updateData)}
-                              className=""
-                            >
-                              <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                                <div className="flex flex-col items-start justify-start gap-3">
-                                  <Label htmlFor="name">Nome da Matéria</Label>
-                                  <Input
-                                    id="name"
-                                    type="text"
-                                    placeholder={subject.name}
-                                    {...register("name")}
-                                  />
-                                </div>
-                                <div>
-                                  <Label htmlFor="type">Carga Horária</Label>
-                                  <Input
-                                    id="type"
-                                    type="text"
-                                    placeholder={"Fazer dps"}
-                                    {...register("ch")}
-                                  />
-                                </div>
-                                <div>
-                                  <Label htmlFor="email">Créditos</Label>
-                                  <Input
-                                    id="email"
-                                    type="text"
-                                    placeholder={"Fazer dps"}
-                                    {...register("credits")}
-                                  />
-                                </div>
-                                <div>
-                                  <Label htmlFor="validity">
-                                    Pré-requisitos
-                                  </Label>
-                                  <Input
-                                    id="validity"
-                                    type="text"
-                                    // placeholder={
-                                    //   subject.prerequisites ||
-                                    //   "Erro ao buscar a informacao do banco de dados"
-                                    // }
-                                    {...register("prerequisites")}
-                                  />
-                                </div>
-                              </section>
-                              <DialogFooter>
-                                <Button className="bg-green-500 hover:bg-green-600">
-                                  Salvar
-                                </Button>
-                              </DialogFooter>
-                            </form>
+                            <EditSubject subject={subject} />
                           </DialogContent>
                         </Dialog>
                         <AlertDialog
@@ -383,7 +257,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                               className=" w-full hover:bg-red-500"
                               variant="outline"
                             >
-                              Remover vinculo
+                              Excluir matéria
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent className="bg-zinc-800 text-white">
@@ -420,84 +294,6 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                   ))}
               </TableBody>
             </Table>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button
-                  onClick={() => {
-                    reset();
-                  }}
-                  className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
-                >
-                  <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
-                  <span className="ml-2">
-                    Incluir nova Matéria nesse semestre
-                  </span>
-                </Button>
-              </DialogTrigger>
-              <DialogContent
-                onClick={handleDialogClick}
-                className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 text-white  shadow-2xl shadow-zinc-700"
-              >
-                <DialogHeader className="flex items-center justify-center">
-                  <DialogTitle>Inclusão de equivalência</DialogTitle>
-                  <DialogDescription className="">
-                    Selecione qual materia você deseja editar a equivalência
-                  </DialogDescription>
-                </DialogHeader>
-                <form>
-                  <section className="grid h-full grid-cols-1 items-center gap-2 ">
-                    <div className="flex columns-1 flex-col items-start gap-3">
-                      <Label htmlFor="name" className="text-right">
-                        Matéria
-                      </Label>
-
-                      <Command className="rounded-lg border shadow-md">
-                        <CommandInput
-                          placeholder="Type a command or search..."
-                          onClick={handleInputChange}
-                        />
-                        <CommandList className={`h-${commandListHeight}`}>
-                          <ScrollArea className="scrollbar-thumb-blue-500 scrollbar-track-blue-100 h-full">
-                            <CommandEmpty>No results found.</CommandEmpty>
-                            {phaseIds.map((phaseId) => (
-                              <div key={phaseId}>
-                                <CommandGroup
-                                  //heading={`${phaseId} Semestre`}
-                                  className=""
-                                >
-                                  {`${phaseId} Semestre`}
-                                  {pageData
-                                    ?.filter(
-                                      (subject) => subject.phaseId === phaseId
-                                    )
-                                    .map((subject) => (
-                                      <CommandItem
-                                        key={subject.id}
-                                        className="mt-2 hover:bg-slate-700"
-                                      >
-                                        <span>{subject.name}</span>
-                                      </CommandItem>
-                                    ))}
-                                </CommandGroup>
-                                <CommandSeparator className="h-[0.25vh] rounded-xl bg-slate-700" />
-                              </div>
-                            ))}
-                          </ScrollArea>
-                        </CommandList>
-                      </Command>
-                    </div>
-                    <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
-                      <Button
-                        className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-                        onClick={() => setOpen(false)}
-                      >
-                        Cadastrar
-                      </Button>
-                    </DialogFooter>
-                  </section>
-                </form>
-              </DialogContent>
-            </Dialog>
           </div>
         ))}
       </section>

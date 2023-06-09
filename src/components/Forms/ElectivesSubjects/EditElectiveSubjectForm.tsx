@@ -107,7 +107,6 @@ export function EditElectiveSubjectForm({
             onChange={(value) => {
               // Update the form value whenever the switch value changes
               setValue("isElective", value);
-              console.log("value", value);
             }}
           />
         </div>

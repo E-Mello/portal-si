@@ -101,7 +101,12 @@ export function MarkNewElectiveForm({
             selectClassName="bg-zinc-800 text-white"
           />
           <Input type="hidden" value={idElective} {...register("id")} />
-          <Input type={"checkbox"} checked={true} {...register("isElective")} />
+          <Input
+            type={"checkbox"}
+            checked={true}
+            {...register("isElective")}
+            className="none h-0 w-0 opacity-0"
+          />
         </div>
         <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
           <Button

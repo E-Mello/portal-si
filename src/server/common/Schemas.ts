@@ -265,14 +265,27 @@ export const EquivalenceUpdateSchema = z.object({
 // ========================================================================================================
 
 // ========================================================================================================
-export const CurriculumSubjectsSchema = z.object({
+export const CurriculumSubjectUpdateSchema = z.object({
   id: z.string(),
+  name: z.string().optional(),
+  ch: z.string().optional(),
+  credits: z.string().optional(),
+  prerequisites: z.string().optional(),
+  isElective: z.boolean().optional(),
+  equivalenceSubjects: z.string().optional(),
+  phaseId: z.string().optional(),
+});
+
+export const CurriculumSubjectCreateSchema = z.object({
   name: z.string(),
   ch: z.string(),
   credits: z.string(),
   prerequisites: z.string(),
-  phaseid: z.string(),
+  isElective: z.boolean(),
+  equivalenceSubjects: z.string(),
+  phaseId: z.string(),
 });
+
 // ========================================================================================================
 
 // ========================================================================================================
