@@ -5,7 +5,8 @@ import { ElectiveSubjectsUpdateSchema } from "~/server/common/Schemas";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import type { SubmitHandler } from "react-hook-form";
-import Switch from "~/components/Switch";
+import { Switch } from "@mui/material";
+import SwitchComponent from "~/components/myComponents/Switch";
 import { SyncLoader } from "react-spinners";
 import { api } from "~/utils/api";
 import { toast } from "react-toastify";
@@ -87,8 +88,7 @@ export function EditElectiveSubjectForm({
           />
         </div>
         <div>
-          <Label htmlFor="isElective">Pré-requisitos da matéria</Label>
-          <Switch key={electivesSubjects.id} {...register("isElective")} />
+          <SwitchComponent />
         </div>
         <div className="flex columns-1 flex-col items-start gap-4 pt-2">
           <Button

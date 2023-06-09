@@ -139,10 +139,10 @@ export default function Navbar() {
         text-gray-100 transition-all ease-in-out`}
     >
       <div
-        className={` flex justify-between py-3 transition-all duration-500 ${
+        className={` flex justify-between transition-all duration-500 ${
           isActiveNav
-            ? "pl-1"
-            : "flex-initial flex-col-reverse items-center gap-4 pl-0"
+            ? "pb-2 pl-1 pt-3"
+            : "flex-initial flex-col-reverse items-center gap-1 pl-0"
         }`}
       >
         <UserButton
@@ -202,48 +202,46 @@ export default function Navbar() {
           </span>
         </Link>
         <hr />
-        <ScrollArea className={`mt-2 h-full`}>
-          <div className="h-[105vh]">
-            {menuEdit?.map((menu, i) => (
-              <Link
-                href={`/admin${menu?.link}`}
-                key={i}
-                className="group relative flex items-center gap-3 rounded-md p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700"
-                onMouseEnter={() => {
-                  setHoverItem(true);
+        <div className={` h-full ${isActiveNavAtom ? "mb-2" : ""}`}>
+          {menuEdit?.map((menu, i) => (
+            <Link
+              href={`/admin${menu?.link}`}
+              key={i}
+              className="group relative mb-[0.12rem] flex items-center gap-3 rounded-md p-2 pt-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-700"
+              onMouseEnter={() => {
+                setHoverItem(true);
+              }}
+              onMouseLeave={() => {
+                setHoverItem(false);
+              }}
+            >
+              <div className={``}>
+                {React.createElement(menu.icon, { size: "20" })}
+              </div>
+              <h2
+                style={{
+                  transitionDelay: `${i * 0.05}s`,
                 }}
-                onMouseLeave={() => {
-                  setHoverItem(false);
-                }}
+                className={`whitespace-pre duration-500 ${
+                  isActiveNav
+                    ? ""
+                    : "translate-x-[7vw] overflow-hidden opacity-0"
+                }`}
               >
-                <div className={``}>
-                  {React.createElement(menu.icon, { size: "20" })}
-                </div>
-                <h2
-                  style={{
-                    transitionDelay: `${i * 0.05}s`,
-                  }}
-                  className={`whitespace-pre duration-500 ${
-                    isActiveNav
-                      ? ""
-                      : "translate-x-[7vw] overflow-hidden opacity-0"
-                  }`}
-                >
-                  {menu?.name}
-                </h2>
-                <span
-                  className={`left-16 whitespace-pre rounded-md font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
-                    !isActiveNav && hoverItem === true
-                      ? "fixed group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
-                      : "hidden"
-                  }`}
-                >
-                  {menu?.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </ScrollArea>
+                {menu?.name}
+              </h2>
+              <span
+                className={`left-16 whitespace-pre rounded-md font-semibold text-white opacity-0 drop-shadow-lg transition-all duration-500 ease-out ${
+                  !isActiveNav && hoverItem === true
+                    ? "fixed group-hover:px-2 group-hover:py-1 group-hover:opacity-100 group-hover:duration-200"
+                    : "hidden"
+                }`}
+              >
+                {menu?.name}
+              </span>
+            </Link>
+          ))}
+        </div>
       </div>
     </aside>
   );
