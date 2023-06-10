@@ -14,6 +14,8 @@ export const curriculumSubjectsRouter = createTRPCRouter({
         credits: true,
         prerequisites: true,
         phaseId: true,
+        isElective: true,
+        equivalenceSubjects: true,
       },
       orderBy: {
         phaseId: "asc",

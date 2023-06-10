@@ -15,7 +15,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SwitchComponent from "~/components/myComponents/Switch";
 import { Textarea } from "~/components/ui/textarea";
 
-export function NewSubject() {
+type NewSubjectProps = {
+  afterSubmit?: () => void;
+};
+
+export function NewSubject({ afterSubmit }: NewSubjectProps) {
   const utils = api.useContext();
 
   const { mutateAsync: create } = api.curriculumSubjects.create.useMutation({
@@ -45,6 +49,7 @@ export function NewSubject() {
     z.infer<typeof CurriculumSubjectCreateSchema>
   > = async (data) => {
     const res = await create(data);
+    afterSubmit && afterSubmit();
     console.log("res", res);
     reset();
   };

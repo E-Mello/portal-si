@@ -7,20 +7,14 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
 
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { HiOutlinePlus } from "react-icons/hi";
 import {
   Table,
@@ -43,6 +37,8 @@ import {
 } from "~/components/ui/alert-dialog";
 import NewSubject from "~/components/Forms/CurriculumSubjects/NewSubject";
 import EditSubject from "~/components/Forms/CurriculumSubjects/EditSubject";
+import { set } from "lodash";
+import { toast } from "react-toastify";
 
 const allSubjects =
   "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/unemat.images/disciplinas-1024x655.png?t=2023-03-18T20%3A45%3A37.075Z";
@@ -63,8 +59,11 @@ type Phase = {
 };
 
 const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
+  const utils = api.useContext();
   const [openAlert, setOpenAlert] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openDialogCreate, setOpenDialogCreate] = useState(false);
+  const [openDialogEdit, setOpenDialogEdit] = useState(false);
+  const [currentSubjectId, setCurrentSubjectId] = useState("");
   const [commandListHeight, setCommandListHeight] = useState(0);
 
   useEffect(() => {
@@ -81,27 +80,33 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
     };
   }, []);
 
-  const handleInputChange = () => {
-    setCommandListHeight(72);
-  };
-
-  const handleDialogClick = () => {
-    setCommandListHeight(0);
-  };
-
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
   } = api.curriculumSubjects.getAll.useQuery();
 
-  // function handleDeleteData() {
-  //   try {
-  //     mutate({ id: data.id });
-  //   } catch (error) {
-  //     console.log("Error deleting provider:", error);
-  //   }
-  // }
+  const { mutate } = api.curriculumSubjects.delete.useMutation({
+    onSuccess: () => {
+      void utils.curriculumSubjects.getAll.invalidate();
+      toast.success("Materia deletada com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao deletar materia !!!", {
+        autoClose: 2000,
+      });
+    },
+  });
+
+  function handleDeleteData() {
+    try {
+      mutate({ id: currentSubjectId });
+    } catch (error) {
+      console.log("Error deleting provider:", error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -158,9 +163,14 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
         </Table>
       </section>
       <section className="flex w-2/5 flex-col items-center justify-center pt-4">
-        <Dialog>
+        <Dialog open={openDialogCreate} onOpenChange={setOpenDialogCreate}>
           <DialogTrigger asChild>
-            <Button className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double ">
+            <Button
+              className="group flex w-full cursor-default items-center justify-center rounded-xl  border p-2 hover:outline-double "
+              onClick={() => {
+                setOpenDialogCreate(true);
+              }}
+            >
               <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
               <p className="ml-2">Cadastrar nova matéria</p>
             </Button>
@@ -174,7 +184,12 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                 Preencher todos os campos {"(Os campos são em formato string)"}
               </DialogDescription>
             </DialogHeader>
-            <NewSubject />
+            <NewSubject
+              afterSubmit={() => {
+                setOpenDialogCreate(false);
+                void utils.curriculumSubjects.getAll.invalidate();
+              }}
+            />
           </DialogContent>
         </Dialog>
       </section>
@@ -191,19 +206,19 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
             <Table className="">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="border border-gray-300 p-2">
+                  <TableHead className="border border-gray-300 ">
                     Disciplina
                   </TableHead>
-                  <TableHead className="border border-gray-300 p-2">
+                  <TableHead className="border border-gray-300 ">
                     Carga Horária
                   </TableHead>
-                  <TableHead className="border border-gray-300 p-2">
+                  <TableHead className="border border-gray-300 ">
                     Créditos
                   </TableHead>
-                  <TableHead className=" border border-gray-300 p-2">
+                  <TableHead className=" border border-gray-300 ">
                     Pré-requisitos
                   </TableHead>
-                  <TableHead className="w-40 border border-gray-300 p-2">
+                  <TableHead className="w-44 border border-gray-300 text-center">
                     Ações
                   </TableHead>
                 </TableRow>
@@ -213,26 +228,29 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                   ?.filter((subject) => subject.phaseId === phaseId)
                   .map((subject) => (
                     <TableRow key={subject.id}>
-                      <TableCell className="border px-4 py-2">
-                        {subject.name}
-                      </TableCell>
-                      <TableCell className="border px-4 py-2">
-                        {subject.ch}
-                      </TableCell>
-                      <TableCell className="border px-4 py-2">
+                      <TableCell className="border ">{subject.name}</TableCell>
+                      <TableCell className="border ">{subject.ch}</TableCell>
+                      <TableCell className="border ">
                         {subject.credits}
                       </TableCell>
-                      <TableCell className="border px-4 py-2">
+                      <TableCell className="border ">
                         {subject.prerequisites}
                       </TableCell>
-                      <TableCell className=" space-y-2 border p-1 px-4 text-center">
-                        <Dialog>
+                      <TableCell className="w-48 border text-center">
+                        <Dialog
+                          open={openDialogEdit}
+                          onOpenChange={setOpenDialogEdit}
+                        >
                           <DialogTrigger asChild>
                             <Button
                               variant="outline"
                               className="hover:bg-cyan-800"
+                              onClick={() => {
+                                setOpenDialogEdit(true);
+                                setCurrentSubjectId(subject.id);
+                              }}
                             >
-                              Editar matéria
+                              Editar
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="top-20 flex w-96 flex-col rounded-md bg-zinc-800 p-4 text-white shadow-2xl  shadow-zinc-700">
@@ -242,7 +260,26 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                                 Edicao de professores
                               </DialogDescription>
                             </DialogHeader>
-                            <EditSubject subject={subject} />
+
+                            {pageData
+                              ?.filter(
+                                (subject) => subject.id === currentSubjectId
+                              )
+                              .map((subject) => (
+                                <section
+                                  key={currentSubjectId}
+                                  className="flex w-full"
+                                >
+                                  <EditSubject
+                                    subject={subject}
+                                    afterSubmit={() => {
+                                      void utils.curriculumSubjects.getAll.invalidate();
+                                      setOpenDialogEdit(false);
+                                    }}
+                                    key={subject.id}
+                                  />
+                                </section>
+                              ))}
                           </DialogContent>
                         </Dialog>
                         <AlertDialog
@@ -253,11 +290,12 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                             <Button
                               onClick={() => {
                                 setOpenAlert(true);
+                                setCurrentSubjectId(subject.id);
                               }}
-                              className=" w-full hover:bg-red-500"
+                              className="ml-2 hover:bg-red-500"
                               variant="outline"
                             >
-                              Excluir matéria
+                              Excluir
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent className="bg-zinc-800 text-white">
@@ -281,7 +319,7 @@ const CurriculumSubjectsAdmin: NextPageWithLayout = () => {
                                 Cancel
                               </AlertDialogCancel>
                               <AlertDialogAction
-                                // onClick={handleDeleteData}
+                                onClick={handleDeleteData}
                                 className="hover:bg-cyan-700"
                               >
                                 Continue
