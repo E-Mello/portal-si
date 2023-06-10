@@ -95,7 +95,6 @@ export function MarkNewElectiveForm({
             onSelect={(selectedValue) => {
               if (selectedValue) {
                 setIdElective(selectedValue);
-                console.log("idElective", selectedValue);
               }
             }}
             selectClassName="bg-zinc-800 text-white"

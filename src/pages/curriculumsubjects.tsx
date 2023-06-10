@@ -120,7 +120,7 @@ const CurriculumSubjects: NextPageWithLayout = () => {
               </TableHeader>
               <TableBody className="">
                 {pageData
-                  ?.filter((subject) => subject.phaseId === phaseId)
+                  ?.filter((subject) => subject.phaseId === String(phaseId))
                   .map((subject) => (
                     <TableRow key={subject.id}>
                       <TableCell className="border px-4 py-2">

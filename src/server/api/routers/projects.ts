@@ -1,6 +1,8 @@
+import {
+  ProjectsCreateSchema,
+  ProjectsUpdateSchema,
+} from "~/server/common/Schemas";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
-import { ProjectsSchema } from "~/server/common/Schemas";
 
 export const projectsRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -19,7 +21,7 @@ export const projectsRouter = createTRPCRouter({
     });
   }),
   create: publicProcedure
-    .input(ProjectsSchema)
+    .input(ProjectsCreateSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.projects.create({
         data: {
@@ -35,7 +37,7 @@ export const projectsRouter = createTRPCRouter({
       });
     }),
   update: publicProcedure
-    .input(ProjectsSchema)
+    .input(ProjectsUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.projects.update({
         where: {
@@ -54,7 +56,7 @@ export const projectsRouter = createTRPCRouter({
       });
     }),
   delete: publicProcedure
-    .input(ProjectsSchema)
+    .input(ProjectsUpdateSchema)
     .mutation(async ({ input, ctx }) => {
       return await ctx.prisma.projects.delete({
         where: {

@@ -4,74 +4,74 @@ import { useState, type ReactElement } from "react";
 import { api } from "~/utils/api";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  SelectGroup,
-} from "~/components/ui/select";
-
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import type z from "zod";
-import SyncLoader from "react-spinners/SyncLoader";
 import Link from "next/link";
-import { type SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Textarea } from "~/components/ui/textarea";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { ProjectsSchema } from "~/server/common/Schemas";
+import { EditProjectForm } from "~/components/Forms/ProjectsPages/EditProject";
+import NewProject from "~/components/Forms/ProjectsPages/NewProject";
+import { toast } from "react-toastify";
 
 const ProjectsAdmin: NextPageWithLayout = () => {
-  const [open, setOpen] = useState(false);
+  const utils = api.useContext();
+  const [currentProjectId, setCurrentProjectId] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [openEditTeachingProject, setOpenEditTeachingProject] = useState(false);
+  const [openEditExtensionProject, setOpenEditExtensionProject] =
+    useState(false);
+  const [openEditResearchProject, setOpenEditResearchProject] = useState(false);
 
   const {
     data: pageData,
     isLoading: pageIsLoading,
     isError,
   } = api.projects.getAll.useQuery();
-  const { mutateAsync: update } = api.projects.update.useMutation({
+
+  const { mutate } = api.projects.delete.useMutation({
     onSuccess: () => {
-      // show success toast
-      toast.success("Conteúdo da página atualizado com sucesso!");
+      void utils.projects.getAll.invalidate();
+      toast.success("Projeto deletado com sucesso!", {
+        autoClose: 2000,
+      });
+    },
+    onError: () => {
+      toast.error("Erro ao deletar projeto !!!", {
+        autoClose: 2000,
+      });
     },
   });
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<z.infer<typeof ProjectsSchema>>({
-    resolver: zodResolver(ProjectsSchema),
-  });
-  const updatePage: SubmitHandler<z.infer<typeof ProjectsSchema>> = async (
-    data
-  ) => {
-    const res = await update(data);
-    console.log("res", res);
-    reset();
-  };
+
+  function handleDeleteData() {
+    try {
+      mutate({ id: currentProjectId });
+    } catch (error) {
+      console.log("Error deleting provider:", error);
+    }
+  }
 
   if (pageIsLoading) {
     return <div>Loading...</div>;
@@ -110,69 +110,19 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                 Preencha os campos abaixo para adicionar um novo projeto
               </CardDescription>
             </CardHeader>
-            <CardContent className=" space-y-4">
-              <div className="space-y-1">
-                <Label htmlFor="title">Titulo do projeto</Label>
-                <Input id="title" placeholder="Titulo do projeto" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="resume">Resumo do projeto</Label>
-                <Textarea id="resume" placeholder="Resumo do projeto" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="projectArea">Area do projeto</Label>
-                <Input id="projectArea" placeholder="Area do projeto" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="teacherName">Nome do professor</Label>
-                <Input id="teacherName" placeholder="Nome do professor" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="teacherEmail">Email do professor</Label>
-                <Input id="teacherEmail" placeholder="Email do professor" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="teacherTel">Telefone do professor</Label>
-                <Input id="teacherTel" placeholder="Telefone do professor" />
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="projectLink">Link do edital do projeto</Label>
-                <Input
-                  id="projectLink"
-                  placeholder="Link do edital do projeto (opcional)"
-                />
-              </div>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Defina qual e o tipo desse projeto" />
-                </SelectTrigger>
-                <SelectContent className="flex bg-zinc-800 text-gray-300">
-                  <SelectGroup>
-                    <SelectItem value="1">Projeto de ensino</SelectItem>
-                    <SelectItem value="2">Projeto de extensao</SelectItem>
-                    <SelectItem value="3">Projeto de pesquisa</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-
-              <Button className="bg-slate-200 text-zinc-900">
-                Save changes
-              </Button>
-            </CardFooter>
+            <NewProject />
           </Card>
         </TabsContent>
         <TabsContent value="teachingProject">
-          <div className=" group flex cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
+          <div className="group flex w-full cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
             {pageData.map((project) => {
               if (project.typesOfProjectsId === "1") {
                 return (
-                  <div key={project.id} className="grid gap-2">
+                  <div key={project.id} className="grid w-full gap-2">
                     <Link
                       target="_blank"
                       href={project.link || "/"}
-                      className="group flex cursor-pointer flex-col items-start justify-center gap-1 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-800"
+                      className="group flex w-full cursor-pointer flex-col items-start justify-center gap-1 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out hover:bg-gray-800 "
                     >
                       <span className={`text-lg font-bold`}>
                         {project.title}
@@ -193,139 +143,100 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                         Telefone de contato: {project.teacherTel}
                       </span>
                     </Link>
-                    <Sheet>
-                      <SheetTrigger asChild>
-                        <Button className="w-32 bg-slate-200 text-zinc-900">
-                          Editar projeto
-                        </Button>
-                      </SheetTrigger>
+                    <div className="flex w-full justify-start gap-2">
+                      <Sheet
+                        open={openEditTeachingProject}
+                        onOpenChange={setOpenEditTeachingProject}
+                      >
+                        <SheetTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className="w-32 text-white hover:bg-cyan-700"
+                            onClick={() => {
+                              setOpenEditTeachingProject(true);
+                              setCurrentProjectId(project.id);
+                            }}
+                          >
+                            Editar projeto
+                          </Button>
+                        </SheetTrigger>
 
-                      <ScrollArea className="h-full ">
-                        <SheetContent
-                          position="right"
-                          size={"default"}
-                          className="flex h-full flex-col gap-4 bg-zinc-800 text-gray-300"
-                        >
-                          <SheetHeader>
-                            <SheetTitle>Editar Conteudo</SheetTitle>
-                            <SheetDescription>
-                              Nessa folha lateral é possível estar editando o
-                              conteúdo desta página
-                            </SheetDescription>
-                          </SheetHeader>
-                          <section className="grid h-full grid-cols-1 items-center gap-2">
-                            <Label htmlFor="title" className="">
-                              Alterar o titulo do projeto
-                            </Label>
-                            <Input
-                              id="title"
-                              placeholder={project.title}
-                              className="col-span-3"
-                              {...register("title")}
-                            />
-                            <Label htmlFor="resume" className="">
-                              Editar o resumo do projeto
-                            </Label>
-                            <Textarea
-                              className="col-span-3 h-64"
-                              defaultValue={project.resume}
-                              value={project.resume}
-                              contentEditable={true}
-                              {...register("resume")}
-                            />
-                            <Label htmlFor="projectArea" className="">
-                              Alterar a area do projeto
-                            </Label>
-                            <Input
-                              id="projectArea"
-                              placeholder={project.projectArea}
-                              className="col-span-3"
-                              {...register("projectArea")}
-                            />
-                            <Label htmlFor="teacherName" className="">
-                              Alterar o nome do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherName"
-                              placeholder={project.teacherName}
-                              className="col-span-3"
-                              {...register("teacherName")}
-                            />
-                            <Label htmlFor="teacherEmail" className="">
-                              Alterar o email do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherEmail"
-                              placeholder={project.teacherEmail}
-                              className="col-span-3"
-                              {...register("teacherEmail")}
-                            />
-                            <Label htmlFor="teacherTel" className="">
-                              Alterar o telefone do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherTel"
-                              placeholder={project.teacherTel}
-                              className="col-span-3"
-                              {...register("teacherTel")}
-                            />
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label htmlFor="link" className="">
-                                Alterar o link de acesso ao edital do projeto
-                              </Label>
-                              <Input
-                                id="link"
-                                placeholder={project?.link || ""}
-                                className="col-span-3"
-                                {...register("link")}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label>Alterar o tipo do projeto</Label>
-                              <Select>
-                                <SelectTrigger className="w-52">
-                                  <SelectValue
-                                    placeholder={
-                                      project.typesOfProjectsId === String(1)
-                                        ? "Projeto de ensino"
-                                        : project.typesOfProjectsId ===
-                                          String(2)
-                                        ? "Projeto de extensao"
-                                        : "Projeto de pesquisa"
-                                    }
-                                    defaultValue={project.typesOfProjectsId}
+                        <ScrollArea className="h-full ">
+                          <SheetContent
+                            position="right"
+                            size={"default"}
+                            className="flex h-full flex-col gap-4 bg-zinc-800 text-gray-300"
+                          >
+                            <SheetHeader>
+                              <SheetTitle>Editar Conteudo</SheetTitle>
+                              <SheetDescription>
+                                Nessa folha lateral é possível estar editando o
+                                conteúdo desta página
+                              </SheetDescription>
+                            </SheetHeader>
+                            {pageData
+                              .filter(
+                                (project) => project.id === currentProjectId
+                              )
+                              .map((project) => (
+                                <section
+                                  key={currentProjectId}
+                                  className="flex w-full"
+                                >
+                                  <EditProjectForm
+                                    project={project}
+                                    afterSubmit={() => {
+                                      setOpenEditTeachingProject(false);
+                                    }}
                                   />
-                                </SelectTrigger>
-                                <SelectContent className="flex bg-zinc-800 text-gray-300">
-                                  <SelectGroup>
-                                    <SelectItem value="1">
-                                      Projeto de ensino
-                                    </SelectItem>
-                                    <SelectItem value="2">
-                                      Projeto de extensao
-                                    </SelectItem>
-                                    <SelectItem value="3">
-                                      Projeto de pesquisa
-                                    </SelectItem>
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </section>
-                          <SheetFooter className="flex w-full justify-start">
-                            <Button
-                              type="submit"
-                              disabled={isSubmitting}
-                              className="bg-slate-200 text-zinc-900"
+                                </section>
+                              ))}
+                          </SheetContent>
+                        </ScrollArea>
+                      </Sheet>
+                      <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            onClick={() => {
+                              setOpenAlert(true);
+                              setCurrentProjectId(project.id);
+                            }}
+                            className="ml-2 hover:bg-red-600"
+                            variant="outline"
+                          >
+                            Deletar Projeto
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="bg-zinc-800 text-white">
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Voce tem certeza que deseja desvincular essa
+                              materia desse semestre?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Lembre que, para a materia aparecer novamente
+                              nesse semestre e necessario vincular de novo.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel
+                              onClick={() => {
+                                setOpenAlert(false);
+                              }}
+                              className="hover:bg-red-600"
                             >
-                              {isSubmitting
-                                ? "Salvando..."
-                                : "Salvar Alterações"}
-                            </Button>
-                          </SheetFooter>
-                        </SheetContent>
-                      </ScrollArea>
-                    </Sheet>
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={handleDeleteData}
+                              className="hover:bg-cyan-700"
+                            >
+                              Continue
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
                   </div>
                 );
               } else {
@@ -340,11 +251,11 @@ const ProjectsAdmin: NextPageWithLayout = () => {
           </div>
         </TabsContent>
         <TabsContent value="extensionProject">
-          <div className=" group flex cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
+          <div className="group flex w-full cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
             {pageData.map((project) => {
               if (project.typesOfProjectsId === "2") {
                 return (
-                  <div key={project.id} className="grid gap-2">
+                  <div key={project.id} className="grid w-full gap-2">
                     <Link
                       target="_blank"
                       href={project.link || "/"}
@@ -369,9 +280,18 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                         Telefone de contato: {project.teacherTel}
                       </span>
                     </Link>
-                    <Sheet>
+                    <Sheet
+                      open={openEditExtensionProject}
+                      onOpenChange={setOpenEditExtensionProject}
+                    >
                       <SheetTrigger asChild>
-                        <Button className="w-32 bg-slate-200 text-zinc-900">
+                        <Button
+                          className="w-32 bg-slate-200 text-zinc-900"
+                          onClick={() => {
+                            setOpenEditExtensionProject(true);
+                            setCurrentProjectId(project.id);
+                          }}
+                        >
                           Editar projeto
                         </Button>
                       </SheetTrigger>
@@ -389,116 +309,23 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                               conteúdo desta página
                             </SheetDescription>
                           </SheetHeader>
-                          <section className="grid h-full grid-cols-1 items-center gap-2">
-                            <Label htmlFor="title" className="">
-                              Alterar o titulo do projeto
-                            </Label>
-                            <Input
-                              id="title"
-                              placeholder={project.title}
-                              className="col-span-3"
-                              {...register("title")}
-                            />
-                            <Label htmlFor="resume" className="">
-                              Editar o resumo do projeto
-                            </Label>
-                            <Textarea
-                              className="col-span-3 h-64"
-                              defaultValue={project.resume}
-                              value={project.resume}
-                              contentEditable={true}
-                              {...register("resume")}
-                            />
-                            <Label htmlFor="projectArea" className="">
-                              Alterar a area do projeto
-                            </Label>
-                            <Input
-                              id="projectArea"
-                              placeholder={project.projectArea}
-                              className="col-span-3"
-                              {...register("projectArea")}
-                            />
-                            <Label htmlFor="teacherName" className="">
-                              Alterar o nome do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherName"
-                              placeholder={project.teacherName}
-                              className="col-span-3"
-                              {...register("teacherName")}
-                            />
-                            <Label htmlFor="teacherEmail" className="">
-                              Alterar o email do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherEmail"
-                              placeholder={project.teacherEmail}
-                              className="col-span-3"
-                              {...register("teacherEmail")}
-                            />
-                            <Label htmlFor="teacherTel" className="">
-                              Alterar o telefone do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherTel"
-                              placeholder={project.teacherTel}
-                              className="col-span-3"
-                              {...register("teacherTel")}
-                            />
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label htmlFor="link" className="">
-                                Alterar o link de acesso ao edital do projeto
-                              </Label>
-                              <Input
-                                id="link"
-                                placeholder={project?.link || ""}
-                                className="col-span-3"
-                                {...register("link")}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label>Alterar o tipo do projeto</Label>
-                              <Select>
-                                <SelectTrigger className="w-52">
-                                  <SelectValue
-                                    placeholder={
-                                      project.typesOfProjectsId === String(1)
-                                        ? "Projeto de ensino"
-                                        : project.typesOfProjectsId ===
-                                          String(2)
-                                        ? "Projeto de extensao"
-                                        : "Projeto de pesquisa"
-                                    }
-                                    defaultValue={project.typesOfProjectsId}
-                                  />
-                                </SelectTrigger>
-                                <SelectContent className="flex bg-zinc-800 text-gray-300">
-                                  <SelectGroup>
-                                    <SelectItem value="1">
-                                      Projeto de ensino
-                                    </SelectItem>
-                                    <SelectItem value="2">
-                                      Projeto de extensao
-                                    </SelectItem>
-                                    <SelectItem value="3">
-                                      Projeto de pesquisa
-                                    </SelectItem>
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </section>
-                          <SheetFooter className="flex w-full justify-start">
-                            <Button
-                              type="submit"
-                              disabled={isSubmitting}
-                              className="bg-slate-200 text-zinc-900"
-                            >
-                              {isSubmitting
-                                ? "Salvando..."
-                                : "Salvar Alterações"}
-                            </Button>
-                          </SheetFooter>
+                          {pageData
+                            .filter(
+                              (project) => project.id === currentProjectId
+                            )
+                            .map((project) => (
+                              <section
+                                key={currentProjectId}
+                                className="flex w-full"
+                              >
+                                <EditProjectForm
+                                  project={project}
+                                  afterSubmit={() => {
+                                    setOpenEditExtensionProject(false);
+                                  }}
+                                />
+                              </section>
+                            ))}
                         </SheetContent>
                       </ScrollArea>
                     </Sheet>
@@ -516,11 +343,11 @@ const ProjectsAdmin: NextPageWithLayout = () => {
           </div>
         </TabsContent>
         <TabsContent value="researchProject">
-          <div className=" group flex cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
+          <div className="group flex w-full cursor-pointer flex-col items-start justify-center gap-4 rounded-md p-2 pl-2 text-sm font-medium transition-all duration-500 ease-out">
             {pageData.map((project) => {
               if (project.typesOfProjectsId === "3") {
                 return (
-                  <div key={project.id} className="grid gap-2">
+                  <div key={project.id} className="grid w-full gap-2">
                     <Link
                       target="_blank"
                       href={project.link || "/"}
@@ -545,9 +372,18 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                         Telefone de contato: {project.teacherTel}
                       </span>
                     </Link>
-                    <Sheet>
+                    <Sheet
+                      open={openEditResearchProject}
+                      onOpenChange={setOpenEditResearchProject}
+                    >
                       <SheetTrigger asChild>
-                        <Button className="w-32 bg-slate-200 text-zinc-900">
+                        <Button
+                          className="w-32 bg-slate-200 text-zinc-900"
+                          onClick={() => {
+                            setOpenEditResearchProject(true);
+                            setCurrentProjectId(project.id);
+                          }}
+                        >
                           Editar projeto
                         </Button>
                       </SheetTrigger>
@@ -565,116 +401,23 @@ const ProjectsAdmin: NextPageWithLayout = () => {
                               conteúdo desta página
                             </SheetDescription>
                           </SheetHeader>
-                          <section className="grid h-full grid-cols-1 items-center gap-2">
-                            <Label htmlFor="title" className="">
-                              Alterar o titulo do projeto
-                            </Label>
-                            <Input
-                              id="title"
-                              placeholder={project.title}
-                              className="col-span-3"
-                              {...register("title")}
-                            />
-                            <Label htmlFor="resume" className="">
-                              Editar o resumo do projeto
-                            </Label>
-                            <Textarea
-                              className="col-span-3 h-64"
-                              defaultValue={project.resume}
-                              value={project.resume}
-                              contentEditable={true}
-                              {...register("resume")}
-                            />
-                            <Label htmlFor="projectArea" className="">
-                              Alterar a area do projeto
-                            </Label>
-                            <Input
-                              id="projectArea"
-                              placeholder={project.projectArea}
-                              className="col-span-3"
-                              {...register("projectArea")}
-                            />
-                            <Label htmlFor="teacherName" className="">
-                              Alterar o nome do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherName"
-                              placeholder={project.teacherName}
-                              className="col-span-3"
-                              {...register("teacherName")}
-                            />
-                            <Label htmlFor="teacherEmail" className="">
-                              Alterar o email do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherEmail"
-                              placeholder={project.teacherEmail}
-                              className="col-span-3"
-                              {...register("teacherEmail")}
-                            />
-                            <Label htmlFor="teacherTel" className="">
-                              Alterar o telefone do professor responsável
-                            </Label>
-                            <Input
-                              id="teacherTel"
-                              placeholder={project.teacherTel}
-                              className="col-span-3"
-                              {...register("teacherTel")}
-                            />
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label htmlFor="link" className="">
-                                Alterar o link de acesso ao edital do projeto
-                              </Label>
-                              <Input
-                                id="link"
-                                placeholder={project?.link || ""}
-                                className="col-span-3"
-                                {...register("link")}
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-start gap-3">
-                              <Label>Alterar o tipo do projeto</Label>
-                              <Select>
-                                <SelectTrigger className="w-52">
-                                  <SelectValue
-                                    placeholder={
-                                      project.typesOfProjectsId === String(1)
-                                        ? "Projeto de ensino"
-                                        : project.typesOfProjectsId ===
-                                          String(2)
-                                        ? "Projeto de extensao"
-                                        : "Projeto de pesquisa"
-                                    }
-                                    defaultValue={project.typesOfProjectsId}
-                                  />
-                                </SelectTrigger>
-                                <SelectContent className="flex bg-zinc-800 text-gray-300">
-                                  <SelectGroup>
-                                    <SelectItem value="1">
-                                      Projeto de ensino
-                                    </SelectItem>
-                                    <SelectItem value="2">
-                                      Projeto de extensao
-                                    </SelectItem>
-                                    <SelectItem value="3">
-                                      Projeto de pesquisa
-                                    </SelectItem>
-                                  </SelectGroup>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </section>
-                          <SheetFooter className="flex w-full justify-start">
-                            <Button
-                              type="submit"
-                              disabled={isSubmitting}
-                              className="bg-slate-200 text-zinc-900"
-                            >
-                              {isSubmitting
-                                ? "Salvando..."
-                                : "Salvar Alterações"}
-                            </Button>
-                          </SheetFooter>
+                          {pageData
+                            .filter(
+                              (project) => project.id === currentProjectId
+                            )
+                            .map((project) => (
+                              <section
+                                key={currentProjectId}
+                                className="flex w-full"
+                              >
+                                <EditProjectForm
+                                  project={project}
+                                  afterSubmit={() => {
+                                    setOpenEditResearchProject(false);
+                                  }}
+                                />
+                              </section>
+                            ))}
                         </SheetContent>
                       </ScrollArea>
                     </Sheet>

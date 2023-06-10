@@ -140,7 +140,7 @@ model Events {
 model Projects {
   id                String           @id @default(uuid())
   title             String
-  link              String?
+  link              String
   updatedAt         DateTime         @default(now())
   typesOfProjectsId String
   projectArea       String

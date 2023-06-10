@@ -375,16 +375,27 @@ export const ApliedGroupUpdateSchema = z.object({
 // ========================================================================================================
 
 // ========================================================================================================
-export const ProjectsSchema = z.object({
-  id: z.string(),
+export const ProjectsCreateSchema = z.object({
   title: z.string(),
   resume: z.string(),
   projectArea: z.string(),
   teacherName: z.string(),
   teacherEmail: z.string(),
   teacherTel: z.string(),
+  link: z.string(),
+  typesOfProjectsId: z.string(),
+});
+
+export const ProjectsUpdateSchema = z.object({
+  id: z.string(),
+  title: z.string().optional(),
+  resume: z.string().optional(),
+  projectArea: z.string().optional(),
+  teacherName: z.string().optional(),
+  teacherEmail: z.string().optional(),
+  teacherTel: z.string().optional(),
   link: z.string().optional(),
-  typesOfProjectsid: z.string(),
+  typesOfProjectsId: z.string().optional(),
 });
 
 // ========================================================================================================
