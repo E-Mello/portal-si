@@ -3,7 +3,6 @@ import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
 import { api } from "~/utils/api";
-import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -39,12 +38,10 @@ import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import type z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { Separator } from "~/components/ui/separator";
 import {
   ApliedGroupCreateSchema,
   ApliedGroupUpdateSchema,
@@ -92,7 +89,7 @@ const GcaAdmin: NextPageWithLayout = () => {
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
     reset: resetCreate,
-    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
   } = useForm<z.infer<typeof ApliedGroupCreateSchema>>({
     resolver: zodResolver(ApliedGroupCreateSchema),
   });
@@ -123,7 +120,7 @@ const GcaAdmin: NextPageWithLayout = () => {
     register: registerUpdate,
     handleSubmit: handleSubmitUpdate,
     reset: resetUpdate,
-    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+    formState: { isSubmitting: isSubmittingUpdate },
   } = useForm<z.infer<typeof ApliedGroupUpdateSchema>>({
     resolver: zodResolver(ApliedGroupUpdateSchema),
   });

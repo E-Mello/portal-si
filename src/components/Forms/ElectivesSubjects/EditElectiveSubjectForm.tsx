@@ -42,7 +42,7 @@ export function EditElectiveSubjectForm({
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
     reset,
     setValue,
   } = useForm<z.infer<typeof ElectiveSubjectsUpdateSchema>>({

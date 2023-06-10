@@ -25,6 +25,7 @@ export function NewSubject({ afterSubmit }: NewSubjectProps) {
   const { mutateAsync: create } = api.curriculumSubjects.create.useMutation({
     onSuccess: () => {
       // show success toast
+      void utils.curriculumSubjects.getAll.invalidate();
       toast.success("Conteúdo da página atualizado com sucesso!", {
         autoClose: 2000,
       });
@@ -41,7 +42,7 @@ export function NewSubject({ afterSubmit }: NewSubjectProps) {
     handleSubmit,
     reset,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof CurriculumSubjectCreateSchema>>({
     resolver: zodResolver(CurriculumSubjectCreateSchema),
   });

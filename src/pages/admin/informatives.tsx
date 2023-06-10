@@ -77,7 +77,7 @@ const InformativesAdmin: NextPageWithLayout = () => {
     register: registerUpdate,
     handleSubmit: handleSubmitUpdate,
     reset: resetUpdate,
-    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+    formState: { isSubmitting: isSubmittingUpdate },
   } = useForm<z.infer<typeof InformativesUpdateSchema>>({
     resolver: zodResolver(InformativesUpdateSchema),
   });
@@ -106,7 +106,7 @@ const InformativesAdmin: NextPageWithLayout = () => {
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
     reset: resetCreate,
-    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
   } = useForm<z.infer<typeof InformativesCreateSchema>>({
     resolver: zodResolver(InformativesCreateSchema),
   });

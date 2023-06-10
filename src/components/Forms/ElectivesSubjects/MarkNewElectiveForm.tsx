@@ -30,7 +30,6 @@ export function MarkNewElectiveForm({
 }: MarkNewElectiveFormProps) {
   const utils = api.useContext();
   const [idElective, setIdElective] = useState("");
-  const [selectedSubject, setSelectedSubject] = useState("");
 
   const { mutateAsync: update } = api.electivesubject.update.useMutation({
     onSuccess: () => {
@@ -50,7 +49,7 @@ export function MarkNewElectiveForm({
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
     reset,
   } = useForm<z.infer<typeof ElectiveSubjectsUpdateSchema>>({
     resolver: zodResolver(ElectiveSubjectsUpdateSchema),

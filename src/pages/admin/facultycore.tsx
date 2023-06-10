@@ -111,7 +111,7 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
   const {
     register: registerMember,
     handleSubmit: handleSubmitMember,
-    formState: { errors: isErrorCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
     reset: resetCreate,
   } = useForm<z.infer<typeof FacultyCoreCreateSchema>>({
     resolver: zodResolver(FacultyCoreCreateSchema),
@@ -386,7 +386,11 @@ const TeachingCenterAdmin: NextPageWithLayout = () => {
                     className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
                     onClick={() => setOpen(false)}
                   >
-                    Cadastrar
+                    {isSubmittingCreate ? (
+                      <LoadingSpinner />
+                    ) : (
+                      "Adicionar membro"
+                    )}
                   </Button>
                 </DialogFooter>
               </section>

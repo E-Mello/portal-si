@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { RegisterOptions, UseFormRegister, useForm } from "react-hook-form";
+import {
+  RegisterOptions,
+  type UseFormRegister,
+  useForm,
+} from "react-hook-form";
 
 interface Option {
   value: string;

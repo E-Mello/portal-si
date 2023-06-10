@@ -2,7 +2,6 @@ import Layout from "../components/Layout";
 import Link from "next/link";
 import type { NextPageWithLayout } from "../types/layout";
 import type { ReactElement } from "react";
-import { Separator } from "../components/ui/separator";
 import { api } from "~/utils/api";
 
 const TCCInternalStandards: NextPageWithLayout = () => {

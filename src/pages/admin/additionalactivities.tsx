@@ -48,7 +48,7 @@ const AdditionalActivitiesAdmin: NextPageWithLayout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof AdditionalActivitiesUpdateSchema>>({
     resolver: zodResolver(AdditionalActivitiesUpdateSchema),
   });

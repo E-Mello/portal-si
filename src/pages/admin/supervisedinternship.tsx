@@ -47,7 +47,7 @@ const SupervisedInternshipAdmin: NextPageWithLayout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof supervisedInternshipUpdateSchema>>({
     resolver: zodResolver(supervisedInternshipUpdateSchema),
   });

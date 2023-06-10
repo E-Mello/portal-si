@@ -1,8 +1,6 @@
-import {
-  SubjectsCreateSchema,
-  SubjectsUpdateSchema,
-} from "~/server/common/Schemas";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+
+import { SubjectsUpdateSchema } from "~/server/common/Schemas";
 
 export const subjectRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {

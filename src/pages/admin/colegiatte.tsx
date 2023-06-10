@@ -89,7 +89,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
     reset: resetCreate,
-    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
   } = useForm<z.infer<typeof CollegiateCreateSchema>>({
     resolver: zodResolver(CollegiateCreateSchema),
   });
@@ -120,7 +120,7 @@ const CollegiateAdmin: NextPageWithLayout = () => {
     register: registerUpdate,
     handleSubmit: handleSubmitUpdate,
     reset: resetUpdate,
-    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+    formState: { isSubmitting: isSubmittingUpdate },
   } = useForm<z.infer<typeof CollegiateUpdateSchema>>({
     resolver: zodResolver(CollegiateUpdateSchema),
   });

@@ -3,10 +3,7 @@
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { Button } from "~/components/ui/button";
-import {
-  CurriculumSubjectCreateSchema,
-  CurriculumSubjectUpdateSchema,
-} from "~/server/common/Schemas";
+import { CurriculumSubjectUpdateSchema } from "~/server/common/Schemas";
 import { DialogFooter } from "~/components/ui/dialog";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -47,7 +44,7 @@ export function EditSubject({ subject, afterSubmit }: EditSubjectFormProps) {
     handleSubmit,
     reset,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof CurriculumSubjectUpdateSchema>>({
     resolver: zodResolver(CurriculumSubjectUpdateSchema),
     defaultValues: subject,

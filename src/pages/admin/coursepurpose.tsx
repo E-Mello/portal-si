@@ -54,7 +54,7 @@ const CoursePurposeAdmin: NextPageWithLayout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof CoursePurposeUpdateSchema>>({
     resolver: zodResolver(CoursePurposeUpdateSchema),
   });

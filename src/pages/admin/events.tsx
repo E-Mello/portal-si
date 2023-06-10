@@ -16,8 +16,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -40,7 +38,7 @@ import Image from "next/image";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
-import Link from "next/link";
+
 import type { NextPageWithLayout } from "~/types/layout";
 import { useState, type ReactElement } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -50,18 +48,9 @@ import { toast } from "react-toastify";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SyncLoader from "react-spinners/SyncLoader";
-import { format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
-
-import { cn } from "~/utils/cn";
-import { Calendar } from "~/components/ui/calendar";
-
-const testIMG =
-  "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";
 
 const EventsAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
-  const [date, setDate] = useState<Date>();
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
@@ -91,7 +80,7 @@ const EventsAdmin: NextPageWithLayout = () => {
     register: registerUpdate,
     handleSubmit: handleSubmitUpdate,
     reset: resetUpdate,
-    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+    formState: { isSubmitting: isSubmittingUpdate },
   } = useForm<z.infer<typeof EventsUpdateSchema>>({
     resolver: zodResolver(EventsUpdateSchema),
   });
@@ -120,7 +109,7 @@ const EventsAdmin: NextPageWithLayout = () => {
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
     reset: resetCreate,
-    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
   } = useForm<z.infer<typeof EventsCreateSchema>>({
     resolver: zodResolver(EventsCreateSchema),
   });
@@ -289,9 +278,6 @@ const EventsAdmin: NextPageWithLayout = () => {
                   <Button
                     type="submit"
                     className="bg-slate-200 text-zinc-900 hover:bg-slate-300"
-                    onClick={() => {
-                      console.log("printar a data: ", date);
-                    }}
                   >
                     {isSubmittingCreate ? <SyncLoader /> : "Criar evento"}
                   </Button>

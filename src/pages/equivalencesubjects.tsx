@@ -28,35 +28,53 @@ const EquivalenceSubjects: NextPageWithLayout = () => {
     return <div>Error</div>;
   }
   return (
-    <section className="flex h-[100vh] w-[80vw] flex-col  items-start justify-start gap-4 py-2 pt-5  max-sm:w-full max-sm:py-0">
+    <section className="flex h-[100vh] w-[80vw] flex-col items-start  justify-start gap-4 py-2 pl-5 pt-5  max-sm:w-full max-sm:py-0">
       <h1 className="flex self-center pl-4 text-xl max-sm:pl-2 max-sm:pt-5 ">
         Tabela de Equivalência de Disciplinas
       </h1>
-      <div className="flex w-full flex-col items-center justify-center gap-4 pl-4">
-        <Table className="text-[1rem] ">
+      <div className="flex w-full flex-col gap-4 pl-4 ">
+        <Table className="w-full text-[1rem] ">
           <TableHeader>
             <TableRow>
-              <TableHead className="px-4 py-2">Disciplina em SI</TableHead>
-              <TableHead className="px-4 py-2">Carga Horária</TableHead>
-              <TableHead className="px-4 py-2">
+              <TableHead className="border border-gray-300 py-2 text-center">
+                Disciplina em SI
+              </TableHead>
+              <TableHead className="border border-gray-300 py-2 text-center">
+                Carga Horária
+              </TableHead>
+              <TableHead className="border border-gray-300 py-2 text-center">
+                Créditos
+              </TableHead>
+              <TableHead className="border border-gray-300 py-2 text-center">
+                Pré-requisitos
+              </TableHead>
+              <TableHead className="border border-gray-300 py-2 text-center">
                 Disciplina (Curso) - Equivalências no campus de Sinop
               </TableHead>
-              <TableHead className="px-4 py-2">Carga Horária</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pageData.map((data) => (
-              <TableRow key={data.id}>
-                <TableCell className="border px-4 py-2">{data.name}</TableCell>
-                <TableCell className="border px-12 py-2 ">{data.ch}</TableCell>
-                <TableCell className="border px-4 py-2">
-                  {data.equivalence}
-                </TableCell>
-                <TableCell className="border px-12 py-2">
-                  {data.chequivalence}
-                </TableCell>
-              </TableRow>
-            ))}
+            {pageData
+              .filter((data) => data.equivalenceSubjects !== "")
+              .map((data) => (
+                <TableRow key={data.id}>
+                  <TableCell className="border border-gray-300 py-2">
+                    {data.name}
+                  </TableCell>
+                  <TableCell className="border border-gray-300 py-2 text-center ">
+                    {data.ch}
+                  </TableCell>
+                  <TableCell className="border border-gray-300 py-2 text-center">
+                    {data.credits}
+                  </TableCell>
+                  <TableCell className="border border-gray-300 py-2 text-center">
+                    {data.prerequisites}
+                  </TableCell>
+                  <TableCell className="border border-gray-300 py-2">
+                    {data.equivalenceSubjects}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>

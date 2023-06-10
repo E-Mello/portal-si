@@ -2,17 +2,12 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 
 import React, { useState, type ReactElement, useEffect } from "react";
 
-import { Carousel } from "react-responsive-carousel";
 import Layout from "../components/Layout";
 import { type NextPageWithLayout } from "../types/layout";
 import Image from "next/image";
 import { api } from "~/utils/api";
 
-const testIMG =
-  "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";
-
 const Informativos: NextPageWithLayout = () => {
-  const [openAlert, setOpenAlert] = useState(false);
   const {
     data: pageData,
     isLoading: pageIsLoading,

@@ -21,7 +21,6 @@ import type { NextPageWithLayout } from "~/types/layout";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
-import { merge } from "lodash";
 import { toast } from "react-toastify";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,7 +55,7 @@ const JobProfileAdmin: NextPageWithLayout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof JobProfileSchema>>({
     resolver: zodResolver(JobProfileSchema),
   });

@@ -47,7 +47,7 @@ const ReligiousGuardAdmin: NextPageWithLayout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof religiousGuardUpdateSchema>>({
     resolver: zodResolver(religiousGuardUpdateSchema),
   });

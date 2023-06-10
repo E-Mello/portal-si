@@ -26,6 +26,9 @@ const ElectiveSubjects: NextPageWithLayout = () => {
   if (isError) {
     return <div>Error</div>;
   }
+
+  // Filter the pageData to show only subjects where isElective is true
+  const filteredPageData = pageData.filter((data) => data.isElective);
   return (
     <section className="flex h-[100vh] w-[80vw] flex-col gap-4 py-2  max-sm:w-full">
       <section className="flex flex-col gap-4">
@@ -52,7 +55,7 @@ const ElectiveSubjects: NextPageWithLayout = () => {
               </TableRow>
             </TableHeader>
             <TableBody className="">
-              {pageData.map((data) => (
+              {filteredPageData.map((data) => (
                 <TableRow key={data.id} className="">
                   <TableCell className=" px-4 py-2">{data.name}</TableCell>
                   <TableCell className=" px-4 py-2">{data.ch}</TableCell>

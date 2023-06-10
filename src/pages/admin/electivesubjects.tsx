@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { useState, type ReactElement, useEffect } from "react";
+import { useState, type ReactElement } from "react";
 import { api } from "~/utils/api";
 import { HiOutlinePlus } from "react-icons/hi";
 import { EditElectiveSubjectForm } from "~/components/Forms/ElectivesSubjects/EditElectiveSubjectForm";
@@ -81,9 +81,12 @@ const ElectiveSubjectsAdmin: NextPageWithLayout = () => {
               </DialogDescription>
             </DialogHeader>
             <section>
-              <MarkNewElectiveForm pageData={pageData} afterSubmit={()=> {
-                setOpenInsertSubject(false);
-              }}/>
+              <MarkNewElectiveForm
+                pageData={pageData}
+                afterSubmit={() => {
+                  setOpenInsertSubject(false);
+                }}
+              />
             </section>
           </DialogContent>
         </Dialog>

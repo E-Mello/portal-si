@@ -1,24 +1,9 @@
 import Layout from "~/components/Layout";
 import type { NextPageWithLayout } from "../types/layout";
 import { useState, type ReactElement } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Label } from "@radix-ui/react-label";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { Sheet, Link } from "lucide-react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { HiOutlinePlus, HiOutlineCursorClick } from "react-icons/hi";
-import { toast } from "react-toastify";
-import { z } from "zod";
+
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import {
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-} from "~/components/ui/sheet";
+
 import { Textarea } from "~/components/ui/textarea";
 import { api } from "~/utils/api";
 import Image from "next/image";
@@ -29,9 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-
-const testIMG =
-  "https://zrohxlcjhxpnojvxpcju.supabase.co/storage/v1/object/public/dashboard.images/TestArea.png?t=2023-02-22T23%3A51%3A34.707Z";
+import { HiOutlineCursorClick } from "react-icons/hi";
 
 const Events: NextPageWithLayout = () => {
   const {

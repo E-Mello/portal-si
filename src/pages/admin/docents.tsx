@@ -25,7 +25,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import { useState, type ReactElement, useEffect } from "react";
+import { useState, type ReactElement } from "react";
 
 import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,8 +44,17 @@ import {
 
 const DocentsAdmin: NextPageWithLayout = () => {
   const utils = api.useContext();
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [openCreateDocent, setOpenCreateDocent] = useState(false);
+  const [openUpdateDocent, setOpenUpdateDocent] = useState(false);
+  const [objectDocent, setObjectDocent] = useState({
+    id: "",
+    email: "",
+    name: "",
+    qualification: "",
+    area: "",
+    lattes: "",
+    periodOfService: "",
+  });
   const [openAlert, setOpenAlert] = useState(false);
   const [idTeacher, setIdTeacher] = useState("");
 
@@ -91,10 +100,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
   const {
     register: updateForm,
     handleSubmit: handleUpdateTeacherForm,
-    formState: {
-      errors: errorsUpdateTeacherForm,
-      isSubmitting: isUpdatingTeacherForm,
-    },
+    formState: { isSubmitting: isUpdatingTeacherForm },
     reset: resetUpdateTeacherForm,
   } = useForm<z.infer<typeof TeachersUpdateSchema>>({
     resolver: zodResolver(TeachersUpdateSchema),
@@ -106,10 +112,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
   const {
     register: registerForm,
     handleSubmit: handleSubmitTeacherForm,
-    formState: {
-      errors: errorsSubmitForm,
-      isSubmitting: isSubmittingTeacherForm,
-    },
+    formState: { isSubmitting: isSubmittingTeacherForm },
     reset: resetSubmitTeacherForm,
   } = useForm<z.infer<typeof TeachersCreateSchema>>({
     resolver: zodResolver(TeachersCreateSchema),
@@ -126,7 +129,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
     if (res) {
       console.log("res", res);
       resetUpdateTeacherForm();
-      setOpen(false);
+      setOpenUpdateDocent(false);
     }
   };
 
@@ -140,7 +143,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
     if (res) {
       console.log("res", res);
       resetUpdateTeacherForm();
-      setOpen(false);
+      setOpenCreateDocent(false);
     }
   };
 
@@ -161,9 +164,8 @@ const DocentsAdmin: NextPageWithLayout = () => {
 
   async function handleDeleteTeacher(idTeacher: string) {
     try {
-      const res = await deleteTeacher({ id: idTeacher });
-      setOpen(false);
-      return res;
+      await deleteTeacher({ id: idTeacher });
+      setOpenAlert(false);
     } catch (error) {
       console.log(error);
     }
@@ -184,14 +186,12 @@ const DocentsAdmin: NextPageWithLayout = () => {
       </h1>
       <section className="flex flex-col justify-start gap-2 pl-4">
         <div className="flex justify-between gap-10">
-          <Dialog>
+          <Dialog open={openCreateDocent} onOpenChange={setOpenCreateDocent}>
             <DialogTrigger asChild>
               <div className="flex w-full items-center justify-center">
                 <Button
-                  onClick={() => {
-                    setValue("");
-                  }}
                   className="group flex w-1/2 cursor-default items-center justify-center  gap-2 rounded-xl border p-2 text-center hover:outline-double "
+                  onClick={() => setOpenCreateDocent(true)}
                 >
                   <HiOutlinePlus className=" h-6 w-6 rounded-full border group-hover:outline-double" />
                   Cadastrar professor
@@ -319,13 +319,18 @@ const DocentsAdmin: NextPageWithLayout = () => {
                   </Link>
                 </td>
                 <td className="w-52 border py-2 text-center">
-                  <Dialog>
+                  <Dialog
+                    open={openUpdateDocent}
+                    onOpenChange={setOpenUpdateDocent}
+                  >
                     <DialogTrigger asChild>
                       <Button
                         variant="outline"
                         className="mr-2 hover:bg-cyan-800"
                         onClick={() => {
                           resetUpdateTeacherForm();
+                          setOpenUpdateDocent(true);
+                          setObjectDocent(teacher);
                         }}
                       >
                         Editar
@@ -348,7 +353,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                         <section className="grid h-full grid-cols-2 gap-2">
                           <input
                             type="hidden"
-                            defaultValue={teacher.id}
+                            defaultValue={objectDocent.id}
                             {...updateForm("id")}
                           />
                           <div className="flex columns-1 flex-col items-start gap-3">
@@ -359,7 +364,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                               id="teacher-name"
                               className=""
                               {...updateForm("name")}
-                              defaultValue={teacher.name}
+                              defaultValue={objectDocent.name}
                             />
                           </div>
                           <div className="flex flex-col items-start justify-start gap-3">
@@ -372,7 +377,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                             <Input
                               id="teacher-qualification"
                               className=""
-                              defaultValue={teacher.qualification}
+                              defaultValue={objectDocent.qualification}
                               {...updateForm("qualification")}
                             />
                           </div>
@@ -383,7 +388,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                             <Input
                               id="teacher-area"
                               className=""
-                              defaultValue={teacher.area}
+                              defaultValue={objectDocent.area}
                               {...updateForm("area")}
                             />
                           </div>
@@ -394,7 +399,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                             <Input
                               id="teacher-email"
                               className=""
-                              defaultValue={teacher.email}
+                              defaultValue={objectDocent.email}
                               {...updateForm("email")}
                             />
                           </div>
@@ -408,7 +413,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                             <Input
                               id="periodOfService"
                               className=""
-                              defaultValue={teacher.periodOfService}
+                              defaultValue={objectDocent.periodOfService}
                               {...updateForm("periodOfService")}
                             />
                           </div>
@@ -419,7 +424,7 @@ const DocentsAdmin: NextPageWithLayout = () => {
                             <Input
                               id="teacher-lattes"
                               className=""
-                              defaultValue={teacher.lattes}
+                              defaultValue={objectDocent.lattes}
                               {...updateForm("lattes")}
                             />
                           </div>

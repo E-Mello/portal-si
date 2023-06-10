@@ -14,7 +14,7 @@ import {
 
 import { Button } from "~/components/ui/button";
 import "react-toastify/dist/ReactToastify.css";
-import type z from "zod";
+
 import { HiOutlinePlus } from "react-icons/hi";
 import {
   Table,
@@ -37,7 +37,7 @@ import {
 } from "~/components/ui/alert-dialog";
 import NewSubject from "~/components/Forms/CurriculumSubjects/NewSubject";
 import EditSubject from "~/components/Forms/CurriculumSubjects/EditSubject";
-import { set } from "lodash";
+
 import { toast } from "react-toastify";
 
 const allSubjects =

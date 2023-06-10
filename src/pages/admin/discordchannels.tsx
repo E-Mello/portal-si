@@ -50,6 +50,13 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [idChannel, setIdChannel] = useState("");
+  const [objectChannel, setObjectChannel] = useState({
+    id: "",
+    name: "",
+    info: "",
+    link: "",
+    avatarUrl: "",
+  });
 
   const handleButtonClick = (url: string) => {
     void router.push(url);
@@ -78,7 +85,7 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
     register: registerUpdate,
     handleSubmit: handleSubmitUpdate,
     reset: resetUpdate,
-    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+    formState: { isSubmitting: isSubmittingUpdate },
   } = useForm<z.infer<typeof UpdateDiscordChannelsSchema>>({
     resolver: zodResolver(UpdateDiscordChannelsSchema),
   });
@@ -107,7 +114,7 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
     reset: resetCreate,
-    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
   } = useForm<z.infer<typeof CreateDiscordChannelsSchema>>({
     resolver: zodResolver(CreateDiscordChannelsSchema),
   });
@@ -273,6 +280,7 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
                         onClick={() => {
                           resetUpdate();
                           setOpenUpdateDialog(true);
+                          setObjectChannel(data);
                         }}
                       >
                         <Edit className="h-4 w-4" />
@@ -297,13 +305,17 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
                       >
                         <div className="flex w-full flex-col gap-4 py-4">
                           <div className="col-span-3 flex flex-col items-start gap-4">
-                            <Input type="hidden" {...registerUpdate("id")} />
+                            <Input
+                              type="hidden"
+                              {...registerUpdate("id")}
+                              defaultValue={objectChannel.id}
+                            />
                             <Label htmlFor="name" className="">
                               Alterar o titulo da publicação
                             </Label>
                             <Input
                               id="name"
-                              defaultValue={data.name}
+                              defaultValue={objectChannel.name}
                               className="col-span-3"
                               {...registerUpdate("name")}
                             />
@@ -311,7 +323,7 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
                               Alterar a informacao do canal
                             </Label>
                             <Textarea
-                              defaultValue={data.info}
+                              defaultValue={objectChannel.info}
                               {...registerUpdate("info")}
                             ></Textarea>
                             <Label htmlFor="link" className="">
@@ -319,7 +331,7 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
                             </Label>
                             <Input
                               id="link"
-                              defaultValue={data.link}
+                              defaultValue={objectChannel.link}
                               className="col-span-3"
                               {...registerUpdate("link")}
                             />
@@ -329,7 +341,7 @@ const DiscordChannelsAdmin: NextPageWithLayout = () => {
                             </Label>
                             <Input
                               id="avatarUrl"
-                              defaultValue={data.avatarUrl}
+                              defaultValue={objectChannel.avatarUrl}
                               className="col-span-3"
                               {...registerUpdate("avatarUrl")}
                             />

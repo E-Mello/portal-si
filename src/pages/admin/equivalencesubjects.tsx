@@ -129,9 +129,7 @@ const EquivalenceSubjectsAdmin: NextPageWithLayout = () => {
                       {data.prerequisites}
                     </TableCell>
                     <TableCell className="border border-gray-300 p-2">
-                      {data.equivalenceSubjects == ""
-                        ? "Não possui"
-                        : data.equivalenceSubjects}
+                      {data.equivalenceSubjects}
                     </TableCell>
                     <TableCell className="w-32 border border-gray-300 py-2 text-center ">
                       <Dialog

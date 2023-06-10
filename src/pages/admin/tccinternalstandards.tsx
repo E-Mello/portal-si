@@ -47,7 +47,7 @@ const TCCInternalStandardsAdmin: NextPageWithLayout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof TccInternalStandardsUpdateSchema>>({
     resolver: zodResolver(TccInternalStandardsUpdateSchema),
   });

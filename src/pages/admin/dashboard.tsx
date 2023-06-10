@@ -67,7 +67,7 @@ const DashboardAdmin: NextPageWithLayout = () => {
   const {
     register: registerGroupCard,
     handleSubmit: handleSubmitGroupCard,
-    formState: { errors: errorsGroupCard, isSubmitting: isSubmittingGroupCard },
+    formState: { isSubmitting: isSubmittingGroupCard },
     reset: resetGroupCard,
   } = useForm<z.infer<typeof GroupCardUpdateSchema>>({
     resolver: zodResolver(GroupCardUpdateSchema),
@@ -111,7 +111,7 @@ const DashboardAdmin: NextPageWithLayout = () => {
   const {
     register: registerCard,
     handleSubmit: handleSubmitCard,
-    formState: { errors: errorsCard, isSubmitting: isSubmittingCard },
+    formState: { isSubmitting: isSubmittingCard },
     reset: resetCard,
   } = useForm<z.infer<typeof CardUpdateSchema>>({
     resolver: zodResolver(CardUpdateSchema),
@@ -133,6 +133,14 @@ const DashboardAdmin: NextPageWithLayout = () => {
       });
     }
   };
+
+  if (isLoadingPageData) {
+    return <div>Loading...</div>;
+  }
+
+  if (isErrorPageData) {
+    return <div>Error</div>;
+  }
 
   return (
     <section

@@ -15,13 +15,9 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Layout from "~/components/admin/Layout";
 import type { NextPageWithLayout } from "~/types/layout";
-import {
-  PageViewSchema,
-  SyllabusesAndBibliographiesUpdateSchema,
-} from "~/server/common/Schemas";
+import { SyllabusesAndBibliographiesUpdateSchema } from "~/server/common/Schemas";
 import { useState, type ReactElement } from "react";
-import { ScrollArea } from "~/components/ui/scroll-area";
-import { Textarea } from "~/components/ui/textarea";
+
 import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 import { type z } from "zod";
@@ -60,7 +56,7 @@ const SyllabusesAndBibliographiesAdmin: NextPageWithLayout = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm<z.infer<typeof SyllabusesAndBibliographiesUpdateSchema>>({
     resolver: zodResolver(SyllabusesAndBibliographiesUpdateSchema),
   });

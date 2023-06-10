@@ -87,7 +87,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
     register: registerUpdate,
     handleSubmit: handleSubmitUpdate,
     reset: resetUpdate,
-    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+    formState: { isSubmitting: isSubmittingUpdate },
   } = useForm<z.infer<typeof UpdatePublicationsSchema>>({
     resolver: zodResolver(UpdatePublicationsSchema),
   });
@@ -116,7 +116,7 @@ const ArticlesAdmin: NextPageWithLayout = () => {
     register: registerCreate,
     handleSubmit: handleSubmitCreate,
     reset: resetCreate,
-    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
   } = useForm<z.infer<typeof CreatePublicationsSchema>>({
     resolver: zodResolver(CreatePublicationsSchema),
   });

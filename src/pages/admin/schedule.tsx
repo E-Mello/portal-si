@@ -82,7 +82,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
     register: registerUpdateSchedule,
     handleSubmit: handleSubmitUpdateSchedule,
     reset: resetUpdateForm,
-    formState: { errors: errorsUpdate, isSubmitting: isSubmittingUpdate },
+    formState: { isSubmitting: isSubmittingUpdate },
   } = useForm<z.infer<typeof ScheduleUpdateSchema>>({
     resolver: zodResolver(ScheduleUpdateSchema),
   });
@@ -114,7 +114,7 @@ const ScheduleAdmin: NextPageWithLayout = () => {
     register: registerCreateSchedule,
     handleSubmit: handleSubmitCreateSchedule,
     reset: resetCreateForm,
-    formState: { errors: errorsCreate, isSubmitting: isSubmittingCreate },
+    formState: { isSubmitting: isSubmittingCreate },
   } = useForm<z.infer<typeof ScheduleCreateSchema>>({
     resolver: zodResolver(ScheduleCreateSchema),
   });
