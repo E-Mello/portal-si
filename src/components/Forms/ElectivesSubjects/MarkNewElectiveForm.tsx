@@ -110,10 +110,9 @@ export function MarkNewElectiveForm({
         </div>
         <DialogFooter className="flex columns-1 flex-col items-start gap-4 pt-2">
           <Button
+            type="submit"
             className="bg-green-700 text-black hover:bg-green-600 hover:text-white"
-            onClick={() => {
-              console.log("idElective quando clicar em update", idElective);
-            }}
+            disabled={isSubmitting}
           >
             {isSubmitting ? <SyncLoader /> : "Incluir matéria"}
           </Button>
